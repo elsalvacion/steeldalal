@@ -11,13 +11,13 @@ import './Nav.css'
 const NavContent = styled.div`
     display: flex;
     align-items: center;
-    
     width: 100%;
 `
 const NavLinks = styled.div`
     display: flex;
     align-items: center;
     margin-left: 30px;
+    
 `
 const Nav = () => {
   return (

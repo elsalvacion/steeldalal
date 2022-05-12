@@ -14,6 +14,21 @@
     background: rgba(0, 0, 0, 0.5);
 }
 
-.showcaseContent h4 {
+.showcaseContent h2 {
     margin-bottom: 24px;
+}
+
+@media(max-width: 800px) {
+    .showcaseOverlay {
+        padding: 10px;
+    }
+.showcaseContent {
+    padding: 10px 20px;
+}
+.showcaseContent h2 {
+    font-size: 22px;
+}
+.showcaseContent p {
+    font-size: 14px;
+}
 }

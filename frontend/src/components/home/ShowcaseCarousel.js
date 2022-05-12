@@ -1,7 +1,6 @@
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
 import './ShowcaseCarousel.css'
-import {Typography} from '@mui/material'
 const items = [
     {
         id: 1,
@@ -79,8 +78,8 @@ function Item({item: {img, title, description}})
         }}>
         <div className='showcaseOverlay'>
         <div className='showcaseContent'>
-            <Typography variant='h4'>{title}</Typography>
-            <Typography>{description}</Typography>
+            <h2>{title}</h2>
+            <p>{description}</p>
         </div>
         </div>
         </div>

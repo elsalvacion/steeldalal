@@ -15,3 +15,16 @@
 .navLink:hover {
     background: #e3f2fd;
 }
+
+@media(max-width: 800px) {
+.navLink {
+    font-size: 12px;
+    padding: 10px;
+}
+}
+@media(max-width: 600px) {
+    .navLink {
+        font-size: 10px;
+        padding: 5px;
+    }
+    }
