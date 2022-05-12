@@ -1,4 +1,4 @@
-import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa'
+
 // export const navLink = [
 //     {
 //         title: 'Home',
@@ -84,23 +84,23 @@ export const navLink = [
 // ]
 
 
-export const socials = [
-    {
-        id: 1,
-        icon: <FaFacebook className='text-xl text-gray-50' />,
-        link: `https://www.facebook.com/Steel-Dalal-106135375398082/`
-    },
-    {
-        id: 2,
-        icon: <FaInstagram className='text-xl text-gray-50' />,
-        link: `https://instagram.com/steeldalal?igshid=YmMyMTA2M2Y=`
-    },
-    {
-        id: 3,
-        icon: <FaLinkedin className='text-xl text-gray-50' />,
-        link: `https://www.linkedin.com/company/steel-dalal`
-    }
-]
+// export const socials = [
+//     {
+//         id: 1,
+//         icon: <FaFacebook className='text-xl text-gray-50' />,
+//         link: `https://www.facebook.com/Steel-Dalal-106135375398082/`
+//     },
+//     {
+//         id: 2,
+//         icon: <FaInstagram className='text-xl text-gray-50' />,
+//         link: `https://instagram.com/steeldalal?igshid=YmMyMTA2M2Y=`
+//     },
+//     {
+//         id: 3,
+//         icon: <FaLinkedin className='text-xl text-gray-50' />,
+//         link: `https://www.linkedin.com/company/steel-dalal`
+//     }
+// ]
 
 export const aboutUsLinks = [
     {

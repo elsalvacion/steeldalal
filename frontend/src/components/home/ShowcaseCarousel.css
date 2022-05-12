@@ -1,0 +1,19 @@
+.showcaseOverlay {
+    background: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    padding: 50px;
+    color: #f2f2f2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.showcaseContent {
+    padding: 20px 75px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.showcaseContent h4 {
+    margin-bottom: 24px;
+}
