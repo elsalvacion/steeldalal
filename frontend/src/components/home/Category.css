@@ -1,46 +1,40 @@
-.categoryContainer {
-    padding: 20px 0;
+.categoriesMainContainer {
+    margin: 20px 0;
+}
+.categoriesMainContainer h2 {
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.allCategoryContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: stretch;
+    grid-gap: 1px;
+}
+.allCategoryItem {
+    padding: 5px;
+    width: 97%;
+    height: 100%;
+    margin: auto;
+    background: #2c2656;
+    color: #f3f3f3;
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    font-size: 12px;
 }
 
-.categoryBtn {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#131338), to(#2c2656));
-    background-image: -webkit-linear-gradient(top, #131338, #2c2656);
-    background-image: -moz-linear-gradient(top, #131338, #2c2656);
-    background-image: -ms-linear-gradient(top, #131338, #2c2656);
-    background-image: -o-linear-gradient(top, #131338, #2c2656);
-    background-image: linear-gradient(to bottom, #131338, #2c2656);
-      border-color: #fff;/*ccc*/
-      color:#fff;
-      border-image: none;
-      border-style: solid;
-      cursor: pointer;
-      font-size: 12px;
-      padding: 5px 10px;
-      text-align: center;
-      text-transform:capitalize;
-      font-weight:600;
-      border-width: 1px;
-       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 90px;
-      transition: all 0.5s ease;
+.allCategoryItem:hover {
+    background: #e3f2fd;
+    color: #2c2656;
 }
-.categoryBtn:hover {
-    color: #fff;
-	-webkit-transition: all 0.9s ease-out;
-  -moz-transition: all 0.9s ease-out;
-  -ms-transition: all 0.9s ease-out;
-  -o-transition: all 0.9s ease-out;
-  transition: all 0.9s ease-out;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#fdb001), to(#e7940c));
-  background-image: -webkit-linear-gradient(top, #fdb001, #e7940c);
-  background-image: -moz-linear-gradient(top, #fdb001, #e7940c);
-  background-image: -ms-linear-gradient(top, #fdb001, #e7940c);
-  background-image: -o-linear-gradient(top, #fdb001, #e7940c);
-  background-image: linear-gradient(to bottom, #fdb001, #e7940c);
-  width: fit-content;
+
+.categoryItemActive {
+    background: #fdb001;
+    color: #2c2656;
 }

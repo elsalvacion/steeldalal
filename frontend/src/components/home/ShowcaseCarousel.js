@@ -41,7 +41,7 @@ const items = [
         `,
         description: `Let your Steel business grow with STEELDALAL.
         `,
-        img: '/assets/banner_1.jpg'
+        img: '/assets/banner_4.jpg'
 
     },
 ]
@@ -54,7 +54,8 @@ const ShowcaseCarousel = () => {
     cycleNavigation={true}
     interval={4000}
     fullHeightHover={true}
-    animation='slide'
+    animation='fade'
+    duration={700}
     >
             {
                 items.map( (item) => <Item key={item.id} item={item} /> )

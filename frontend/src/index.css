@@ -7,5 +7,5 @@
 
 .app {
     min-height: 100vh;
-    background: #f3f3f3;
+    background-image: linear-gradient(45deg,#ffffff ,#2c2656);
 }
