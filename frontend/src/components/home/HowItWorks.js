@@ -33,10 +33,10 @@ const HowItWorks = () => {
             title: 'Procure',
             img: '/assets/weo_procure.png',
             desc: `
-            On our platform you can easily register and start selling or buy the best iron, steel, alumium and all type of metal products out there. We make the hard things easy, no long forms just the easy and simple information.
+            With the number one B2B steel company you can acquire your desired metals from the comfort of you couch. With just few clicks you can close the best metal deals.
             `,
             moreDesc: `
-            Our website is accessible in all forms of devices. Mobiles, Tablets, Laptops and Desktops, you do not have anything to worry about steeldalal.com got you covered.
+            It is only on steeldalal where you get to chat with the seller. We always believe in keeping it simple, nothing complex.
             `
         },
         {
@@ -44,10 +44,10 @@ const HowItWorks = () => {
             title: 'Make Payment',
             img: '/assets/weo_pay.png',
             desc: `
-            On our platform you can easily register and start selling or buy the best iron, steel, alumium and all type of metal products out there. We make the hard things easy, no long forms just the easy and simple information.
+            We integrated the most popular and secure online payment gateways out there. This way you do not have to worry about if your money is save because we got you covered.
             `,
             moreDesc: `
-            Our website is accessible in all forms of devices. Mobiles, Tablets, Laptops and Desktops, you do not have anything to worry about steeldalal.com got you covered.
+            All our payment systems are convient, so that even if you are foreign you could have your order placed and delivered. We are fast reliable and secure. 
             `
         },
         {
@@ -55,10 +55,10 @@ const HowItWorks = () => {
             title: 'Get On Time Delivery',
             img: '/assets/weo_shipping.png',
             desc: `
-            On our platform you can easily register and start selling or buy the best iron, steel, alumium and all type of metal products out there. We make the hard things easy, no long forms just the easy and simple information.
+            Once your deal is sealed and your payment is confirmed. You can expected your products on the shorts delivery dates depending on your location. We believe in reliability and making our customers happy.
             `,
             moreDesc: `
-            Our website is accessible in all forms of devices. Mobiles, Tablets, Laptops and Desktops, you do not have anything to worry about steeldalal.com got you covered.
+            Our contracted couriers are the best in what they do. You can sleep and relax if your product is turned to them, their resilience, courage and professionalism will always be appreciated. 
             `
         }
     ]

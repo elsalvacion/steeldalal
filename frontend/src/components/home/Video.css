@@ -1,0 +1,9 @@
+
+.videoContainer {
+    padding: 10px 30px;
+}
+
+.videoContainer iframe {
+    width: 100%;
+    height: 300px;
+}

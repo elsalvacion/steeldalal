@@ -3,7 +3,18 @@ import store from './store'
 import {HashRouter, Route, Switch} from 'react-router-dom'
 import HomeScreen from './screens/HomeScreen';
 import Nav from './components/layout/Nav';
+import { useEffect } from 'react';
 const App = () => {
+  useEffect(() => {
+    const body = document.querySelector('.app');
+    const footer = document.querySelector('.footer')
+    body.style.paddingBottom = `${footer.clientHeight + 50}px`
+    window.addEventListener('resize', () => {
+      const body = document.querySelector('.app');
+    const footer = document.querySelector('.footer')
+    body.style.paddingBottom = `${footer.clientHeight + 50}px`
+    })
+  }, [])
   return (
     <Provider store={store}>
       <HashRouter>

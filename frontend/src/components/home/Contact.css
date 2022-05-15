@@ -1,0 +1,117 @@
+.contactMainContainer {
+    padding: 40px 30px;
+    background: #fff;
+} 
+.contactMainContainer h4 {
+    margin-bottom: 25px;
+}
+.contactContentContainer {
+        display: flex;
+        align-items: stretch;
+}
+
+.contactContentContainerLeft,.contactContentContainerRight {
+    flex: 1;
+    padding: 15px;
+}
+
+.contactForm {
+    width: 100%;
+}
+.contactFormInput label {
+    display: block;
+    margin-bottom: 4px;
+}
+.contactFormInput input, textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    margin-bottom: 17px;
+    border-radius: 7px;
+    border: 1px solid #7e6fe2;
+    outline: 0;
+}
+.contactFormInput textarea {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 130px;
+    max-height: fit-content;
+    resize: none;
+}
+
+.contactFormInput input:focus, textarea:focus {
+    outline: 1px solid #2c2656;
+
+}
+.contactForm button {
+    background: #2c2656;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 7px;
+    border: 0;
+    outline: 0;
+
+}
+
+.contactForm button:hover {
+background: #3d3572;
+}
+.contactForm button span {
+    margin-right: 7px;
+    text-transform: uppercase;
+}
+
+
+.contactItem {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+.contactItem .contactIconContainer {
+    background: #2c2656;
+    padding: 15px;
+    color: white;
+    margin-right: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.contactItem .contactIcon {
+    font-size: 48px;
+
+}
+.contactItem p {
+    flex: 1;
+    font-size: 18px;
+}
+
+
+
+@media(max-width: 850px) {
+    .contactItem {
+        margin: 30px 0;
+    }
+    .contactItem .contactIconContainer {
+        padding: 15px;
+        margin-right: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    .contactItem .contactIcon {
+        font-size: 34px;
+    }
+    .contactItem p {
+        font-size: 16px;
+        font-weight: lighter;
+    }
+}
+
+@media(max-width: 750px) {
+    .contactContentContainer {
+        flex-direction: column-reverse;
+    }
+}

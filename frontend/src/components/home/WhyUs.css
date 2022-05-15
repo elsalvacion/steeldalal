@@ -1,0 +1,31 @@
+.whyUsMainContainer {
+    padding: 40px 0px;
+    margin: 25px 0px;
+}
+.whyUsMainContainer h4 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.whyUSContainer {
+    display: flex;
+    align-items: stretch;
+}
+
+
+@media(max-width: 750px) {
+    .whyUSContainer {
+       flex-direction: column;
+    }
+
+    .whyUsMainContainer {
+        padding: 0;
+        
+    }
+
+    .whyUsMainContainer h4 {
+        text-align: left;
+        margin:0 ;
+        padding: 30px 10px;
+
+    }
+}
