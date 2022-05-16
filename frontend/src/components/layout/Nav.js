@@ -6,8 +6,11 @@ import './Nav.css'
 import Search from './Search'
 import {Menu, Search as SearchIcon} from '@mui/icons-material';
 import SideDrawer from './SideDrawer'
+import MobileSearch from './MobileSearch'
 const Nav = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
+  const [openSearch, setOpenSearch] = useState(false)
+
   return (
     <>
     <nav className='navContainer'>
@@ -45,12 +48,13 @@ const Nav = () => {
     <Link to='/' className='mobileLogo'>
        <img src="/assets/logo.jpg" alt="steeldalal"  />
     </Link>
-    <IconButton>
+    <IconButton onClick={() => setOpenSearch(!openSearch)}>
     <SearchIcon />
     </IconButton>
     </nav>
 
     <SideDrawer openSideNav={openDrawer} onCloseHandler={() => setOpenDrawer(!openDrawer)} />
+    {openSearch && <MobileSearch handleClose={() => setOpenSearch(!openSearch)} />}
     </>
   )
 }

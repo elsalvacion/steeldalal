@@ -7,7 +7,6 @@ import HowItWorks from '../components/home/HowItWorks'
 import WhyUs from '../components/home/WhyUs'
 // import Video from '../components/home/Video'
 import Contact from '../components/home/Contact'
-import Footer from '../components/layout/Footer'
 
 
 const HomeScreen = () => {
@@ -21,7 +20,6 @@ const HomeScreen = () => {
         <WhyUs />
         {/* <Video /> */}
         <Contact />
-        <Footer />
       </Container>
     </div>
   )

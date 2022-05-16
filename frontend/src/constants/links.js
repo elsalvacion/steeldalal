@@ -1,40 +1,4 @@
-
-// export const navLink = [
-//     {
-//         title: 'Home',
-//         path: '/'
-//     },
-//     {
-//         title: 'Steel Pipe',
-//         path: '/category/steel pipe'
-//     },
-//     {
-//         title: 'Steel Plate',
-//         path: '/category/steel plate'
-//     },
-//     {
-//         title: 'Steel Bar',
-//         path: '/category/steel bar'
-//     },
-//     {
-//         title: 'Rebar Bar',
-//         path: '/category/rebar bar'
-//     },
-//     {
-//         title: 'Stainless Steel',
-//         path: '/category/stainless steel'
-//     },
-//     {
-//         title: 'Aluminium Plate',
-//         path: '/category/aluminium plate'
-//     },
-//     {
-//         title: 'Steel Coil & Sheet',
-//         path: '/category/steel coil'
-//     }
-// ]
-
-
+import {Facebook, Instagram, LinkedIn} from '@mui/icons-material'
 export const navLink = [
     {
         title: 'Home',
@@ -66,41 +30,24 @@ export const navLink = [
     },
 ]
 
-// export const mdNavLink = [
-//     {
-//         title: 'Home',
-//         path: '/'
-//     },
-//     {
-//         title: 'Steel Pipe',
-//         path: '/category/steel pipe'
-//     },
-//     {
-//         title: 'Stainless Steel',
-//         path: '/category/stainless steel'
-//     },
-    
-    
-// ]
 
-
-// export const socials = [
-//     {
-//         id: 1,
-//         icon: <FaFacebook className='text-xl text-gray-50' />,
-//         link: `https://www.facebook.com/Steel-Dalal-106135375398082/`
-//     },
-//     {
-//         id: 2,
-//         icon: <FaInstagram className='text-xl text-gray-50' />,
-//         link: `https://instagram.com/steeldalal?igshid=YmMyMTA2M2Y=`
-//     },
-//     {
-//         id: 3,
-//         icon: <FaLinkedin className='text-xl text-gray-50' />,
-//         link: `https://www.linkedin.com/company/steel-dalal`
-//     }
-// ]
+export const socials = [
+    {
+        id: 1,
+        icon: <Facebook className='socialIcon' />,
+        link: `https://www.facebook.com/Steel-Dalal-106135375398082/`
+    },
+    {
+        id: 2,
+        icon: <Instagram className='socialIcon' />,
+        link: `https://instagram.com/steeldalal?igshid=YmMyMTA2M2Y=`
+    },
+    {
+        id: 3,
+        icon: <LinkedIn className='socialIcon' />,
+        link: `https://www.linkedin.com/company/steel-dalal`
+    }
+]
 
 export const aboutUsLinks = [
     {

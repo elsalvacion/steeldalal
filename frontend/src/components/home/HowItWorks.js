@@ -2,6 +2,7 @@ import React from 'react'
 import { Typography} from '@mui/material'
 import './HowItWorks.css'
 import styled from '@emotion/styled'
+import Zoom from 'react-reveal/Zoom';
 
 
 const Offer = styled.div`
@@ -69,7 +70,9 @@ const HowItWorks = () => {
         {
             offers.map((offer, i) => <Offer i={i} key={offer.id} >
             <div className='offerLeft'>
+            <Zoom>
             <img src={offer.img} className='offerLeftImg' alt="Steeldalal what we offer" />
+            </Zoom>
             </div>
             <div className='offerRight'>
             <Typography component='h5' variant='h5'>{offer.title}</Typography>

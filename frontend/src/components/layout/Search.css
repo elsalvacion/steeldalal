@@ -1,6 +1,6 @@
 .searchBarContent {
     width: 75%;
-    border: 1px solid #2c2656;
+    border: 1px solid #8a7ce5;
     display: flex;
     align-items: center;
     border-radius: 3px;
@@ -18,7 +18,7 @@
 }
 
 .searchBarInput:focus .searchBarContent {
-    outline: 2px solid #2c2656;
+    outline: 3px solid #2c2656;
 
 }
 
@@ -32,6 +32,7 @@
     outline: 0;
     background: #2c2656;
     color: #f3f3f3;
+    height: 100%;
 }
 .searchBarBtn:hover {
     background: #3d3086;

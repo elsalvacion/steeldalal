@@ -2,6 +2,8 @@ import React from 'react'
 import {Directions, LinkedIn, Mail, Phone, Send} from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import './Contact.css'
+import {Fade, Zoom} from 'react-reveal';
+
 const Contact = () => {
     const contacts = [
         {
@@ -58,7 +60,7 @@ const contactFormDetails = [
         e.preventDefault()
     }
   return (
-    <div className='contactMainContainer'>
+    <div className='contactMainContainer' id="contact">
         <Typography align='center' variant='h4' component='h4'>Contact Us</Typography>
         <div className="contactContentContainer">
             <div className="contactContentContainerLeft">
@@ -70,15 +72,19 @@ const contactFormDetails = [
                     }
                 </div>)
             }
-            <button type='submit'><span>Send</span> <Send/> </button>
+                   <Zoom>
+           <button type='submit'><span>Send</span> <Send/> </button>
+           </Zoom>
             </form>
             </div>
             <div className="contactContentContainerRight">
                 {
                     contacts.map(contact => <div key={contact.id} className='contactItem'>
+                        <Fade>
                         <div className="contactIconContainer">
                         {contact.icon}
                         </div>
+                        </Fade>
                         <p>{contact.text}</p>
                     </div>)
                 }

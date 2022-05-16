@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    background: #2c2656;
+    background-image: linear-gradient(45deg,#f6f6f6,#f6f6f6, #f6f6f6 ,#2c2656);
     padding: 7px;
 }
 .navLinks {
@@ -54,7 +54,7 @@
     font-weight: bolder;
     text-decoration: none;
     padding:  12px;
-    color: #f3f3f3;
+    color: black;
     border-radius: 12px;
 }
 

@@ -4,6 +4,7 @@ import {HashRouter, Route, Switch} from 'react-router-dom'
 import HomeScreen from './screens/HomeScreen';
 import Nav from './components/layout/Nav';
 import { useEffect } from 'react';
+import Footer from './components/layout/Footer';
 const App = () => {
   useEffect(() => {
     const body = document.querySelector('.app');
@@ -24,6 +25,7 @@ const App = () => {
           <Route exact path='/' component={HomeScreen} />
           </div>
         </Switch>
+        <Footer />
       </HashRouter>
     </Provider>
   );
