@@ -54,54 +54,24 @@
       name="description"
       content="Your number 1 B2B metal store in india with over 10 years experience in the business"
     />
-    <!-- <link rel="stylesheet" href="owlcarousel/assets/owl.carousel.min.css" />
-    <link
-      rel="stylesheet"
-      href="owlcarousel/assets/owl.theme.default.min.css"
-    /> -->
 
     <title>Steeldalal</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!-- <script src="jquery.min.js"></script>
-    <script src="jquery.migrate.min.js"></script>
-    <script src="owlcarousel/owl.carousel.min.js"></script> -->
-    <!-- 
     <script>
-      $(document).ready(function () {
-        const owl = $(".owl-carousel");
-
-        owl.owlCarousel({
-          autoplay: true,
-          autoplaySpeed: 2000,
-          dots: true,
-          loop: true,
-          items: 3,
-          margin: 10,
-          animateOut: "slideOutDown",
-          animateIn: "flipInX",
-          stagePadding: 30,
-          smartSpeed: 450,
-          responsive: {
-            0: {
-              items: 1,
-            },
-            600: {
-              items: 2,
-            },
-          },
+      document.addEventListener("DOMContentLoaded", () => {
+        const body = document.querySelector(".app");
+        const footer = document.querySelector(".footer");
+        console.log(footer.clientHeight);
+        body.style.paddingBottom = `${footer.clientHeight + 50}px`;
+        window.addEventListener("resize", () => {
+          const body = document.querySelector(".app");
+          const footer = document.querySelector(".footer");
+          body.style.paddingBottom = `${footer.clientHeight + 50}px`;
         });
-
-        // $(".slider").slick({
-        //   vertical: true,
-        //   autoplay: true,
-        //   autoplaySpeed: 3000,
-        //   speed: 300,
-        //   arrows: false,
-        // });
       });
-    </script> -->
+    </script>
   </body>
 </html>
