@@ -14,7 +14,8 @@ import { useHistory } from 'react-router-dom';
 const ProductCarousel = () => {
     const history = useHistory() 
     const handleDragStart = (e) => e.preventDefault();
-    const items = products.map(product => <div onClick={() => history.push(`/product/${product.id}`)} key={product.id} className='carouselProduct'>
+    // onClick={() => history.push(`/product/${product.id}`)}
+    const items = products.map(product => <div  key={product.id} className='carouselProduct'>
     <img onDragStart={handleDragStart} src={product.image} className='carouselProductImage' alt={product.title} />
     <div className="carouselProductDesc">
     <Typography component='h4' noWrap>{product.title}</Typography>
