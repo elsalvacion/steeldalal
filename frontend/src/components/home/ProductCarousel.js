@@ -9,10 +9,10 @@ import {
   ChevronLeft, ChevronRight, 
   CurrencyRupee} from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 // import {IconButton} from '@mui/material'
 const ProductCarousel = () => {
-    const history = useHistory() 
+    // const history = useHistory() 
     const handleDragStart = (e) => e.preventDefault();
     // onClick={() => history.push(`/product/${product.id}`)}
     const items = products.map(product => <div  key={product.id} className='carouselProduct'>
