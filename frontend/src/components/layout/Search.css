@@ -18,7 +18,7 @@
 }
 
 .searchBarInput:focus .searchBarContent {
-    outline: 3px solid #2c2656;
+    outline: 3px solid #3a18c5;
 
 }
 
@@ -30,7 +30,7 @@
     font-size: 14px;
     border: 0;
     outline: 0;
-    background: #2c2656;
+    background: #3a18c5;
     color: #f3f3f3;
     height: 100%;
 }

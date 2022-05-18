@@ -5,6 +5,7 @@ import HomeScreen from './screens/HomeScreen';
 import Nav from './components/layout/Nav';
 import { useEffect } from 'react';
 import Footer from './components/layout/Footer';
+import ProductScreen from './screens/ProductScreen';
 const App = () => {
   useEffect(() => {
     const body = document.querySelector('.app');
@@ -23,6 +24,7 @@ const App = () => {
         <Switch>
           <div className='app'>
           <Route exact path='/' component={HomeScreen} />
+          <Route exact path='/product/:id' component={ProductScreen} />
           </div>
         </Switch>
         <Footer />

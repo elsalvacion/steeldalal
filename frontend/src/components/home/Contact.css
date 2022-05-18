@@ -41,11 +41,11 @@
 }
 
 .contactFormInput input:focus, textarea:focus {
-    outline: 1px solid #2c2656;
+    outline: 1px solid #150580;
 
 }
 .contactForm button {
-    background: #2c2656;
+    background: var(--primary-color);
     color: white;
     display: flex;
     align-items: center;
@@ -73,7 +73,7 @@ background: #3d3572;
     margin: 20px 0;
 }
 .contactItem .contactIconContainer {
-    background: #2c2656;
+    background: var(--primary-color);
     padding: 15px;
     color: white;
     margin-right: 15px;

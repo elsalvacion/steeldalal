@@ -7,6 +7,8 @@ import Search from './Search'
 import {Menu, Search as SearchIcon} from '@mui/icons-material';
 import SideDrawer from './SideDrawer'
 import MobileSearch from './MobileSearch'
+import { HashLink } from 'react-router-hash-link';
+
 const Nav = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
   const [openSearch, setOpenSearch] = useState(false)
@@ -35,7 +37,7 @@ const Nav = () => {
         {/* nav links */}
         <div className='navLinks'>
             {
-                navLink.map(link => <Link className='navLink' key={link.title} to={link.path}>{link.title}</Link>)
+                navLink.map(link => link.title.includes('#') === -1 ? <Link className='navLink' key={link.title} to={link.path}>{link.title}</Link> : <HashLink className='navLink' key={link.title} to={link.path}>{link.title}</HashLink>)
             }
         </div>
         </div>
