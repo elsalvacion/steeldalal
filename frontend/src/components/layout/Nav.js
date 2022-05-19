@@ -20,8 +20,8 @@ const Nav = () => {
      {/* logo */}
      <Link to='/' className='logo'>
        
-        <img src="/assets/logo.jpg" alt="steeldalal"  />
-        <h3>SteelDalal</h3>
+        <img src="/assets/logos/1.png" alt="steeldalal"  />
+    
         </Link>
        <div className='searchBarContainer'>
  {/* search bar */}
@@ -48,7 +48,7 @@ const Nav = () => {
     <Menu />
     </IconButton>
     <Link to='/' className='mobileLogo'>
-       <img src="/assets/logo.jpg" alt="steeldalal"  />
+       <img src="/assets/logos/2.png" alt="steeldalal"  />
     </Link>
     <IconButton onClick={() => setOpenSearch(!openSearch)}>
     <SearchIcon />

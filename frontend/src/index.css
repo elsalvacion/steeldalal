@@ -1,6 +1,6 @@
 @import "~react-image-gallery/styles/css/image-gallery.css";
 :root {
-    --primary-color: linear-gradient(90deg, rgb(12 2 98) 8%, rgb(21 51 118 / 90%) 100%);
+    --primary-color: rgb(12 44 201) 8%;
 }
 * {
     padding: 0;
@@ -19,7 +19,7 @@ body {
 }
 .app {
     min-height: 100vh;
-    background-image: linear-gradient(45deg,rgb(164, 156, 238), #f2f2f2,#f2f2f2,#f2f2f2, rgb(159, 150, 241));
+    background: #e7e7e7;
     padding-bottom: 600px;
 }
 

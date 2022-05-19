@@ -15,8 +15,9 @@
     color: black;
 }
 .logo img {
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    /* width: 50px; */
+    object-fit: scale-down;
 }
 .logo h3 {
     margin-left: 7px;
@@ -47,20 +48,23 @@
     font-size: 14px;
     text-decoration: none;
     padding:  10px;
-    color: black;
+    color: rgb(12 44 201);
+}
+.topNavLink:hover {
+    text-decoration: underline;
 }
 .navLink {
     font-size: 14px;
     /* font-weight: bolder; */
     text-decoration: none;
-    padding:  12px;
+    padding:  10px;
     color: #f2f2f2;
-    border-radius: 12px;
+    border-radius: 7px;
 }
 
 .navLink:hover {
     background: #e3f2fd;
-    color: var(--primary-color);
+    color: rgb(12 44 201);
 }
 .mobileNav {
     display: none;
@@ -80,6 +84,7 @@
     .mobileLogo img {
         height: 40px;
         width: 40px;
+        object-fit: scale-down;
     }
     .navContainer {
         display: none;
