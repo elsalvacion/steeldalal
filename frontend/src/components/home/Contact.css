@@ -95,6 +95,17 @@ background: #3d3572;
     .contactItem {
         margin: 30px 0;
     }
+    .contactMainContainer {
+        padding: 30px 10px;
+        background: #fff;
+    } 
+    .contactMainContainer h4 {
+        margin-bottom: 15px;
+        font-size: 28px;
+    }
+    .contactContentContainerLeft,.contactContentContainerRight {
+        padding: 5px;
+    }
     .contactItem .contactIconContainer {
         padding: 15px;
         margin-right: 10px;

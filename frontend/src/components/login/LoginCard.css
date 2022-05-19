@@ -1,0 +1,25 @@
+.loginCardContainer {
+    width: 60%;
+    margin: 0 auto;
+}
+
+@media(max-width: 900px) {
+    .loginCardContainer {
+        width: 80%;
+    }
+}
+
+@media(max-width: 500px) {
+    .loginCardContainer {
+        width: 90%;
+    }
+}
+
+
+
+/* @media(max-width: 750px) {
+    .loginCardContainer {
+        width: 75%;
+    }
+} */
+

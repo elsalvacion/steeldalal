@@ -5,6 +5,7 @@ import HomeScreen from './screens/HomeScreen';
 import Nav from './components/layout/Nav';
 import Footer from './components/layout/Footer';
 import ProductScreen from './screens/ProductScreen';
+import LoginScreen from './screens/LoginScreen';
 const App = () => {
  
   return (
@@ -15,6 +16,9 @@ const App = () => {
           <div className='app'>
           <Route exact path='/' component={HomeScreen} />
           <Route exact path='/product/:id' component={ProductScreen} />
+          <Route exact path='/login' component={LoginScreen} />
+          <Route exact path='/register' component={LoginScreen} />
+
           </div>
         </Switch>
         <Footer />
