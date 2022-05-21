@@ -2,15 +2,17 @@ const router = require('express').Router()
 const connection = require('../config/db')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const verifier = require('email-verify')
 router.post('/register' , (req, res) => {
     try {
-        const {email, shippingAddress, name} = req.body;
+        const {email, name} = req.body;
         const salt = bcrypt.genSaltSync(10);
         const password = bcrypt.hashSync(req.body.password, salt)
+        const shippingAddress = req.body.shippingAddress || '';
         // find if user exist
         connection.query(`select email from users where email = ?`, [email], (existCheckErr, existCheckRes) => {
             if(existCheckErr) {
+                console.log(existCheckErr);
                 res.status(400).json({
                     msg: 'Error while checking if user exist'
                 })
@@ -22,6 +24,7 @@ router.post('/register' , (req, res) => {
                 insert into users(name, email, password, shippingAddress) values(?, ?, ?, ?);
                 `, [name, email, password, shippingAddress], (createUserErr, createUserRes) => {
                     if(createUserErr) {
+                        console.log(createUserErr);
                         res.status(400).json({msg: 'Error while creating user'})
                     }else {
                         res.json({
@@ -50,6 +53,7 @@ router.post('/login' , (req, res) => {
         // find if user exist
         connection.query(`select * from users where email = ?`, [email], (existCheckErr, existCheckRes) => {
             if(existCheckErr) {
+                console.log(existCheckErr);
                 res.status(400).json({
                     msg: 'Error while checking if user exist'
                 })
@@ -77,6 +81,27 @@ router.post('/login' , (req, res) => {
                 }
             }
         })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({msg: 'Server Error'})
+    }
+})
+
+
+router.post('/verify-email' , (req, res) => {
+    try {
+        const {email} = req.body;
+        
+        verifier.verify(email, function( err, info ){
+            if( err ) res.status(400).json({msg: 'cannot verify email at the moment. Try google or facebook login.'})
+            else{
+                if(info.success) {
+                    res.json({msg: 'Your email is verified'})
+                } else {
+                    res.status(400).json({msg: 'Invalid email. Check and try again.'})
+                }
+            }
+          });
     } catch (err) {
         console.log(err);
         res.status(500).json({msg: 'Server Error'})

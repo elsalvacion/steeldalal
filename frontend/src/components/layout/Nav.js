@@ -1,10 +1,10 @@
 import { IconButton } from '@mui/material'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { navLink } from '../../constants/links'
 import './Nav.css'
 import Search from './Search'
-import {Menu, Search as SearchIcon} from '@mui/icons-material';
+import {Menu, Search as SearchIcon, AccountCircle, ShoppingCart, GridView} from '@mui/icons-material';
 import SideDrawer from './SideDrawer'
 import MobileSearch from './MobileSearch'
 import { HashLink } from 'react-router-hash-link';
@@ -12,7 +12,7 @@ import { HashLink } from 'react-router-hash-link';
 const Nav = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
   const [openSearch, setOpenSearch] = useState(false)
-
+  const history = useHistory()
   return (
     <>
     <nav className='navContainer'>
@@ -28,9 +28,15 @@ const Nav = () => {
  <Search />
        </div>
         <div className='topNavLinks'>
-        <Link className='topNavLink' to='/login'>
-        Login/Register
-        </Link>
+        <IconButton title='categories' color='primary'>
+                <GridView />
+            </IconButton>
+        <IconButton title='cart' color='primary'>
+                <ShoppingCart />
+        </IconButton>
+        <IconButton title='account' onClick={() => history.push('/login')} color='primary'>
+        <AccountCircle />
+        </IconButton>
         </div>
         </div>
         <div className='bottomNavContent'>
@@ -44,15 +50,17 @@ const Nav = () => {
 
     </nav>
     <nav className='mobileNav'>
-    <IconButton onClick={() => setOpenDrawer(!openDrawer)}>
+    <IconButton color='primary' onClick={() => setOpenDrawer(!openDrawer)}>
     <Menu />
     </IconButton>
     <Link to='/' className='mobileLogo'>
        <img src="/assets/logos/2.png" alt="steeldalal"  />
     </Link>
-    <IconButton onClick={() => setOpenSearch(!openSearch)}>
+    <div>
+    <IconButton color='primary' onClick={() => setOpenSearch(!openSearch)}>
     <SearchIcon />
     </IconButton>
+    </div>
     </nav>
 
     <SideDrawer openSideNav={openDrawer} onCloseHandler={() => setOpenDrawer(!openDrawer)} />

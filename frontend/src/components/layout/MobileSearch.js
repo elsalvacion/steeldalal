@@ -15,7 +15,7 @@ const MobileSearch = ({handleClose}) => {
         <Search />
         </div>
         </Zoom>
-        <IconButton onClick={handleClose}>
+        <IconButton color='primary' onClick={handleClose}>
     <Close />
     </IconButton>
         </div>

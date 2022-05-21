@@ -5,13 +5,13 @@
 
 @media(max-width: 900px) {
     .loginCardContainer {
-        width: 80%;
+        width: 90%;
     }
 }
 
 @media(max-width: 500px) {
     .loginCardContainer {
-        width: 90%;
+        width: 95%;
     }
 }
 

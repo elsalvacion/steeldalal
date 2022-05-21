@@ -1,6 +1,7 @@
 @import "~react-image-gallery/styles/css/image-gallery.css";
 :root {
     --primary-color: rgb(12 44 201) 8%;
+    --text-color: rgb(12 44 201);
 }
 * {
     padding: 0;

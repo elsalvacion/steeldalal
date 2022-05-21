@@ -14,63 +14,37 @@
     display: flex;
     align-items: stretch;
 }
-.loginContentLeft, .loginContentRight {
+.loginContentRight {
     flex: 1;
-    padding: 10px; 
+    padding: 30px 15px; 
     
 }
 
-
-.loginContentContainer label {
-    display: block;
-    margin-bottom: 7px;
-}
-
-.loginContentContainer input {
-    padding: 7px;
-    border: 1px solid rgba(17, 87, 228, 0.333);
-    margin-bottom: 15px;
-    width: 100%;
-    border-radius: 5px;
-    font-size: 16px;
-
-}
-.loginContentContainer input:focus {
-    outline: 1px solid rgba(5, 57, 162, 0.333);
-}
-
-.loginSubmitBtn {
-    padding: 7px;
-    background: var(--primary-color);
-    border: 0;
-    outline: 0;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 5px;
-    color: white;
-    margin-bottom: 25px;
-    text-transform: capitalize;
-}
-
-.loginSubmitBtn:hover {
-    background: rgb(39, 39, 191);
-}
 .loginOrRegisterOption {
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 15px;
     text-transform: capitalize;
+    margin-bottom: 15px;
 
 }
 
 .loginOrRegisterOption a {
-    color: var(--primary-color);
+    color: #0c339d;
     margin-left: 5px;
     text-transform: capitalize;
 }
 
 @media(max-width: 750px) {
     .loginContentContainer {
-        flex-direction: column;
+        flex-direction: column-reverse;
+    }
+    .loginOrRegisterOption {
+        margin: 10px;
+    }
+    .loginContentRight {
+        padding: 7px; 
+        
     }
 }
+

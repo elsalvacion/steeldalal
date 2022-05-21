@@ -8,8 +8,8 @@ const fileUpload = require('express-fileupload')
 require("dotenv").config();
 
 // require routes
-// const user = require('./routes/user')
-// const product = require('./routes/product')
+const user = require('./routes/user')
+const product = require('./routes/product')
 
 const app = express();
 
@@ -29,8 +29,8 @@ app.use(fileUpload())
 app.use(express.json());
 
 // routes middleware
-// app.use('/user', user)
-// app.use('/product', product)
+app.use('/auth', user)
+app.use('/product', product)
 
 
 const PORT = process.env.PORT || 5000;

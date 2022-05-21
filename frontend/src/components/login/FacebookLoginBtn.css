@@ -1,6 +1,6 @@
 .facebookLoginContainer {
     width: 100%;
-    padding: 7px 2px;
+    padding: 15px 2px;
 }
 .facebookLoginBtn {
     width: 100%;
@@ -22,4 +22,11 @@
 .facebookLoginBtn:hover {
     background: #4350e1;
 
+}
+
+@media(max-width: 500px) {
+    .facebookLoginContainer {
+    width: 100%;
+    padding: 2px;
+}
 }

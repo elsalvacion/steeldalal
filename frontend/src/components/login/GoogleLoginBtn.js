@@ -1,24 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './GoogleLoginBtn.css'
-import { GoogleLogin } from 'react-google-login';
 import GoogleIcon from '@mui/icons-material/Google';
+import { useGoogleLogin } from '@react-oauth/google';
+
+
 const GoogleLoginBtn = ({text}) => {
-    const responseGoogle = (response) => {
+  const [error, setError] = useState(null)
+    const handleSuccess = (response) => {
+      setError(null)
         console.log(response);
       }
+    const handleError = () => {
+      setError('Google login not available at the moment. Try other login methods')
+    }
+    const LoginUI = useGoogleLogin({
+      onSuccess: handleSuccess,
+      onError: handleError
+    });
+    
   return (
     <div className='googleLoginContainer'>
-    <GoogleLogin
-    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-    render={renderProps => (
-        <button onClick={renderProps.onClick} disabled={renderProps.disabled} className='googleLoginBtn'>
+      <button onClick={() => LoginUI()} className='googleLoginBtn'>
             <GoogleIcon /> <span>{text} with google</span>
         </button>
-      )}
-    onSuccess={responseGoogle}
-    onFailure={responseGoogle}
-    cookiePolicy={'single_host_origin'}
-    />
+      {error && <small className='googleLoginError'>{error}</small>}
     </div>
   )
 }

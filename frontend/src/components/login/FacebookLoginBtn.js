@@ -9,9 +9,9 @@ const FacebookLoginBtn = ({text}) => {
   return (
     <div className='facebookLoginContainer'>
      <FacebookLogin
-    appId="1088597931155576"
+    appId="395661519114695"
     autoLoad={false}
-    fields="name,email"
+    fields="name,email,picture"
     callback={responseFacebook} 
     cssClass="facebookLoginBtn"
     textButton={`${text} with facebook`}

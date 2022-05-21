@@ -24,3 +24,8 @@
     background: #e34747;
 
 }
+
+.googleLoginError {
+    color: #ba0000;
+    margin-bottom: 15px;
+}
