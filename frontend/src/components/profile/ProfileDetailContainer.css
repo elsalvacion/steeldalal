@@ -1,0 +1,16 @@
+.profileDetailContainer {
+  display: flex;
+  align-items: stretch;
+}
+
+.profileDetailLeft,
+.profileDetailRight {
+  flex: 1;
+  margin: 7px;
+}
+
+@media (max-width: 750px) {
+  .profileDetailContainer {
+    flex-direction: column;
+  }
+}

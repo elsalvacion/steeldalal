@@ -1,14 +1,10 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import Collapse from '@mui/material/Collapse';
-import CloseIcon from '@mui/icons-material/Close';
+import * as React from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { Alert, Box, IconButton, Collapse } from "@mui/material";
 
-const CustomAlert = ({text, type, handleClose}) => {
-
+const CustomAlert = ({ text, type, handleClose }) => {
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <Collapse in={true}>
         <Alert
           severity={type}
@@ -29,7 +25,6 @@ const CustomAlert = ({text, type, handleClose}) => {
       </Collapse>
     </Box>
   );
-}
+};
 
-
-export default CustomAlert
+export default CustomAlert;

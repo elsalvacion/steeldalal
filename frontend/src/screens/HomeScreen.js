@@ -1,18 +1,17 @@
-import { Container } from '@mui/material'
-import React from 'react'
-import Category from '../components/home/Category'
-import ProductCarousel from '../components/home/ProductCarousel'
-import HowItWorks from '../components/home/HowItWorks'
-import WhyUs from '../components/home/WhyUs'
-import Contact from '../components/home/Contact'
-import Showcase from '../components/home/Showcase'
-
+import { Container } from "@mui/material";
+import React from "react";
+import Category from "../components/home/Category";
+import ProductCarousel from "../components/home/ProductCarousel";
+import HowItWorks from "../components/home/HowItWorks";
+import WhyUs from "../components/home/WhyUs";
+import Contact from "../components/home/Contact";
+import ShowcaseCarousel from "../components/home/ShowcaseCarousel";
 
 const HomeScreen = () => {
   return (
     <div>
-        <Showcase />
-        <Container>
+      <ShowcaseCarousel />
+      <Container>
         <Category />
         <ProductCarousel />
         <HowItWorks />
@@ -20,7 +19,7 @@ const HomeScreen = () => {
         <Contact />
       </Container>
     </div>
-  )
-}
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;
