@@ -10,6 +10,8 @@ require("dotenv").config();
 // require routes
 const user = require('./routes/user')
 const product = require('./routes/product')
+const category = require('./routes/category')
+
 
 const app = express();
 
@@ -31,6 +33,8 @@ app.use(express.json());
 // routes middleware
 app.use('/auth', user)
 app.use('/product', product)
+app.use('/category', category)
+
 
 
 const PORT = process.env.PORT || 5000;

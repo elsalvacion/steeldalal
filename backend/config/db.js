@@ -7,7 +7,6 @@ try {
     database: process.env.DB_NAME,
     password: process.env.DB_PASS,
     multipleStatements: true,
-    port: 3307,
   });
 
   connection.connect(function (err) {
