@@ -1,110 +1,109 @@
-.productCarouselContainer{
-    margin: 15px 0;
+.productCarouselContainer {
+  margin: 15px 0;
 }
 .productCarouselTitle {
-    background: transparent;
-    width: 100%;
-    border: 0;
-    outline: 0;
-    padding: 15px 0;
-    margin-bottom: 2px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 24px;
-    font-weight: lighter;
+  background: transparent;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  padding: 15px 0;
+  margin-bottom: 2px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  font-weight: lighter;
 }
 
 .carouselProduct {
-    width: 98%;
-    height: 225px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    background: white;
-    padding: 10px;
-    margin: auto;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-
+  width: 98%;
+  height: 225px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background: white;
+  padding: 10px;
+  margin: auto;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 .carouselProduct:hover {
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 .productCarouselContainer h2 {
-    margin-bottom: 15px;
-    font-weight: 500;
-    font-weight: lighter;
+  margin-bottom: 15px;
+  font-weight: 500;
+  font-weight: lighter;
 }
 .carouselProductImage {
-    height: 135px;
-    width: 100%;
-    object-fit: cover;
-    margin-bottom: 10px;
+  height: 135px;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
 .carouselProductDesc {
-    padding: 10px;
+  padding: 10px;
 }
 
-.carouselProductCustomPrevBtn, .carouselProductCustomNextBtn {
-    background: rgba(155, 153, 153, 0.5);
-    color: rgb(12 44 201);
-    opacity: 0.5;
-    /* padding: 7px; */
-    position: absolute;
-    width: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor:pointer;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    z-index: 5;
-    padding-bottom: 50px;
+.carouselProductCustomPrevBtn,
+.carouselProductCustomNextBtn {
+  background: rgba(155, 153, 153, 0.5);
+  color: rgb(12 44 201);
+  opacity: 0.5;
+  /* padding: 7px; */
+  position: absolute;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  z-index: 5;
+  padding-bottom: 50px;
 }
 
 .carouselProductCustomPrevBtn {
-    top: 0;
-    bottom: 0;
-    left: -30px;
+  top: 0;
+  bottom: 0;
+  left: -30px;
 }
 .carouselProductCustomNextBtn {
-    top: 0;
-    bottom: 0;
-    right: -30px;
+  top: 0;
+  bottom: 0;
+  right: -30px;
 }
 
-.carouselProductCustomPrevBtn:hover, .carouselProductCustomNextBtn:hover {
-    background: rgba(250, 250, 250, 0.2);
+.carouselProductCustomPrevBtn:hover,
+.carouselProductCustomNextBtn:hover {
+  background: rgba(250, 250, 250, 0.2);
 }
 
 .carouselProductDesc h4 {
-    margin-bottom: 5px;
-    font-weight: lighter;
+  margin-bottom: 5px;
+  font-weight: lighter;
 }
 .carouselProductDesc p {
-font-size: 14px;
-display: flex;
-align-items: center;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
 }
 
-@media(max-width: 850px) {
-    .carouselProductImage {
-        height: 125px;
-    }
-    
+@media (max-width: 850px) {
+  .carouselProductImage {
+    height: 125px;
+  }
 }
 
-@media(max-width: 600px) {
-    .carouselProductCustomPrevBtn, .carouselProductCustomNextBtn {
-    display: none; 
-    }
+@media (max-width: 600px) {
+  .carouselProductCustomPrevBtn,
+  .carouselProductCustomNextBtn {
+    display: none;
+  }
 
-    .carouselProductImage {
-        height: 100px;
-    }
-    
+  .carouselProductImage {
+    height: 100px;
+  }
 }

@@ -1,32 +1,33 @@
 @import "~react-image-gallery/styles/css/image-gallery.css";
 :root {
-    --primary-color: rgb(12 44 201) 8%;
-    --text-color: rgb(12 44 201);
+  --primary-color: rgb(12 44 201) 8%;
+  --text-color: rgb(12 44 201);
 }
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto';
-    
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Roboto";
 }
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 body {
-    overflow-x: hidden;
-    position: relative;
-   
+  overflow-x: hidden;
+  position: relative;
+}
+a {
+  text-decoration: none;
+  color: black;
 }
 .app {
-    min-height: 100vh;
-    background: #efefef;
-    padding-bottom: 600px;
+  min-height: 100vh;
+  background: #efefef;
+  padding-bottom: 600px;
 }
 
-@media(max-width: 900px) {
-    .app {
-        padding-bottom: 850px;
-        
-    }
+@media (max-width: 900px) {
+  .app {
+    padding-bottom: 850px;
+  }
 }

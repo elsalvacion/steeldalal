@@ -1,7 +1,7 @@
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import "./ProductCarousel.css";
+import "./ProductCarouselShimmer.css";
 import { categories } from "../../constants/category";
 import { products } from "../../constants/products";
 import {
@@ -11,31 +11,24 @@ import {
   CurrencyRupee,
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-const ProductCarousel = () => {
-  const handleDragStart = (e) => e.preventDefault();
+import {
+  ShimmerSectionHeader,
+  ShimmerThumbnail,
+  ShimmerTitle,
+} from "react-shimmer-effects";
+
+const ProductCarouselShimmer = () => {
   const items = products.map((product) => (
-    <Link
-      to={`/product/${product.id}`}
-      key={product.id}
-      className="carouselProduct"
-    >
-      <img
-        onDragStart={handleDragStart}
-        src={product.image}
-        className="carouselProductImage"
-        alt={product.title}
-      />
+    <div>
+      <ShimmerThumbnail className="carouselProductImage" rounded />
       <div className="carouselProductDesc">
-        <Typography component="h4" noWrap>
-          {product.title}
-        </Typography>
+        <ShimmerSectionHeader />
         <Typography component="p" noWrap>
           <CurrencyRupee fontSize="sm" />
-          {product.price}
+          <ShimmerTitle line={2} gap={10} variant="primary" />
         </Typography>
       </div>
-    </Link>
+    </div>
   ));
   return categories.map((category, i) => (
     <div className="productCarouselContainer" key={category.id}>
@@ -92,4 +85,4 @@ const ProductCarousel = () => {
   ));
 };
 
-export default ProductCarousel;
+export default ProductCarouselShimmer;

@@ -2,7 +2,10 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import thunk from "redux-thunk";
 import { loginReducer, verifyEmailReducer } from "./reducers/authReducer";
-import {latestProductReducer, singleProductReducer} from './reducers/productReducer'
+import {
+  latestProductReducer,
+  singleProductReducer,
+} from "./reducers/productReducer";
 import { fetchCategoryReducer } from "./reducers/categoryReducer";
 
 const reducers = combineReducers({
@@ -11,7 +14,6 @@ const reducers = combineReducers({
   latestProduct: latestProductReducer,
   fetchCategories: fetchCategoryReducer,
   singleProduct: singleProductReducer,
-
 });
 
 const middleware = [thunk];
