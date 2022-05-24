@@ -9,7 +9,7 @@ const reducers = combineReducers({
   userLogin: loginReducer,
   verifyEmail: verifyEmailReducer,
   latestProduct: latestProductReducer,
-  fetchCategory: fetchCategoryReducer,
+  fetchCategories: fetchCategoryReducer,
   singleProduct: singleProductReducer,
 
 });

@@ -4,9 +4,10 @@ import { Alert, Box, IconButton, Collapse } from "@mui/material";
 
 const CustomAlert = ({ text, type, handleClose }) => {
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", margin: "15px 0" }}>
       <Collapse in={true}>
         <Alert
+          variant="filled"
           severity={type}
           action={
             <IconButton

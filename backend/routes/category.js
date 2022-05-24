@@ -25,7 +25,11 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
     try {
-        const sql = `select * from category`
+        let sql = `select * from category`
+
+        if(req.query.limit) {
+            sql += ` limit ${req.query.limit}`
+        }
 
         connection.query(sql, (fetchCategoryErr, fetchCategoryRes) => {
             if(fetchCategoryErr) {
