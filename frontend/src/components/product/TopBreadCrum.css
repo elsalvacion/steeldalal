@@ -1,13 +1,14 @@
 .topBreadCrumContainer {
-    padding: 15px 0;
-    margin-bottom: 10px;
-}   
+  padding: 15px 0;
+  margin-bottom: 10px;
+}
 
 .topBreadCrumLink {
-    text-decoration: none;
-    color: #3a18c5;
+  text-decoration: none;
+  color: rgb(12 44 201);
+  text-transform: capitalize;
 }
 
 .topBreadCrumLink:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

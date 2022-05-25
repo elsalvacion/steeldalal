@@ -1,18 +1,18 @@
-import React from 'react'
-// import ProductDescription from './ProductDescription'
-import './ProductDetailSection.css'
-import ProductSlider from './ProductSlider'
-import TopBreadCrum from './TopBreadCrum'
-const ProductDetailSection = () => {
+import React from "react";
+import ProductDescription from "./ProductDescription";
+import "./ProductDetailSection.css";
+import ProductSlider from "./ProductSlider";
+import TopBreadCrum from "./TopBreadCrum";
+const ProductDetailSection = ({ product }) => {
   return (
     <div>
-    <TopBreadCrum />
-    <div className='productDetailContainer'>
-    <ProductSlider />
-    {/* <ProductDescription details={product} /> */}
+      <TopBreadCrum product={product} />
+      <div className="productDetailContainer">
+        <ProductSlider image={product.image} />
+        <ProductDescription details={product} />
+      </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default ProductDetailSection
+export default ProductDetailSection;

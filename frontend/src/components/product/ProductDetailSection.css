@@ -1,4 +1,12 @@
 .productDetailContainer {
-    display: flex;
-    align-items: stretch;
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .productDetailContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

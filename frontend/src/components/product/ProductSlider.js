@@ -1,26 +1,31 @@
-import React from 'react'
-import ImageGallery from 'react-image-gallery';
-import './ProductSlider.css'
-const images = [
-    {
-      original: 'https://picsum.photos/id/1018/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
-    },
-  ];
-const ProductSlider = () => {
-  return (
-    <div className='productSliderContainer'>
-        <ImageGallery showPlayButton={false} showNav={false} items={images} />
-    </div>
-  )
-}
+import React from "react";
+import "./ProductSlider.css";
+import Carousel from "react-material-ui-carousel";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-export default ProductSlider
+const ProductSlider = ({ image }) => {
+  return (
+    <div className="productSliderContainer">
+      <Carousel
+        navButtonsAlwaysVisible={false}
+        fullHeightHover={true}
+        animation="slide"
+        duration={700}
+      >
+        <TransformWrapper>
+          {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+            <TransformComponent>
+              <img
+                className="productSliderImage"
+                src={image}
+                alt="steeldalal"
+              />
+            </TransformComponent>
+          )}
+        </TransformWrapper>
+      </Carousel>
+    </div>
+  );
+};
+
+export default ProductSlider;

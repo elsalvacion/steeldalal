@@ -11,7 +11,8 @@ import ProfileScreen from "./screens/ProfileScreen";
 import MobileBottomFooter from "./components/layout/MobileBottomFooter";
 import CategoryScreen from "./screens/CategoryScreen";
 import CartScreen from "./screens/CartScreen";
-import SingleScategoryScreen from "./screens/SingleScategoryScreen";
+import SingleCategoryScreen from "./screens/SingleCategoryScreen";
+import AllProductScreen from "./screens/AllProductScreen";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Switch>
             <div className="app">
               <Route exact path="/" component={HomeScreen} />
+              <Route exact path="/products" component={AllProductScreen} />
               <Route exact path="/product/:id" component={ProductScreen} />
               <Route exact path="/login" component={LoginScreen} />
               <Route exact path="/register" component={LoginScreen} />
@@ -30,7 +32,7 @@ const App = () => {
               <Route
                 exact
                 path="/category/:category"
-                component={SingleScategoryScreen}
+                component={SingleCategoryScreen}
               />
               <Route exact path="/cart" component={CartScreen} />
             </div>

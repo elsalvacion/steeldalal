@@ -48,7 +48,7 @@ export const fetchSingleProductsAction = (id) => async (dispatch) => {
     const { data } = await axios.get(`/product/${id}`);
     dispatch({
       type: SINGLE_PRODUCT_SUCCESS,
-      payload: data,
+      payload: data.msg,
     });
   } catch (error) {
     console.log(error);

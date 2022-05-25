@@ -1,4 +1,29 @@
 .productDesContainer {
-    flex: 1;
-    padding: 10px;
+  flex: 1;
+  padding: 10px;
+}
+
+.productDesContainer p {
+  font-weight: lighter;
+}
+.productDesContainer h5 {
+  text-transform: capitalize;
+}
+
+.productDesPrice {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  color: rgb(12 44 201);
+  font-weight: bold;
+}
+.productDesPrice p {
+  font-size: 24px;
+}
+.productDesAction {
+  display: flex;
+  align-items: center;
+}
+.productDesAction button {
+  margin: 0 3px;
 }

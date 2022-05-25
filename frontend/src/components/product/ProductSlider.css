@@ -1,3 +1,9 @@
 .productSliderContainer {
-    flex: 1;
+  flex: 1;
+}
+
+.productSliderImage {
+  width: 100%;
+  min-height: 55vh;
+  object-fit: cover;
 }
