@@ -9,7 +9,13 @@ const CategoryShimmer = () => {
       <h2>Categories</h2>
       <div className="categoryShimmerItemsContainer">
         {categoryShimmers.map((category) => (
-          <ShimmerThumbnail height={150} key={category} rounded />
+          <div key={category} className="categoryShimmerItem">
+            <ShimmerThumbnail
+              height={75}
+              className="categoryShimmerThumbnail"
+              rounded
+            />
+          </div>
         ))}
       </div>
     </div>

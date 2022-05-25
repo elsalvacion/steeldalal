@@ -12,3 +12,10 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
+
+.categoryShimmerItem {
+  margin: 0 5px;
+}
+.categoryShimmerThumbnail {
+  width: 100%;
+}

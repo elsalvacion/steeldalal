@@ -39,8 +39,8 @@ const Category = () => {
       <div className="categoryItemsContainer">
         {categories.map((category) => (
           <Link
-            key={category.id}
-            to={`/category/${category.id}`}
+            key={category.title}
+            to={`/category/${category.title}`}
             className="categoryItem"
           >
             <Typography variant="h6" component="h6">

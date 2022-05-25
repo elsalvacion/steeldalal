@@ -10,18 +10,33 @@ router.post("/", (req, res) => {
       discount,
       price,
       rating,
-      details,
       qty,
       category,
       type,
       brand,
+      details,
+      image,
     } = req.body;
 
+    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details, image) values(?,?,?,?,?,?,?,?, ?, ?)`;
+
     connection.query(
-      `insert into products(title, discount, price, rating, details, qty, category, type, brand) values(?,?,?,?,?,?,?,?,?)`,
-      [title, discount, price, rating, details, qty, category, type, brand],
+      sql,
+      [
+        title,
+        discount,
+        price,
+        rating,
+        qty,
+        category,
+        type,
+        brand,
+        details,
+        image,
+      ],
       (createProductErr, createProductRes) => {
         if (createProductErr) {
+          console.log(createProductErr);
           res.status(400).json({ msg: "Error while creating product" });
         } else {
           res.json({ msg: "Product created" });
@@ -62,6 +77,30 @@ router.get("/", (req, res) => {
       `select * from products order by createdAt desc`,
       (fetchProductsErr, fetchProductsRes) => {
         if (fetchProductsErr) {
+          res.status(400).json({ msg: "Error while fetching products" });
+        } else {
+          res.json({ msg: fetchProductsRes });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+router.post("/latest", (req, res) => {
+  try {
+    const sql = `
+    select * from products where category = ? order by createdAt desc limit 10;
+    select * from products where category = ? order by createdAt desc limit 10
+    `;
+    connection.query(
+      sql,
+      [req.body.category.first, req.body.category.second],
+      (fetchProductsErr, fetchProductsRes) => {
+        if (fetchProductsErr) {
+          console.log(fetchProductsErr);
           res.status(400).json({ msg: "Error while fetching products" });
         } else {
           res.json({ msg: fetchProductsRes });

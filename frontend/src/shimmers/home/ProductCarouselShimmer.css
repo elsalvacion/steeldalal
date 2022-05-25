@@ -1,0 +1,10 @@
+.carouselProductImage {
+  margin-bottom: 3px;
+}
+.productPriceShimmer {
+  display: flex;
+  align-items: center;
+}
+.productShimmerCard {
+  margin: 0 7px;
+}

@@ -29,7 +29,7 @@ const App = () => {
               <Route exact path="/category" component={CategoryScreen} />
               <Route
                 exact
-                path="/category/:id"
+                path="/category/:category"
                 component={SingleScategoryScreen}
               />
               <Route exact path="/cart" component={CartScreen} />
