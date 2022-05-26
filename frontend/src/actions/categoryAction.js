@@ -10,7 +10,10 @@ export const fetchCategoryAction =
   async (dispatch) => {
     try {
       dispatch({ type: FETCH_CATEGORY_LOADING });
-      const { data } = await axios.get(`/category?limit=${limit}`);
+      let url;
+      if (limit) url = `/category?limit=${limit}`;
+      else url = `/category`;
+      const { data } = await axios.get(url);
       dispatch({
         type: FETCH_CATEGORY_SUCCESS,
         payload: data.msg,
@@ -19,7 +22,7 @@ export const fetchCategoryAction =
       console.log(error);
       dispatch({
         type: FETCH_CATEGORY_ERROR,
-        payload: error.response.data,
+        payload: error.response.data.msg,
       });
     }
   };

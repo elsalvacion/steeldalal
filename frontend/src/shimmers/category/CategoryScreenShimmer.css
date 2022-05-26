@@ -1,0 +1,26 @@
+.categoryScreenShimmerContainer {
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.categoryScreenShimmerCard {
+  box-shadow: 2px 2xp 5px rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  margin: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 850px) {
+  .categoryScreenShimmerContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .categoryScreenShimmerContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

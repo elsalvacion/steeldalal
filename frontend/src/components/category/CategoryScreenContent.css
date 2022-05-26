@@ -1,0 +1,45 @@
+.categoryScreenContainer {
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.categoryScreenCard {
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+  margin: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  min-height: 250px;
+  text-decoration: none;
+  color: #2c2c2c;
+}
+.categoryScreenCard:hover {
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.categoryScreenCard h4 {
+  text-transform: uppercase;
+  font-size: 24px;
+}
+
+@media (max-width: 850px) {
+  .categoryScreenCard {
+    height: 150px;
+  }
+  .categoryScreenCard h4 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 750px) {
+  .categoryScreenContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .categoryScreenCard h4 {
+    font-size: 17px;
+  }
+}
