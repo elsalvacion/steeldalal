@@ -16,7 +16,7 @@ const ProfileScreen = () => {
         Profile
       </Typography>
       <br />
-      <ProfileDetailContainer userInfo={userInfo} />
+      {userInfo && <ProfileDetailContainer userInfo={userInfo} />}
     </Container>
   );
 };

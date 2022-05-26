@@ -6,7 +6,11 @@ import {
 import { Button, Rating, Typography } from "@mui/material";
 import React from "react";
 import "./ProductDescription.css";
+import { useDispatch } from "react-redux";
+import { addToCartAction } from "../../actions/cartAction";
+
 const ProductDescription = ({ details }) => {
+  const dispatch = useDispatch();
   return (
     <div className="productDesContainer">
       <Typography variant="h5" component="h5">
@@ -50,6 +54,7 @@ const ProductDescription = ({ details }) => {
           BUY NOW
         </Button>
         <Button
+          onClick={() => dispatch(addToCartAction(details))}
           endIcon={<ShoppingCartCheckout />}
           variant="contained"
           color="inherit"

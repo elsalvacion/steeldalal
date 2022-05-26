@@ -6,15 +6,28 @@ import { fetchSingleProductsAction } from "../actions/productAction";
 import ProductDetailSection from "../components/product/ProductDetailSection";
 import CustomAlert from "../components/layout/CustomAlert";
 import { SINGLE_PRODUCT_RESET } from "../reducers/types/productTypes";
+import { getCartAction } from "../actions/cartAction";
+import { ADD_CART_RESET } from "../reducers/types/cartTypes";
 const ProductScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector(
     (state) => state.singleProduct
   );
+  const { success } = useSelector((state) => state.addCart);
+
   useEffect(() => {
+    // if (!product || id !== product.id) {
     dispatch(fetchSingleProductsAction(id));
+    dispatch({ type: ADD_CART_RESET });
+    // }
+    // eslint-disable-next-line
   }, [id, dispatch]);
+  useEffect(() => {
+    if (success) {
+      dispatch(getCartAction());
+    }
+  }, [success, dispatch]);
   return (
     <div>
       <Container>

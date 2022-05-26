@@ -7,6 +7,12 @@ import {
   singleProductReducer,
 } from "./reducers/productReducer";
 import { fetchCategoryReducer } from "./reducers/categoryReducer";
+import {
+  addToCartReducer,
+  deleteCartReducer,
+  editCartReducer,
+  getCartReducer,
+} from "./reducers/cartReducer";
 
 const reducers = combineReducers({
   userLogin: loginReducer,
@@ -14,6 +20,10 @@ const reducers = combineReducers({
   latestProduct: latestProductReducer,
   fetchCategories: fetchCategoryReducer,
   singleProduct: singleProductReducer,
+  addCart: addToCartReducer,
+  editCart: editCartReducer,
+  deleteCart: deleteCartReducer,
+  getCart: getCartReducer,
 });
 
 const middleware = [thunk];
@@ -22,6 +32,14 @@ const initialState = {
     userInfo: localStorage.getItem("userInfo")
       ? JSON.parse(localStorage.getItem("userInfo"))
       : null,
+  },
+  getCart: {
+    keys: localStorage.getItem("cart")
+      ? Object.keys(JSON.parse(localStorage.getItem("cart")))
+      : [],
+    cart: localStorage.getItem("cart")
+      ? JSON.parse(localStorage.getItem("cart"))
+      : {},
   },
 };
 

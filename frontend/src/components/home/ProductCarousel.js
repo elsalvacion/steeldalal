@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { latestProductsAction } from "../../actions/productAction";
 import ProductCarouselItem from "./ProductCarouselItem";
 import { useHistory } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const ProductCarousel = () => {
   const { loading, error, products } = useSelector(
@@ -41,6 +42,18 @@ const ProductCarousel = () => {
     />
   ) : products ? (
     <div>
+      <Button
+        variant="contained"
+        endIcon={<ChevronRight />}
+        color="primary"
+        sx={{
+          margin: "0 auto",
+          // marginBottom: 3,
+        }}
+        onClick={() => history.push("/product")}
+      >
+        ALL PRODUCTS
+      </Button>
       {
         <div className="productCarouselContainer">
           <button
@@ -150,6 +163,18 @@ const ProductCarousel = () => {
           />
         </div>
       }
+      <Button
+        variant="contained"
+        endIcon={<ChevronRight />}
+        color="primary"
+        sx={{
+          margin: "0 auto",
+          marginBottom: 10,
+        }}
+        onClick={() => history.push("/product")}
+      >
+        ALL PRODUCTS
+      </Button>
     </div>
   ) : null;
 };

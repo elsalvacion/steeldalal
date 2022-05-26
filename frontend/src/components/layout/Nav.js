@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Badge, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { navLink } from "../../constants/links";
@@ -10,17 +10,21 @@ import {
   AccountCircle,
   ShoppingCart,
   GridView,
+  Logout,
 } from "@mui/icons-material";
 import SideDrawer from "./SideDrawer";
 import MobileSearch from "./MobileSearch";
 import { HashLink } from "react-router-hash-link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../actions/authAction";
 
 const Nav = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { keys } = useSelector((state) => state.getCart);
   return (
     <>
       <nav className="navContainer">
@@ -46,7 +50,9 @@ const Nav = () => {
               title="cart"
               color="primary"
             >
-              <ShoppingCart />
+              <Badge badgeContent={keys ? keys.length : 0} color="primary">
+                <ShoppingCart />
+              </Badge>
             </IconButton>
             <IconButton
               title="account"
@@ -55,6 +61,15 @@ const Nav = () => {
             >
               <AccountCircle />
             </IconButton>
+            {userInfo && (
+              <IconButton
+                title="account"
+                onClick={() => dispatch(logoutUser())}
+                color="primary"
+              >
+                <Logout />
+              </IconButton>
+            )}
           </div>
         </div>
         <div className="bottomNavContent">
@@ -88,6 +103,15 @@ const Nav = () => {
           >
             <SearchIcon />
           </IconButton>
+          {userInfo && (
+            <IconButton
+              title="account"
+              onClick={() => dispatch(logoutUser())}
+              color="primary"
+            >
+              <Logout />
+            </IconButton>
+          )}
         </div>
       </nav>
 

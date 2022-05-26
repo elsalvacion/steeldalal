@@ -4,12 +4,15 @@ import {
   ShoppingCart,
   GridView,
 } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { IconButton, Badge } from "@mui/material";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./MobileBottomFooter.css";
 const MobileBottomFooter = () => {
   const history = useHistory();
+  const { keys } = useSelector((state) => state.getCart);
+  const { userInfo } = useSelector((state) => state.userLogin);
   return (
     <div className="mobileBottomFooterContainer">
       <div className="mobileBottomFooterContent">
@@ -22,10 +25,15 @@ const MobileBottomFooter = () => {
         </IconButton>
 
         <IconButton onClick={() => history.push("/cart")} color="primary">
-          <ShoppingCart />
+          <Badge badgeContent={keys ? keys.length : 0} color="primary">
+            <ShoppingCart />
+          </Badge>
         </IconButton>
 
-        <IconButton onClick={() => history.push("/login")} color="primary">
+        <IconButton
+          onClick={() => history.push(userInfo ? "/profile" : "/login")}
+          color="primary"
+        >
           <AccountCircle />
         </IconButton>
       </div>

@@ -37,7 +37,7 @@ export const latestProductsAction = () => async (dispatch) => {
     console.log(error);
     dispatch({
       type: LATEST_PRODUCT_ERROR,
-      payload: error.response.data,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -54,7 +54,7 @@ export const fetchSingleProductsAction = (id) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: SINGLE_PRODUCT_ERROR,
-      payload: error.response.data,
+      payload: error.response.data.msg,
     });
   }
 };
