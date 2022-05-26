@@ -6,6 +6,7 @@ import HowItWorks from "../components/home/HowItWorks";
 import WhyUs from "../components/home/WhyUs";
 import Contact from "../components/home/Contact";
 import ShowcaseCarousel from "../components/home/ShowcaseCarousel";
+import About from "../components/home/About";
 
 const HomeScreen = () => {
   return (
@@ -16,6 +17,7 @@ const HomeScreen = () => {
         <ProductCarousel />
         <HowItWorks />
         <WhyUs />
+        <About />
         <Contact />
       </Container>
     </div>
