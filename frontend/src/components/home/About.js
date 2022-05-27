@@ -1,7 +1,9 @@
 import React from "react";
 import "./About.css";
 import { Typography } from "@mui/material";
+// import { PauseCircleOutline, PlayCircleOutline } from "@mui/icons-material";
 const About = () => {
+  // const [play, setPlay] = useState(false);
   return (
     <div className="aboutContainer" id="about">
       <div className="aboutLeft">
@@ -11,6 +13,8 @@ const About = () => {
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
+          autoPlay="1"
+          muted="1"
         ></iframe>
       </div>
       <div className="aboutRight">
@@ -34,22 +38,18 @@ const About = () => {
           <b>TMT, PLATES, HR SHEET, CR SHEET, GP/ GC SHEET ANGLE/ CHANNEL</b>{" "}
           etc.
         </Typography>
-        <Typography>
-          We are very keen in enlarging our market and towards this we look
-          forward to serve your requirement. Should there be any item be it in
-          interest to you, please let me know. We shall be glad to give you our
-          lowest quotation upon receipt of your detailed requirements.
-        </Typography>
-        <Typography>
-          We would be thankful if you could offer us an opportunity to serve you
-          by indicating your requirements enabling us to send you our quote. We
-          look forward to receive your inquiries soon.
-        </Typography>
-        <Typography>
-          Please feel free to revert, if you need any further information from
-          our end. Looking forward to establish a fruitful business relationship
-          ahead.
-        </Typography>
+        <div className="aboutAction">
+          {/* <Typography>For info: </Typography> */}
+          {/* <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            startIcon={play ? <PauseCircleOutline /> : <PlayCircleOutline />}
+          >
+            Video
+          </Button> */}
+          <Typography>For info: watch video or contact us. </Typography>
+        </div>
       </div>
     </div>
   );

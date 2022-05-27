@@ -1,6 +1,6 @@
 .productDesContainer {
   flex: 1;
-  padding: 10px;
+  padding: 20px;
 }
 
 .productDesContainer p {
@@ -10,6 +10,13 @@
   text-transform: capitalize;
 }
 
+.productDesQty {
+  display: flex;
+  align-items: center;
+}
+.productDesQty p {
+  margin-right: 15px;
+}
 .productDesPrice {
   display: flex;
   align-items: center;

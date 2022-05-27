@@ -1,0 +1,22 @@
+.changeQuantityContainer {
+  display: flex;
+  align-items: center;
+}
+
+.changeQuantityContainer input {
+  margin: 0 7px;
+  padding: 7px;
+  border: 1px solid #4b4beb;
+  outline: 1px solid #2b2be2;
+  width: 75px;
+  text-align: center;
+}
+.changeQuantityContainer input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+.changeQuantityContainer p {
+  margin-right: 10px;
+}

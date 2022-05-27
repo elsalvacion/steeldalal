@@ -13,15 +13,17 @@ import CategoryScreen from "./screens/CategoryScreen";
 import CartScreen from "./screens/CartScreen";
 import SingleCategoryScreen from "./screens/SingleCategoryScreen";
 import AllProductScreen from "./screens/AllProductScreen";
+import ScrollToTop from "./components/layout/ScrollToTop";
 
 const App = () => {
   return (
     <Provider store={store}>
       <GoogleOAuthProvider clientId="31292816526-u02re3s8fr3fie9gu4j68st9oadp8sdu.apps.googleusercontent.com">
+        <div id="back-to-top-anchor"></div>
         <HashRouter>
           <Nav />
           <Switch>
-            <div className="app">
+            <div className="app" id="app">
               <Route exact path="/" component={HomeScreen} />
               <Route exact path="/products" component={AllProductScreen} />
               <Route exact path="/product/:id" component={ProductScreen} />
@@ -37,6 +39,7 @@ const App = () => {
               <Route exact path="/cart" component={CartScreen} />
             </div>
           </Switch>
+          <ScrollToTop />
           <MobileBottomFooter />
           <Footer />
         </HashRouter>

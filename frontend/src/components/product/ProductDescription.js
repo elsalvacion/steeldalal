@@ -4,13 +4,25 @@ import {
   ShoppingBag,
 } from "@mui/icons-material";
 import { Button, Rating, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import "./ProductDescription.css";
 import { useDispatch } from "react-redux";
 import { addToCartAction } from "../../actions/cartAction";
+import ChangeQuantity from "../layout/ChangeQuantity";
 
 const ProductDescription = ({ details }) => {
   const dispatch = useDispatch();
+
+  const [qty, setQty] = useState(1);
+  const countInStock = details.qty;
+  const handleChange = (e) => {
+    const value = Number(e.target.value);
+    setQty(value < 1 ? 1 : value > countInStock ? countInStock : value);
+  };
+  const handleDecrement = () => setQty(qty === 1 ? 1 : qty - 1);
+  const handleIncrement = () =>
+    setQty(qty === countInStock ? countInStock : qty + 1);
+
   return (
     <div className="productDesContainer">
       <Typography variant="h5" component="h5">
@@ -48,13 +60,34 @@ const ProductDescription = ({ details }) => {
         {details.details}
       </Typography>
       <br />
+      <div className="productDesQty">
+        <Typography>
+          <b>Quantity: </b>
+        </Typography>
+        <ChangeQuantity
+          handleChange={handleChange}
+          handleDecrement={handleDecrement}
+          handleIncrement={handleIncrement}
+          qty={qty}
+          countInStock={countInStock}
+        />
+      </div>
+      <br />
       <br />
       <div className="productDesAction">
         <Button variant="contained" color="primary" endIcon={<ShoppingBag />}>
           BUY NOW
         </Button>
         <Button
-          onClick={() => dispatch(addToCartAction(details))}
+          onClick={() =>
+            dispatch(
+              addToCartAction({
+                ...details,
+                quantity: qty,
+                selected: false,
+              })
+            )
+          }
           endIcon={<ShoppingCartCheckout />}
           variant="contained"
           color="inherit"

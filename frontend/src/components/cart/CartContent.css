@@ -1,0 +1,114 @@
+.cartContentContainer {
+  padding: 20px 0px;
+}
+
+.cartContentContainer h5 {
+  margin-bottom: 25px;
+}
+
+.cartContentItems {
+  display: flex;
+}
+.cartContentItemsLeft {
+  background: #fff;
+  flex: 1;
+  padding: 15px;
+}
+.cartItem {
+  display: flex;
+  margin: 10px 0;
+  align-items: center;
+}
+
+.cartItem img {
+  width: 50px;
+  height: 50px;
+  object-fit: scale-down;
+  margin: 0 15px;
+}
+
+.cartItem .cartItemTitle {
+  text-align: left;
+  font-size: 14px;
+  flex: 1;
+  margin-left: 10px;
+  color: #464646;
+  text-transform: capitalize;
+}
+.cartItem .cartItemPrice {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 0 10px;
+  color: #747474;
+}
+
+.cartItem .cartQuantityContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.cartItem .cartItemCheck {
+  padding: 15px;
+  margin: 0 10px;
+}
+.cartQuantityContainer input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.cartQuantityContainer input {
+  padding: 7px;
+  width: 50px;
+  margin: 0 7px;
+  text-align: center;
+  border: 1px solid #6a88ee;
+  outline: 1px solid #4768d4;
+}
+
+.cartContentItemsRight {
+  background: #fff;
+  padding: 15px;
+  margin: 5px;
+  min-width: 350px;
+  max-width: fit-content;
+  height: fit-content;
+}
+
+.cartContentItemsRight h6 {
+  margin-bottom: 15px;
+}
+
+.cartContentItemsRight .cartContentSubTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.cartContentItemsRight .cartContentSubTotal p {
+  color: #636363;
+  font-size: 16px;
+}
+
+.cartContentItemsRight .cartContentSubTotal span {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.cartContentItemsRight .cartContentTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.cartContentItemsRight .cartContentTotal p {
+  color: #636363;
+  font-size: 16px;
+}
+
+.cartContentItemsRight .cartContentTotal span {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}

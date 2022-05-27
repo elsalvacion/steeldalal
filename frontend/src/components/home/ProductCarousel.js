@@ -50,7 +50,7 @@ const ProductCarousel = () => {
           margin: "0 auto",
           // marginBottom: 3,
         }}
-        onClick={() => history.push("/product")}
+        onClick={() => history.push("/products")}
       >
         ALL PRODUCTS
       </Button>
@@ -171,7 +171,7 @@ const ProductCarousel = () => {
           margin: "0 auto",
           marginBottom: 10,
         }}
-        onClick={() => history.push("/product")}
+        onClick={() => history.push("/products")}
       >
         ALL PRODUCTS
       </Button>

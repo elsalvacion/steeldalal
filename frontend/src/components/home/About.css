@@ -7,10 +7,11 @@
 
 .aboutLeft {
   flex: 1;
+  padding: 20px;
 }
 .aboutRight {
   flex: 1;
-  padding: 40px;
+  padding: 20px;
   min-height: 400px;
   text-align: center;
 }
@@ -32,6 +33,14 @@
   width: 100%;
   height: 100%;
 }
+.aboutAction {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.aboutAction button {
+  margin: 0 10px;
+}
 
 @media (max-width: 1000px) {
   .aboutContainer {
@@ -41,10 +50,6 @@
   .aboutRight,
   .aboutLeft {
     padding: 20px;
-  }
-
-  .aboutRight p {
-    font-size: 12px;
   }
 
   .aboutLeft iframe {
