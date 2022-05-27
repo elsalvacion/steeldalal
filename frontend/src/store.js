@@ -9,9 +9,10 @@ import {
 import { fetchCategoryReducer } from "./reducers/categoryReducer";
 import {
   addToCartReducer,
+  changeQtyReducer,
   deleteCartReducer,
-  editCartReducer,
   getCartReducer,
+  selectCartReducer,
 } from "./reducers/cartReducer";
 
 const reducers = combineReducers({
@@ -21,9 +22,10 @@ const reducers = combineReducers({
   fetchCategories: fetchCategoryReducer,
   singleProduct: singleProductReducer,
   addCart: addToCartReducer,
-  editCart: editCartReducer,
+  changeQty: changeQtyReducer,
   deleteCart: deleteCartReducer,
   getCart: getCartReducer,
+  selectCart: selectCartReducer,
 });
 
 const middleware = [thunk];

@@ -10,7 +10,11 @@ const CartScreen = () => {
       {keys.length > 0 ? (
         <CartContent keys={keys} cart={cart} />
       ) : (
-        <Typography variant="h6">No Items in your cart</Typography>
+        <>
+          <br />
+          <Typography variant="h6">No Items in your cart</Typography>
+          <br />
+        </>
       )}
     </Container>
   );

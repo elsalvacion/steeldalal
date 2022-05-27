@@ -76,7 +76,7 @@ const Nav = () => {
           {/* nav links */}
           <div className="navLinks">
             {navLink.map((link) =>
-              link.title.includes("#") === -1 ? (
+              link.path.includes("#") === -1 ? (
                 <Link className="navLink" key={link.title} to={link.path}>
                   {link.title}
                 </Link>
@@ -105,7 +105,7 @@ const Nav = () => {
           </IconButton>
           {userInfo && (
             <IconButton
-              title="account"
+              title="logout"
               onClick={() => dispatch(logoutUser())}
               color="primary"
             >

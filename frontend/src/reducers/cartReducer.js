@@ -3,18 +3,22 @@ import {
   ADD_CART_LOADING,
   ADD_CART_RESET,
   ADD_CART_SUCCESS,
+  CHANGE_QTY_ERROR,
+  CHANGE_QTY_LOADING,
+  CHANGE_QTY_RESET,
+  CHANGE_QTY_SUCCESS,
   DELETE_CART_ERROR,
   DELETE_CART_LOADING,
   DELETE_CART_RESET,
   DELETE_CART_SUCCESS,
-  EDIT_CART_ERROR,
-  EDIT_CART_LOADING,
-  EDIT_CART_RESET,
-  EDIT_CART_SUCCESS,
   GET_CART_ERROR,
   GET_CART_LOADING,
   GET_CART_RESET,
   GET_CART_SUCCESS,
+  SELECT_CART_ITEM_ERROR,
+  SELECT_CART_ITEM_LOADING,
+  SELECT_CART_ITEM_RESET,
+  SELECT_CART_ITEM_SUCCESS,
 } from "./types/cartTypes";
 
 export const getCartReducer = (state = {}, action) => {
@@ -57,21 +61,42 @@ export const addToCartReducer = (state = {}, action) => {
   }
 };
 
-export const editCartReducer = (state = {}, action) => {
+export const changeQtyReducer = (state = {}, action) => {
   switch (action.type) {
-    case EDIT_CART_LOADING:
+    case CHANGE_QTY_LOADING:
       return {
         loading: true,
       };
-    case EDIT_CART_SUCCESS:
+    case CHANGE_QTY_SUCCESS:
       return {
         success: true,
       };
-    case EDIT_CART_ERROR:
+    case CHANGE_QTY_ERROR:
       return {
         error: action.payload,
       };
-    case EDIT_CART_RESET:
+    case CHANGE_QTY_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const selectCartReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SELECT_CART_ITEM_LOADING:
+      return {
+        loading: true,
+      };
+    case SELECT_CART_ITEM_SUCCESS:
+      return {
+        success: true,
+      };
+    case SELECT_CART_ITEM_ERROR:
+      return {
+        error: action.payload,
+      };
+    case SELECT_CART_ITEM_RESET:
       return {};
     default:
       return state;
