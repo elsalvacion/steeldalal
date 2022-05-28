@@ -12,7 +12,7 @@ const ProfileScreen = () => {
   return (
     <Container>
       <br />
-      <Typography variant="h4" component="h4">
+      <Typography variant="h5" component="h5">
         Profile
       </Typography>
       <br />
