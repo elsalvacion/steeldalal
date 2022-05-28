@@ -3,6 +3,7 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import thunk from "redux-thunk";
 import { loginReducer, verifyEmailReducer } from "./reducers/authReducer";
 import {
+  allProductsReducer,
   latestProductReducer,
   singleProductReducer,
 } from "./reducers/productReducer";
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   latestProduct: latestProductReducer,
   fetchCategories: fetchCategoryReducer,
   singleProduct: singleProductReducer,
+  allProducts: allProductsReducer,
   addCart: addToCartReducer,
   changeQty: changeQtyReducer,
   deleteCart: deleteCartReducer,

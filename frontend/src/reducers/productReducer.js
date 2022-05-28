@@ -1,4 +1,8 @@
 import {
+  ALL_PRODUCT_ERROR,
+  ALL_PRODUCT_LOADING,
+  ALL_PRODUCT_RESET,
+  ALL_PRODUCT_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_RESET,
@@ -24,6 +28,27 @@ export const latestProductReducer = (state = {}, action) => {
         error: action.payload,
       };
     case LATEST_PRODUCT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const allProductsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ALL_PRODUCT_LOADING:
+      return {
+        loading: true,
+      };
+    case ALL_PRODUCT_SUCCESS:
+      return {
+        products: action.payload,
+      };
+    case ALL_PRODUCT_ERROR:
+      return {
+        error: action.payload,
+      };
+    case ALL_PRODUCT_RESET:
       return {};
     default:
       return state;

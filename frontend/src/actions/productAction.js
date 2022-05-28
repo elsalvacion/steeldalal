@@ -1,5 +1,8 @@
 // import axios from 'axios'
 import {
+  ALL_PRODUCT_ERROR,
+  ALL_PRODUCT_LOADING,
+  ALL_PRODUCT_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_SUCCESS,
@@ -41,6 +44,36 @@ export const latestProductsAction = () => async (dispatch) => {
     });
   }
 };
+
+export const fetchAllProductsAction =
+  (category = null) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PRODUCT_LOADING });
+      let postData;
+      if (category) {
+        postData = {
+          category,
+        };
+      } else {
+        postData = {};
+      }
+      const { data } = await axios.post("/product/category", postData, {
+        "Content-Type": "application/json",
+      });
+
+      dispatch({
+        type: ALL_PRODUCT_SUCCESS,
+        payload: data.msg,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: ALL_PRODUCT_ERROR,
+        payload: error.response.data.msg,
+      });
+    }
+  };
 
 export const fetchSingleProductsAction = (id) => async (dispatch) => {
   try {

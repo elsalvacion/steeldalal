@@ -113,6 +113,29 @@ router.post("/latest", (req, res) => {
   }
 });
 
+router.post("/category", (req, res) => {
+  try {
+    const sql = `
+    select * from products where category = ? order by createdAt desc limit 25;
+    `;
+    connection.query(
+      sql,
+      [req.body.category],
+      (fetchProductsErr, fetchProductsRes) => {
+        if (fetchProductsErr) {
+          console.log(fetchProductsErr);
+          res.status(400).json({ msg: "Error while fetching products" });
+        } else {
+          res.json({ msg: fetchProductsRes });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 router.get("/:id", (req, res) => {
   try {
     connection.query(
