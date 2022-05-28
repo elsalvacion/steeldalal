@@ -1,4 +1,6 @@
-const mysql = require("mysql");
+// const mysql = require("mysql");
+const mysql = require("mysql2");
+
 let connection;
 try {
   connection = mysql.createConnection({
@@ -8,11 +10,12 @@ try {
     password: process.env.DB_PASS,
     multipleStatements: true,
   });
+  console.log("Connected!");
 
-  connection.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-  });
+  // connection.connect(function (err) {
+  //   if (err) throw err;
+  //   console.log("Connected!");
+  // });
 } catch (error) {
   console.log(error);
 }
