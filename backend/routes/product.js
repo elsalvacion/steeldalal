@@ -51,20 +51,32 @@ router.post("/", (req, res) => {
 
 router.post("/upload", (req, res) => {
   try {
-    const file = req.files.file;
-    file.name = `${nanoid()}${path.parse(file.name).ext}`;
+    const files = req.files;
+    const fileKeys = Object.keys(req.files);
+    const images = [];
+    const uploadPath = path.join(path.resolve(), "public", "uploads");
     if (!req.files) {
-      res.status(400).json({ msg: `Please upload a file` });
-    } else if (file.size > process.env.FILE_SIZE) {
-      res.status(400).json({ msg: `File size greater than 5MB` });
-    } else {
-      file.mv(`${process.env.FILE_PATH}/${file.name}`, async (err) => {
+      res.status(400).json({ msg: `Please upload a files` });
+    }
+
+    fileKeys.forEach((fileKey, i) => {
+      const file = files[fileKey];
+      const id = nanoid();
+      file.name = `${id}${path.parse(file.name).ext}`;
+
+      file.mv(`${uploadPath}/${file.name}`, async (err) => {
         if (err) {
           console.log(err);
           res.status(400).json({ msg: "Error while uploading file" });
-        } else res.json({ msg: `${process.env.FILE_PATH}/${file.name}` });
+        } else {
+          images.push({
+            id,
+            image: `uploads/${file.name}`,
+          });
+          if (i === fileKeys.length - 1) res.json({ msg: images });
+        }
       });
-    }
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });
