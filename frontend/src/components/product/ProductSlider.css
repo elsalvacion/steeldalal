@@ -4,6 +4,6 @@
 
 .productSliderImage {
   width: 100%;
-  min-height: 55vh;
+  height: 100%;
   object-fit: cover;
 }

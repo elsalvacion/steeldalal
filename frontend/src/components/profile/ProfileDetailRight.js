@@ -2,60 +2,58 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Typography,
+  Button,
 } from "@mui/material";
 import React from "react";
 import "./ProfileDetailRight.css";
-import {
-  Edit,
-  Email,
-  LocalPhone,
-  LocationCity,
-  Person,
-} from "@mui/icons-material";
-const ProfileDetailRight = ({ userInfo }) => {
+import { Add } from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
+import { ChevronRightOutlined } from "@mui/icons-material";
+
+const ProfileDetailRight = () => {
+  const history = useHistory();
   return (
     <div>
       <div className="ProfileDetailRightHeader">
         <Typography variant="h6" component="h6">
-          Shipping Info
+          Recent Products
         </Typography>
-        <IconButton color="primary">
-          <Edit />
+        <IconButton
+          onClick={() => history.push("/create-product")}
+          color="primary"
+        >
+          <Add />
         </IconButton>
       </div>
       <br />
       <List>
         <ListItem>
-          <ListItemIcon>
-            <Person />
-          </ListItemIcon>
-          <ListItemText>{userInfo.name}</ListItemText>
+          <ListItemText></ListItemText>
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>
-            <Email />
-          </ListItemIcon>
-          <ListItemText>{userInfo.email}</ListItemText>
+          <ListItemText></ListItemText>
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>
-            <LocalPhone />
-          </ListItemIcon>
-          <ListItemText>+664646464684</ListItemText>
+          <ListItemText></ListItemText>
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>
-            <LocationCity />
-          </ListItemIcon>
-          <ListItemText>IUT,Dhaka.</ListItemText>
+          <ListItemText></ListItemText>
         </ListItem>
       </List>
+
+      <br />
+      <Button
+        endIcon={<ChevronRightOutlined />}
+        variant="contained"
+        color="primary"
+      >
+        Manage Products
+      </Button>
     </div>
   );
 };

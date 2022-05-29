@@ -17,7 +17,7 @@ const ProfileDetailContainer = ({ userInfo }) => {
       <div className="profileDetailRight">
         <Card sx={{ width: "100%", height: "100%" }} elevation={1}>
           <CardContent>
-            <ProfileDetailRight userInfo={userInfo} />
+            <ProfileDetailRight />
           </CardContent>
         </Card>
       </div>

@@ -9,6 +9,8 @@ import "./ProductDescription.css";
 import { useDispatch } from "react-redux";
 import { addToCartAction } from "../../actions/cartAction";
 import ChangeQuantity from "../layout/ChangeQuantity";
+// import { products } from "../../constants/products";
+import ProductSlider from "../product/ProductSlider";
 
 const ProductDescription = ({ details }) => {
   const dispatch = useDispatch();
@@ -25,36 +27,44 @@ const ProductDescription = ({ details }) => {
 
   return (
     <div className="productDesContainer">
-      <Typography variant="h5" component="h5">
-        {details.title}
-      </Typography>
-      <br />
-      <br />
-      <div className="productDesPrice">
-        <sup>
-          <CurrencyRupeeSharp />
-        </sup>
-        <Typography>{details.price}</Typography>
+      <div className="productDesContentTop">
+        <ProductSlider image={details.image} />
+        <div className="productDesContentTopRight">
+          <Typography variant="h6" component="h6">
+            {details.title}
+          </Typography>
+          <br />
+          <div className="productDesPrice">
+            <sup>
+              <CurrencyRupeeSharp />
+            </sup>
+            <Typography>{details.price}</Typography>
+          </div>
+          <br />
+          <Rating
+            name="read-only"
+            value={details.rating}
+            readOnly
+            size="large"
+          />
+          <br />
+          <br />
+          <Typography>
+            <b>Brand: </b>
+            {details.brand}
+          </Typography>
+          <br />
+          <Typography>
+            <b>Category: </b>
+            {details.category}
+          </Typography>
+          <br />
+          <Typography>
+            <b>Type: </b>
+            {details.type}
+          </Typography>
+        </div>
       </div>
-      <br />
-      <Rating name="read-only" value={details.rating} readOnly size="large" />
-      <br />
-      <br />
-      <Typography>
-        <b>Brand: </b>
-        {details.brand}
-      </Typography>
-      <br />
-      <Typography>
-        <b>Category: </b>
-        {details.category}
-      </Typography>
-      <br />
-      <Typography>
-        <b>Type: </b>
-        {details.type}
-      </Typography>
-      <br />
       <Typography>
         <b>Description: </b>
         {details.details}

@@ -9,7 +9,7 @@
   margin: 7px;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 900px) {
   .profileDetailContainer {
     flex-direction: column;
   }

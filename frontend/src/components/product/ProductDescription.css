@@ -1,12 +1,23 @@
 .productDesContainer {
+  padding: 10px;
+}
+
+.productDesContentTop {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 10px;
+}
+.productDesContentTopRight {
   flex: 1;
-  padding: 20px;
+  padding: 10px 20px;
 }
 
 .productDesContainer p {
   font-weight: lighter;
+  text-transform: capitalize;
+  margin: 10px 0;
 }
-.productDesContainer h5 {
+.productDesContentTopRight h6 {
   text-transform: capitalize;
 }
 
@@ -33,4 +44,21 @@
 }
 .productDesAction button {
   margin: 0 3px;
+}
+
+@media (max-width: 950px) {
+  .productDesContentTop {
+    flex-direction: column;
+  }
+  .productDesPrice p {
+    font-size: 20px;
+  }
+
+  .productDesContainer h6 {
+    font-size: 22px;
+  }
+  .productDesContentTopRight {
+    flex: 1;
+    padding: 10px;
+  }
 }

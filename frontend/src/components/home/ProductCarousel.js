@@ -41,7 +41,7 @@ const ProductCarousel = () => {
       handleClose={() => dispatch({ type: LATEST_PRODUCT_RESET })}
     />
   ) : products ? (
-    <div>
+    <div id="products">
       <Button
         variant="contained"
         endIcon={<ChevronRight />}

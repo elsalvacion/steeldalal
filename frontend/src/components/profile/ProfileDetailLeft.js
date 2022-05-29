@@ -8,7 +8,13 @@ import {
 } from "@mui/material";
 import React from "react";
 import "./ProfileDetailLeft.css";
-import { Edit, Email, Person } from "@mui/icons-material";
+import {
+  Edit,
+  Email,
+  LocalPhone,
+  LocationCity,
+  Person,
+} from "@mui/icons-material";
 const ProfileDetailLeft = ({ userInfo }) => {
   return (
     <div>
@@ -34,6 +40,20 @@ const ProfileDetailLeft = ({ userInfo }) => {
             <Email />
           </ListItemIcon>
           <ListItemText>{userInfo.email}</ListItemText>
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <LocalPhone />
+          </ListItemIcon>
+          <ListItemText>+664646464684</ListItemText>
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <LocationCity />
+          </ListItemIcon>
+          <ListItemText>IUT,Dhaka.</ListItemText>
         </ListItem>
       </List>
     </div>
