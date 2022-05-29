@@ -1,10 +1,5 @@
-import {
-  AccountCircle,
-  Home,
-  ShoppingCart,
-  GridView,
-} from "@mui/icons-material";
-import { IconButton, Badge } from "@mui/material";
+import { AccountCircle, Home, ShoppingCart, Apps } from "@material-ui/icons";
+import { IconButton, Badge } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -21,7 +16,7 @@ const MobileBottomFooter = () => {
         </IconButton>
 
         <IconButton color="primary" onClick={() => history.push("/category")}>
-          <GridView />
+          <Apps />
         </IconButton>
 
         <IconButton onClick={() => history.push("/cart")} color="primary">

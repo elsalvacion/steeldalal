@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./AllProductContent.css";
-import { Button, Typography } from "@mui/material";
-import { ChevronRightOutlined } from "@mui/icons-material";
+import { Button, Typography } from "@material-ui/core";
+import { ChevronRightOutlined } from "@material-ui/icons";
 import AllProductItem from "./AllProductItem";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+
 const AllProductContent = ({ category }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

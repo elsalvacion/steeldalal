@@ -4,7 +4,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import "./ProductCarouselShimmer.css";
 import { categories } from "../../constants/category";
 import { products } from "../../constants/products";
-import { ArrowForward, ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { ArrowForward, ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { ShimmerThumbnail, ShimmerTitle } from "react-shimmer-effects";
 
 const ProductCarouselShimmer = () => {

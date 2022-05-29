@@ -1,5 +1,5 @@
 import React from "react";
-import { SwipeableDrawer, Box } from "@mui/material";
+import { SwipeableDrawer, Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { navLink } from "../../constants/links";
 import "./SideDrawer.css";

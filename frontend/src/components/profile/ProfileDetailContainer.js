@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent } from "@material-ui/core";
 import React from "react";
 import "./ProfileDetailContainer.css";
 import ProfileDetailLeft from "./ProfileDetailLeft";

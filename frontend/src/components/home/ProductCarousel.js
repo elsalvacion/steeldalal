@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import "./ProductCarousel.css";
-import { ArrowForward, ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { ArrowForward, ChevronLeft, ChevronRight } from "@material-ui/icons";
 import ProductCarouselShimmer from "../../shimmers/home/ProductCarouselShimmer";
 import CustomAlert from "../layout/CustomAlert";
 import { LATEST_PRODUCT_RESET } from "../../reducers/types/productTypes";
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { latestProductsAction } from "../../actions/productAction";
 import ProductCarouselItem from "./ProductCarouselItem";
 import { useHistory } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button } from "@material-ui/core";
 
 const ProductCarousel = () => {
   const { loading, error, products } = useSelector(

@@ -1,8 +1,8 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Typography } from "@material-ui/core";
 import "./HowItWorks.css";
-import styled from "@emotion/styled";
 import Zoom from "react-reveal/Zoom";
+import styled from "styled-components";
 
 const Offer = styled.div`
   display: flex;

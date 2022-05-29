@@ -1,13 +1,18 @@
-import { Button, Grid, Hidden, IconButton, Typography } from "@mui/material";
+import {
+  Button,
+  Grid,
+  Hidden,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./CartContent.css";
 import {
   ArrowBack,
   ChevronLeftOutlined,
   ChevronRightOutlined,
-  CurrencyRupee,
   Delete,
-} from "@mui/icons-material";
+} from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,6 +27,7 @@ import {
   SELECT_CART_ITEM_RESET,
 } from "../../reducers/types/cartTypes";
 import CustomAlert from "../layout/CustomAlert";
+import { FaRupeeSign } from "react-icons/fa";
 
 const CartContent = ({ keys, cart }) => {
   const history = useHistory();
@@ -151,7 +157,7 @@ const CartContent = ({ keys, cart }) => {
                 </Grid>
                 <Grid item xs={3} sm={2}>
                   <p className="cartItemPrice">
-                    <CurrencyRupee />
+                    <FaRupeeSign />
                     {cart[key].price}
                   </p>
                 </Grid>
@@ -214,21 +220,21 @@ const CartContent = ({ keys, cart }) => {
               <div className="cartContentSubTotal">
                 <Typography>Subtotal ({selectedTotal} items)</Typography>
                 <Typography component="span">
-                  <CurrencyRupee />
+                  <FaRupeeSign />
                   {subTotal.toFixed(2)}
                 </Typography>
               </div>
               <div className="cartContentSubTotal">
                 <Typography>Shipping Fee</Typography>
                 <Typography component="span">
-                  <CurrencyRupee />
+                  <FaRupeeSign />
                   {(200).toFixed(2)}
                 </Typography>
               </div>
               <div className="cartContentTotal">
                 <Typography>Total</Typography>
                 <Typography component="span">
-                  <CurrencyRupee />
+                  <FaRupeeSign />
                   {subTotal === 0 ? 0 : (subTotal + 200).toFixed(2)}
                 </Typography>
               </div>
@@ -246,21 +252,21 @@ const CartContent = ({ keys, cart }) => {
             <div className="fixedCartSummaryLeftSubtotal">
               <p>Subtotal ({selectedTotal} items)</p>
               <p className="fixedCartSummaryPrice">
-                <CurrencyRupee sx={{ marginRight: 0.5, marginLeft: 3 }} />
+                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
                 {subTotal.toFixed(2)}
               </p>
             </div>
             <div className="fixedCartSummaryLeftSubtotal">
               <p>Shipping Fee</p>
               <p className="fixedCartSummaryPrice">
-                <CurrencyRupee sx={{ marginRight: 0.5, marginLeft: 3 }} />
+                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
                 {(200).toFixed(2)}
               </p>
             </div>
             <div className="fixedCartSummaryLeftSubtotal">
               <p>Total</p>
               <p className="fixedCartSummaryPrice">
-                <CurrencyRupee sx={{ marginRight: 0.5, marginLeft: 3 }} />
+                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
                 {subTotal === 0 ? (0).toFixed(2) : (subTotal + 200).toFixed(2)}
               </p>
             </div>

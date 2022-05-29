@@ -5,12 +5,11 @@ import {
   ListItemText,
   Typography,
   Button,
-} from "@mui/material";
+} from "@material-ui/core";
 import React from "react";
 import "./ProfileDetailRight.css";
-import { Add } from "@mui/icons-material";
+import { Add, ChevronRightOutlined } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-import { ChevronRightOutlined } from "@mui/icons-material";
 
 const ProfileDetailRight = () => {
   const history = useHistory();

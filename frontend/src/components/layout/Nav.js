@@ -1,4 +1,4 @@
-import { Badge, IconButton } from "@mui/material";
+import { Badge, IconButton } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { navLink } from "../../constants/links";
@@ -9,9 +9,9 @@ import {
   Search as SearchIcon,
   AccountCircle,
   ShoppingCart,
-  GridView,
-  Logout,
-} from "@mui/icons-material";
+  Apps,
+  ExitToApp,
+} from "@material-ui/icons";
 import SideDrawer from "./SideDrawer";
 import MobileSearch from "./MobileSearch";
 import { HashLink } from "react-router-hash-link";
@@ -43,7 +43,7 @@ const Nav = () => {
               title="categories"
               color="primary"
             >
-              <GridView />
+              <Apps />
             </IconButton>
             <IconButton
               onClick={() => history.push("/cart")}
@@ -63,11 +63,11 @@ const Nav = () => {
             </IconButton>
             {userInfo && (
               <IconButton
-                title="account"
+                title="logout"
                 onClick={() => dispatch(logoutUser())}
                 color="primary"
               >
-                <Logout />
+                <ExitToApp />
               </IconButton>
             )}
           </div>
@@ -109,7 +109,7 @@ const Nav = () => {
               onClick={() => dispatch(logoutUser())}
               color="primary"
             >
-              <Logout />
+              <ExitToApp />
             </IconButton>
           )}
         </div>

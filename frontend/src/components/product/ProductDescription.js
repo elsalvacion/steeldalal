@@ -1,9 +1,6 @@
-import {
-  CurrencyRupeeSharp,
-  ShoppingCartCheckout,
-  ShoppingBag,
-} from "@mui/icons-material";
-import { Button, Rating, Typography } from "@mui/material";
+import { ShoppingCart, LocalMall } from "@material-ui/icons";
+import { Button, Typography } from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
 import React, { useState } from "react";
 import "./ProductDescription.css";
 import { useDispatch } from "react-redux";
@@ -11,6 +8,7 @@ import { addToCartAction } from "../../actions/cartAction";
 import ChangeQuantity from "../layout/ChangeQuantity";
 // import { products } from "../../constants/products";
 import ProductSlider from "../product/ProductSlider";
+import { FaRupeeSign } from "react-icons/fa";
 
 const ProductDescription = ({ details }) => {
   const dispatch = useDispatch();
@@ -36,7 +34,7 @@ const ProductDescription = ({ details }) => {
           <br />
           <div className="productDesPrice">
             <sup>
-              <CurrencyRupeeSharp />
+              <FaRupeeSign />
             </sup>
             <Typography>{details.price}</Typography>
           </div>
@@ -85,7 +83,7 @@ const ProductDescription = ({ details }) => {
       <br />
       <br />
       <div className="productDesAction">
-        <Button variant="contained" color="primary" endIcon={<ShoppingBag />}>
+        <Button variant="contained" color="primary" endIcon={<LocalMall />}>
           BUY NOW
         </Button>
         <Button
@@ -98,7 +96,7 @@ const ProductDescription = ({ details }) => {
               })
             )
           }
-          endIcon={<ShoppingCartCheckout />}
+          endIcon={<ShoppingCart />}
           variant="contained"
           color="inherit"
         >

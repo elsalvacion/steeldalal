@@ -1,7 +1,7 @@
 import React from "react";
-import { CurrencyRupee } from "@mui/icons-material";
+import { FaRupeeSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Typography } from "@mui/material";
+import { Typography } from "@material-ui/core";
 const ProductCarouselItem = ({ product }) => {
   const handleDragStart = (e) => e.preventDefault();
   return (
@@ -17,7 +17,7 @@ const ProductCarouselItem = ({ product }) => {
           {product.title}
         </Typography>
         <Typography component="p" noWrap>
-          <CurrencyRupee fontSize="sm" />
+          <FaRupeeSign />
           {product.price}
         </Typography>
       </div>

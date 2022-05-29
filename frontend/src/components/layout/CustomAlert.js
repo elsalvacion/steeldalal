@@ -1,6 +1,7 @@
 import * as React from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import { Alert, Box, IconButton, Collapse } from "@mui/material";
+import CloseIcon from "@material-ui/icons/Close";
+import { Box, IconButton, Collapse } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 const CustomAlert = ({ text, type, handleClose }) => {
   return (

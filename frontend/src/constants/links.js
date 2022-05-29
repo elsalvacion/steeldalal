@@ -1,4 +1,4 @@
-import { Facebook, Instagram, LinkedIn } from "@mui/icons-material";
+import { Facebook, Instagram, LinkedIn } from "@material-ui/icons";
 export const navLink = [
   {
     title: "Home",

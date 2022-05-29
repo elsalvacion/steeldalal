@@ -1,25 +1,24 @@
-import { Alert, Snackbar, Stack } from "@mui/material";
+import { Snackbar, Stack } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+
 import React from "react";
 
 const CustomSnack = ({ type, text, handleClose }) => {
   return (
-    <Stack spacing={2} sx={{ width: "100%" }}>
-      <Snackbar
-        open={true}
-        autoHideDuration={type === "error" ? 30000 : 5000}
+    <Snackbar
+      open={true}
+      autoHideDuration={type === "error" ? 30000 : 5000}
+      onClose={handleClose}
+    >
+      <Alert
+        variant="filled"
         onClose={handleClose}
+        severity={type}
+        sx={{ width: "100%" }}
       >
-        <Alert
-          variant="filled"
-          onClose={handleClose}
-          severity={type}
-          sx={{ width: "100%" }}
-        >
-          {text}
-        </Alert>
-      </Snackbar>
-      =
-    </Stack>
+        {text}
+      </Alert>
+    </Snackbar>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import "./TopBreadCrum.css";
-import { Breadcrumbs } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Breadcrumbs } from "@material-ui/core";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { Link } from "react-router-dom";
 const TopBreadCrum = ({ product }) => {
   const breadcrumbs = [
