@@ -1,3 +1,56 @@
 .createProductFormRight {
   flex: 1;
+  padding: 15px;
+}
+
+.createProductFormRight label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.createProductFormRight input,
+select,
+textarea {
+  display: block;
+  padding: 5px;
+  border: 1px solid #565656;
+  outline: 0;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+  background: 0;
+}
+.createProductFormRight input:focus,
+select:focus,
+textarea:focus {
+  outline: 1px solid #232323;
+}
+
+.createProductFormRight textarea {
+  min-height: 100px;
+  resize: none;
+}
+
+.createProductFormRight div {
+  margin-bottom: 15px;
+  margin: 3px 5px;
+}
+
+.createProductFormTypeAndContainer {
+  display: flex;
+  align-items: stretch;
+}
+.createProductFormType,
+.createProductFormBrand {
+  flex: 1;
+}
+
+.createProductFormPrices {
+  display: flex;
+  align-items: stretch;
+}
+
+.createProductFormPrices div {
+  flex: 1;
 }

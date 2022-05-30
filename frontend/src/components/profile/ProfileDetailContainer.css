@@ -7,6 +7,9 @@
 .profileDetailRight {
   flex: 1;
   margin: 7px;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 2px 2px 5px lightgray;
 }
 
 @media (max-width: 900px) {

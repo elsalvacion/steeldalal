@@ -1,0 +1,17 @@
+.ImagePreviewContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.previewImage {
+  max-height: 200px;
+  width: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .previewImage {
+    max-height: 150px;
+  }
+}

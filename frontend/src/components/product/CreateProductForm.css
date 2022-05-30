@@ -3,3 +3,9 @@
   display: flex;
   align-items: stretch;
 }
+
+@media (max-width: 900px) {
+  .createProductFormContainer {
+    flex-direction: column;
+  }
+}

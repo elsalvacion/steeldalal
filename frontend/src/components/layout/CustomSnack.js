@@ -1,4 +1,4 @@
-import { Snackbar, Stack } from "@material-ui/core";
+import { Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
 import React from "react";

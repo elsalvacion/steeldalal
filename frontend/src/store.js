@@ -4,8 +4,11 @@ import thunk from "redux-thunk";
 import { loginReducer, verifyEmailReducer } from "./reducers/authReducer";
 import {
   allProductsReducer,
+  createProductReducer,
   latestProductReducer,
+  productUploadReducer,
   singleProductReducer,
+  yourProductsReducer,
 } from "./reducers/productReducer";
 import { fetchCategoryReducer } from "./reducers/categoryReducer";
 import {
@@ -28,6 +31,9 @@ const reducers = combineReducers({
   deleteCart: deleteCartReducer,
   getCart: getCartReducer,
   selectCart: selectCartReducer,
+  uploadProduct: productUploadReducer,
+  createProduct: createProductReducer,
+  yourProduct: yourProductsReducer,
 });
 
 const middleware = [thunk];

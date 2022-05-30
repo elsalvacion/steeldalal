@@ -3,3 +3,8 @@
   align-items: center;
   justify-content: space-between;
 }
+.profileDetailRight img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}

@@ -1,6 +1,7 @@
 const connection = require("../config/db");
 const path = require("path");
 const { nanoid } = require("nanoid");
+const { userProtect } = require("../middlewares/protect");
 const router = require("express").Router();
 
 router.post("/", (req, res) => {
@@ -9,16 +10,15 @@ router.post("/", (req, res) => {
       title,
       discount,
       price,
-      rating,
       qty,
       category,
       type,
       brand,
       details,
-      image,
+      images,
     } = req.body;
 
-    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details, image) values(?,?,?,?,?,?,?,?, ?, ?)`;
+    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details, image) values(?,?,?,?,?,?,?,?, ?, ?); `;
 
     connection.query(
       sql,
@@ -26,20 +26,36 @@ router.post("/", (req, res) => {
         title,
         discount,
         price,
-        rating,
+        0,
         qty,
         category,
         type,
         brand,
         details,
-        image,
+        images[0].image,
       ],
       (createProductErr, createProductRes) => {
         if (createProductErr) {
           console.log(createProductErr);
           res.status(400).json({ msg: "Error while creating product" });
         } else {
-          res.json({ msg: "Product created" });
+          const productId = createProductRes.insertId;
+          let imagesQuery = "insert into images (product, image) values ";
+          images.forEach((image, i) => {
+            if (i !== images.length - 1) {
+              imagesQuery += ` (${productId}, "${image.image}"), `;
+            } else {
+              imagesQuery += ` (${productId}, "${image.image}");`;
+            }
+          });
+          connection.query(imagesQuery, (insertImagesErr, insertImagesRes) => {
+            if (insertImagesErr) {
+              console.log(insertImagesErr);
+              res.status(400).json({ msg: "Error while inserting images" });
+            } else {
+              res.json({ msg: "Product created" });
+            }
+          });
         }
       }
     );
@@ -87,6 +103,30 @@ router.get("/", (req, res) => {
   try {
     connection.query(
       `select * from products order by createdAt desc`,
+      (fetchProductsErr, fetchProductsRes) => {
+        if (fetchProductsErr) {
+          res.status(400).json({ msg: "Error while fetching products" });
+        } else {
+          res.json({ msg: fetchProductsRes });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+router.get("/your-products", userProtect, (req, res) => {
+  try {
+    let sql = `select * from products where user = ? order by createdAt desc`;
+
+    if (req.query.limit) {
+      sql += ` limit ${req.query.limit}`;
+    }
+    connection.query(
+      sql,
+      [req.user.id],
       (fetchProductsErr, fetchProductsRes) => {
         if (fetchProductsErr) {
           res.status(400).json({ msg: "Error while fetching products" });
