@@ -46,10 +46,6 @@ const ProductCarousel = () => {
         variant="contained"
         endIcon={<ChevronRight />}
         color="primary"
-        sx={{
-          margin: "0 auto",
-          // marginBottom: 3,
-        }}
         onClick={() => history.push("/products")}
       >
         ALL PRODUCTS
@@ -163,18 +159,6 @@ const ProductCarousel = () => {
           />
         </div>
       }
-      <Button
-        variant="contained"
-        endIcon={<ChevronRight />}
-        color="primary"
-        sx={{
-          margin: "0 auto",
-          marginBottom: 10,
-        }}
-        onClick={() => history.push("/products")}
-      >
-        ALL PRODUCTS
-      </Button>
     </div>
   ) : null;
 };

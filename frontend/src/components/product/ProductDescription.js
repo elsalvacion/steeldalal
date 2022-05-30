@@ -26,52 +26,46 @@ const ProductDescription = ({ details }) => {
   return (
     <div className="productDesContainer">
       <div className="productDesContentTop">
-        <ProductSlider image={details.image} />
+        <ProductSlider images={details.images} />
         <div className="productDesContentTopRight">
           <Typography variant="h6" component="h6">
             {details.title}
           </Typography>
-          <br />
           <div className="productDesPrice">
             <sup>
               <FaRupeeSign fontSize={22} />
             </sup>
-            <Typography>{details.price}</Typography>
+            <p>{details.price}</p>
           </div>
-          <br />
           <Rating
             name="read-only"
             value={details.rating}
             readOnly
             size="large"
           />
-          <br />
-          <br />
-          <Typography>
+
+          <p>
             <b>Brand: </b>
             {details.brand}
-          </Typography>
-          <br />
-          <Typography>
+          </p>
+          <p>
             <b>Category: </b>
             {details.category}
-          </Typography>
-          <br />
-          <Typography>
+          </p>
+          <p>
             <b>Type: </b>
             {details.type}
-          </Typography>
+          </p>
         </div>
       </div>
-      <Typography>
+      <p>
         <b>Description: </b>
         {details.details}
-      </Typography>
-      <br />
+      </p>
       <div className="productDesQty">
-        <Typography>
+        <p>
           <b>Quantity: </b>
-        </Typography>
+        </p>
         <ChangeQuantity
           handleChange={handleChange}
           handleDecrement={handleDecrement}

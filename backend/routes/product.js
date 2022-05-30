@@ -191,7 +191,9 @@ router.post("/category", (req, res) => {
 router.get("/:id", (req, res) => {
   try {
     connection.query(
-      `select products.*, images.image from products, images where products.id = ? and  images.product = ?`,
+      `select * from products where id = ? ;
+      select image from images where product = ? ;
+      `,
       [req.params.id, req.params.id],
       (fetchProductErr, fetchProductRes) => {
         if (fetchProductErr) {
@@ -199,12 +201,12 @@ router.get("/:id", (req, res) => {
           res.status(400).json({ msg: "Error while fetching product" });
         } else {
           const images = [];
-          if (fetchProductRes.length > 0) {
-            fetchProductRes.forEach((product) => images.push(product.image));
-          } else images.push(fetchProductRes[0].image);
+          if (fetchProductRes[1].length > 0) {
+            fetchProductRes[1].forEach((product) => images.push(product.image));
+          } else images.push(fetchProductRes[0][0].image);
           res.json({
             msg: {
-              ...fetchProductRes[0],
+              ...fetchProductRes[0][0],
               images,
             },
           });

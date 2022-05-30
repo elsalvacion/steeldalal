@@ -44,40 +44,34 @@ const items = [
 const ShowcaseCarousel = () => {
   return (
     <Carousel
-      height="50vh"
       indicators={false}
       navButtonsAlwaysVisible={true}
       cycleNavigation={true}
-      interval={4000}
+      interval={3000}
       fullHeightHover={true}
       animation="fade"
-      duration={700}
+      duration={400}
     >
       {items.map((item) => (
-        <Item key={item.id} item={item} />
+        <div
+          style={{
+            height: "55vh",
+          }}
+          key={item.id}
+        >
+          <img
+            src={item.img}
+            alt="steeldalal.com"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </div>
       ))}
     </Carousel>
   );
 };
 
-function Item({ item: { img } }) {
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <img
-        src={img}
-        alt="steeldalal.com"
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      />
-    </div>
-  );
-}
 export default ShowcaseCarousel;

@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./AllProductContent.css";
-import { Button, Typography } from "@material-ui/core";
 // import { ChevronRightOutlined } from "@material-ui/icons";
 // import AllProductItem from "./AllProductItem";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronRightOutlined,
-} from "@material-ui/icons";
+import { ArrowForward, ChevronLeft, ChevronRight } from "@material-ui/icons";
 import ProductCarouselItem from "../home/ProductCarouselItem";
 
 const AllProductContent = ({ category, idx }) => {
@@ -51,20 +46,15 @@ const AllProductContent = ({ category, idx }) => {
 
   return (
     <div className="allProductContentContainer">
-      <div className="allProductContentHeader">
-        <Typography variant="h6" component="h6">
-          {category}
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          endIcon={<ChevronRightOutlined />}
-          onClick={() => history.push(`category/${category}`)}
+      <div className="productCarouselContainer">
+        <button
+          onClick={() => history.push(`/category/${category}`)}
+          className="productCarouselTitle"
         >
-          More
-        </Button>
+          {category}
+          <ArrowForward />
+        </button>
       </div>
-
       <AliceCarousel
         mouseTracking
         items={items}

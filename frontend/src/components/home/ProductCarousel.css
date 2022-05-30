@@ -91,11 +91,11 @@
   align-items: center;
 }
 
-@media (max-width: 850px) {
+/* @media (max-width: 850px) {
   .carouselProductImage {
     height: 125px;
   }
-}
+} */
 
 @media (max-width: 600px) {
   .carouselProductCustomPrevBtn,
@@ -103,7 +103,7 @@
     display: none;
   }
 
-  .carouselProductImage {
+  /* .carouselProductImage {
     height: 100px;
-  }
+  } */
 }

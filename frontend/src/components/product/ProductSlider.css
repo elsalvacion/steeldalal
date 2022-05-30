@@ -7,3 +7,29 @@
   height: 100%;
   object-fit: cover;
 }
+
+.image-gallery {
+  width: 100%;
+  height: 350px;
+}
+
+.image-gallery-slide img {
+  width: 100%;
+  height: 350px;
+  max-height: 350px;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: center center;
+}
+
+@media (max-width: 600px) {
+  .image-gallery {
+    height: 200px;
+  }
+
+  .image-gallery-slide img {
+    width: 100%;
+    height: 200px;
+    max-height: 200px;
+  }
+}
