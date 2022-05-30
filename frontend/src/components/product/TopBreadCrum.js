@@ -3,13 +3,13 @@ import "./TopBreadCrum.css";
 import { Breadcrumbs } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { Link } from "react-router-dom";
-const TopBreadCrum = ({ product }) => {
+const TopBreadCrum = ({ product, category }) => {
   const breadcrumbs = [
     <Link to="/products" className="topBreadCrumLink">
       Products
     </Link>,
-    <Link to={`/category/${product.category}`} className="topBreadCrumLink">
-      {product.category}
+    <Link to={`/category/${category}`} className="topBreadCrumLink">
+      {category}
     </Link>,
   ];
   return (

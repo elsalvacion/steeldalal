@@ -44,7 +44,7 @@ const items = [
 const ShowcaseCarousel = () => {
   return (
     <Carousel
-      height="75vh"
+      height="50vh"
       indicators={false}
       navButtonsAlwaysVisible={true}
       cycleNavigation={true}
@@ -60,24 +60,23 @@ const ShowcaseCarousel = () => {
   );
 };
 
-function Item({ item: { img, title, description } }) {
+function Item({ item: { img } }) {
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
-        background: `url(${img})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
       }}
     >
-      {/* <div className='showcaseOverlay'>
-        <div className='showcaseContent'>
-            <h2>{title}</h2>
-            <p>{description}</p>
-        </div>
-        </div> */}
+      <img
+        src={img}
+        alt="steeldalal.com"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        }}
+      />
     </div>
   );
 }

@@ -26,12 +26,12 @@ const ProductCarousel = () => {
     ? products.firstData.map((product) => (
         <ProductCarouselItem product={product} key={product.id} />
       ))
-    : null;
+    : [];
   const secondItems = products
     ? products.secondData.map((product) => (
         <ProductCarouselItem product={product} key={product.id} />
       ))
-    : null;
+    : [];
   return loading ? (
     <ProductCarouselShimmer />
   ) : error ? (

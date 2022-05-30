@@ -12,7 +12,7 @@ const ProductDetailSection = ({ product }) => {
   const dispatch = useDispatch();
   return (
     <div>
-      <TopBreadCrum product={product} />
+      <TopBreadCrum product={product} category={product.category} />
       {addCartError && (
         <CustomSnack
           type="error"

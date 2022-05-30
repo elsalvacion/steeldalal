@@ -18,8 +18,12 @@ const AllProductScreen = () => {
       <Typography variant="h5">All Products</Typography>
       <AllProductContainer>
         {categories &&
-          categories.map((category) => (
-            <AllProductContent key={category.title} category={category.title} />
+          categories.map((category, i) => (
+            <AllProductContent
+              key={category.title}
+              idx={i}
+              category={category.title}
+            />
           ))}
       </AllProductContainer>
     </Container>

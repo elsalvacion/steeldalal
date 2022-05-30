@@ -88,7 +88,7 @@ const CartContent = ({ keys, cart }) => {
         variant="contained"
         startIcon={<ArrowBack />}
       >
-        Back
+        Products
       </Button>
       <br />
       <br />
@@ -212,7 +212,7 @@ const CartContent = ({ keys, cart }) => {
           </div>
         </Grid>
         <Grid item xs={12} md={4}>
-          <Hidden mdDown>
+          <Hidden smDown>
             <div className="cartContentRight">
               <Typography variant="h6" component="h6">
                 Order Summary

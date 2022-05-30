@@ -184,6 +184,7 @@ export const createProductAction = (details) => async (dispatch, getState) => {
 
     dispatch({
       type: CREATE_PRODUCT_SUCCESS,
+      payload: data.msg,
     });
   } catch (error) {
     console.log(error);

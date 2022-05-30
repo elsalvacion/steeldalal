@@ -34,7 +34,7 @@ const ProductDescription = ({ details }) => {
           <br />
           <div className="productDesPrice">
             <sup>
-              <FaRupeeSign />
+              <FaRupeeSign fontSize={22} />
             </sup>
             <Typography>{details.price}</Typography>
           </div>
