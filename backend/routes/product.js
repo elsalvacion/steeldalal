@@ -268,6 +268,7 @@ router.delete("/:id", (req, res) => {
       [req.params.id],
       (deleteProductErr, deleteProductRes) => {
         if (deleteProductErr) {
+          console.log(deleteProductErr);
           res.status(400).json({ msg: "Error while deleting product" });
         } else {
           res.json({ msg: deleteProductRes[0] });

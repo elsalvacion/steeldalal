@@ -12,9 +12,9 @@
   justify-content: center;
   align-items: center;
   background: #fff;
-  min-height: 250px;
   text-decoration: none;
   color: #2c2c2c;
+  padding: 100px 5px;
 }
 .categoryScreenCard:hover {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
@@ -27,7 +27,7 @@
 
 @media (max-width: 850px) {
   .categoryScreenCard {
-    height: 150px;
+    padding: 75px 5px;
   }
   .categoryScreenCard h4 {
     font-size: 20px;
@@ -41,5 +41,9 @@
 
   .categoryScreenCard h4 {
     font-size: 17px;
+  }
+
+  .categoryScreenCard {
+    padding: 50px 5px;
   }
 }

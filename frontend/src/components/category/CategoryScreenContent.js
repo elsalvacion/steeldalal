@@ -6,7 +6,7 @@ const CategoryScreenContent = ({ categories }) => {
   return (
     <div>
       <br />
-      <Typography variant="h5" component="h5">
+      <Typography variant="h6" component="h6">
         All Categories
       </Typography>
       <div className="categoryScreenContainer">

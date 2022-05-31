@@ -5,6 +5,7 @@ import { loginReducer, verifyEmailReducer } from "./reducers/authReducer";
 import {
   allProductsReducer,
   createProductReducer,
+  deleteProductReducer,
   latestProductReducer,
   productUploadReducer,
   singleProductReducer,
@@ -34,6 +35,7 @@ const reducers = combineReducers({
   uploadProduct: productUploadReducer,
   createProduct: createProductReducer,
   yourProduct: yourProductsReducer,
+  deleteProduct: deleteProductReducer,
 });
 
 const middleware = [thunk];

@@ -50,3 +50,13 @@ a {
     padding-bottom: 1000px;
   }
 }
+
+@media (max-width: 700px) {
+  h5,
+  h6,
+  h4,
+  h3,
+  h2 {
+    font-size: 16px;
+  }
+}

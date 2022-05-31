@@ -7,6 +7,10 @@ import {
   CREATE_PRODUCT_LOADING,
   CREATE_PRODUCT_RESET,
   CREATE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR,
+  DELETE_PRODUCT_LOADING,
+  DELETE_PRODUCT_RESET,
+  DELETE_PRODUCT_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_RESET,
@@ -145,6 +149,27 @@ export const createProductReducer = (state = {}, action) => {
         error: action.payload,
       };
     case CREATE_PRODUCT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const deleteProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_PRODUCT_LOADING:
+      return {
+        loading: true,
+      };
+    case DELETE_PRODUCT_SUCCESS:
+      return {
+        success: true,
+      };
+    case DELETE_PRODUCT_ERROR:
+      return {
+        error: action.payload,
+      };
+    case DELETE_PRODUCT_RESET:
       return {};
     default:
       return state;

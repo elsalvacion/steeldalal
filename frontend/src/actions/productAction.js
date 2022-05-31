@@ -6,6 +6,9 @@ import {
   CREATE_PRODUCT_ERROR,
   CREATE_PRODUCT_LOADING,
   CREATE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR,
+  DELETE_PRODUCT_LOADING,
+  DELETE_PRODUCT_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_SUCCESS,
@@ -190,6 +193,34 @@ export const createProductAction = (details) => async (dispatch, getState) => {
     console.log(error);
     dispatch({
       type: CREATE_PRODUCT_ERROR,
+      payload: error.response.data.msg,
+    });
+  }
+};
+
+export const deleteProductAction = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: DELETE_PRODUCT_LOADING });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${userInfo.token}`,
+    };
+
+    const { data } = await axios.delete(`/product/${id}`, config);
+
+    dispatch({
+      type: DELETE_PRODUCT_SUCCESS,
+      payload: data.msg,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: DELETE_PRODUCT_ERROR,
       payload: error.response.data.msg,
     });
   }

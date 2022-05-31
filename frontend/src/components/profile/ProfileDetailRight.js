@@ -80,6 +80,7 @@ const ProfileDetailRight = () => {
         endIcon={<ChevronRightOutlined />}
         variant="contained"
         color="primary"
+        onClick={() => history.push(`/manage-product`)}
       >
         Manage Products
       </Button>

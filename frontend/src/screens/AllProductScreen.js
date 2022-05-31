@@ -14,9 +14,9 @@ const AllProductScreen = () => {
   }, [categories, dispatch]);
   return (
     <Container>
-      <br />
-      <Typography variant="h5">All Products</Typography>
+      {/* <br /> */}
       <AllProductContainer>
+        <Typography variant="h5">All Steels & Metals</Typography>
         {categories &&
           categories.map((category, i) => (
             <AllProductContent

@@ -6,7 +6,7 @@ export const navLink = [
   },
   {
     title: "Products",
-    path: "/#products",
+    path: "/products",
   },
   {
     title: "About",

@@ -15,6 +15,8 @@ import SingleCategoryScreen from "./screens/SingleCategoryScreen";
 import AllProductScreen from "./screens/AllProductScreen";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import CreateProductScreen from "./screens/CreateProductScreen";
+import ManageProductScreen from "./screens/ManageProductScreen";
+import EditProductScreen from "./screens/EditProductScreen";
 
 const App = () => {
   return (
@@ -31,6 +33,16 @@ const App = () => {
                 exact
                 path="/create-product"
                 component={CreateProductScreen}
+              />
+              <Route
+                exact
+                path="/manage-product"
+                component={ManageProductScreen}
+              />
+              <Route
+                exact
+                path="/edit-product/:id"
+                component={EditProductScreen}
               />
               <Route exact path="/product/:id" component={ProductScreen} />
               <Route exact path="/login" component={LoginScreen} />
