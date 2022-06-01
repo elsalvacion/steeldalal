@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CreateProductFormLeft.css";
 import { DropzoneArea } from "material-ui-dropzone";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { productUploadAction } from "../../actions/productAction";
 import CustomAlert from "../layout/CustomAlert";

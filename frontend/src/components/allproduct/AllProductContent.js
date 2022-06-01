@@ -6,7 +6,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { ArrowForward, ChevronLeft, ChevronRight } from "@material-ui/icons";
+import { ArrowForward, ChevronLeft, ChevronRight } from "@mui/icons-material";
 import ProductCarouselItem from "../home/ProductCarouselItem";
 
 const AllProductContent = ({ category, idx }) => {

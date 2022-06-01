@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./EmailLogin.css";
 import { useDispatch } from "react-redux";
 import { loginUser, registerUser } from "../../actions/authAction";
+import { Button } from "@mui/material";
 // import {Close, Check} from '@mui/icons-material'
 const EmailLogin = ({ text }) => {
   const [email, setEmail] = useState("");
@@ -80,9 +81,14 @@ const EmailLogin = ({ text }) => {
           </ul>
         } */}
 
-      <button className="loginSubmitBtn" type="submit">
+      <Button
+        color="primary"
+        variant="contained"
+        className="loginSubmitBtn"
+        type="submit"
+      >
         {text}
-      </button>
+      </Button>
     </form>
   );
 };

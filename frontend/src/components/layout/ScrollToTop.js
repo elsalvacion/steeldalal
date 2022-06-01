@@ -1,6 +1,6 @@
 import React from "react";
-import { Fab, useScrollTrigger, Zoom } from "@material-ui/core";
-import { KeyboardArrowUp } from "@material-ui/icons";
+import { Fab, useScrollTrigger, Zoom } from "@mui/material";
+import { KeyboardArrowUp } from "@mui/icons-material";
 import "./ScrollToTop.css";
 
 function ScrollToTop(props) {

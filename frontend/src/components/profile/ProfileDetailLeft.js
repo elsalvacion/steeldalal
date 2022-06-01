@@ -5,7 +5,7 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 import "./ProfileDetailLeft.css";
 import {
@@ -14,7 +14,7 @@ import {
   LocalPhone,
   LocationCity,
   Person,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 const ProfileDetailLeft = ({ userInfo }) => {
   return (
     <div>

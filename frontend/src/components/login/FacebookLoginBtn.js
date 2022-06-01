@@ -1,7 +1,7 @@
 import React from "react";
 import "./FacebookLoginBtn.css";
 import FacebookLogin from "react-facebook-login";
-import FacebookIcon from "@material-ui/icons/Facebook";
+import FacebookIcon from "@mui/icons-material/Facebook";
 const FacebookLoginBtn = ({ text }) => {
   const responseFacebook = (response) => {
     console.log(response);
@@ -9,7 +9,7 @@ const FacebookLoginBtn = ({ text }) => {
   return (
     <div className="facebookLoginContainer">
       <FacebookLogin
-        appId="395661519114695"
+        appId={process.env.REACT_APP_FACEBOOK_LOGIN}
         autoLoad={false}
         fields="name,email,picture"
         callback={responseFacebook}

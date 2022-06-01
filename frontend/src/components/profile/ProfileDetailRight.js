@@ -6,10 +6,10 @@ import {
   Typography,
   Button,
   ListItemIcon,
-} from "@material-ui/core";
+} from "@mui/material";
 import React, { useEffect } from "react";
 import "./ProfileDetailRight.css";
-import { Add, ChevronRightOutlined } from "@material-ui/icons";
+import { Add, ChevronRightOutlined } from "@mui/icons-material";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchYourProductsAction } from "../../actions/productAction";

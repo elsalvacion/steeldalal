@@ -1,5 +1,5 @@
-import { ChevronLeftOutlined, ChevronRightOutlined } from "@material-ui/icons";
-import { IconButton, Typography } from "@material-ui/core";
+import { ChevronLeftOutlined, ChevronRightOutlined } from "@mui/icons-material";
+import { IconButton, Typography } from "@mui/material";
 import React from "react";
 import "./ChangeQuantity.css";
 

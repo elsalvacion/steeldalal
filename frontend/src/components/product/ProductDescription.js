@@ -1,6 +1,5 @@
-import { ShoppingCart, LocalMall } from "@material-ui/icons";
-import { Button, Typography } from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
+import { ShoppingCart, LocalMall } from "@mui/icons-material";
+import { Button, Typography, Rating } from "@mui/material";
 import React, { useState } from "react";
 import "./ProductDescription.css";
 import { useDispatch } from "react-redux";

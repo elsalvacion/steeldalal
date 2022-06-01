@@ -1,6 +1,4 @@
-import { Snackbar } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-
+import { Snackbar, Alert } from "@mui/material";
 import React from "react";
 
 const CustomSnack = ({ type, text, handleClose }) => {

@@ -11,6 +11,7 @@ require("dotenv").config();
 const user = require("./routes/user");
 const product = require("./routes/product");
 const category = require("./routes/category");
+const keys = require("./routes/keys");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use("/auth", user);
 app.use("/product", product);
 app.use("/category", category);
+app.use("/keys", keys);
 
 const PORT = process.env.PORT || 5000;
 // listen to a port

@@ -1,6 +1,6 @@
 import React from "react";
 import "./About.css";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 // import { PauseCircleOutline, PlayCircleOutline } from "@mui/icons-material";
 const About = () => {
   // const [play, setPlay] = useState(false);

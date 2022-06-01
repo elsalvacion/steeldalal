@@ -1,10 +1,4 @@
-import {
-  Button,
-  Grid,
-  Hidden,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
+import { Button, Grid, Hidden, IconButton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "./CartContent.css";
 import {
@@ -12,7 +6,7 @@ import {
   ChevronLeftOutlined,
   ChevronRightOutlined,
   Delete,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {

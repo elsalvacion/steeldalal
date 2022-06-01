@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import "./ImagePreview.css";
 import Masonry from "react-masonry-css";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import ImageViewer from "react-simple-image-viewer";
 
 const ImagePreview = ({ images }) => {

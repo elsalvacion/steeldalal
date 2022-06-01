@@ -1,6 +1,6 @@
 import React from "react";
-import { Directions, LinkedIn, Mail, Phone, Send } from "@material-ui/icons";
-import { Typography } from "@material-ui/core";
+import { Directions, LinkedIn, Mail, Phone, Send } from "@mui/icons-material";
+import { Typography } from "@mui/material";
 import "./Contact.css";
 import { Fade, Zoom } from "react-reveal";
 

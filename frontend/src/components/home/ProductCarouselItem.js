@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 const ProductCarouselItem = ({ product }) => {
   const handleDragStart = (e) => e.preventDefault();
   return (

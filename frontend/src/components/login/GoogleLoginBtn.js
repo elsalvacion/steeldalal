@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import "./GoogleLoginBtn.css";
 import { useGoogleLogin } from "@react-oauth/google";
-import { FaGoogle } from "react-icons/fa";
+import { Google } from "@mui/icons-material";
+import CustomAlert from "../layout/CustomAlert";
 
 const GoogleLoginBtn = ({ text }) => {
   const [error, setError] = useState(null);
+
   const handleSuccess = (response) => {
-    setError(null);
     console.log(response);
+    setError(null);
   };
-  const handleError = () => {
-    setError(
-      "Google login not available at the moment. Try other login methods"
-    );
+  const handleError = (err) => {
+    console.log(err);
+    setError("Google login not available at the moment.");
   };
+
   const LoginUI = useGoogleLogin({
     onSuccess: handleSuccess,
     onError: handleError,
@@ -21,10 +23,17 @@ const GoogleLoginBtn = ({ text }) => {
 
   return (
     <div className="googleLoginContainer">
-      <button onClick={() => LoginUI()} className="googleLoginBtn">
-        <FaGoogle fontSize={20} /> <span>{text} with google</span>
-      </button>
-      {error && <small className="googleLoginError">{error}</small>}
+      {error ? (
+        <CustomAlert
+          type="error"
+          text={error}
+          handleClose={() => setError(null)}
+        />
+      ) : (
+        <button onClick={() => LoginUI()} className="googleLoginBtn">
+          <Google /> <span>{text} with google</span>
+        </button>
+      )}
     </div>
   );
 };

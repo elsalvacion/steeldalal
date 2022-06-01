@@ -7,10 +7,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@material-ui/core";
+} from "@mui/material";
 import { FaRupeeSign } from "react-icons/fa";
 import { makeStyles } from "@material-ui/styles";
-import { Delete, Edit } from "@material-ui/icons";
+import { Delete, Edit } from "@mui/icons-material";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProductAction } from "../../actions/productAction";
@@ -55,7 +55,7 @@ const ProductDataGrid = ({ products }) => {
                 <Edit />
               </IconButton>
               <IconButton
-                color="secondary"
+                color="error"
                 disabled={loading}
                 onClick={() => dispatch(deleteProductAction(product.id))}
               >

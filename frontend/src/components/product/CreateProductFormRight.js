@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CreateProductFormRight.css";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoryAction } from "../../actions/categoryAction";
 import CustomAlert from "../layout/CustomAlert";

@@ -1,8 +1,8 @@
 import React from "react";
 import "./MobileSearch.css";
 import Search from "./Search";
-import { IconButton } from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+import { IconButton } from "@mui/material";
+import { Close } from "@mui/icons-material";
 import { Fade, Zoom } from "react-reveal";
 
 const MobileSearch = ({ handleClose }) => {

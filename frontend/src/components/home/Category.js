@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import "./Category.css";
 import { Link, useHistory } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoryAction } from "../../actions/categoryAction";
 import CategoryShimmer from "../../shimmers/home/CategoryShimmer";
 import CustomAlert from "../layout/CustomAlert";
 import { FETCH_CATEGORY_RESET } from "../../reducers/types/categoryTypes";
-import { ArrowForward } from "@material-ui/icons";
+import { ArrowForward } from "@mui/icons-material";
 const Category = () => {
   const { loading, error, categories } = useSelector(
     (state) => state.fetchCategories
