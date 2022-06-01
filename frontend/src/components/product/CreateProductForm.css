@@ -4,7 +4,7 @@
   align-items: stretch;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .createProductFormContainer {
     flex-direction: column;
   }

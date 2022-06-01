@@ -3,6 +3,9 @@
 :root {
   --primary-color: rgb(12 44 201) 8%;
   --text-color: rgb(12 44 201);
+  --writer-primary: black;
+  --writer-width: 100%;
+  --writer-height: 400px;
 }
 * {
   padding: 0;

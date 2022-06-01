@@ -5,50 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoryAction } from "../../actions/categoryAction";
 import CustomAlert from "../layout/CustomAlert";
 import { FETCH_CATEGORY_RESET } from "../../reducers/types/categoryTypes";
-import { createProductAction } from "../../actions/productAction";
+
 import { PRODUCT_UPLOAD_RESET } from "../../reducers/types/productTypes";
 
-const CreateProductFormRight = () => {
+const CreateProductFormRight = ({ handleChange, values }) => {
   const dispatch = useDispatch();
   const { loading, categories, error } = useSelector(
     (state) => state.fetchCategories
   );
-  const { images } = useSelector((state) => state.uploadProduct);
-  const { loading: createProductLoading, success } = useSelector(
-    (state) => state.createProduct
-  );
 
-  const [values, setValues] = useState({
-    title: "",
-    type: "",
-    category: "",
-    brand: "",
-    price: 0,
-    qty: 1,
-    details: "",
-    discount: 0,
-  });
   useEffect(() => {
     dispatch(fetchCategoryAction());
-    if (images)
-      setValues({
-        ...values,
-        images,
-      });
-  }, [dispatch, images]);
+  }, [dispatch]);
 
   const types = ["Cold Rolled", "Hot Rolled"];
-
-  const handleChange = (e) =>
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createProductAction(values));
-  };
 
   return (
     <div className="createProductFormRight">
@@ -64,7 +34,7 @@ const CreateProductFormRight = () => {
           }}
         />
       )}
-      <form onSubmit={handleSubmit}>
+      <div>
         <div className="createProductFormTitle">
           <label htmlFor="createProductFormTitle">Title</label>
           <input
@@ -168,36 +138,7 @@ const CreateProductFormRight = () => {
             />
           </div>
         </div>
-
-        <div className="createProductFormDetails">
-          <label htmlFor="createProductFormDetails">Description</label>
-          <textarea
-            name="details"
-            id="createProductForm"
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <br />
-        {!images && (
-          <div>
-            <small>Button will be enabled once you upload images</small>
-          </div>
-        )}
-        {createProductLoading && (
-          <div>
-            <small>Creating... product</small>
-          </div>
-        )}
-
-        <Button
-          type="submit"
-          disabled={!images || success}
-          variant="contained"
-          color="primary"
-        >
-          Create
-        </Button>
-      </form>
+      </div>
     </div>
   );
 };
