@@ -5,9 +5,9 @@ import "./ProductDescription.css";
 import { useDispatch } from "react-redux";
 import { addToCartAction } from "../../actions/cartAction";
 import ChangeQuantity from "../layout/ChangeQuantity";
-// import { products } from "../../constants/products";
 import ProductSlider from "../product/ProductSlider";
 import { FaRupeeSign } from "react-icons/fa";
+import parse from "html-react-parser";
 
 const ProductDescription = ({ details }) => {
   const dispatch = useDispatch();
@@ -57,10 +57,13 @@ const ProductDescription = ({ details }) => {
           </p>
         </div>
       </div>
-      <p>
-        <b>Description: </b>
-        {details.details}
-      </p>
+      <div className="productDesDetails">
+        <b>Details: </b>
+        <br />
+        <br />
+
+        {parse(details.details)}
+      </div>
       <div className="productDesQty">
         <p>
           <b>Quantity: </b>

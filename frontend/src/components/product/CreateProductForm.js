@@ -7,6 +7,8 @@ import CreateProductDescription from "./CreateProductDescription";
 import "./CreateProductForm.css";
 import CreateProductFormLeft from "./CreateProductFormLeft";
 import CreateProductFormRight from "./CreateProductFormRight";
+import { Button } from "@mui/material";
+
 const CreateProductForm = () => {
   const dispatch = useDispatch();
   const {
@@ -55,7 +57,7 @@ const CreateProductForm = () => {
       {success && (
         <CustomAlert
           type="success"
-          text="Product Create"
+          text="Product Created"
           handleClose={() => dispatch({ type: CREATE_PRODUCT_RESET })}
         />
       )}
@@ -81,11 +83,13 @@ const CreateProductForm = () => {
           <small>Creating... product</small>
         </div>
       )}
+      <br />
       <Button
         type="submit"
         disabled={!images || success}
         variant="contained"
         color="primary"
+        size="large"
         onClick={handleCreate}
       >
         Create

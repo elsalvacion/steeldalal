@@ -50,14 +50,11 @@ const CreateProductFormLeft = () => {
           <br />
           <p>Only 4 files allowed</p>
           <br />
-          <Button
-            disabled={!files}
-            onClick={handleUpload}
-            variant="contained"
-            color="primary"
-          >
-            Upload
-          </Button>
+          {files && (
+            <Button onClick={handleUpload} variant="contained" color="primary">
+              Upload
+            </Button>
+          )}
         </>
       )}
     </div>

@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 import BlogWriter from "react-blog-writer";
 import "./CreateProductDescription.css";
 
-const CreateProductDescription = ({}) => {
-  let [nodes, setNodes] = useState(null);
-  useEffect(() => {
-    handleDetails(nodes);
-  }, [nodes]);
+const CreateProductDescription = ({ handleDetails }) => {
   return (
     <div className="CreateProductDescriptionContainer">
       <Typography>Description</Typography>
-      <BlogWriter finalNodes={setNodes} placeHolder={"Type here..."} />
+      <BlogWriter
+        finalNodes={(value) => handleDetails(value)}
+        placeHolder={"Type here..."}
+      />
     </div>
   );
 };
