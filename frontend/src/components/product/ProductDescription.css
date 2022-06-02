@@ -49,6 +49,7 @@
 .productDesDetails {
   padding: 0 30px;
   margin-bottom: 20px;
+  font-weight: lighter;
 }
 .productDesAction {
   display: flex;

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container } from "@material-ui/core";
+import { Container } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategoryAction } from "../actions/categoryAction";
 import CategoryScreenShimmer from "../shimmers/category/CategoryScreenShimmer";

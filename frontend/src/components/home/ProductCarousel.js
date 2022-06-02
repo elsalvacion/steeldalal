@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import "./ProductCarousel.css";
-import { ArrowForward, ChevronLeft, ChevronRight } from "@mui/icons-material";
+import {
+  ArrowForward,
+  ChevronLeftOutlined,
+  ChevronRightOutlined,
+} from "@mui/icons-material";
 import ProductCarouselShimmer from "../../shimmers/home/ProductCarouselShimmer";
 import CustomAlert from "../layout/CustomAlert";
 import { LATEST_PRODUCT_RESET } from "../../reducers/types/productTypes";
@@ -42,14 +46,16 @@ const ProductCarousel = () => {
     />
   ) : products ? (
     <div id="products">
-      <Button
-        variant="contained"
-        endIcon={<ChevronRight />}
-        color="primary"
-        onClick={() => history.push("/products")}
-      >
-        ALL PRODUCTS
-      </Button>
+      <div>
+        <Button
+          endIcon={<ChevronRightOutlined />}
+          variant="contained"
+          color="primary"
+          onClick={() => history.push("/products")}
+        >
+          ALL PRODUCTS
+        </Button>
+      </div>
       {
         <div className="productCarouselContainer">
           <button
@@ -72,14 +78,14 @@ const ProductCarousel = () => {
             renderPrevButton={() => {
               return (
                 <button className="carouselProductCustomPrevBtn">
-                  <ChevronLeft fontSize="large" />
+                  <ChevronLeftOutlined fontSize="large" />
                 </button>
               );
             }}
             renderNextButton={() => {
               return (
                 <button className="carouselProductCustomNextBtn">
-                  <ChevronRight fontSize="large" />
+                  <ChevronRightOutlined fontSize="large" />
                 </button>
               );
             }}
@@ -125,14 +131,14 @@ const ProductCarousel = () => {
             renderPrevButton={() => {
               return (
                 <button className="carouselProductCustomPrevBtn">
-                  <ChevronLeft fontSize="large" />
+                  <ChevronLeftOutlined fontSize="large" />
                 </button>
               );
             }}
             renderNextButton={() => {
               return (
                 <button className="carouselProductCustomNextBtn">
-                  <ChevronRight fontSize="large" />
+                  <ChevronRightOutlined fontSize="large" />
                 </button>
               );
             }}

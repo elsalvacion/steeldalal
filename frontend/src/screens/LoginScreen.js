@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "@material-ui/core";
+import { Container } from "@mui/material";
 import LoginCard from "../components/login/LoginCard";
 import LoginContent from "../components/login/LoginContent";
 import { useLocation } from "react-router-dom";

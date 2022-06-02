@@ -1,4 +1,4 @@
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -23,7 +23,7 @@ const CreateProductScreen = () => {
     <Container>
       <br />
       <CreateProductContainer>
-        <Typography variant="h6" component="h6">
+        <Typography variant="h5" component="h5">
           Create Product
         </Typography>
         <CreateProductForm />

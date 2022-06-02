@@ -20,8 +20,8 @@ import EditProductScreen from "./screens/EditProductScreen";
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_LOGIN}>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_LOGIN}>
+      <Provider store={store}>
         <div id="back-to-top-anchor"></div>
         <HashRouter>
           <Nav />
@@ -61,8 +61,8 @@ const App = () => {
           <MobileBottomFooter />
           <Footer />
         </HashRouter>
-      </GoogleOAuthProvider>
-    </Provider>
+      </Provider>
+    </GoogleOAuthProvider>
   );
 };
 

@@ -2,3 +2,16 @@
   flex: 1;
   padding: 10px;
 }
+
+.filesInputChangePreviewContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+.filesInputChangePreviewItem {
+  width: 125px;
+  height: 125px;
+  margin: 3px 7px;
+  object-fit: cover;
+}

@@ -10,9 +10,9 @@ const About = () => {
         <iframe
           src="https://www.youtube.com/embed/WI5LLBteInI"
           title="YouTube video player"
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+          allowFullScreen
           autoPlay="1"
           muted="1"
         ></iframe>

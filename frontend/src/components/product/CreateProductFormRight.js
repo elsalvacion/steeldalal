@@ -8,7 +8,7 @@ import { FETCH_CATEGORY_RESET } from "../../reducers/types/categoryTypes";
 
 import { PRODUCT_UPLOAD_RESET } from "../../reducers/types/productTypes";
 
-const CreateProductFormRight = ({ handleChange, values }) => {
+const CreateProductFormRight = (props) => {
   const dispatch = useDispatch();
   const { loading, categories, error } = useSelector(
     (state) => state.fetchCategories
@@ -22,8 +22,6 @@ const CreateProductFormRight = ({ handleChange, values }) => {
 
   return (
     <div className="createProductFormRight">
-      <Typography>Fill Details</Typography>
-      <br />
       {error && (
         <CustomAlert
           type="error"
@@ -40,8 +38,8 @@ const CreateProductFormRight = ({ handleChange, values }) => {
           <input
             name="title"
             id="createProductFormTitle"
-            onChange={handleChange}
-            value={values.title}
+            onChange={props.handleChange}
+            value={props.values.title}
             type="text"
             placeholder="Enter title"
           />
@@ -51,10 +49,10 @@ const CreateProductFormRight = ({ handleChange, values }) => {
             <label htmlFor="createProductFormType">Type</label>
 
             <select
-              onChange={handleChange}
+              onChange={props.handleChange}
               name="type"
               id="createProductFormType"
-              value={values.type}
+              value={props.values.type}
             >
               <option value="">Choose Type</option>
               {types.map((type) => (
@@ -70,9 +68,9 @@ const CreateProductFormRight = ({ handleChange, values }) => {
             <input
               name="brand"
               id="createProductFormBrand"
-              value={values.brand}
+              value={props.values.brand}
               type="text"
-              onChange={handleChange}
+              onChange={props.handleChange}
               placeholder="Enter Brand"
             />
           </div>
@@ -80,21 +78,18 @@ const CreateProductFormRight = ({ handleChange, values }) => {
         <div className="createProductFormCategory">
           <label htmlFor="createProductFormCategory">Category</label>
           <select
-            onChange={handleChange}
+            onChange={props.handleChange}
             name="category"
             id="createProductFormCategory"
-            value={values.category}
+            value={props.values.category}
           >
             <option value="">Choose Category</option>
-            {loading ? (
-              <p>loading...</p>
-            ) : categories ? (
+            {categories &&
               categories.map((category) => (
                 <option key={category.title} value={category.title}>
                   {category.title}
                 </option>
-              ))
-            ) : null}
+              ))}
           </select>
         </div>
 
@@ -105,9 +100,9 @@ const CreateProductFormRight = ({ handleChange, values }) => {
             <input
               name="price"
               id="createProductFormPrice"
-              value={values.price}
+              value={props.values.price}
               type="number"
-              onChange={handleChange}
+              onChange={props.handleChange}
               placeholder="Enter Price"
             />
           </div>
@@ -118,9 +113,9 @@ const CreateProductFormRight = ({ handleChange, values }) => {
             <input
               name="qty"
               id="createProductFormQty"
-              value={values.qty}
+              value={props.values.qty}
               type="number"
-              onChange={handleChange}
+              onChange={props.handleChange}
               placeholder="Enter Quantity"
             />
           </div>
@@ -131,9 +126,9 @@ const CreateProductFormRight = ({ handleChange, values }) => {
             <input
               name="discount"
               id="createProductFormDiscount"
-              value={values.discount}
+              value={props.values.discount}
               type="number"
-              onChange={handleChange}
+              onChange={props.handleChange}
               placeholder="Enter Discount"
             />
           </div>

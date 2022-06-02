@@ -12,6 +12,7 @@ const SideDrawer = (props) => {
       variant="temporary"
       open={props.openSideNav}
       onClose={props.onCloseHandler}
+      onOpen={props.onCloseHandler}
     >
       <Box
         sx={{

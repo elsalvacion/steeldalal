@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 import AllProductContainer from "../components/allproduct/AllProductContainer";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategoryAction } from "../actions/categoryAction";
