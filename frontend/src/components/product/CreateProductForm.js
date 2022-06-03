@@ -38,7 +38,10 @@ const CreateProductForm = () => {
     brand: "",
     price: 0,
     qty: 1,
-    details: "",
+    details: {
+      text: '',
+      html: ''
+    },
     discount: 0,
   });
 
@@ -48,6 +51,7 @@ const CreateProductForm = () => {
         ...values,
         images,
       });
+    // eslint-disable-next-line
   }, [images]);
 
   const handleChange = (e) => {
@@ -84,7 +88,11 @@ const CreateProductForm = () => {
         <CustomAlert
           type="success"
           text="Product Created"
-          handleClose={() => dispatch({ type: CREATE_PRODUCT_RESET })}
+          handleClose={() => {
+            handleReset()
+            dispatch({ type: CREATE_PRODUCT_RESET })
+            dispatch({ type: PRODUCT_UPLOAD_RESET })
+          }}
         />
       )}
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -93,9 +101,8 @@ const CreateProductForm = () => {
           <StepContent>
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
-              <div>
+            {images && <div>
                 <Button
-                  disabled={!images}
                   variant="contained"
                   onClick={handleNext}
                   endIcon={<ChevronRightOutlined />}
@@ -103,7 +110,7 @@ const CreateProductForm = () => {
                 >
                   Continue
                 </Button>
-              </div>
+              </div>}
             </Box>
           </StepContent>
         </Step>
@@ -130,6 +137,7 @@ const CreateProductForm = () => {
                   onClick={handleNext}
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={<ChevronRightOutlined />}
+                  disabled={Object.keys(values).find(key => values[key] === "" || values["price"] === 0 || values[key] === [] || values[key] === {})}
                 >
                   Continue
                 </Button>
@@ -142,13 +150,19 @@ const CreateProductForm = () => {
           <StepLabel>Product Description</StepLabel>
           <StepContent>
             <CreateProductDescription
-              handleDetails={(text) =>
+              handleDetails={(html, text) =>
                 setValues({
                   ...values,
-                  details: text,
+                  details: {
+                    html,
+                    text
+                  },
                 })
               }
+            
+              values={values}
             />
+            
             {createProductLoading && (
               <Typography sx={{ mb: 2, mt: 2 }} color="gray">
                 Creating... product

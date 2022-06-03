@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./CreateProductFormRight.css";
-import { Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoryAction } from "../../actions/categoryAction";
 import CustomAlert from "../layout/CustomAlert";
@@ -10,9 +9,7 @@ import { PRODUCT_UPLOAD_RESET } from "../../reducers/types/productTypes";
 
 const CreateProductFormRight = (props) => {
   const dispatch = useDispatch();
-  const { loading, categories, error } = useSelector(
-    (state) => state.fetchCategories
-  );
+  const { categories, error } = useSelector((state) => state.fetchCategories);
 
   useEffect(() => {
     dispatch(fetchCategoryAction());

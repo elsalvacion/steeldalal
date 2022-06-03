@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { productUploadAction } from "../../actions/productAction";
 import CustomAlert from "../layout/CustomAlert";
 import { PRODUCT_UPLOAD_RESET } from "../../reducers/types/productTypes";
-import ImagePreview from "./ImagePreview";
+// import ImagePreview from "./ImagePreview";
 import { Button } from "@mui/material";
 import { useDropzone } from "react-dropzone";
+import { Upload } from "@mui/icons-material";
 
 const baseStyle = {
   minHeight: "250px",
@@ -74,7 +75,9 @@ const CreateProductFormLeft = () => {
   );
 
   const handleUpload = () => {
-    if (files && files.length > 0) dispatch(productUploadAction(files));
+    if(window.confirm("This process is irreversible. Are you sure ? ")) {
+      if (files && files.length > 0) dispatch(productUploadAction(files));
+    }
   };
 
   return (
@@ -87,13 +90,12 @@ const CreateProductFormLeft = () => {
           text={error}
           handleClose={() => dispatch({ type: PRODUCT_UPLOAD_RESET })}
         />
-      ) : images ? (
-        <ImagePreview images={images} />
-      ) : (
+      ) :  (
         <>
           <br />
 
-          <div {...getRootProps({ style })}>
+          {
+            !images && <div {...getRootProps({ style })}>
             <input {...getInputProps()} />
             {isDragActive ? (
               <p>Drop the files here ...</p>
@@ -104,9 +106,10 @@ const CreateProductFormLeft = () => {
                 <p>Only 4 files allowed</p>
               </div>
             )}
-          </div>
+          </div> 
+          }
 
-          {files && (
+          {(files && !images) && (
             <div className="filesInputChangePreviewContainer">
               {files.map((file) => (
                 <img
@@ -118,11 +121,24 @@ const CreateProductFormLeft = () => {
               ))}
             </div>
           )}
-          {files && (
-            <Button onClick={handleUpload} variant="contained" color="primary">
+
+{(images) && (
+            <div className="filesInputChangePreviewContainer">
+              {images.map((image) => (
+                <img
+                  key={image.image ? image.image : image}
+                  src={image.image ? image.image : image}
+                  className="filesInputChangePreviewItem"
+                  alt="steeldalal.com"
+                />
+              ))}
+            </div>
+          )}
+          {(files && !images ) ? (
+            <Button onClick={handleUpload} variant="contained" endIcon={<Upload />} color="warning">
               Upload
             </Button>
-          )}
+          ) : null}
         </>
       )}
     </div>

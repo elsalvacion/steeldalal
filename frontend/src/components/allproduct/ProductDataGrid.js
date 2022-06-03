@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { FaRupeeSign } from "react-icons/fa";
 import { makeStyles } from "@material-ui/styles";
-import { Delete, Edit } from "@mui/icons-material";
+import { Delete, Edit, Visibility } from "@mui/icons-material";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProductAction } from "../../actions/productAction";
@@ -49,10 +49,16 @@ const ProductDataGrid = ({ products }) => {
         {products.map((product) => (
           <TableRow key={product.id}>
             <TableCell className={classes.action} align="left">
+             
               <IconButton
                 onClick={() => history.push(`/edit-product/${product.id}`)}
               >
                 <Edit />
+              </IconButton>
+              <IconButton
+                onClick={() => history.push(`/product/${product.id}`)}
+              >
+                <Visibility />
               </IconButton>
               <IconButton
                 color="error"

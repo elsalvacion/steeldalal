@@ -9,6 +9,9 @@ import {
   DELETE_PRODUCT_ERROR,
   DELETE_PRODUCT_LOADING,
   DELETE_PRODUCT_SUCCESS,
+  EDIT_PRODUCT_ERROR,
+  EDIT_PRODUCT_LOADING,
+  EDIT_PRODUCT_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_SUCCESS,
@@ -137,6 +140,34 @@ export const fetchSingleProductsAction = (id) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: SINGLE_PRODUCT_ERROR,
+      payload: error.response.data.msg,
+    });
+  }
+};
+
+export const editProductAction = (id, details) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: EDIT_PRODUCT_LOADING });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/product/${id}`, details, config);
+    dispatch({
+      type: EDIT_PRODUCT_SUCCESS,
+      payload: data.msg,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: EDIT_PRODUCT_ERROR,
       payload: error.response.data.msg,
     });
   }

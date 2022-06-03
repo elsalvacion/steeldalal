@@ -5,9 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchCategoryAction } from "../actions/categoryAction";
 import AllProductContent from "../components/allproduct/AllProductContent";
 const AllProductScreen = () => {
-  const { loading, error, categories } = useSelector(
-    (state) => state.fetchCategories
-  );
+  const { categories } = useSelector((state) => state.fetchCategories);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!categories) dispatch(fetchCategoryAction());

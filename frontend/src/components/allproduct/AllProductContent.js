@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./AllProductContent.css";
-// import { ChevronRightOutlined } from "@material-ui/icons";
-// import AllProductItem from "./AllProductItem";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { ArrowForward, ChevronLeft, ChevronRight } from "@mui/icons-material";
 import ProductCarouselItem from "../home/ProductCarouselItem";
+import CustomAlert from "../layout/CustomAlert";
+import AllProductShimmer from "../../shimmers/product/AllProductShimmer";
 
 const AllProductContent = ({ category, idx }) => {
   const [loading, setLoading] = useState(false);
@@ -46,60 +46,74 @@ const AllProductContent = ({ category, idx }) => {
 
   return (
     <div className="allProductContentContainer">
-      <div className="productCarouselContainer">
-        <button
-          onClick={() => history.push(`/category/${category}`)}
-          className="productCarouselTitle"
-        >
-          {category}
-          <ArrowForward />
-        </button>
-      </div>
-      <AliceCarousel
-        mouseTracking
-        items={items}
-        controlsStrategy="responsive"
-        disableDotsControls={true}
-        autoPlay={true}
-        autoPlayDirection={idx % 2 === 0 ? "ltr" : "rtl"}
-        infinite={true}
-        autoPlayInterval={1500}
-        animationType={"fadeout"}
-        renderPrevButton={() => {
-          return (
-            <button className="carouselProductCustomPrevBtn">
-              <ChevronLeft fontSize="large" />
-            </button>
-          );
-        }}
-        renderNextButton={() => {
-          return (
-            <button className="carouselProductCustomNextBtn">
-              <ChevronRight fontSize="large" />
-            </button>
-          );
-        }}
-        responsive={{
-          0: {
-            items: 2,
-          },
-          350: {
-            items: 2,
-          },
-          600: {
-            items: 3,
-          },
-          900: {
-            items: 4,
-          },
-          1024: {
-            items: 5,
-          },
-          1750: {
-            items: 6,
-          },
-        }}
-      />
+      {loading ? (
+        <AllProductShimmer />
+      ) : error ? (
+        <CustomAlert
+          type="error"
+          text={error}
+          handleClose={() => setError(null)}
+        />
+      ) : (
+        products && (
+          <>
+            <div className="productCarouselContainer">
+              <button
+                onClick={() => history.push(`/category/${category}`)}
+                className="productCarouselTitle"
+              >
+                {category}
+                <ArrowForward />
+              </button>
+            </div>
+            <AliceCarousel
+              mouseTracking
+              items={items}
+              controlsStrategy="responsive"
+              disableDotsControls={true}
+              autoPlay={true}
+              autoPlayDirection={idx % 2 === 0 ? "ltr" : "rtl"}
+              infinite={true}
+              autoPlayInterval={1500}
+              animationType={"fadeout"}
+              renderPrevButton={() => {
+                return (
+                  <button className="carouselProductCustomPrevBtn">
+                    <ChevronLeft fontSize="large" />
+                  </button>
+                );
+              }}
+              renderNextButton={() => {
+                return (
+                  <button className="carouselProductCustomNextBtn">
+                    <ChevronRight fontSize="large" />
+                  </button>
+                );
+              }}
+              responsive={{
+                0: {
+                  items: 2,
+                },
+                350: {
+                  items: 2,
+                },
+                600: {
+                  items: 3,
+                },
+                900: {
+                  items: 4,
+                },
+                1024: {
+                  items: 5,
+                },
+                1750: {
+                  items: 6,
+                },
+              }}
+            />
+          </>
+        )
+      )}
     </div>
   );
 };

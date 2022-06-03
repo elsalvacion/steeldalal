@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { fetchSingleProductsAction } from "../actions/productAction";
 import ProductDetailSection from "../components/product/ProductDetailSection";
 import CustomAlert from "../components/layout/CustomAlert";
-import { SINGLE_PRODUCT_RESET } from "../reducers/types/productTypes";
+import { EDIT_PRODUCT_RESET, SINGLE_PRODUCT_RESET } from "../reducers/types/productTypes";
 import { getCartAction } from "../actions/cartAction";
 import { ADD_CART_RESET } from "../reducers/types/cartTypes";
 const ProductScreen = () => {
@@ -20,6 +20,7 @@ const ProductScreen = () => {
     // if (!product || id !== product.id) {
     dispatch(fetchSingleProductsAction(id));
     dispatch({ type: ADD_CART_RESET });
+    dispatch({type: EDIT_PRODUCT_RESET})
     // }
     // eslint-disable-next-line
   }, [id, dispatch]);

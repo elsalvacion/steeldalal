@@ -12,27 +12,32 @@ const ImagePreview = ({ images }) => {
     setIsViewerOpen(true);
   }, []);
   const viewerImages = images.map(
-    (image) => `http://localhost:5000/${image.image}`
+    (image) => image.image ? image.image : image
   );
   const closeImageViewer = () => {
     setCurrentImage(0);
     setIsViewerOpen(false);
+  };
+
+  const breakpointColumnsObj = {
+    default: 4,
+    700: 2,
   };
   return (
     <div className="ImagePreviewContainer">
       <Typography>Your Uploads</Typography>
       <br />
       <Masonry
-        breakpointCols={2}
+        breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
         {images.map((image, index) => (
           <img
-            src={`http://localhost:5000/${image.image}`}
+            src={image.image ? image.image : image}
             className="previewImage"
             alt="steeldalal.com"
-            key={image.id}
+            key={image.id ? image.id : image}
             onClick={() => openImageViewer(index)}
           />
         ))}

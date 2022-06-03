@@ -18,8 +18,9 @@ router.post("/", (req, res) => {
       images,
     } = req.body;
 
-    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details, image) values(?,?,?,?,?,?,?,?, ?, ?); `;
 
+    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details,detailsText, image) values(?,?,?,?,?,?,?,?,?, ?, ?); `;
+    
     connection.query(
       sql,
       [
@@ -31,7 +32,8 @@ router.post("/", (req, res) => {
         category,
         type,
         brand,
-        details,
+        details.html,
+        details.text,
         images[0].image,
       ],
       (createProductErr, createProductRes) => {
@@ -234,13 +236,14 @@ router.put("/:id", (req, res) => {
     } = req.body;
 
     connection.query(
-      `update products set title = ?, discount = ?, price = ?, rating = ?, details = ?, qty = ?, category = ? , type = ? , brand = ?  where id = ?`,
+      `update products set title = ?, discount = ?, price = ?, rating = ?, details = ?, detailsText = ?, qty = ?, category = ? , type = ? , brand = ?  where id = ?`,
       [
         title,
         discount,
         price,
         rating,
-        details,
+        details.html,
+        details.text,
         qty,
         category,
         type,

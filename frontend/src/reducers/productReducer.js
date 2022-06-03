@@ -11,6 +11,10 @@ import {
   DELETE_PRODUCT_LOADING,
   DELETE_PRODUCT_RESET,
   DELETE_PRODUCT_SUCCESS,
+  EDIT_PRODUCT_ERROR,
+  EDIT_PRODUCT_LOADING,
+  EDIT_PRODUCT_RESET,
+  EDIT_PRODUCT_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_RESET,
@@ -107,6 +111,27 @@ export const singleProductReducer = (state = {}, action) => {
         error: action.payload,
       };
     case SINGLE_PRODUCT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const editProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EDIT_PRODUCT_LOADING:
+      return {
+        loading: true,
+      };
+    case EDIT_PRODUCT_SUCCESS:
+      return {
+        success: true,
+      };
+    case EDIT_PRODUCT_ERROR:
+      return {
+        error: action.payload,
+      };
+    case EDIT_PRODUCT_RESET:
       return {};
     default:
       return state;

@@ -6,6 +6,7 @@ import {
   allProductsReducer,
   createProductReducer,
   deleteProductReducer,
+  editProductReducer,
   latestProductReducer,
   productUploadReducer,
   singleProductReducer,
@@ -36,6 +37,7 @@ const reducers = combineReducers({
   createProduct: createProductReducer,
   yourProduct: yourProductsReducer,
   deleteProduct: deleteProductReducer,
+  editProduct: editProductReducer,
 });
 
 const middleware = [thunk];
