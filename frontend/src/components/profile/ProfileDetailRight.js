@@ -20,7 +20,7 @@ const ProfileDetailRight = () => {
   const dispatch = useDispatch();
   const { loading, products } = useSelector((state) => state.yourProduct);
   useEffect(() => {
-    dispatch(fetchYourProductsAction(3));
+    dispatch(fetchYourProductsAction(4));
   }, [dispatch]);
   return (
     <div>
@@ -76,14 +76,16 @@ const ProfileDetailRight = () => {
       </List>
 
       <br />
-      <Button
-        endIcon={<ChevronRightOutlined />}
-        variant="contained"
-        color="primary"
-        onClick={() => history.push(`/manage-product`)}
-      >
-        Manage Products
-      </Button>
+      {products && products.length > 0 && (
+        <Button
+          endIcon={<ChevronRightOutlined />}
+          variant="contained"
+          color="primary"
+          onClick={() => history.push(`/manage-product`)}
+        >
+          Manage Products
+        </Button>
+      )}
     </div>
   );
 };

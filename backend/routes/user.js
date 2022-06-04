@@ -2,6 +2,7 @@ const router = require("express").Router();
 const connection = require("../config/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { userProtect } = require("../middlewares/protect");
 router.post("/register", (req, res) => {
   try {
     const { email, name } = req.body;
@@ -22,7 +23,7 @@ router.post("/register", (req, res) => {
         } else {
           connection.query(
             `
-                insert into users(name, email, password) values(?, ?, ?, ?);
+                insert into users(name, email, password) values(?, ?, ?);
                 `,
             [name, email, password],
             (createUserErr, createUserRes) => {
@@ -30,17 +31,26 @@ router.post("/register", (req, res) => {
                 console.log(createUserErr);
                 res.status(400).json({ msg: "Error while creating user" });
               } else {
-                res.json({
-                  name,
-                  email,
-                  token: jwt.sign(
-                    { id: createUserRes.insertId },
-                    process.env.JWT_SECRET,
-                    {
-                      expiresIn: "30d",
+                connection.query(
+                  `select * from users where id = ?`,
+                  [createUserRes.insertId],
+                  (selectUserErr, selectUserRes) => {
+                    if (selectUserErr) {
+                      console.log(selectUserErr);
+                    } else {
+                      res.json({
+                        ...selectUserRes[0],
+                        token: jwt.sign(
+                          { id: createUserRes.insertId },
+                          process.env.JWT_SECRET,
+                          {
+                            expiresIn: "30d",
+                          }
+                        ),
+                      });
                     }
-                  ),
-                });
+                  }
+                );
               }
             }
           );
@@ -78,13 +88,36 @@ router.post("/login", (req, res) => {
             });
           } else {
             res.json({
-              name,
-              email,
+              ...existCheckRes[0],
               token: jwt.sign({ id }, process.env.JWT_SECRET, {
                 expiresIn: "30d",
               }),
             });
           }
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+router.put("/", userProtect, (req, res) => {
+  try {
+    const { name, email, state, phone, city, address } = req.body;
+
+    const sql = `update users set name = ? , email = ?, state = ? , phone = ? , city = ?, address = ? where id  = ? `;
+
+    connection.query(
+      sql,
+      [name, email, state, phone, city, address, req.user.id],
+      (updateUserErr, updateUserRes) => {
+        if (updateUserErr) {
+          console.log(updateUserErr);
+          res.status(400).json({ msg: "update user error" });
+        } else {
+          res.json({ msg: "User updated" });
         }
       }
     );
