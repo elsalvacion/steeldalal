@@ -15,13 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchYourProductsAction } from "../../actions/productAction";
 import ProfileRightShimmer from "../../shimmers/profile/ProfileRightShimmer";
 
-const ProfileDetailRight = () => {
+const ProfileDetailRight = ({ editUserInfo }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { loading, products } = useSelector((state) => state.yourProduct);
   useEffect(() => {
-    dispatch(fetchYourProductsAction(4));
-  }, [dispatch]);
+    dispatch(fetchYourProductsAction(editUserInfo ? 7 : 4));
+  }, [dispatch, editUserInfo]);
   return (
     <div>
       <div className="ProfileDetailRightHeader">

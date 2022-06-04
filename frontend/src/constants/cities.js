@@ -1242,3 +1242,54 @@ export const cities = [
   { city: "Lakshadweep", state: "Lakshadweep", isCapital: false },
   { city: "Gangtok", state: "Sikkim", isCapital: true },
 ];
+
+export const states = [
+  " Andaman & Nicobar Island",
+  "Andhra Pradesh",
+  "Arunanchal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chandigarh",
+  "Chhattisgarh",
+  "Dadara & Nagar Haveli",
+  "Daman & Diu",
+  "Delhi",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jammu & Kashmir",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Lakshadweep",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Puducherry",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+];
+
+export const getCities = (state) => {
+  const stateCities = [];
+  cities.forEach((data) => {
+    if (data.state.toLowerCase() === state.toLowerCase()) {
+      stateCities.push(data.city);
+    }
+  });
+  return stateCities;
+};
+
+console.log(getCities("Bihar"));

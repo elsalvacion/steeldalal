@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -22,8 +23,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { UPDATE_USER_RESET } from "../../reducers/types/authTypes";
 import { editUser } from "../../actions/authAction";
 import CustomAlert from "../layout/CustomAlert";
-const ProfileDetailLeft = ({ userInfo }) => {
-  const [editUserInfo, setEditUserInfo] = useState(false);
+import Autocomplete from "@mui/material/Autocomplete";
+import { getCities, states } from "../../constants/cities";
+const ProfileDetailLeft = ({ userInfo, editUserInfo, setEditUserInfo }) => {
   const [values, setValues] = useState(userInfo);
   const { loading, success, error } = useSelector((state) => state.editUser);
   const dispatch = useDispatch();
@@ -33,6 +35,7 @@ const ProfileDetailLeft = ({ userInfo }) => {
       setEditUserInfo(false);
       dispatch({ type: UPDATE_USER_RESET });
     }
+    // eslint-disable-next-line
   }, [success, dispatch, userInfo]);
   const handleChange = (e) =>
     setValues({
@@ -76,12 +79,17 @@ const ProfileDetailLeft = ({ userInfo }) => {
           </ListItemIcon>
           <ListItemText>
             {editUserInfo ? (
-              <input
+              <TextField
                 onChange={handleChange}
-                className="userEditInfoInput"
+                variant="outlined"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
                 type="text"
+                name="phone"
+                label="Name"
                 value={values.name}
-                name="name"
               />
             ) : (
               userInfo.name
@@ -95,12 +103,17 @@ const ProfileDetailLeft = ({ userInfo }) => {
           </ListItemIcon>
           <ListItemText>
             {editUserInfo ? (
-              <input
+              <TextField
                 onChange={handleChange}
-                className="userEditInfoInput"
+                variant="outlined"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
                 type="text"
+                name="phone"
                 value={values.email}
-                name="email"
+                label="Email"
               />
             ) : (
               userInfo.email
@@ -114,12 +127,17 @@ const ProfileDetailLeft = ({ userInfo }) => {
           </ListItemIcon>
           <ListItemText>
             {editUserInfo ? (
-              <input
+              <TextField
                 onChange={handleChange}
-                className="userEditInfoInput"
+                variant="outlined"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
                 type="text"
                 name="phone"
                 value={values.phone}
+                label="Phone"
               />
             ) : (
               userInfo.phone
@@ -133,12 +151,24 @@ const ProfileDetailLeft = ({ userInfo }) => {
           </ListItemIcon>
           <ListItemText>
             {editUserInfo ? (
-              <input
-                onChange={handleChange}
-                className="userEditInfoInput"
-                type="text"
-                name="state"
+              <Autocomplete
                 value={values.state}
+                disablePortal
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                options={states}
+                inputValue={values.state}
+                onInputChange={(event, newInputValue) => {
+                  setValues({
+                    ...values,
+                    state: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="State" />
+                )}
               />
             ) : (
               userInfo.state
@@ -152,12 +182,32 @@ const ProfileDetailLeft = ({ userInfo }) => {
           </ListItemIcon>
           <ListItemText>
             {editUserInfo ? (
-              <input
-                onChange={handleChange}
-                className="userEditInfoInput"
-                type="text"
-                name="city"
+              <Autocomplete
                 value={values.city}
+                disablePortal
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                id="your-city"
+                options={getCities(values.state)}
+                inputValue={values.city}
+                onInputChange={(event, newInputValue) => {
+                  setValues({
+                    ...values,
+                    city: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    sx={{
+                      fontSize: "14px",
+                      padding: "5px",
+                    }}
+                    {...params}
+                    label="City"
+                  />
+                )}
               />
             ) : (
               userInfo.city
@@ -171,12 +221,17 @@ const ProfileDetailLeft = ({ userInfo }) => {
           </ListItemIcon>
           <ListItemText>
             {editUserInfo ? (
-              <input
+              <TextField
                 onChange={handleChange}
-                className="userEditInfoInput"
-                name="address"
+                variant="outlined"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
                 type="text"
+                name="phone"
                 value={values.address}
+                label="Address"
               />
             ) : (
               userInfo.address
