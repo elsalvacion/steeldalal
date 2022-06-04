@@ -97,13 +97,11 @@
   }
 } */
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   .carouselProductCustomPrevBtn,
   .carouselProductCustomNextBtn {
     display: none;
   }
 
-  /* .carouselProductImage {
-    height: 100px;
-  } */
-}
+ 
+} */

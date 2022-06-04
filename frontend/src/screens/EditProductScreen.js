@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { editProductAction, fetchSingleProductsAction } from "../actions/productAction";
+import {
+  editProductAction,
+  fetchSingleProductsAction,
+} from "../actions/productAction";
 import CreateProductContainer from "../components/product/CreateProductContainer";
 import {
   Box,
@@ -15,7 +18,6 @@ import {
 } from "@mui/material";
 
 import {
-
   ChevronLeftOutlined,
   ChevronRightOutlined,
   Upgrade,
@@ -27,7 +29,6 @@ import {
   EDIT_PRODUCT_RESET,
   SINGLE_PRODUCT_RESET,
 } from "../reducers/types/productTypes";
-
 
 const EditProductScreen = () => {
   const history = useHistory();
@@ -54,17 +55,17 @@ const EditProductScreen = () => {
           ...product,
           details: {
             html: product.details,
-            text: product.detailsText
-          }
+            text: product.detailsText,
+          },
         });
       }
     }
   }, [dispatch, userInfo, history, id, product]);
-  useEffect(() =>  {
-    if(editProductSuccess) {
-      history.push(`/product/${id}`)
+  useEffect(() => {
+    if (editProductSuccess) {
+      history.push(`/product/${id}`);
     }
-  }, [editProductSuccess, history, id])
+  }, [editProductSuccess, history, id]);
 
   const handleChange = (e) => {
     setValues({
@@ -80,8 +81,6 @@ const EditProductScreen = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  
 
   return (
     <Container>
@@ -105,24 +104,27 @@ const EditProductScreen = () => {
           />
         )}
         <Stepper activeStep={activeStep} orientation="vertical">
-  
           <Step>
             <StepLabel>Edit Details</StepLabel>
             <StepContent>
               <CreateProductFormRight
                 handleChange={handleChange}
                 values={values}
-                
               />
-                 <Box sx={{ mb: 2, mt: 2 }}>
+              <Box sx={{ mb: 2, mt: 2 }}>
                 <div>
-                  
                   <Button
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 1, mr: 1 }}
                     endIcon={<ChevronRightOutlined />}
-                    disabled={Object.keys(values).find(key => values[key] === "" || values["price"] === 0 || values[key] === [] || values[key] === {})}
+                    disabled={Object.keys(values).find(
+                      (key) =>
+                        (key !== "detailsText" && values[key] === "") ||
+                        values["price"] === 0 ||
+                        values[key] === [] ||
+                        values[key] === {}
+                    )}
                   >
                     Continue
                   </Button>
@@ -135,24 +137,23 @@ const EditProductScreen = () => {
             <StepLabel>Edit Description</StepLabel>
             <StepContent>
               <CreateProductDescription
-               handleDetails={(html, text) =>
-                setValues({
-                  ...values,
-                  details: {
-                    html,
-                    text
-                  },
-                })
-              }
-            
-              values={values}
+                handleDetails={(html, text) =>
+                  setValues({
+                    ...values,
+                    details: {
+                      html,
+                      text,
+                    },
+                  })
+                }
+                values={values}
               />
               {editProductLoading && (
                 <Typography sx={{ mb: 2, mt: 2 }} color="gray">
                   editing... product
                 </Typography>
               )}
-              
+
               <Box sx={{ mb: 2, mt: 2 }}>
                 <div>
                   <Button

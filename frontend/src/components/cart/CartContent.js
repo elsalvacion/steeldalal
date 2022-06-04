@@ -212,24 +212,15 @@ const CartContent = ({ keys, cart }) => {
                 Order Summary
               </Typography>
               <div className="cartContentSubTotal">
-                <Typography>Subtotal ({selectedTotal} items)</Typography>
-                <Typography component="span">
-                  <FaRupeeSign />
-                  {subTotal.toFixed(2)}
-                </Typography>
+                <Typography>Total items</Typography>
+                <Typography component="span">{selectedTotal}</Typography>
               </div>
-              <div className="cartContentSubTotal">
-                <Typography>Shipping Fee</Typography>
-                <Typography component="span">
-                  <FaRupeeSign />
-                  {(200).toFixed(2)}
-                </Typography>
-              </div>
+
               <div className="cartContentTotal">
                 <Typography>Total</Typography>
                 <Typography component="span">
                   <FaRupeeSign />
-                  {subTotal === 0 ? 0 : (subTotal + 200).toFixed(2)}
+                  {subTotal === 0 ? 0 : subTotal.toFixed(2)}
                 </Typography>
               </div>
               <Button variant="contained" color="primary" fullWidth>
@@ -240,29 +231,22 @@ const CartContent = ({ keys, cart }) => {
         </Grid>
       </Grid>
 
-      <Hidden mdUp>
+      <div className="fixedCartSummaryMainContainer">
         <div className="fixedCartSummary">
           <div className="fixedCartSummaryLeft">
             <div className="fixedCartSummaryLeftSubtotal">
-              <p>Subtotal ({selectedTotal} items)</p>
-              <p className="fixedCartSummaryPrice">
-                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
-                {subTotal.toFixed(2)}
-              </p>
+              <Typography>Total items</Typography>
+              <Typography className="fixedCartSummaryPrice">
+                {selectedTotal}
+              </Typography>
             </div>
+
             <div className="fixedCartSummaryLeftSubtotal">
-              <p>Shipping Fee</p>
-              <p className="fixedCartSummaryPrice">
+              <Typography>Total</Typography>
+              <Typography className="fixedCartSummaryPrice">
                 <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
-                {(200).toFixed(2)}
-              </p>
-            </div>
-            <div className="fixedCartSummaryLeftSubtotal">
-              <p>Total</p>
-              <p className="fixedCartSummaryPrice">
-                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
-                {subTotal === 0 ? (0).toFixed(2) : (subTotal + 200).toFixed(2)}
-              </p>
+                {subTotal === 0 ? (0).toFixed(2) : subTotal.toFixed(2)}
+              </Typography>
             </div>
           </div>
           <div className="fixedCartSummaryRight">
@@ -271,7 +255,7 @@ const CartContent = ({ keys, cart }) => {
             </Button>
           </div>
         </div>
-      </Hidden>
+      </div>
     </div>
   );
 };

@@ -87,12 +87,24 @@ input::-webkit-inner-spin-button {
   align-items: center;
   justify-content: space-between;
   font-size: 14px;
+  margin: 7px 0;
+  font-weight: lighter;
 }
 .fixedCartSummaryRight {
   margin-top: 7px;
 }
 .fixedCartSummaryPrice {
   color: #0606ce;
+}
+
+.fixedCartSummaryMainContainer {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .fixedCartSummaryMainContainer {
+    display: block;
+  }
 }
 
 @media (max-width: 900px) {

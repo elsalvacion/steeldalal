@@ -1,11 +1,13 @@
 @import "~react-image-gallery/styles/css/image-gallery.css";
 
 :root {
-  --primary-color: rgb(12 44 201) 8%;
+  /* --primary-color: rgb(12 44 201) 8%; */
   --text-color: rgb(12 44 201);
   --writer-primary: black;
   --writer-width: 100%;
   --writer-height: 400px;
+  /* ---mui-primary: #3f51b5 */
+  --primary-color: #1565c0;
 }
 * {
   padding: 0;

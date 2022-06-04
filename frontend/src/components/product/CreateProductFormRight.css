@@ -13,18 +13,20 @@
 select,
 textarea {
   display: block;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #565656;
   outline: 0;
   border-radius: 5px;
   width: 100%;
   margin-bottom: 10px;
   background: 0;
+  font-size: 16px;
 }
 .createProductFormRight input:focus,
 select:focus,
 textarea:focus {
-  outline: 1px solid #232323;
+  outline: 1px solid #1565c0;
+  border: 1px solid #1565c0;
 }
 
 .createProductFormRight textarea {
