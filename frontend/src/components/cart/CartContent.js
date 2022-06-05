@@ -88,11 +88,11 @@ const CartContent = ({ keys, cart }) => {
       <br />
 
       <Typography variant="h5" component="h5">
-        Your Cart
+        Your Wishlist
       </Typography>
       <br />
       <Grid container spacing={1}>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12}>
           {deleteError && (
             <CustomAlert
               text={deleteError}
@@ -125,7 +125,7 @@ const CartContent = ({ keys, cart }) => {
                 key={key}
                 sx={{ marginBottom: 5 }}
               >
-                <Grid item xs={2} sm={1}>
+                {/* <Grid item xs={2} sm={1}>
                   <input
                     type="checkbox"
                     checked={cart[key].selected}
@@ -134,7 +134,7 @@ const CartContent = ({ keys, cart }) => {
                     }
                     className="cartItemCheck"
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={4} sm={2}>
                   <Link className="cartItemLink" to={`/product/${key}`}>
                     <img
@@ -144,7 +144,7 @@ const CartContent = ({ keys, cart }) => {
                     />
                   </Link>
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid item xs={8} sm={4}>
                   <Link className="cartItemLink" to={`/product/${key}`}>
                     <p className="cartItemTitle">{cart[key].title}</p>
                   </Link>
@@ -205,7 +205,7 @@ const CartContent = ({ keys, cart }) => {
             ))}
           </div>
         </Grid>
-        <Grid item xs={12} md={4}>
+        {/* <Grid item xs={12} >
           <Hidden smDown>
             <div className="cartContentRight">
               <Typography variant="h6" component="h6">
@@ -223,14 +223,22 @@ const CartContent = ({ keys, cart }) => {
                   {subTotal === 0 ? 0 : subTotal.toFixed(2)}
                 </Typography>
               </div>
-              <Button variant="contained" color="primary" fullWidth>
-                Proceed To Checkout
+              <Button
+                disabled={selectedTotal === 0}
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => history.push("/checkout")}
+              >
+                {selectedTotal === 0
+                  ? "No Product to checkout"
+                  : "Proceed To Checkout"}
               </Button>
             </div>
           </Hidden>
-        </Grid>
+        </Grid> */}
       </Grid>
-
+      {/* 
       <div className="fixedCartSummaryMainContainer">
         <div className="fixedCartSummary">
           <div className="fixedCartSummaryLeft">
@@ -250,12 +258,19 @@ const CartContent = ({ keys, cart }) => {
             </div>
           </div>
           <div className="fixedCartSummaryRight">
-            <Button color="primary" variant="contained">
-              Checkout
+            <Button
+              disabled={selectedTotal === 0}
+              color="primary"
+              variant="contained"
+              onClick={() => history.push("/checkout")}
+            >
+              {selectedTotal === 0
+                ? "No Product to checkout"
+                : "Proceed To Checkout"}
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

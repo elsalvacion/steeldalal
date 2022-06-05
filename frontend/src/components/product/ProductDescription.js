@@ -1,4 +1,4 @@
-import { ShoppingCart, LocalMall } from "@mui/icons-material";
+import { ShoppingCart, LocalMall, Favorite } from "@mui/icons-material";
 import { Button, Typography, Rating } from "@mui/material";
 import React, { useState } from "react";
 import "./ProductDescription.css";
@@ -8,10 +8,11 @@ import ChangeQuantity from "../layout/ChangeQuantity";
 import ProductSlider from "../product/ProductSlider";
 import { FaRupeeSign } from "react-icons/fa";
 import parse from "html-react-parser";
+import { useHistory } from "react-router-dom";
 
 const ProductDescription = ({ details }) => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const [qty, setQty] = useState(1);
   const countInStock = details.qty;
   const handleChange = (e) => {
@@ -79,9 +80,17 @@ const ProductDescription = ({ details }) => {
       <br />
       <br />
       <div className="productDesAction">
-        <Button variant="contained" color="primary" endIcon={<LocalMall />}>
+        {/* <Button
+          onClick={() => {
+            localStorage.setItem("bag", JSON.stringify(details));
+            history.push("/checkout");
+          }}
+          variant="contained"
+          color="primary"
+          endIcon={<LocalMall />}
+        >
           BUY NOW
-        </Button>
+        </Button> */}
         <Button
           onClick={() =>
             dispatch(
@@ -92,11 +101,11 @@ const ProductDescription = ({ details }) => {
               })
             )
           }
-          endIcon={<ShoppingCart />}
+          endIcon={<Favorite />}
           variant="contained"
-          color="inherit"
+          color="primary"
         >
-          ADD TO CART
+          ADD TO WISHLIST
         </Button>
       </div>
       <br />

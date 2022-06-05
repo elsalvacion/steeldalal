@@ -17,6 +17,7 @@ import ScrollToTop from "./components/layout/ScrollToTop";
 import CreateProductScreen from "./screens/CreateProductScreen";
 import ManageProductScreen from "./screens/ManageProductScreen";
 import EditProductScreen from "./screens/EditProductScreen";
+import CheckoutScreen from "./screens/CheckoutScreen";
 
 const App = () => {
   return (
@@ -55,6 +56,7 @@ const App = () => {
                 component={SingleCategoryScreen}
               />
               <Route exact path="/cart" component={CartScreen} />
+              <Route exact path="/checkout" component={CheckoutScreen} />
             </div>
           </Switch>
           <ScrollToTop />

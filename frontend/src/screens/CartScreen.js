@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 import CartContent from "../components/cart/CartContent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartAction } from "../actions/cartAction";
 
 const CartScreen = () => {
   const { cart, keys } = useSelector((state) => state.getCart);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCartAction());
+  }, []);
   return (
     <Container>
-      {keys.length > 0 ? (
+      {keys && keys.length > 0 ? (
         <CartContent keys={keys} cart={cart} />
       ) : (
         <>

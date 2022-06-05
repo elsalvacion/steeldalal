@@ -18,10 +18,14 @@ import {
 } from "./reducers/productReducer";
 import { fetchCategoryReducer } from "./reducers/categoryReducer";
 import {
+  addShippingInfoReducer,
+  addToBagReducer,
   addToCartReducer,
   changeQtyReducer,
   deleteCartReducer,
+  getBagReducer,
   getCartReducer,
+  getShippingInfoReducer,
   selectCartReducer,
 } from "./reducers/cartReducer";
 
@@ -38,11 +42,15 @@ const reducers = combineReducers({
   deleteCart: deleteCartReducer,
   getCart: getCartReducer,
   selectCart: selectCartReducer,
+  getBag: getBagReducer,
+  addBag: addToBagReducer,
   uploadProduct: productUploadReducer,
   createProduct: createProductReducer,
   yourProduct: yourProductsReducer,
   deleteProduct: deleteProductReducer,
   editProduct: editProductReducer,
+  getShippingInfo: getShippingInfoReducer,
+  addShippingInfo: addShippingInfoReducer,
 });
 
 const middleware = [thunk];

@@ -8,9 +8,9 @@ import {
   Menu,
   Search as SearchIcon,
   AccountCircle,
-  ShoppingCart,
   GridView,
   Logout,
+  Favorite,
 } from "@mui/icons-material";
 import SideDrawer from "./SideDrawer";
 import MobileSearch from "./MobileSearch";
@@ -51,7 +51,7 @@ const Nav = () => {
               color="primary"
             >
               <Badge badgeContent={keys ? keys.length : 0} color="primary">
-                <ShoppingCart />
+                <Favorite />
               </Badge>
             </IconButton>
             <IconButton

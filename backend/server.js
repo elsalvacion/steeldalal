@@ -36,6 +36,15 @@ app.use("/product", product);
 app.use("/category", category);
 app.use("/keys", keys);
 
+app.get("/config/paypal", (req, res) => {
+  try {
+    res.json({ msg: process.env.PAYMENT_METHOD_ID });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: "Payment method not available" });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 // listen to a port
 app.listen(PORT, () =>

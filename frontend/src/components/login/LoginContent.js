@@ -21,7 +21,7 @@ const LoginContent = ({ redirect }) => {
   useEffect(() => {
     if (userInfo)
       setTimeout(() => {
-        history.push(redirect);
+        history.replace(redirect);
       }, 1500);
   }, [userInfo, history, redirect]);
   const LoginOrRegisterOption = (

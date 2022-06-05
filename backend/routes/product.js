@@ -4,7 +4,7 @@ const { nanoid } = require("nanoid");
 const { userProtect } = require("../middlewares/protect");
 const router = require("express").Router();
 
-router.post("/", (req, res) => {
+router.post("/", userProtect, (req, res) => {
   try {
     const {
       title,
@@ -18,9 +18,8 @@ router.post("/", (req, res) => {
       images,
     } = req.body;
 
+    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?, ?, ?, ?); `;
 
-    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details,detailsText, image) values(?,?,?,?,?,?,?,?,?, ?, ?); `;
-    
     connection.query(
       sql,
       [
@@ -35,6 +34,7 @@ router.post("/", (req, res) => {
         details.html,
         details.text,
         images[0].image,
+        req.user.id,
       ],
       (createProductErr, createProductRes) => {
         if (createProductErr) {
