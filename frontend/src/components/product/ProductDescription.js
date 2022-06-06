@@ -1,4 +1,4 @@
-import { ShoppingCart, LocalMall, Favorite } from "@mui/icons-material";
+import { Favorite } from "@mui/icons-material";
 import { Button, Typography, Rating } from "@mui/material";
 import React, { useState } from "react";
 import "./ProductDescription.css";
@@ -8,11 +8,11 @@ import ChangeQuantity from "../layout/ChangeQuantity";
 import ProductSlider from "../product/ProductSlider";
 import { FaRupeeSign } from "react-icons/fa";
 import parse from "html-react-parser";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 const ProductDescription = ({ details }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const [qty, setQty] = useState(1);
   const countInStock = details.qty;
   const handleChange = (e) => {

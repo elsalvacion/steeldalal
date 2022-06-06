@@ -13,18 +13,18 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getBagAction, resetBagAction } from "../actions/cartAction";
+import { getBagAction } from "../actions/cartAction";
 import ShippingDetails from "../components/checkout/ShippingDetails";
 const ChecoutScreen = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { loading, bag, keys, error } = useSelector((state) => state.getBag);
-  const {
-    loading: addToBagLoading,
-    success,
-    error: addToBagError,
-  } = useSelector((state) => state.getBag);
+  // const { loading, bag, keys, error } = useSelector((state) => state.getBag);
+  // const {
+  //   loading: addToBagLoading,
+  //   success,
+  //   error: addToBagError,
+  // } = useSelector((state) => state.getBag);
   const [activeStep, setActiveStep] = useState(0);
   const { shippingDetails } = useSelector((state) => state.getShippingInfo);
   useEffect(() => {
@@ -37,7 +37,7 @@ const ChecoutScreen = () => {
     // return () => {
     //   dispatch(resetBagAction());
     // };
-  }, [userInfo, history]);
+  }, [userInfo, history, dispatch]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

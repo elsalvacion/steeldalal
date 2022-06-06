@@ -1,5 +1,5 @@
-import { Button, Grid, Hidden, IconButton, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button, Grid, IconButton, Typography } from "@mui/material";
+import React, { useEffect } from "react";
 import "./CartContent.css";
 import {
   ArrowBack,
@@ -13,7 +13,7 @@ import {
   changeQtyAction,
   deleteCartAction,
   getCartAction,
-  selectCartAction,
+  // selectCartAction,
 } from "../../actions/cartAction";
 import {
   CHANGE_QTY_RESET,
@@ -36,8 +36,8 @@ const CartContent = ({ keys, cart }) => {
   const { success: selectCartSuccess, error: selectCartError } = useSelector(
     (state) => state.selectCart
   );
-  const [subTotal, setSubTotal] = useState(0);
-  const [selectedTotal, setSelectedTotal] = useState(0);
+  // const [subTotal, setSubTotal] = useState(0);
+  // const [selectedTotal, setSelectedTotal] = useState(0);
 
   useEffect(() => {
     if (deleteSuccess) {
@@ -53,18 +53,18 @@ const CartContent = ({ keys, cart }) => {
       dispatch({ type: SELECT_CART_ITEM_RESET });
     }
 
-    let total = 0;
-    let selected = 0;
-    keys.forEach((key, i) => {
-      if (cart[key].selected) {
-        selected++;
-        total += cart[key].quantity * cart[key].price;
-      }
-      // if (i === key.length - 1) {
-      // }
-    });
-    setSubTotal(total);
-    setSelectedTotal(selected);
+    // let total = 0;
+    // let selected = 0;
+    // keys.forEach((key, i) => {
+    //   if (cart[key].selected) {
+    //     selected++;
+    //     total += cart[key].quantity * cart[key].price;
+    //   }
+    //   // if (i === key.length - 1) {
+    //   // }
+    // });
+    // setSubTotal(total);
+    // setSelectedTotal(selected);
   }, [
     deleteSuccess,
     dispatch,

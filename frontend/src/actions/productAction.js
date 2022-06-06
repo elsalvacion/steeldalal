@@ -145,33 +145,34 @@ export const fetchSingleProductsAction = (id) => async (dispatch) => {
   }
 };
 
-export const editProductAction = (id, details) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: EDIT_PRODUCT_LOADING });
-    const {
-      userLogin: { userInfo },
-    } = getState();
+export const editProductAction =
+  (id, details) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: EDIT_PRODUCT_LOADING });
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.put(`/product/${id}`, details, config);
-    dispatch({
-      type: EDIT_PRODUCT_SUCCESS,
-      payload: data.msg,
-    });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: EDIT_PRODUCT_ERROR,
-      payload: error.response.data.msg,
-    });
-  }
-};
+      const { data } = await axios.put(`/product/${id}`, details, config);
+      dispatch({
+        type: EDIT_PRODUCT_SUCCESS,
+        payload: data.msg,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: EDIT_PRODUCT_ERROR,
+        payload: error.response.data.msg,
+      });
+    }
+  };
 
 export const productUploadAction = (files) => async (dispatch) => {
   try {
@@ -210,8 +211,10 @@ export const createProductAction = (details) => async (dispatch, getState) => {
     } = getState();
 
     const config = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${userInfo.token}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
     };
 
     const { data } = await axios.post("/product", details, config);
@@ -238,8 +241,10 @@ export const deleteProductAction = (id) => async (dispatch, getState) => {
     } = getState();
 
     const config = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${userInfo.token}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
     };
 
     const { data } = await axios.delete(`/product/${id}`, config);

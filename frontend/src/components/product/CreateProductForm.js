@@ -39,8 +39,8 @@ const CreateProductForm = () => {
     price: 0,
     qty: 1,
     details: {
-      text: '',
-      html: ''
+      text: "",
+      html: "",
     },
     discount: 0,
   });
@@ -77,40 +77,24 @@ const CreateProductForm = () => {
   };
   return (
     <>
-      {createProductError && (
-        <CustomAlert
-          type="error"
-          text={createProductError}
-          handleClose={() => dispatch({ type: CREATE_PRODUCT_RESET })}
-        />
-      )}
-      {success && (
-        <CustomAlert
-          type="success"
-          text="Product Created"
-          handleClose={() => {
-            handleReset()
-            dispatch({ type: CREATE_PRODUCT_RESET })
-            dispatch({ type: PRODUCT_UPLOAD_RESET })
-          }}
-        />
-      )}
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step>
           <StepLabel>Upload Images</StepLabel>
           <StepContent>
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
-            {images && <div>
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  endIcon={<ChevronRightOutlined />}
-                  sx={{ mt: 1, mr: 1 }}
-                >
-                  Continue
-                </Button>
-              </div>}
+              {images && (
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    endIcon={<ChevronRightOutlined />}
+                    sx={{ mt: 1, mr: 1 }}
+                  >
+                    Continue
+                  </Button>
+                </div>
+              )}
             </Box>
           </StepContent>
         </Step>
@@ -137,7 +121,13 @@ const CreateProductForm = () => {
                   onClick={handleNext}
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={<ChevronRightOutlined />}
-                  disabled={Object.keys(values).find(key => values[key] === "" || values["price"] === 0 || values[key] === [] || values[key] === {})}
+                  disabled={Object.keys(values).find(
+                    (key) =>
+                      values[key] === "" ||
+                      values["price"] === 0 ||
+                      values[key] === [] ||
+                      values[key] === {}
+                  )}
                 >
                   Continue
                 </Button>
@@ -155,23 +145,41 @@ const CreateProductForm = () => {
                   ...values,
                   details: {
                     html,
-                    text
+                    text,
                   },
                 })
               }
-            
               values={values}
             />
-            
+
             {createProductLoading && (
               <Typography sx={{ mb: 2, mt: 2 }} color="gray">
                 Creating... product
               </Typography>
             )}
-            {success && (
+            {/* {success && (
               <Typography sx={{ mb: 2, mt: 2 }} color="green">
                 Product Created
               </Typography>
+            )} */}
+
+            {success && (
+              <CustomAlert
+                type="success"
+                text="Product Created"
+                handleClose={() => {
+                  handleReset();
+                  dispatch({ type: CREATE_PRODUCT_RESET });
+                  dispatch({ type: PRODUCT_UPLOAD_RESET });
+                }}
+              />
+            )}
+            {createProductError && (
+              <CustomAlert
+                type="error"
+                text={createProductError}
+                handleClose={() => dispatch({ type: CREATE_PRODUCT_RESET })}
+              />
             )}
             <Box sx={{ mb: 2, mt: 2 }}>
               <div>
@@ -200,6 +208,7 @@ const CreateProductForm = () => {
                   }
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={success ? <RestartAlt /> : <AddBox />}
+                  disabled={createProductLoading}
                 >
                   {success ? "New Product" : "Create"}
                 </Button>

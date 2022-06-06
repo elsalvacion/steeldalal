@@ -9,7 +9,7 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCartAction());
-  }, []);
+  }, [dispatch]);
   return (
     <Container>
       {keys && keys.length > 0 ? (
