@@ -1,0 +1,101 @@
+.ChatBoxContainer {
+  width: 350px;
+  height: 400px;
+  position: fixed;
+  right: 5px;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  z-index: 5000;
+}
+.ChatBoxContentContainer {
+  flex: 1;
+  background: #42a5f5;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 3px 3px 25px 5px rgba(0, 0, 0, 0.2);
+}
+.ChatBoxChatsContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+.ChatBoxNotLoggedIn {
+  flex: 1;
+  background: #42a5f5;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 3px 3px 25px 5px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: center;
+}
+.ChatBoxNotLoggedInContent {
+  background: #f1f1f1;
+  padding: 15px;
+}
+.chatMessage {
+  padding: 5px 10px;
+  margin: 15px 7px;
+  max-width: 50%;
+  width: fit-content;
+}
+.chatMessage.left {
+  background: #f1f1f1;
+  align-self: flex-start;
+}
+.chatMessage.right {
+  background: #ca0960;
+  align-self: flex-end;
+  color: white;
+}
+.ChatBoxMarkdownArea {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  background: #fff;
+  padding: 5px;
+}
+.ChatBoxMarkdownArea input {
+  flex: 1;
+  padding: 4px;
+  border: 1px solid #676767;
+  outline: 0;
+  resize: none;
+  font-size: 14px;
+  margin-right: 5px;
+  padding: 10px;
+}
+.ChatBoxMarkdownArea input:focus {
+  outline: 0;
+  border: 2px solid #4b4b4b;
+}
+
+.ChatBoxMarkdownArea input:-ms-input-placeholder {
+  color: #fff;
+}
+.ChatBoxBottom {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  right: 0px;
+  bottom: 15px;
+  z-index: 5000;
+}
+@media (max-width: 850px) {
+  .ChatBoxContainer {
+    width: 70%;
+    height: 300px;
+    bottom: 140px;
+  }
+  .ChatBoxMarkdownArea input {
+    height: 50px;
+  }
+  .ChatBoxBottom {
+    right: 0px;
+    bottom: 60px;
+  }
+}

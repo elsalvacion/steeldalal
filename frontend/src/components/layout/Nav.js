@@ -11,6 +11,7 @@ import {
   GridView,
   Logout,
   Favorite,
+  Forum,
 } from "@mui/icons-material";
 import SideDrawer from "./SideDrawer";
 import MobileSearch from "./MobileSearch";
@@ -62,13 +63,24 @@ const Nav = () => {
               <AccountCircle />
             </IconButton>
             {userInfo && (
-              <IconButton
-                title="logout"
-                onClick={() => dispatch(logoutUser())}
-                color="primary"
-              >
-                <Logout />
-              </IconButton>
+              <>
+                <IconButton
+                  onClick={() => history.push("/dm")}
+                  title="DMS"
+                  color="primary"
+                >
+                  <Badge badgeContent={1} color="error">
+                    <Forum />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  title="logout"
+                  onClick={() => dispatch(logoutUser())}
+                  color="primary"
+                >
+                  <Logout />
+                </IconButton>
+              </>
             )}
           </div>
         </div>
@@ -104,13 +116,24 @@ const Nav = () => {
             <SearchIcon />
           </IconButton>
           {userInfo && (
-            <IconButton
-              title="logout"
-              onClick={() => dispatch(logoutUser())}
-              color="primary"
-            >
-              <Logout />
-            </IconButton>
+            <>
+              <IconButton
+                onClick={() => history.push("/dm")}
+                title="DMS"
+                color="primary"
+              >
+                <Badge badgeContent={1} color="error">
+                  <Forum />
+                </Badge>
+              </IconButton>
+              <IconButton
+                title="logout"
+                onClick={() => dispatch(logoutUser())}
+                color="primary"
+              >
+                <Logout />
+              </IconButton>
+            </>
           )}
         </div>
       </nav>

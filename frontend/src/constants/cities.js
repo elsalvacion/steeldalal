@@ -1291,5 +1291,3 @@ export const getCities = (state) => {
   });
   return stateCities;
 };
-
-console.log(getCities("Bihar"));

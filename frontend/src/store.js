@@ -28,6 +28,7 @@ import {
   getShippingInfoReducer,
   selectCartReducer,
 } from "./reducers/cartReducer";
+import { loadMessagesReducer, socketReducer } from "./reducers/chatReducer";
 
 const reducers = combineReducers({
   userLogin: loginReducer,
@@ -51,6 +52,8 @@ const reducers = combineReducers({
   editProduct: editProductReducer,
   getShippingInfo: getShippingInfoReducer,
   addShippingInfo: addShippingInfoReducer,
+  socket: socketReducer,
+  loadMessages: loadMessagesReducer,
 });
 
 const middleware = [thunk];
