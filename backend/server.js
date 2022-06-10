@@ -60,6 +60,11 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
+  socket.on("join_room", (userId) => socket.join(userId));
+  socket.on("check_if_online", (userId) => {
+    const connected = io.sockets.adapter.rooms.get(userId).size;
+    socket.emit("is_online", connected);
+  });
   // send messages
   socket.on("send_message", (data) => {
     const { message, product, to, from } = data;
@@ -70,26 +75,8 @@ io.on("connection", (socket) => {
       (insertMessageErr, insertMessageRes) => {
         if (insertMessageErr) {
           console.log(insertMessageErr);
-          socket.emit(
-            "send_message_error",
-            "Only live chat availiable at the moment"
-          );
         } else {
-          connection.query(
-            `select * from messages where to_who = ? and from_who = ? and product = ? `,
-            [to, from, Number(product)],
-            (loadMessagesErr, loadMessagesRes) => {
-              if (loadMessagesErr) {
-                console.log(loadMessagesErr);
-                socket.emit(
-                  "send_message_error",
-                  "Only live chat availiable at the moment"
-                );
-              } else {
-                socket.emit("messages_loaded", loadMessagesRes);
-              }
-            }
-          );
+          io.local.emit("message_sent", "message sent");
         }
       }
     );
@@ -97,54 +84,46 @@ io.on("connection", (socket) => {
 
   // load messages
   socket.on("load_messages", (data) => {
-    const { to, from, product } = data;
-
+    const { product, to, from } = data;
+    const sql = `select * from messages where (to_who = ? and from_who = ? and product = ?) or (to_who = ? and from_who = ? and product = ?)`;
     connection.query(
-      `select * from messages where to_who = ? and from_who = ? and product = ? `,
-      [to, from, Number(product)],
+      sql,
+      [to, from, Number(product), from, to, Number(product)],
       (loadMessagesErr, loadMessagesRes) => {
         if (loadMessagesErr) {
           console.log(loadMessagesErr);
-          socket.emit(
-            "send_message_error",
-            "Only live chat availiable at the moment"
-          );
         } else {
+          // console.log(loadMessagesRes);
           socket.emit("messages_loaded", loadMessagesRes);
         }
       }
     );
   });
 
-  // load users
-  socket.on("load_users", (id) => {
-    const sql = `select distinct from_who, name from messages, users where to_who = ? and from_who = users.id group by name order by messages.createdAt desc`;
-    connection.query(sql, [id], (fetchUsersErr, fetchUsersRes) => {
-      if (fetchUsersErr) {
-        console.log(fetchUsersErr);
+  // load senders
+  socket.on("load_senders", (userId) => {
+    const sql = `select  distinct from_who, product, name from messages, users  where to_who = ? and users.id = messages.from_who group by name, product order by messages.createdAt desc`;
+    connection.query(sql, [userId], (loadSendersErr, loadSendersRes) => {
+      if (loadSendersErr) console.log(loadSendersErr);
+      else {
+        // console.log(loadSendersRes);
+        socket.emit("senders_loaded", loadSendersRes);
+      }
+    });
+  });
+
+  // get unread messages
+  socket.on("load_unread_messages", (userId) => {
+    const sql = `select count(from_who) from messages where to_who = ?  and isRead = ?`;
+    connection.query(sql, [userId, 0], (loadUnreadErr, loadUnreadRes) => {
+      if (loadUnreadErr) {
+        console.log(loadUnreadErr);
       } else {
-        // select first user messages
-        if (fetchUsersRes.length > 0) {
-          connection.query(
-            `select * from messages where from_who = ? or (from_who = ? and to_who = ?)`,
-            [fetchUsersRes[0].from_who, id, fetchUsersRes[0].from_who],
-            (fetchMessagesErr, fetchMessagesRes) => {
-              if (fetchMessagesErr) {
-                console.log(fetchMessagesErr);
-              } else {
-                socket.emit("users_loaded", {
-                  messages: fetchMessagesRes,
-                  users: fetchUsersRes,
-                });
-              }
-            }
-          );
-        } else {
-          socket.emit("users_loaded", {
-            users: [],
-            messages: [],
-          });
-        }
+        // console.log(loadUnreadRes[0]["count(from_who)"]);
+        socket.emit("unread_messages_loaded", {
+          userId,
+          unread: loadUnreadRes[0]["count(from_who)"],
+        });
       }
     });
   });

@@ -21,6 +21,7 @@ const ProductScreen = () => {
   const { product, loading, error } = useSelector(
     (state) => state.singleProduct
   );
+  const { userInfo } = useSelector((state) => state.userLogin);
   const { success } = useSelector((state) => state.addCart);
   const [open, setOpen] = useState(true);
 
@@ -49,32 +50,37 @@ const ProductScreen = () => {
         ) : product ? (
           <ProductDetailSection product={product} />
         ) : null}
-        {open && product && <ChatBox product={id} to={product.user} />}
-        <div className="ChatBoxBottom">
-          {!open ? (
-            <Zoom>
-              <Fab
-                size="medium"
-                onClick={() => setOpen(!open)}
-                aria-label="make a deal"
-                color="primary"
-              >
-                <ChatBubble />
-              </Fab>
-            </Zoom>
-          ) : (
-            <Rotate>
-              <Fab
-                size="large"
-                onClick={() => setOpen(!open)}
-                aria-label="make a deal"
-                color="primary"
-              >
-                <Close />
-              </Fab>
-            </Rotate>
-          )}
-        </div>
+        {(userInfo && product && userInfo.id !== product.user) ||
+        (!userInfo && product) ? (
+          <>
+            {open && product && <ChatBox product={id} to={product.user} />}
+            <div className="ChatBoxBottom">
+              {!open ? (
+                <Zoom>
+                  <Fab
+                    size="medium"
+                    onClick={() => setOpen(!open)}
+                    aria-label="make a deal"
+                    color="primary"
+                  >
+                    <ChatBubble />
+                  </Fab>
+                </Zoom>
+              ) : (
+                <Rotate>
+                  <Fab
+                    size="large"
+                    onClick={() => setOpen(!open)}
+                    aria-label="make a deal"
+                    color="primary"
+                  >
+                    <Close />
+                  </Fab>
+                </Rotate>
+              )}
+            </div>
+          </>
+        ) : null}
       </Container>
     </div>
   );

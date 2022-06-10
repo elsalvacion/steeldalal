@@ -4,4 +4,4 @@ const server = "http://localhost:5000";
 
 const socket = io(server);
 
-export { socket };
+export { io, socket, server };

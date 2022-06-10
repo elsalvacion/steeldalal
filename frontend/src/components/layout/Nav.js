@@ -1,5 +1,5 @@
 import { Badge, IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { navLink } from "../../constants/links";
 import "./Nav.css";
@@ -18,14 +18,30 @@ import MobileSearch from "./MobileSearch";
 import { HashLink } from "react-router-hash-link";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../actions/authAction";
+import { socket } from "../../utils/connectSocket";
 
 const Nav = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const [unread, setUnread] = useState(0);
+
   const history = useHistory();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
   const { keys } = useSelector((state) => state.getCart);
+  useEffect(() => {
+    if (userInfo) {
+      socket.emit("load_unread_messages", userInfo.id);
+      socket.on("unread_messages_loaded", (res) => {
+        if (res.userId === userInfo.id) {
+          setUnread(res.unread);
+        }
+      });
+      socket.on("message_sent", () => {
+        socket.emit("load_unread_messages", userInfo.id);
+      });
+    }
+  }, [userInfo]);
   return (
     <>
       <nav className="navContainer">
@@ -69,7 +85,7 @@ const Nav = () => {
                   title="DMS"
                   color="primary"
                 >
-                  <Badge badgeContent={1} color="error">
+                  <Badge badgeContent={unread} color="error">
                     <Forum />
                   </Badge>
                 </IconButton>
@@ -122,7 +138,7 @@ const Nav = () => {
                 title="DMS"
                 color="primary"
               >
-                <Badge badgeContent={1} color="error">
+                <Badge badgeContent={unread} color="error">
                   <Forum />
                 </Badge>
               </IconButton>

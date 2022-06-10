@@ -1,24 +1,48 @@
 import React, { useEffect, useState } from "react";
 import "./ChatBox.css";
 import { Button, IconButton, Typography } from "@mui/material";
-import { Send } from "@mui/icons-material";
+import { Send, Circle } from "@mui/icons-material";
 import { Zoom } from "react-reveal";
-import { socket } from "../../utils/connectSocket";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+
+import { socket } from "../../utils/connectSocket";
 const ChatBox = ({ product, to }) => {
   const history = useHistory();
   const { userInfo } = useSelector((state) => state.userLogin);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
+  const [isOnline, setIsOnline] = useState(false);
   useEffect(() => {
+    const chatsBox = document.querySelector(".ChatBoxChatsContainer");
+    socket.emit("join_room", to);
+    socket.emit("check_if_online", to);
+    socket.on("is_online", (connected) => {
+      if (connected === 1) setIsOnline(true);
+      else setIsOnline(false);
+    });
     if (userInfo) {
-      socket.emit("load_messages", { to, product, from: userInfo.id });
+      socket.emit("load_messages", {
+        to,
+        product,
+        from: userInfo.id,
+        error_from: "chat box line 18",
+      });
       socket.on("messages_loaded", (messages) => {
+        if (chatsBox) {
+          chatsBox.scrollTop = chatsBox.scrollHeight;
+        }
         setChatMessages(messages);
+      });
+      socket.on("message_sent", (info) => {
+        socket.emit("load_messages", { to, product, from: userInfo.id });
       });
     }
   }, [product, to, userInfo]);
+
+  // useEffect(() => {
+  //   return () => socket.close();
+  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +70,14 @@ const ChatBox = ({ product, to }) => {
             </div>
           ) : (
             <div className="ChatBoxContentContainer">
+              <div className="ChatBoxContentChatHeader">
+                <div className={isOnline ? "online" : "offline"}>
+                  <Circle />
+                  <Typography fontSize={12} sx={{ ml: 1 }}>
+                    Seller {isOnline ? "Online" : "Offline"}
+                  </Typography>
+                </div>
+              </div>
               <div className="ChatBoxChatsContainer">
                 {chatMessages.map((chatMessage) => (
                   <div

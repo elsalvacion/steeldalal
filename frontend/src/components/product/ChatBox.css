@@ -4,12 +4,10 @@
   position: fixed;
   right: 5px;
   bottom: 100px;
-  display: flex;
-  flex-direction: column;
   z-index: 5000;
 }
 .ChatBoxContentContainer {
-  flex: 1;
+  height: 100%;
   background: #42a5f5;
   border-radius: 7px;
   display: flex;
@@ -20,10 +18,14 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
+  background: url(../../assets/chat-bg-4.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .ChatBoxNotLoggedIn {
-  flex: 1;
+  height: 100%;
   background: #42a5f5;
   border-radius: 7px;
   display: flex;
@@ -35,6 +37,18 @@
 .ChatBoxNotLoggedInContent {
   background: #f1f1f1;
   padding: 15px;
+}
+.ChatBoxContentChatHeader {
+  padding: 10px 0;
+  background: #fff;
+}
+.ChatBoxContentChatHeader div {
+  display: flex;
+  align-items: center;
+  color: #676767;
+}
+.ChatBoxContentChatHeader div.online {
+  color: green;
 }
 .chatMessage {
   padding: 5px 10px;
@@ -54,7 +68,6 @@
 .ChatBoxMarkdownArea {
   display: flex;
   align-items: center;
-  margin-top: 10px;
   background: #fff;
   padding: 5px;
 }
