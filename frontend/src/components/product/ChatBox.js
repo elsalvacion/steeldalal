@@ -14,35 +14,40 @@ const ChatBox = ({ product, to }) => {
   const [chatMessages, setChatMessages] = useState([]);
   const [isOnline, setIsOnline] = useState(false);
   useEffect(() => {
-    const chatsBox = document.querySelector(".ChatBoxChatsContainer");
-    socket.emit("join_room", to);
-    socket.emit("check_if_online", to);
-    socket.on("is_online", (connected) => {
-      if (connected === 1) setIsOnline(true);
-      else setIsOnline(false);
-    });
     if (userInfo) {
+      socket.emit("join_room", userInfo.id);
+
+      socket.emit("check_if_online", to);
+
+      socket.on("new_user_connected", () => socket.emit("check_if_online", to));
+
+      socket.on("bye", () => socket.emit("check_if_online", to));
+
+      socket.on("is_online", (connected) => {
+        if (connected > 0) setIsOnline(true);
+        else setIsOnline(false);
+      });
+
       socket.emit("load_messages", {
         to,
         product,
         from: userInfo.id,
-        error_from: "chat box line 18",
       });
+
       socket.on("messages_loaded", (messages) => {
+        setChatMessages(messages);
+        const chatsBox = document.querySelector(".ChatBoxChatsContainer");
         if (chatsBox) {
           chatsBox.scrollTop = chatsBox.scrollHeight;
         }
-        setChatMessages(messages);
       });
-      socket.on("message_sent", (info) => {
+
+      socket.on("message_sent", () => {
         socket.emit("load_messages", { to, product, from: userInfo.id });
       });
     }
-  }, [product, to, userInfo]);
-
-  // useEffect(() => {
-  //   return () => socket.close();
-  // }, []);
+    // eslint-disable-next-line
+  }, [userInfo]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

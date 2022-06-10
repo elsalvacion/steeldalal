@@ -1,11 +1,13 @@
 import { Circle, Send } from "@mui/icons-material";
 import {
+  Avatar,
   IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import { grey, red } from "@mui/material/colors";
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "../../utils/connectSocket";
 import "./DmContent.css";
@@ -14,12 +16,21 @@ const DmContent = ({ userInfo }) => {
   const [message, setMessage] = useState("");
   const fixedSenders = useRef([]);
   const [renderSenders, setRenderSenders] = useState([]);
-
+  const chatContainer = useRef();
+  const chatItem = useRef();
   const currentUser = useRef(0);
   const [renderMessages, setRenderMessages] = useState([]);
   const fixedMessages = useRef([]);
 
   useEffect(() => {
+    socket.emit("join_room", userInfo.id);
+
+    socket.on("new_user_connected", () =>
+      socket.emit("load_senders", userInfo.id)
+    );
+
+    socket.on("bye", () => socket.emit("load_senders", userInfo.id));
+
     socket.emit("load_senders", userInfo.id);
     socket.on("senders_loaded", (users) => {
       fixedSenders.current = users;
@@ -72,6 +83,14 @@ const DmContent = ({ userInfo }) => {
     });
     currentUser.current = sender;
   };
+
+  const onScroll = () => {
+    if (
+      chatContainer.current.scrollTop >=
+      chatItem.current.getBoundingClientRect().top
+    )
+      console.log("yes");
+  };
   return (
     <div className="DmContentContainer">
       <div className="DmContentLeft">
@@ -81,35 +100,48 @@ const DmContent = ({ userInfo }) => {
               button
               onClick={() => handleUserChange(i)}
               sx={{
-                color: "#f3f3f3",
                 m: 0,
                 p: 1,
                 background:
-                  i === currentUser.current ? "#2196f3" : "transparent",
+                  i === currentUser.current ? "#eeeeee" : "transparent",
+                color: "#212121",
               }}
               key={sender.from_who}
             >
-              <ListItemIcon
-                sx={{
-                  color: "#f3f3f3",
-                }}
-              >
-                <Circle />
+              <ListItemIcon>
+                <Circle color={sender.online ? "success" : "disabled"} />
               </ListItemIcon>
               <ListItemText>{sender.name}</ListItemText>
+              <ListItemIcon>
+                <Avatar
+                  sx={{
+                    bgcolor: red[800],
+                    width: 24,
+                    height: 24,
+                    color: grey[50],
+                    fontSize: 16,
+                  }}
+                >
+                  5
+                </Avatar>
+              </ListItemIcon>
             </ListItem>
           ))}
         </List>
       </div>
       <div className="DmContentRight">
-        {/* <Typography variant="h6">{senders && senders[0].name}</Typography> */}
-        <div className="DmContentRighChatMessagesContainer">
+        <div
+          className="DmContentRighChatMessagesContainer"
+          onScroll={onScroll}
+          ref={chatContainer}
+        >
           {renderMessages.map((chatMessage) => (
             <div
               key={chatMessage.id}
               className={`DmContentChatMessage ${
                 chatMessage.from_who === userInfo.id ? "right" : "left"
               } `}
+              ref={chatItem}
             >
               {chatMessage.message}
             </div>

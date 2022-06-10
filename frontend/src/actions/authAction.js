@@ -133,5 +133,5 @@ export const logoutUser = () => async (dispatch) => {
   dispatch({
     type: LOGIN_USER_RESET,
   });
-  // window.location.href = "/";
+  window.location.href = "/";
 };

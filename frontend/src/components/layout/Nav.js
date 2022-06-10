@@ -31,6 +31,7 @@ const Nav = () => {
   const { keys } = useSelector((state) => state.getCart);
   useEffect(() => {
     if (userInfo) {
+      socket.emit("join_room", userInfo.id);
       socket.emit("load_unread_messages", userInfo.id);
       socket.on("unread_messages_loaded", (res) => {
         if (res.userId === userInfo.id) {

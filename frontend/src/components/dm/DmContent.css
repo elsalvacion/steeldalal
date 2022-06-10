@@ -7,8 +7,12 @@
 }
 .DmContentLeft {
   width: 300px;
-  background: #1565c0;
+  background: #cfd8dc;
   padding: 0;
+  background: url(../../assets/chat-bg-5.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .DmContentRight {
   flex: 1;

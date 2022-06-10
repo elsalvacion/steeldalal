@@ -15,15 +15,19 @@ const DMScreen = () => {
   }, [userInfo, history]);
   return (
     <Container>
-      <Typography
-        sx={{
-          mt: 2,
-        }}
-        variant="h6"
-      >
-        Your DM
-      </Typography>
-      <DmContent userInfo={userInfo} />
+      {userInfo && (
+        <>
+          <Typography
+            sx={{
+              mt: 2,
+            }}
+            variant="h6"
+          >
+            Your DM
+          </Typography>
+          <DmContent userInfo={userInfo} />
+        </>
+      )}
     </Container>
   );
 };

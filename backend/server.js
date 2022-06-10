@@ -60,10 +60,23 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("join_room", (userId) => socket.join(userId));
+  if (socket.connected) {
+    io.local.emit("new_user_connected", "connected");
+  } else {
+    io.local.emit("bye", "disconnected");
+  }
+
+  socket.on("join_room", (userId) => {
+    io.local.emit("new_user_connected", "connected");
+    socket.join(userId);
+  });
   socket.on("check_if_online", (userId) => {
-    const connected = io.sockets.adapter.rooms.get(userId).size;
-    socket.emit("is_online", connected);
+    const connected = io.sockets.adapter.rooms.get(userId);
+    if (connected) {
+      socket.emit("is_online", connected.size);
+    } else {
+      socket.emit("is_online", 0);
+    }
   });
   // send messages
   socket.on("send_message", (data) => {
@@ -106,8 +119,23 @@ io.on("connection", (socket) => {
     connection.query(sql, [userId], (loadSendersErr, loadSendersRes) => {
       if (loadSendersErr) console.log(loadSendersErr);
       else {
-        // console.log(loadSendersRes);
-        socket.emit("senders_loaded", loadSendersRes);
+        const newSendersRes = [];
+        loadSendersRes.forEach((sender, i) => {
+          const connected = io.sockets.adapter.rooms.get(sender.from_who);
+          const data = {
+            ...sender,
+          };
+          if (connected) {
+            data.online = true;
+          } else {
+            data.online = false;
+          }
+
+          newSendersRes.push(data);
+          if (i === loadSendersRes.length - 1) {
+            socket.emit("senders_loaded", newSendersRes);
+          }
+        });
       }
     });
   });
