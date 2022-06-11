@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
   } else {
     io.local.emit("bye", "disconnected");
   }
-
+  socket.on("disconnect", () => io.local.emit("bye", "disconnected"));
   socket.on("join_room", (userId) => {
     io.local.emit("new_user_connected", "connected");
     socket.join(userId);
@@ -115,29 +115,41 @@ io.on("connection", (socket) => {
 
   // load senders
   socket.on("load_senders", (userId) => {
-    const sql = `select  distinct from_who, product, name from messages, users  where to_who = ? and users.id = messages.from_who group by name, product order by messages.createdAt desc`;
-    connection.query(sql, [userId], (loadSendersErr, loadSendersRes) => {
-      if (loadSendersErr) console.log(loadSendersErr);
-      else {
-        const newSendersRes = [];
-        loadSendersRes.forEach((sender, i) => {
-          const connected = io.sockets.adapter.rooms.get(sender.from_who);
-          const data = {
-            ...sender,
-          };
-          if (connected) {
-            data.online = true;
-          } else {
-            data.online = false;
-          }
+    const sql = `select  distinct from_who, product, name from messages, users  where to_who = ? and users.id = messages.from_who group by name, product order by messages.createdAt desc;
+    `;
+    connection.query(
+      sql,
+      [userId, userId, 0],
+      (loadSendersErr, loadSendersRes) => {
+        if (loadSendersErr) console.log(loadSendersErr);
+        else {
+          const newSendersRes = [];
+          loadSendersRes.forEach((sender, i) => {
+            const connected = io.sockets.adapter.rooms.get(sender.from_who);
+            const data = {
+              ...sender,
+              online: connected ? true : false,
+            };
 
-          newSendersRes.push(data);
-          if (i === loadSendersRes.length - 1) {
-            socket.emit("senders_loaded", newSendersRes);
-          }
-        });
+            connection.query(
+              `select count(isRead) from messages where to_who = ?  and from_who = ? and isRead = ?;`,
+              [userId, sender.from_who, 0],
+              (isReadErr, isReadRes) => {
+                if (isReadErr) console.log(isReadErr);
+                else {
+                  data.unread = isReadRes[0]["count(isRead)"];
+
+                  newSendersRes.push(data);
+                  if (i === loadSendersRes.length - 1) {
+                    socket.emit("senders_loaded", newSendersRes);
+                  }
+                }
+              }
+            );
+          });
+        }
       }
-    });
+    );
   });
 
   // get unread messages
@@ -147,12 +159,20 @@ io.on("connection", (socket) => {
       if (loadUnreadErr) {
         console.log(loadUnreadErr);
       } else {
-        // console.log(loadUnreadRes[0]["count(from_who)"]);
         socket.emit("unread_messages_loaded", {
           userId,
           unread: loadUnreadRes[0]["count(from_who)"],
         });
       }
+    });
+  });
+
+  // mark as read
+  socket.on("mark_as_read", ({ to, from }) => {
+    const sql = `update messages set isRead = 1 where to_who = ? and from_who = ?`;
+    connection.query(sql, [to, from], (markAsReadErr, markAsReadRes) => {
+      if (markAsReadErr) console.log(markAsReadErr);
+      else socket.emit("message_marked_as_read");
     });
   });
 });

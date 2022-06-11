@@ -53,6 +53,7 @@ const DmContent = ({ userInfo }) => {
       chatsBox.scrollTop = chatsBox.scrollHeight;
     });
     socket.on("message_sent", () => {
+      socket.emit("load_senders", userInfo.id);
       socket.emit("load_messages", {
         to: userInfo.id,
         product: fixedSenders.current[currentUser.current].product,
@@ -79,8 +80,13 @@ const DmContent = ({ userInfo }) => {
       product: fixedSenders.current[sender].product,
       from: userInfo.id,
       to: fixedSenders.current[sender].from_who,
-      error_from: "Dm Content line 65",
     });
+    socket.emit("mark_as_read", {
+      to: userInfo.id,
+      from: fixedSenders.current[sender].from_who,
+    });
+    socket.emit("load_senders", userInfo.id);
+
     currentUser.current = sender;
   };
 
@@ -112,19 +118,21 @@ const DmContent = ({ userInfo }) => {
                 <Circle color={sender.online ? "success" : "disabled"} />
               </ListItemIcon>
               <ListItemText>{sender.name}</ListItemText>
-              <ListItemIcon>
-                <Avatar
-                  sx={{
-                    bgcolor: red[800],
-                    width: 24,
-                    height: 24,
-                    color: grey[50],
-                    fontSize: 16,
-                  }}
-                >
-                  5
-                </Avatar>
-              </ListItemIcon>
+              {sender.unread !== 0 && (
+                <ListItemIcon>
+                  <Avatar
+                    sx={{
+                      bgcolor: red[800],
+                      width: 24,
+                      height: 24,
+                      color: grey[50],
+                      fontSize: 16,
+                    }}
+                  >
+                    {sender.unread}
+                  </Avatar>
+                </ListItemIcon>
+              )}
             </ListItem>
           ))}
         </List>

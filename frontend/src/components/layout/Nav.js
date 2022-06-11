@@ -33,6 +33,9 @@ const Nav = () => {
     if (userInfo) {
       socket.emit("join_room", userInfo.id);
       socket.emit("load_unread_messages", userInfo.id);
+      socket.on("message_marked_as_read", () =>
+        socket.emit("load_unread_messages", userInfo.id)
+      );
       socket.on("unread_messages_loaded", (res) => {
         if (res.userId === userInfo.id) {
           setUnread(res.unread);
