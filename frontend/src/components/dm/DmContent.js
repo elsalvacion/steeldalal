@@ -10,6 +10,7 @@ import {
 import { grey, red } from "@mui/material/colors";
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "../../utils/connectSocket";
+import CustomHelmet from "../layout/CustomHelmet";
 import "./DmContent.css";
 
 const DmContent = ({ userInfo }) => {
@@ -111,6 +112,10 @@ const DmContent = ({ userInfo }) => {
 
   return (
     <div className="DmContentContainer">
+      <CustomHelmet
+        title="Direct Messages"
+        desc="Our real-time direct messaging system between sellers and buyers is just amazing. You should chek it out "
+      />
       <div className="DmContentLeft">
         <List>
           {renderSenders.map((sender, i) => (

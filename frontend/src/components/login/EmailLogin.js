@@ -52,7 +52,12 @@ const EmailLogin = ({ text }) => {
         type="email"
         placeholder="Enter email"
       />
-
+      {text === "register" && (
+        <>
+          <small>Use valid business or personal email</small>
+          <br />
+        </>
+      )}
       <label htmlFor="password">Password</label>
       <input
         id="password"

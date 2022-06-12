@@ -1,9 +1,8 @@
 import React from "react";
 import "./About.css";
 import { Typography } from "@mui/material";
-// import { PauseCircleOutline, PlayCircleOutline } from "@mui/icons-material";
+
 const About = () => {
-  // const [play, setPlay] = useState(false);
   return (
     <div className="aboutContainer" id="about">
       <div className="aboutLeft">

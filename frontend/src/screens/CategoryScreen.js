@@ -6,6 +6,7 @@ import CategoryScreenShimmer from "../shimmers/category/CategoryScreenShimmer";
 import CategoryScreenContent from "../components/category/CategoryScreenContent";
 import CustomAlert from "../components/layout/CustomAlert";
 import { FETCH_CATEGORY_RESET } from "../reducers/types/categoryTypes";
+import CustomHelmet from "../components/layout/CustomHelmet";
 const CategoryScreen = () => {
   const dispatch = useDispatch();
   const { loading, categories, error } = useSelector(
@@ -16,6 +17,10 @@ const CategoryScreen = () => {
   }, [dispatch]);
   return (
     <Container>
+      <CustomHelmet
+        title="Categories"
+        desc="You can find all steel and metal categories at steeldalal.com ranging from steels, alumunium, coils etc."
+      />
       {loading ? (
         <CategoryScreenShimmer />
       ) : error ? (

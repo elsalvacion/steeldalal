@@ -3,6 +3,7 @@ import { Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import CustomHelmet from "../components/layout/CustomHelmet";
 import ProfileDetailContainer from "../components/profile/ProfileDetailContainer";
 const ProfileScreen = () => {
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -12,6 +13,7 @@ const ProfileScreen = () => {
   }, [userInfo, history]);
   return (
     <Container>
+      <CustomHelmet title={`Profile - ${userInfo.name || null}`} desc="" />
       <br />
       <Typography variant="h5" component="h5">
         Profile

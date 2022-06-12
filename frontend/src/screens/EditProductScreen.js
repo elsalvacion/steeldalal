@@ -29,6 +29,7 @@ import {
   EDIT_PRODUCT_RESET,
   SINGLE_PRODUCT_RESET,
 } from "../reducers/types/productTypes";
+import CustomHelmet from "../components/layout/CustomHelmet";
 
 const EditProductScreen = () => {
   const history = useHistory();
@@ -84,6 +85,10 @@ const EditProductScreen = () => {
 
   return (
     <Container>
+      <CustomHelmet
+        title="Edit Product"
+        desc="You edit your product details in just 2 steps"
+      />
       <br />
       <CreateProductContainer>
         <Typography variant="h5" component="h5">

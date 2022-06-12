@@ -2,9 +2,28 @@ import React from "react";
 import "./FacebookLoginBtn.css";
 import FacebookLogin from "react-facebook-login";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import { useDispatch } from "react-redux";
+import { loginUser, registerUser } from "../../actions/authAction";
 const FacebookLoginBtn = ({ text }) => {
-  const responseFacebook = (response) => {
-    console.log(response);
+  const dispatch = useDispatch();
+  const responseFacebook = ({ name, userID }) => {
+    if (text === "login") {
+      dispatch(
+        loginUser({
+          email: userID,
+          password: userID,
+          name: name,
+        })
+      );
+    } else {
+      dispatch(
+        registerUser({
+          email: userID,
+          password: userID,
+          name: name,
+        })
+      );
+    }
   };
   return (
     <div className="facebookLoginContainer">

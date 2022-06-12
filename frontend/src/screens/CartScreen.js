@@ -3,6 +3,7 @@ import { Container, Typography } from "@mui/material";
 import CartContent from "../components/cart/CartContent";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartAction } from "../actions/cartAction";
+import CustomHelmet from "../components/layout/CustomHelmet";
 
 const CartScreen = () => {
   const { cart, keys } = useSelector((state) => state.getCart);
@@ -12,6 +13,10 @@ const CartScreen = () => {
   }, [dispatch]);
   return (
     <Container>
+      <CustomHelmet
+        title="Wishlist"
+        desc="We have an easy wishlist for you to save your favorite products for later use."
+      />
       {keys && keys.length > 0 ? (
         <CartContent keys={keys} cart={cart} />
       ) : (

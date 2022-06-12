@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_CART_RESET } from "../../reducers/types/cartTypes";
+import CustomHelmet from "../layout/CustomHelmet";
 import CustomSnack from "../layout/CustomSnack";
 import ProductDescription from "./ProductDescription";
 import "./ProductDetailSection.css";
@@ -12,6 +13,7 @@ const ProductDetailSection = ({ product }) => {
   const dispatch = useDispatch();
   return (
     <div>
+      <CustomHelmet title={product.title} desc={product.description} />
       <TopBreadCrum product={product} category={product.category} />
       {addCartError && (
         <CustomSnack

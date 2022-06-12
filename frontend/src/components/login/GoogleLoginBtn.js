@@ -3,12 +3,14 @@ import "./GoogleLoginBtn.css";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Google } from "@mui/icons-material";
 import CustomAlert from "../layout/CustomAlert";
-
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginUser, registerUser } from "../../actions/authAction";
 const GoogleLoginBtn = ({ text }) => {
   const [error, setError] = useState(null);
-
-  const handleSuccess = (response) => {
-    console.log(response);
+  const dispatch = useDispatch();
+  const handleSuccess = ({ access_token }) => {
+    fetchUserProfile(access_token);
     setError(null);
   };
   const handleError = (err) => {
@@ -21,6 +23,35 @@ const GoogleLoginBtn = ({ text }) => {
     onError: handleError,
   });
 
+  const fetchUserProfile = async (token) => {
+    try {
+      const { data } =
+        await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}
+
+      `);
+      if (text === "login") {
+        dispatch(
+          loginUser({
+            email: data.email,
+            password: data.sub,
+            name: data.name,
+          })
+        );
+      } else {
+        dispatch(
+          registerUser({
+            email: data.email,
+            password: data.sub,
+            name: data.name,
+          })
+        );
+      }
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setError("Google login not available at the moment.");
+    }
+  };
   return (
     <div className="googleLoginContainer">
       {error ? (

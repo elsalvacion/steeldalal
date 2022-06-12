@@ -11,6 +11,7 @@ import {
   YOUR_PRODUCT_RESET,
 } from "../reducers/types/productTypes";
 import { useHistory } from "react-router-dom";
+import CustomHelmet from "../components/layout/CustomHelmet";
 const ManageProductScreen = () => {
   const dispatch = useDispatch();
   const { loading, products, error } = useSelector(
@@ -35,6 +36,10 @@ const ManageProductScreen = () => {
   }, [dispatch, userInfo, history, deleteProductSuccess]);
   return (
     <Container>
+      <CustomHelmet
+        title="Manage Products"
+        desc="You can easily manage your products at steeldalal. Edit, view changes, and delete if you have to."
+      />
       <br />
       <Typography component="h6" variant="h6">
         Your Products

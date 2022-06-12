@@ -1,11 +1,14 @@
-import React from 'react';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {  render } from "react-dom";
-import './index.css'
+import React from "react";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import "./index.css";
+import { hydrate, render } from "react-dom";
+
 const rootElement = document.getElementById("root");
-
-render(<App />, rootElement)
-
+if (rootElement.hasChildNodes()) {
+  hydrate(<App />, rootElement);
+} else {
+  render(<App />, rootElement);
+}
 
 reportWebVitals();

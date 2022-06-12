@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchAllProductsAction } from "../actions/productAction";
 import AllProductItem from "../components/allproduct/AllProductItem";
 import CustomAlert from "../components/layout/CustomAlert";
+import CustomHelmet from "../components/layout/CustomHelmet";
 
 const SingleCategoryScreen = () => {
   const { category } = useParams();
@@ -19,6 +20,7 @@ const SingleCategoryScreen = () => {
   }, [category, dispatch]);
   return (
     <Container>
+      <CustomHelmet title={category || "Category"} desc="" />
       <br />
       <br />
       <SingleCategoryContainer>

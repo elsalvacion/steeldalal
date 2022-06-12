@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { LOGIN_USER_RESET } from "../../reducers/types/authTypes";
 import CustomAlert from "../layout/CustomAlert";
+import CustomHelmet from "../layout/CustomHelmet";
 import EmailLogin from "./EmailLogin";
 import FacebookLoginBtn from "./FacebookLoginBtn";
 import GoogleLoginBtn from "./GoogleLoginBtn";
@@ -36,6 +37,10 @@ const LoginContent = ({ redirect }) => {
   );
   return (
     <div className="loginContentMainContainer">
+      <CustomHelmet
+        title={text}
+        desc={`At steeldalal we always keep it simple. We support google and facebook ${text}`}
+      />
       <Typography component="h5" variant="h5">
         {text}
       </Typography>

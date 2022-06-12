@@ -2,6 +2,7 @@ import { Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import CustomHelmet from "../components/layout/CustomHelmet";
 import CreateProductContainer from "../components/product/CreateProductContainer";
 import CreateProductForm from "../components/product/CreateProductForm";
 import {
@@ -21,6 +22,10 @@ const CreateProductScreen = () => {
   }, [userInfo, history, dispatch]);
   return (
     <Container>
+      <CustomHelmet
+        title="Create Product"
+        desc="You can upload and fill your product details in just 3 steps"
+      />
       <br />
       <CreateProductContainer>
         <Typography variant="h5" component="h5">
