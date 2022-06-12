@@ -21,7 +21,7 @@ const DmContent = ({ userInfo }) => {
   const currentUser = useRef(0);
   const [renderMessages, setRenderMessages] = useState([]);
   const fixedMessages = useRef([]);
-
+  // const [newMessages, setNewMessages] = useState([]);
   useEffect(() => {
     socket.emit("join_room", userInfo.id);
 
@@ -45,12 +45,23 @@ const DmContent = ({ userInfo }) => {
     });
 
     socket.on("messages_loaded", (messages) => {
+      // let unRead = [];
+      // let read = [];
       const chatsBox = document.querySelector(
         ".DmContentRighChatMessagesContainer"
       );
       fixedMessages.current = messages;
       setRenderMessages(messages);
       chatsBox.scrollTop = chatsBox.scrollHeight;
+      // messages.forEach((msg, i) => {
+      //   if (msg.isRead === 0 && msg.from_who !== userInfo.id) unRead.push(msg);
+      //   else read.push(msg);
+      //   if (i === messages.length - 1) {
+      //     setRenderMessages(read);
+      //     setNewMessages(unRead);
+      //     chatsBox.scrollTop = chatsBox.scrollHeight;
+      //   }
+      // });
     });
     socket.on("message_sent", () => {
       socket.emit("load_senders", userInfo.id);
@@ -97,6 +108,7 @@ const DmContent = ({ userInfo }) => {
     )
       console.log("yes");
   };
+
   return (
     <div className="DmContentContainer">
       <div className="DmContentLeft">
@@ -154,6 +166,24 @@ const DmContent = ({ userInfo }) => {
               {chatMessage.message}
             </div>
           ))}
+          {/* {newMessages.length > 0 && (
+            <>
+              <div className="newMsgLine">
+                <h6>New</h6>
+              </div>
+              {newMessages.map((chatMessage) => (
+                <div
+                  key={chatMessage.id}
+                  className={`DmContentChatMessage ${
+                    chatMessage.from_who === userInfo.id ? "right" : "left"
+                  } `}
+                  ref={chatItem}
+                >
+                  {chatMessage.message}
+                </div>
+              ))}
+            </>
+          )} */}
         </div>
         <form onSubmit={handleSubmit} className="ChatBoxMarkdownArea">
           <input

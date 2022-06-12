@@ -23,7 +23,7 @@ const DMScreen = () => {
             }}
             variant="h6"
           >
-            Your DM
+            Direct Messages
           </Typography>
           <DmContent userInfo={userInfo} />
         </>

@@ -106,7 +106,6 @@ io.on("connection", (socket) => {
         if (loadMessagesErr) {
           console.log(loadMessagesErr);
         } else {
-          // console.log(loadMessagesRes);
           socket.emit("messages_loaded", loadMessagesRes);
         }
       }

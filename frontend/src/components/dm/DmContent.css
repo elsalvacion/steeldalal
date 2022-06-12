@@ -28,6 +28,7 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  /* background: white; */
 }
 
 .DmContentChatMessage {
@@ -48,7 +49,22 @@
   align-self: flex-end;
   color: white;
 }
-
+.newMsgLine {
+  height: 2px;
+  background: #d50000;
+  margin: 10px 0;
+  position: relative;
+}
+.newMsgLine h6 {
+  background: white;
+  width: fit-content;
+  color: #d50000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+}
 @media (max-height: 600px) {
   .DmContentContainer {
     height: 350px;
