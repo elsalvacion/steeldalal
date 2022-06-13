@@ -8,6 +8,7 @@ import {
   adWithUsLinks,
 } from "../../constants/links";
 import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 const Footer = () => {
   return (
     <div className="footer">
@@ -44,11 +45,18 @@ const Footer = () => {
             Help & Support
           </Typography>
           <div className="contactItemDivider" />
-          {contactUsLinks.map((link) => (
-            <Link key={link.id} to={link.link} className="footerLink">
-              {link.title}
-            </Link>
-          ))}
+
+          {contactUsLinks.map((link) =>
+            link.link.includes("#") === -1 ? (
+              <Link className="footerLink" key={link.title} to={link.link}>
+                {link.title}
+              </Link>
+            ) : (
+              <HashLink className="footerLink" key={link.title} to={link.link}>
+                {link.title}
+              </HashLink>
+            )
+          )}
           <div className="socialIconsContainer">
             {socials.map((social) => (
               <a key={social.id} href={social.link} className="footerLink">

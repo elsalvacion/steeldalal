@@ -26,7 +26,10 @@
 }
 .ChatBoxNotLoggedIn {
   height: 100%;
-  background: #42a5f5;
+  background: url(../../assets/chat-bg-4.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 7px;
   display: flex;
   flex-direction: column;

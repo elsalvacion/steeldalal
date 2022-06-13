@@ -110,7 +110,9 @@ const ChatBox = ({ product, to }) => {
         ) : (
           <div className="ChatBoxNotLoggedIn">
             <div className="ChatBoxNotLoggedInContent">
-              <Typography fontSize={14}>You are not logged in</Typography>
+              <Typography fontSize={14}>
+                You have to loggin to chat with sellers
+              </Typography>
               <br />
               <Button
                 onClick={() =>
@@ -118,6 +120,11 @@ const ChatBox = ({ product, to }) => {
                 }
                 color="primary"
                 variant="contained"
+                sx={{
+                  mx: "auto",
+                  width: "fit-content",
+                  display: "block",
+                }}
               >
                 Login or Register
               </Button>

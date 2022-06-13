@@ -1,4 +1,10 @@
-import { Facebook, Instagram, LinkedIn } from "@material-ui/icons";
+import {
+  Facebook,
+  Instagram,
+  LinkedIn,
+  Twitter,
+  YouTube,
+} from "@material-ui/icons";
 export const navLink = [
   {
     title: "Home",
@@ -7,10 +13,6 @@ export const navLink = [
   {
     title: "Products",
     path: "/products",
-  },
-  {
-    title: "About",
-    path: "/#about",
   },
   {
     title: "How It Work",
@@ -42,6 +44,16 @@ export const socials = [
     icon: <LinkedIn className="socialIcon" />,
     link: `https://www.linkedin.com/company/steel-dalal`,
   },
+  {
+    id: 4,
+    icon: <Twitter className="socialIcon" />,
+    link: `https://twitter.com/Steel_dalal19`,
+  },
+  {
+    id: 5,
+    icon: <YouTube className="socialIcon" />,
+    link: `https://www.youtube.com/channel/UCEBjKeBEf7bFm1EIP_BcKdw/about?view_as=subscriber`,
+  },
 ];
 
 export const aboutUsLinks = [
@@ -53,7 +65,7 @@ export const aboutUsLinks = [
   {
     id: 2,
     title: "About Us",
-    link: "/about",
+    link: "/#about",
   },
   {
     id: 3,
@@ -94,7 +106,7 @@ export const contactUsLinks = [
   {
     id: 1,
     title: "FAQ",
-    link: "/fqa",
+    link: "/faq",
   },
   {
     id: 2,

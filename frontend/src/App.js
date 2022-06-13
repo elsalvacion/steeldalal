@@ -18,6 +18,13 @@ import CreateProductScreen from "./screens/CreateProductScreen";
 import ManageProductScreen from "./screens/ManageProductScreen";
 import EditProductScreen from "./screens/EditProductScreen";
 import DMScreen from "./screens/DMScreen";
+import TermsAndConditionScreen from "./screens/TermsAndConditionScreen";
+import WhoAreWeScreen from "./screens/WhoAreWeScreen";
+import CompanyScreen from "./screens/CompanyScreen";
+import FaqScreen from "./screens/FaqScreen";
+import PricingPolicyScreen from "./screens/PricingPolicyScreen";
+import RefundPolicyScreen from "./screens/RefundPolicyScreen";
+import AcceptancePolicyScreen from "./screens/AcceptancePolicyScreen";
 
 const App = () => {
   return (
@@ -57,6 +64,30 @@ const App = () => {
               />
               <Route exact path="/cart" component={CartScreen} />
               <Route exact path="/dm" component={DMScreen} />
+              <Route
+                exact
+                path="/terms-and-conditions"
+                component={TermsAndConditionScreen}
+              />
+
+              <Route exact path="/who-we-are" component={WhoAreWeScreen} />
+              <Route exact path="/company" component={CompanyScreen} />
+              <Route exact path="/faq" component={FaqScreen} />
+              <Route
+                exact
+                path="/pricing-policy"
+                component={PricingPolicyScreen}
+              />
+              <Route
+                exact
+                path="/refund-policy"
+                component={RefundPolicyScreen}
+              />
+              <Route
+                exact
+                path="/acceptance-policy"
+                component={AcceptancePolicyScreen}
+              />
 
               {/* <Route exact path="/checkout" component={CheckoutScreen} /> */}
             </div>
