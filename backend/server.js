@@ -16,6 +16,7 @@ const product = require("./routes/product");
 const category = require("./routes/category");
 const keys = require("./routes/keys");
 const connection = require("./config/db");
+const { sendContactEmail } = require("./utils/sendEmail");
 
 const app = express();
 
@@ -46,6 +47,15 @@ app.get("/config/paypal", (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(400).json({ msg: "Payment method not available" });
+  }
+});
+app.post("/contact", (req, res) => {
+  try {
+    const details = req.body;
+    sendContactEmail(details, res);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: "Server Error: Try other methods." });
   }
 });
 

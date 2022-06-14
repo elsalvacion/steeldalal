@@ -3,60 +3,75 @@ const connection = require("../config/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { userProtect } = require("../middlewares/protect");
+const verifier = require("email-verify");
+
 router.post("/register", (req, res) => {
   try {
     const { email, name } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const password = bcrypt.hashSync(req.body.password, salt);
-    // find if user exist
-    connection.query(
-      `select email from users where email = ?`,
-      [email],
-      (existCheckErr, existCheckRes) => {
-        if (existCheckErr) {
-          console.log(existCheckErr);
-          res.status(400).json({
-            msg: "Error while checking if user exist",
-          });
-        } else if (existCheckRes.length > 0) {
-          res.status(400).json({ msg: "email already exist" });
-        } else {
+    verifier.verify(details.email, async function (emailVerifyErr, info) {
+      if (emailVerifyErr) {
+        console.log(emailVerifyErr);
+        res.status(400).json({ msg: "Invalid email" });
+      } else {
+        if (info.success) {
+          // find if user exist
           connection.query(
-            `
-                insert into users(name, email, password) values(?, ?, ?);
-                `,
-            [name, email, password],
-            (createUserErr, createUserRes) => {
-              if (createUserErr) {
-                console.log(createUserErr);
-                res.status(400).json({ msg: "Error while creating user" });
+            `select email from users where email = ?`,
+            [email],
+            (existCheckErr, existCheckRes) => {
+              if (existCheckErr) {
+                console.log(existCheckErr);
+                res.status(400).json({
+                  msg: "Error while checking if user exist",
+                });
+              } else if (existCheckRes.length > 0) {
+                res.status(400).json({ msg: "email already exist" });
               } else {
                 connection.query(
-                  `select * from users where id = ?`,
-                  [createUserRes.insertId],
-                  (selectUserErr, selectUserRes) => {
-                    if (selectUserErr) {
-                      console.log(selectUserErr);
+                  `
+                insert into users(name, email, password) values(?, ?, ?);
+                `,
+                  [name, email, password],
+                  (createUserErr, createUserRes) => {
+                    if (createUserErr) {
+                      console.log(createUserErr);
+                      res
+                        .status(400)
+                        .json({ msg: "Error while creating user" });
                     } else {
-                      res.json({
-                        ...selectUserRes[0],
-                        token: jwt.sign(
-                          { id: createUserRes.insertId },
-                          process.env.JWT_SECRET,
-                          {
-                            expiresIn: "30d",
+                      connection.query(
+                        `select * from users where id = ?`,
+                        [createUserRes.insertId],
+                        (selectUserErr, selectUserRes) => {
+                          if (selectUserErr) {
+                            console.log(selectUserErr);
+                          } else {
+                            res.json({
+                              ...selectUserRes[0],
+                              token: jwt.sign(
+                                { id: createUserRes.insertId },
+                                process.env.JWT_SECRET,
+                                {
+                                  expiresIn: "30d",
+                                }
+                              ),
+                            });
                           }
-                        ),
-                      });
+                        }
+                      );
                     }
                   }
                 );
               }
             }
           );
+        } else {
+          res.status(400).json({ msg: "Invalid email" });
         }
       }
-    );
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });

@@ -22,10 +22,19 @@ const DmContent = ({ userInfo }) => {
   const currentUser = useRef(0);
   const [renderMessages, setRenderMessages] = useState([]);
   const fixedMessages = useRef([]);
+  const [noUnRead, setNoUnRead] = useState(0);
   // const [newMessages, setNewMessages] = useState([]);
   useEffect(() => {
     socket.emit("join_room", userInfo.id);
-
+    socket.emit("load_unread_messages", userInfo.id);
+    socket.on("message_marked_as_read", () =>
+      socket.emit("load_unread_messages", userInfo.id)
+    );
+    socket.on("unread_messages_loaded", (res) => {
+      if (res.userId === userInfo.id) {
+        setNoUnRead(res.unread);
+      }
+    });
     socket.on("new_user_connected", () =>
       socket.emit("load_senders", userInfo.id)
     );
@@ -113,7 +122,7 @@ const DmContent = ({ userInfo }) => {
   return (
     <div className="DmContentContainer">
       <CustomHelmet
-        title="Direct Messages"
+        title={noUnRead !== 0 ? `(${noUnRead}) messages` : "Direct Messages"}
         desc="Our real-time direct messaging system between sellers and buyers is just amazing. You should chek it out "
       />
       <div className="DmContentLeft">
