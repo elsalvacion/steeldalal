@@ -7,7 +7,6 @@ import {
   ListItemIcon,
   ListItemText,
   TextField,
-  Typography,
   Button,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -25,8 +24,8 @@ const ShippingDetails = ({ shippingDetails }) => {
     });
   return (
     <div className="shippingDetailsContainer">
-      <div className="ProfileDetailLeftHeader">
-        <Typography variant="h6" component="h6"></Typography>
+      <div className="shippingDetailsHeader">
+        <div></div>
         {!editUserInfo ? (
           <IconButton
             color="primary"
@@ -45,7 +44,7 @@ const ShippingDetails = ({ shippingDetails }) => {
       </div>
       <List>
         <ListItem>
-          <ListItemIcon>Name:</ListItemIcon>
+          {!editUserInfo && <ListItemIcon sx={{ mr: 2 }}>Name:</ListItemIcon>}
           <ListItemText>
             {editUserInfo ? (
               <TextField
@@ -67,7 +66,7 @@ const ShippingDetails = ({ shippingDetails }) => {
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>Email:</ListItemIcon>
+          {!editUserInfo && <ListItemIcon sx={{ mr: 2 }}>Email:</ListItemIcon>}
           <ListItemText>
             {editUserInfo ? (
               <TextField
@@ -89,7 +88,7 @@ const ShippingDetails = ({ shippingDetails }) => {
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>Phone:</ListItemIcon>
+          {!editUserInfo && <ListItemIcon sx={{ mr: 2 }}>Phone:</ListItemIcon>}
           <ListItemText>
             {editUserInfo ? (
               <TextField
@@ -111,7 +110,7 @@ const ShippingDetails = ({ shippingDetails }) => {
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>State:</ListItemIcon>
+          {!editUserInfo && <ListItemIcon sx={{ mr: 2 }}>State:</ListItemIcon>}
           <ListItemText>
             {editUserInfo ? (
               <Autocomplete
@@ -140,7 +139,7 @@ const ShippingDetails = ({ shippingDetails }) => {
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>City:</ListItemIcon>
+          {!editUserInfo && <ListItemIcon sx={{ mr: 2 }}>City:</ListItemIcon>}
           <ListItemText>
             {editUserInfo ? (
               <Autocomplete
@@ -177,7 +176,9 @@ const ShippingDetails = ({ shippingDetails }) => {
         </ListItem>
 
         <ListItem>
-          <ListItemIcon>Address:</ListItemIcon>
+          {!editUserInfo && (
+            <ListItemIcon sx={{ mr: 2 }}>Address:</ListItemIcon>
+          )}
           <ListItemText>
             {editUserInfo ? (
               <TextField

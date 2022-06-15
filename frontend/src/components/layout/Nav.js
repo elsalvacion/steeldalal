@@ -10,7 +10,7 @@ import {
   AccountCircle,
   GridView,
   Logout,
-  Favorite,
+  ShoppingCart,
   Forum,
 } from "@mui/icons-material";
 import SideDrawer from "./SideDrawer";
@@ -71,8 +71,8 @@ const Nav = () => {
               title="cart"
               color="primary"
             >
-              <Badge badgeContent={keys ? keys.length : 0} color="primary">
-                <Favorite />
+              <Badge badgeContent={keys ? keys.length : 0} color="error">
+                <ShoppingCart />
               </Badge>
             </IconButton>
             <IconButton

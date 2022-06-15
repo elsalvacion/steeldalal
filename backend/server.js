@@ -107,11 +107,12 @@ io.on("connection", (socket) => {
 
   // load messages
   socket.on("load_messages", (data) => {
+    console.log("fired");
     const { product, to, from } = data;
     const sql = `select * from messages where (to_who = ? and from_who = ? and product = ?) or (to_who = ? and from_who = ? and product = ?)`;
     connection.query(
       sql,
-      [to, from, Number(product), from, to, Number(product)],
+      [to, from, product, from, to, product],
       (loadMessagesErr, loadMessagesRes) => {
         if (loadMessagesErr) {
           console.log(loadMessagesErr);

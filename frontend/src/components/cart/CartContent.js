@@ -1,5 +1,5 @@
-import { Button, Grid, IconButton, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { Button, Grid, IconButton, Typography, Hidden } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import "./CartContent.css";
 import {
   ArrowBack,
@@ -13,7 +13,7 @@ import {
   changeQtyAction,
   deleteCartAction,
   getCartAction,
-  // selectCartAction,
+  selectCartAction,
 } from "../../actions/cartAction";
 import {
   CHANGE_QTY_RESET,
@@ -36,8 +36,8 @@ const CartContent = ({ keys, cart }) => {
   const { success: selectCartSuccess, error: selectCartError } = useSelector(
     (state) => state.selectCart
   );
-  // const [subTotal, setSubTotal] = useState(0);
-  // const [selectedTotal, setSelectedTotal] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
+  const [selectedTotal, setSelectedTotal] = useState(0);
 
   useEffect(() => {
     if (deleteSuccess) {
@@ -53,18 +53,18 @@ const CartContent = ({ keys, cart }) => {
       dispatch({ type: SELECT_CART_ITEM_RESET });
     }
 
-    // let total = 0;
-    // let selected = 0;
-    // keys.forEach((key, i) => {
-    //   if (cart[key].selected) {
-    //     selected++;
-    //     total += cart[key].quantity * cart[key].price;
-    //   }
-    //   // if (i === key.length - 1) {
-    //   // }
-    // });
-    // setSubTotal(total);
-    // setSelectedTotal(selected);
+    let total = 0;
+    let selected = 0;
+    keys.forEach((key, i) => {
+      if (cart[key].selected) {
+        selected++;
+        total += cart[key].quantity * cart[key].price;
+      }
+      // if (i === key.length - 1) {
+      // }
+    });
+    setSubTotal(total);
+    setSelectedTotal(selected);
   }, [
     deleteSuccess,
     dispatch,
@@ -88,11 +88,11 @@ const CartContent = ({ keys, cart }) => {
       <br />
 
       <Typography variant="h5" component="h5">
-        Your Wishlist
+        Your Cart
       </Typography>
       <br />
       <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={12} lg={8}>
           {deleteError && (
             <CustomAlert
               text={deleteError}
@@ -125,7 +125,7 @@ const CartContent = ({ keys, cart }) => {
                 key={key}
                 sx={{ marginBottom: 5 }}
               >
-                {/* <Grid item xs={2} sm={1}>
+                <Grid item xs={2} sm={1}>
                   <input
                     type="checkbox"
                     checked={cart[key].selected}
@@ -134,7 +134,7 @@ const CartContent = ({ keys, cart }) => {
                     }
                     className="cartItemCheck"
                   />
-                </Grid> */}
+                </Grid>
                 <Grid item xs={4} sm={2}>
                   <Link className="cartItemLink" to={`/product/${key}`}>
                     <img
@@ -144,7 +144,7 @@ const CartContent = ({ keys, cart }) => {
                     />
                   </Link>
                 </Grid>
-                <Grid item xs={8} sm={4}>
+                <Grid item xs={6} sm={3}>
                   <Link className="cartItemLink" to={`/product/${key}`}>
                     <p className="cartItemTitle">{cart[key].title}</p>
                   </Link>
@@ -205,7 +205,7 @@ const CartContent = ({ keys, cart }) => {
             ))}
           </div>
         </Grid>
-        {/* <Grid item xs={12} >
+        <Grid item xs={12} lg={4}>
           <Hidden smDown>
             <div className="cartContentRight">
               <Typography variant="h6" component="h6">
@@ -236,9 +236,9 @@ const CartContent = ({ keys, cart }) => {
               </Button>
             </div>
           </Hidden>
-        </Grid> */}
+        </Grid>
       </Grid>
-      {/* 
+
       <div className="fixedCartSummaryMainContainer">
         <div className="fixedCartSummary">
           <div className="fixedCartSummaryLeft">
@@ -270,7 +270,7 @@ const CartContent = ({ keys, cart }) => {
             </Button>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

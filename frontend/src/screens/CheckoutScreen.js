@@ -76,7 +76,7 @@ const ChecoutScreen = () => {
             </Step>
 
             <Step>
-              <StepLabel>Place Order</StepLabel>
+              <StepLabel>Order Summary</StepLabel>
               <StepContent>
                 <Box sx={{ mb: 2, mt: 2 }}>
                   <div>
