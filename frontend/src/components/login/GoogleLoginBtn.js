@@ -33,16 +33,16 @@ const GoogleLoginBtn = ({ text }) => {
         dispatch(
           loginUser({
             email: data.email,
-            password: data.sub,
             name: data.name,
+            type: "google",
           })
         );
       } else {
         dispatch(
           registerUser({
             email: data.email,
-            password: data.sub,
             name: data.name,
+            type: "google",
           })
         );
       }

@@ -31,19 +31,19 @@ const CreateProductFormRight = (props) => {
       )}
       <div>
         <div className="createProductFormTitle">
-          <label htmlFor="createProductFormTitle">Title</label>
+          <label htmlFor="createProductFormTitle">Product Name *</label>
           <input
             name="title"
             id="createProductFormTitle"
             onChange={props.handleChange}
             value={props.values.title}
             type="text"
-            placeholder="Enter title"
+            placeholder="Enter name"
           />
         </div>
         <div className="createProductFormTypeAndContainer">
           <div className="createProductFormType">
-            <label htmlFor="createProductFormType">Type</label>
+            <label htmlFor="createProductFormType">Product Type *</label>
 
             <select
               onChange={props.handleChange}
@@ -61,7 +61,7 @@ const CreateProductFormRight = (props) => {
           </div>
 
           <div className="createProductFormBrand">
-            <label htmlFor="createProductFormBrand">Brand</label>
+            <label htmlFor="createProductFormBrand">Product Brand *</label>
             <input
               name="brand"
               id="createProductFormBrand"
@@ -73,7 +73,7 @@ const CreateProductFormRight = (props) => {
           </div>
         </div>
         <div className="createProductFormCategory">
-          <label htmlFor="createProductFormCategory">Category</label>
+          <label htmlFor="createProductFormCategory">Product Category *</label>
           <select
             onChange={props.handleChange}
             name="category"
@@ -93,7 +93,7 @@ const CreateProductFormRight = (props) => {
         <div className="createProductFormPrices">
           {/* price */}
           <div className="createProductFormPrice">
-            <label htmlFor="createProductFormPrice">Price</label>
+            <label htmlFor="createProductFormPrice">Product Price *</label>
             <input
               name="price"
               id="createProductFormPrice"
@@ -106,7 +106,7 @@ const CreateProductFormRight = (props) => {
 
           {/* qty */}
           <div className="createProductFormQty">
-            <label htmlFor="createProductFormQty">Quantity</label>
+            <label htmlFor="createProductFormQty">Quantity *</label>
             <input
               name="qty"
               id="createProductFormQty"

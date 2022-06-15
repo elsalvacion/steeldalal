@@ -18,6 +18,7 @@ const EmailLogin = ({ text }) => {
         loginUser({
           email,
           password,
+          type: "email",
         })
       );
     } else {
@@ -26,6 +27,7 @@ const EmailLogin = ({ text }) => {
           email,
           password,
           name,
+          type: "email",
         })
       );
     }

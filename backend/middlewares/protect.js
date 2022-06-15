@@ -20,31 +20,35 @@ const userProtect = async (req, res, next) => {
         });
       }
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      connection.query(
-        `select * from users where id=?`,
-        [decoded.id],
-        function (err, result) {
-          if (err) {
-            throw err;
-          }
-          const data = result[0];
-
-          if (!data) {
-            res.status(401).json({
-              errors: [
-                {
-                  msg: "Not Authorized: No Token",
-                },
-              ],
-            });
-          } else {
-            req.user = data;
-
-            next();
-          }
+      const { id, type } = jwt.verify(token, process.env.JWT_SECRET);
+      let sql;
+      if (type.toLowerCase() === "email") {
+        sql = `select * from users where id=?`;
+      } else if (type.toLowerCase() === "facebook") {
+        sql = `select * from facebook where id=?`;
+      } else {
+        sql = `select * from google where id=?`;
+      }
+      connection.query(sql, [id], function (err, result) {
+        if (err) {
+          throw err;
         }
-      );
+        const data = result[0];
+
+        if (!data) {
+          res.status(401).json({
+            errors: [
+              {
+                msg: "Not Authorized: No Token",
+              },
+            ],
+          });
+        } else {
+          req.user = data;
+
+          next();
+        }
+      });
     } catch (error) {
       res.status(401).json({
         errors: [

@@ -10,17 +10,17 @@ const FacebookLoginBtn = ({ text }) => {
     if (text === "login") {
       dispatch(
         loginUser({
-          email: userID,
-          password: userID,
-          name: name,
+          id: userID,
+          type: "facebook",
         })
       );
     } else {
       dispatch(
         registerUser({
-          email: userID,
-          password: userID,
-          name: name,
+          id: userID,
+          email: "",
+          name,
+          type: "facebook",
         })
       );
     }
