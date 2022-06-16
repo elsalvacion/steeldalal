@@ -1,0 +1,41 @@
+.orderSummaryContainer {
+  padding: 20px 10px;
+  font-size: 12px;
+  display: flex;
+}
+.orderSummaryLeft,
+.orderSummaryRight {
+  flex: 1;
+  margin: 7px 15px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.orderSummaryBagItem {
+  margin: 7px 0;
+  padding: 7px 3px;
+  display: grid;
+  grid-template-columns: 50px auto auto auto;
+  grid-gap: 10px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.orderSummaryBagItem img {
+  width: 100%;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+@media (max-width: 750px) {
+  .orderSummaryContainer {
+    flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .orderSummaryContainer {
+    padding: 10px 0;
+  }
+}

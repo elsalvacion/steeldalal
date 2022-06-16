@@ -62,7 +62,9 @@ const DmContent = ({ userInfo }) => {
       );
       fixedMessages.current = messages;
       setRenderMessages(messages);
-      chatsBox.scrollTop = chatsBox.scrollHeight;
+      if (chatsBox) {
+        chatsBox.scrollTop = chatsBox.scrollHeight;
+      }
       // messages.forEach((msg, i) => {
       //   if (msg.isRead === 0 && msg.from_who !== userInfo.id) unRead.push(msg);
       //   else read.push(msg);

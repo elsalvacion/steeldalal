@@ -25,8 +25,35 @@ import {
   YOUR_PRODUCT_LOADING,
   YOUR_PRODUCT_SUCCESS,
 } from "../reducers/types/productTypes";
-import { categories } from "../constants/category";
+// import { categories } from "../constants/category";
 import axios from "axios";
+const categories = [
+  {
+    id: 1,
+    title: "Steel",
+  },
+  {
+    id: 2,
+    title: "Aluminium",
+  },
+  {
+    id: 3,
+    title: "Sheets",
+  },
+  {
+    id: 4,
+    title: "Pipes",
+  },
+  {
+    id: 5,
+    title: "Coils",
+  },
+  {
+    id: 6,
+    title: "Bars",
+  },
+];
+
 export const latestProductsAction = () => async (dispatch) => {
   try {
     dispatch({ type: LATEST_PRODUCT_LOADING });

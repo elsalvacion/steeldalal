@@ -14,7 +14,7 @@ const ChatBox = ({ product, to }) => {
   const [chatMessages, setChatMessages] = useState([]);
   const [isOnline, setIsOnline] = useState(false);
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && product && to) {
       socket.emit("join_room", userInfo.id);
 
       socket.emit("check_if_online", to);
@@ -35,6 +35,7 @@ const ChatBox = ({ product, to }) => {
       });
 
       socket.on("messages_loaded", (messages) => {
+        console.log(messages);
         setChatMessages(messages);
         const chatsBox = document.querySelector(".ChatBoxChatsContainer");
         if (chatsBox) {
@@ -47,7 +48,7 @@ const ChatBox = ({ product, to }) => {
       });
     }
     // eslint-disable-next-line
-  }, [userInfo]);
+  }, [userInfo, product, to]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -10,7 +10,6 @@ const fileUpload = require("express-fileupload");
 require("dotenv").config();
 
 // require routes
-
 const user = require("./routes/user");
 const product = require("./routes/product");
 const category = require("./routes/category");
@@ -43,12 +42,13 @@ app.use("/keys", keys);
 
 app.get("/config/paypal", (req, res) => {
   try {
-    res.json({ msg: process.env.PAYMENT_METHOD_ID });
+    res.status(200).json({ msg: process.env.PAYMENT_METHOD_ID });
   } catch (err) {
     console.log(err);
     res.status(400).json({ msg: "Payment method not available" });
   }
 });
+
 app.post("/contact", (req, res) => {
   try {
     const details = req.body;
@@ -62,10 +62,18 @@ app.post("/contact", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 const httpServer = createServer(app);
+const whitelist = ["http://localhost:45678", "http://localhost:3000"];
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST"],
   },
 });
 
@@ -107,16 +115,16 @@ io.on("connection", (socket) => {
 
   // load messages
   socket.on("load_messages", (data) => {
-    console.log("fired");
     const { product, to, from } = data;
     const sql = `select * from messages where (to_who = ? and from_who = ? and product = ?) or (to_who = ? and from_who = ? and product = ?)`;
     connection.query(
       sql,
-      [to, from, product, from, to, product],
+      [to, from, Number(product), from, to, Number(product)],
       (loadMessagesErr, loadMessagesRes) => {
         if (loadMessagesErr) {
           console.log(loadMessagesErr);
         } else {
+          // console.log(loadMessagesRes);
           socket.emit("messages_loaded", loadMessagesRes);
         }
       }

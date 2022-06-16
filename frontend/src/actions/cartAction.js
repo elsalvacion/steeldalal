@@ -135,6 +135,7 @@ export const selectCartAction = (id, choice) => async (dispatch) => {
     localStorage.setItem("cart", JSON.stringify(cart));
     if (choice) {
       localStorage.setItem("bag", JSON.stringify(cart));
+      addToBagAction(cart[id]);
     } else {
       const bag = localStorage.getItem("bag")
         ? JSON.parse(localStorage.getItem("bag"))

@@ -1,4 +1,4 @@
-import { Favorite } from "@mui/icons-material";
+import { Favorite, LocalMall } from "@mui/icons-material";
 import { Button, Typography, Rating } from "@mui/material";
 import React, { useState } from "react";
 import "./ProductDescription.css";
@@ -8,11 +8,11 @@ import ChangeQuantity from "../layout/ChangeQuantity";
 import ProductSlider from "../product/ProductSlider";
 import { FaRupeeSign } from "react-icons/fa";
 import parse from "html-react-parser";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const ProductDescription = ({ details }) => {
   const dispatch = useDispatch();
-  // const history = useHistory();
+  const history = useHistory();
   const [qty, setQty] = useState(1);
   const countInStock = details.qty;
   const handleChange = (e) => {
@@ -80,9 +80,17 @@ const ProductDescription = ({ details }) => {
       <br />
       <br />
       <div className="productDesAction">
-        {/* <Button
+        <Button
           onClick={() => {
-            localStorage.setItem("bag", JSON.stringify(details));
+            localStorage.setItem(
+              "bag",
+              JSON.stringify({
+                [details.id]: {
+                  ...details,
+                  qty,
+                },
+              })
+            );
             history.push("/checkout");
           }}
           variant="contained"
@@ -90,7 +98,7 @@ const ProductDescription = ({ details }) => {
           endIcon={<LocalMall />}
         >
           BUY NOW
-        </Button> */}
+        </Button>
         <Button
           onClick={() =>
             dispatch(

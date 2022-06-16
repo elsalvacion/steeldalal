@@ -5,7 +5,7 @@ import ProductCarousel from "../components/home/ProductCarousel";
 import HowItWorks from "../components/home/HowItWorks";
 import WhyUs from "../components/home/WhyUs";
 import Contact from "../components/home/Contact";
-import ShowcaseCarousel from "../components/home/ShowcaseCarousel";
+// import ShowcaseCarousel from "../components/home/ShowcaseCarousel";
 import About from "../components/home/About";
 import CustomHelmet from "../components/layout/CustomHelmet";
 
@@ -17,7 +17,7 @@ const HomeScreen = () => {
         desc="Your number 1 B2B metal store in india with over 10 years experience in the business"
       />
 
-      <ShowcaseCarousel />
+      {/* <ShowcaseCarousel /> */}
       <Container>
         <Category />
         <ProductCarousel />
