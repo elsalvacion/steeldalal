@@ -18,10 +18,11 @@ const Payment = () => {
       };
       document.body.appendChild(script);
     };
-    addPayPalScript();
 
     if (!window.paypal) {
       addPayPalScript();
+      setSdkReady(true);
+    } else {
       setSdkReady(true);
     }
   }, []);

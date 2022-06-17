@@ -7,9 +7,7 @@
 .orderSummaryRight {
   flex: 1;
   margin: 7px 15px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   padding: 10px;
-  border-radius: 7px;
 }
 
 .orderSummaryBagItem {

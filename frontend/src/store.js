@@ -29,6 +29,7 @@ import {
   selectCartReducer,
 } from "./reducers/cartReducer";
 import { loadMessagesReducer, socketReducer } from "./reducers/chatReducer";
+import { payOrderReducer, placeOrderReducer } from "./reducers/orderReducer";
 
 const reducers = combineReducers({
   userLogin: loginReducer,
@@ -54,6 +55,8 @@ const reducers = combineReducers({
   addShippingInfo: addShippingInfoReducer,
   socket: socketReducer,
   loadMessages: loadMessagesReducer,
+  payOrder: payOrderReducer,
+  placeOrder: placeOrderReducer,
 });
 
 const middleware = [thunk];

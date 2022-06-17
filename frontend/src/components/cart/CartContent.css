@@ -22,7 +22,7 @@
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: #0606ce;
+  /* color: #0606ce; */
 }
 .cartItemLink {
   text-decoration: none;
@@ -59,6 +59,7 @@ input::-webkit-inner-spin-button {
   align-items: center;
   justify-content: space-between;
   margin: 15px 0;
+  text-align: left;
 }
 
 .cartContentRight,
@@ -66,6 +67,7 @@ input::-webkit-inner-spin-button {
   background: #fff;
   padding: 10px;
   margin: 2px;
+  color: #252525;
 }
 
 .cartContentTotal p {

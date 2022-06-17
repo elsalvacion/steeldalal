@@ -19,11 +19,7 @@ const ChecoutScreen = () => {
   const history = useHistory();
   const { userInfo } = useSelector((state) => state.userLogin);
   const bagState = useSelector((state) => state.getBag);
-  // const {
-  //   loading: addToBagLoading,
-  //   success,
-  //   error: addToBagError,
-  // } = useSelector((state) => state.getBag);
+
   const [activeStep, setActiveStep] = useState(0);
   const { shippingDetails } = useSelector((state) => state.getShippingInfo);
   useEffect(() => {
@@ -32,10 +28,6 @@ const ChecoutScreen = () => {
     } else {
       dispatch(getBagAction());
     }
-
-    // return () => {
-    //   dispatch(resetBagAction());
-    // };
   }, [userInfo, history, dispatch]);
 
   const handleNext = () => {
@@ -58,22 +50,37 @@ const ChecoutScreen = () => {
         }}
       >
         <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
+          {steps.map((label, i) => (
+            <Step
+              sx={{
+                cursor: "pointer",
+              }}
+              onClick={() => setActiveStep(i)}
+              key={label}
+            >
               <StepLabel>{label}</StepLabel>
             </Step>
           ))}
         </Stepper>
 
-        {activeStep === 0 && (
-          <ShippingDetails
-            shippingDetails={
-              shippingDetails ? shippingDetails : userInfo ? userInfo : {}
-            }
-          />
-        )}
-        {activeStep === 1 && <OrderSummary bagState={bagState} />}
-        {activeStep === 2 && <Payment />}
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
+          {activeStep === 0 && (
+            <ShippingDetails
+              shippingDetails={
+                shippingDetails ? shippingDetails : userInfo ? userInfo : {}
+              }
+            />
+          )}
+          {activeStep === 1 && <OrderSummary bagState={bagState} />}
+          {activeStep === 2 && <Payment />}
+        </div>
         <MobileStepper
           variant="progress"
           steps={maxSteps}
@@ -83,10 +90,13 @@ const ChecoutScreen = () => {
             <Button
               size="small"
               onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
               endIcon={<KeyboardArrowRight />}
             >
-              Next
+              {activeStep === 0
+                ? "Next"
+                : activeStep === 1
+                ? "Place Order"
+                : "Close"}
             </Button>
           }
           backButton={
