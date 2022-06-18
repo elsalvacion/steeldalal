@@ -85,21 +85,21 @@ export const aboutUsLinks = [
 ];
 
 export const adWithUsLinks = [
-  {
-    id: 2,
-    title: "Pricing Policy",
-    link: "/pricing-policy",
-  },
+  // {
+  //   id: 2,
+  //   title: "Pricing Policy",
+  //   link: "/pricing-policy",
+  // },
   {
     id: 3,
-    title: "Refund Policy",
+    title: "Return & Refund Policy",
     link: "/refund-policy",
   },
-  {
-    id: 4,
-    title: "Acceptance Policy",
-    link: "/acceptance-policy",
-  },
+  // {
+  //   id: 4,
+  //   title: "Acceptance Policy",
+  //   link: "/acceptance-policy",
+  // },
 ];
 
 export const contactUsLinks = [

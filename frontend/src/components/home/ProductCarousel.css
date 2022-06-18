@@ -18,7 +18,7 @@
 
 .carouselProduct {
   width: 98%;
-  height: 225px;
+  height: fit-content;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   background: white;
@@ -37,7 +37,7 @@
   font-weight: lighter;
 }
 .carouselProductImage {
-  height: 135px;
+  height: 125px;
   width: 100%;
   object-fit: cover;
   margin-bottom: 10px;
@@ -105,3 +105,12 @@
 
  
 } */
+
+@media (max-width: 400px) {
+  .carouselProductImage {
+    height: 75px;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+}

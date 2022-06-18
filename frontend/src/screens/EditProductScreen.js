@@ -20,7 +20,7 @@ import {
 import {
   ChevronLeftOutlined,
   ChevronRightOutlined,
-  Upgrade,
+  Save,
 } from "@mui/icons-material";
 import CreateProductDescription from "../components/product/CreateProductDescription";
 import CreateProductFormRight from "../components/product/CreateProductFormRight";
@@ -173,10 +173,10 @@ const EditProductScreen = () => {
                     variant="contained"
                     sx={{ mt: 1, mr: 1 }}
                     color={"success"}
-                    endIcon={<Upgrade />}
+                    endIcon={<Save />}
                     onClick={() => dispatch(editProductAction(id, values))}
                   >
-                    Update
+                    Save
                   </Button>
                 </div>
               </Box>

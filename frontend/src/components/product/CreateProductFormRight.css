@@ -1,6 +1,6 @@
 .createProductFormRight {
   flex: 1;
-  padding: 15px;
+  /* padding: 15px; */
 }
 
 .createProductFormRight label {
@@ -55,4 +55,29 @@ textarea:focus {
 
 .createProductFormPrices div {
   flex: 1;
+}
+.productSpecContainer {
+  background: #f2f2f2;
+  padding: 10px 5px;
+  /* margin: 30px 0; */
+}
+.productSpecUnits {
+  display: flex;
+  align-items: center;
+}
+
+.productSpecsAction {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@media (max-width: 600px) {
+  .productSpecUnits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .createProductFormRight label {
+    font-size: 12px;
+  }
 }

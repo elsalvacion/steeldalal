@@ -1,4 +1,3 @@
-import { CurrencyRupee } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";

@@ -92,9 +92,9 @@ const AllProductContent = ({ category, idx }) => {
               }}
               responsive={{
                 0: {
-                  items: 2,
+                  items: 1,
                 },
-                350: {
+                360: {
                   items: 2,
                 },
                 600: {

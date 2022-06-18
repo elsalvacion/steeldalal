@@ -83,18 +83,18 @@ const CreateProductForm = () => {
           <StepContent>
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
-              {images && (
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    endIcon={<ChevronRightOutlined />}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Continue
-                  </Button>
-                </div>
-              )}
+              {/* {images && ( */}
+              <div>
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  endIcon={<ChevronRightOutlined />}
+                  sx={{ mt: 1, mr: 1 }}
+                >
+                  Continue
+                </Button>
+              </div>
+              {/* )} */}
             </Box>
           </StepContent>
         </Step>
@@ -105,6 +105,7 @@ const CreateProductForm = () => {
             <CreateProductFormRight
               handleChange={handleChange}
               values={values}
+              setValues={(value) => setValues({ ...values, ...value })}
             />
             <Box sx={{ mb: 2 }}>
               <div>
@@ -121,13 +122,13 @@ const CreateProductForm = () => {
                   onClick={handleNext}
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={<ChevronRightOutlined />}
-                  disabled={Object.keys(values).find(
-                    (key) =>
-                      values[key] === "" ||
-                      values["price"] === 0 ||
-                      values[key] === [] ||
-                      values[key] === {}
-                  )}
+                  // disabled={Object.keys(values).find(
+                  //   (key) =>
+                  //     values[key] === "" ||
+                  //     values["price"] === 0 ||
+                  //     values[key] === [] ||
+                  //     values[key] === {}
+                  // )}
                 >
                   Continue
                 </Button>

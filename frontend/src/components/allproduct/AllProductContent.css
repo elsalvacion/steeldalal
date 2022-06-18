@@ -39,3 +39,9 @@
     grid-gap: 5px;
   }
 }
+@media (max-width: 370px) {
+  .allProductContent {
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
+  }
+}

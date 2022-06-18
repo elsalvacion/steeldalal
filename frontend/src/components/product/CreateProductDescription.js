@@ -1,32 +1,17 @@
-import React from 'react';
+import React from "react";
 import "./CreateProductDescription.css";
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
-// import style manually
-import 'react-markdown-editor-lite/lib/index.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-// Register plugins if required
-// MdEditor.use(YOUR_PLUGINS_HERE);
-
-// Initialize a markdown parser
-const mdParser = new MarkdownIt(/* Markdown-it options */);
-
-// Finish!
-
-const CreateProductDescription = ({handleDetails, values }) => {
-
-  function handleEditorChange({ html, text }) {
-    
-    handleDetails(html, `${text}`)
-  }
-  
+const CreateProductDescription = ({ handleDetails, values }) => {
+  const handleChange = (value) => {
+    handleDetails(value, "");
+  };
   return (
     <div className="CreateProductDescriptionContainer">
-          <MdEditor value={values.details.text}   style={{ height: '350px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
-
+      <ReactQuill value={values.details.html} onChange={handleChange} />
     </div>
   );
-
 };
 
 export default CreateProductDescription;

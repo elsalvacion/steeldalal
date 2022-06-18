@@ -17,7 +17,7 @@ const HomeScreen = () => {
         desc="Your number 1 B2B metal store in india with over 10 years experience in the business"
       />
 
-      {/* <ShowcaseCarousel /> */}
+      <ShowcaseCarousel />
       <Container>
         <Category />
         <ProductCarousel />
