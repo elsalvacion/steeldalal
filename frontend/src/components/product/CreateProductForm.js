@@ -43,6 +43,18 @@ const CreateProductForm = () => {
       html: "",
     },
     discount: 0,
+    specs: [
+      {
+        thickness: null,
+        t_uom: "m",
+        width: null,
+        w_uom: "m",
+        height: 0,
+        h_uom: "m",
+        price: null,
+        qty: null,
+      },
+    ],
   });
 
   useEffect(() => {

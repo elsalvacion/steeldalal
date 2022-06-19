@@ -40,7 +40,7 @@ const EditProductScreen = () => {
     success: editProductSuccess,
     error: editProductError,
   } = useSelector((state) => state.editProduct);
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
 
   const dispatch = useDispatch();
@@ -49,24 +49,50 @@ const EditProductScreen = () => {
     if (!userInfo) {
       history.push("/login?redirect=manage-product");
     } else {
-      if (!product) {
-        dispatch(fetchSingleProductsAction(id));
-      } else {
-        setValues({
-          ...product,
-          details: {
-            html: product.details,
-            text: product.detailsText,
-          },
-        });
-      }
+      dispatch(fetchSingleProductsAction(id));
     }
-  }, [dispatch, userInfo, history, id, product]);
+  }, [dispatch, userInfo, history, id]);
   useEffect(() => {
     if (editProductSuccess) {
       history.push(`/product/${id}`);
     }
-  }, [editProductSuccess, history, id]);
+    if (product) {
+      setValues({
+        ...product,
+        details: {
+          html: product.details,
+          text: product.detailsText,
+        },
+        specs: product.specs
+          ? product.specs.length > 0
+            ? product.specs
+            : [
+                {
+                  thickness: null,
+                  t_uom: "m",
+                  width: null,
+                  w_uom: "m",
+                  height: 0,
+                  h_uom: "m",
+                  price: null,
+                  qty: null,
+                },
+              ]
+          : [
+              {
+                thickness: null,
+                t_uom: "m",
+                width: null,
+                w_uom: "m",
+                height: 0,
+                h_uom: "m",
+                price: null,
+                qty: null,
+              },
+            ],
+      });
+    }
+  }, [editProductSuccess, history, id, product]);
 
   const handleChange = (e) => {
     setValues({
@@ -108,81 +134,83 @@ const EditProductScreen = () => {
             handleClose={() => dispatch({ type: SINGLE_PRODUCT_RESET })}
           />
         )}
-        <Stepper activeStep={activeStep} orientation="vertical">
-          <Step>
-            <StepLabel>Edit Details</StepLabel>
-            <StepContent>
-              <CreateProductFormRight
-                handleChange={handleChange}
-                values={values}
-              />
-              <Box sx={{ mb: 2, mt: 2 }}>
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
-                    endIcon={<ChevronRightOutlined />}
-                    disabled={Object.keys(values).find(
-                      (key) =>
-                        (key !== "detailsText" && values[key] === "") ||
-                        values["price"] === 0 ||
-                        values[key] === [] ||
-                        values[key] === {}
-                    )}
-                  >
-                    Continue
-                  </Button>
-                </div>
-              </Box>
-            </StepContent>
-          </Step>
+        {values && (
+          <Stepper activeStep={activeStep} orientation="vertical">
+            <Step>
+              <StepLabel>Edit Details</StepLabel>
+              <StepContent>
+                <CreateProductFormRight
+                  handleChange={handleChange}
+                  values={values}
+                  setValues={(value) => setValues({ ...values, ...value })}
+                />
+                <Box sx={{ mb: 2, mt: 2 }}>
+                  <div>
+                    <Button
+                      variant="contained"
+                      onClick={handleNext}
+                      sx={{ mt: 1, mr: 1 }}
+                      endIcon={<ChevronRightOutlined />}
+                      disabled={Object.keys(values).find(
+                        (key) =>
+                          (key !== "detailsText" && values[key] === "") ||
+                          values[key] === [] ||
+                          values[key] === {}
+                      )}
+                    >
+                      Continue
+                    </Button>
+                  </div>
+                </Box>
+              </StepContent>
+            </Step>
 
-          <Step>
-            <StepLabel>Edit Description</StepLabel>
-            <StepContent>
-              <CreateProductDescription
-                handleDetails={(html, text) =>
-                  setValues({
-                    ...values,
-                    details: {
-                      html,
-                      text,
-                    },
-                  })
-                }
-                values={values}
-              />
-              {editProductLoading && (
-                <Typography sx={{ mb: 2, mt: 2 }} color="gray">
-                  editing... product
-                </Typography>
-              )}
+            <Step>
+              <StepLabel>Edit Description</StepLabel>
+              <StepContent>
+                <CreateProductDescription
+                  handleDetails={(html, text) =>
+                    setValues({
+                      ...values,
+                      details: {
+                        html,
+                        text,
+                      },
+                    })
+                  }
+                  values={values}
+                />
+                {editProductLoading && (
+                  <Typography sx={{ mb: 2, mt: 2 }} color="gray">
+                    editing... product
+                  </Typography>
+                )}
 
-              <Box sx={{ mb: 2, mt: 2 }}>
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
-                    startIcon={<ChevronLeftOutlined />}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{ mt: 1, mr: 1 }}
-                    color={"success"}
-                    endIcon={<Save />}
-                    onClick={() => dispatch(editProductAction(id, values))}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </Box>
-            </StepContent>
-          </Step>
-        </Stepper>
+                <Box sx={{ mb: 2, mt: 2 }}>
+                  <div>
+                    <Button
+                      variant="contained"
+                      onClick={handleBack}
+                      sx={{ mt: 1, mr: 1 }}
+                      startIcon={<ChevronLeftOutlined />}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{ mt: 1, mr: 1 }}
+                      color={"success"}
+                      endIcon={<Save />}
+                      onClick={() => dispatch(editProductAction(id, values))}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </Box>
+              </StepContent>
+            </Step>
+          </Stepper>
+        )}
       </CreateProductContainer>
     </Container>
   );

@@ -16,6 +16,7 @@ router.post("/", userProtect, (req, res) => {
       brand,
       details,
       images,
+      specs,
     } = req.body;
 
     const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?, ?, ?, ?); `;
@@ -43,11 +44,21 @@ router.post("/", userProtect, (req, res) => {
         } else {
           const productId = createProductRes.insertId;
           let imagesQuery = "insert into images (product, image) values ";
+          let specsQuery =
+            "insert into  productSpecs (thickness, t_uom, width, w_uom, height, h_uom, product, qty, price) values";
           images.forEach((image, i) => {
             if (i !== images.length - 1) {
               imagesQuery += ` (${productId}, "${image.image}"), `;
             } else {
               imagesQuery += ` (${productId}, "${image.image}");`;
+            }
+          });
+          specs.forEach((spec, i) => {
+            if (i !== specs.length - 1) {
+              specsQuery += ` (${spec.thickness}, "${spec.t_uom}", ${spec.width}, "${spec.w_uom}", ${spec.height}, "${spec.h_uom}", ${productId}, ${spec.qty},${spec.price}), `;
+            } else {
+              specsQuery += ` (${spec.thickness}, "${spec.t_uom}", ${spec.width}, "${spec.w_uom}", ${spec.height}, "${spec.h_uom}", ${productId}, ${spec.qty},${spec.price});`;
+              imagesQuery += specsQuery;
             }
           });
           connection.query(imagesQuery, (insertImagesErr, insertImagesRes) => {
@@ -195,21 +206,24 @@ router.get("/:id", (req, res) => {
     connection.query(
       `select * from products where id = ? ;
       select image from images where product = ? ;
+      select * from productSpecs where product = ?
       `,
-      [req.params.id, req.params.id],
+      [req.params.id, req.params.id, req.params.id],
       (fetchProductErr, fetchProductRes) => {
         if (fetchProductErr) {
           console.log(fetchProductErr);
           res.status(400).json({ msg: "Error while fetching product" });
         } else {
           const images = [];
-          if (fetchProductRes[1].length > 0) {
+          if (fetchProductRes[1].length > 1) {
             fetchProductRes[1].forEach((product) => images.push(product.image));
           } else images.push(fetchProductRes[0][0].image);
+
           res.json({
             msg: {
               ...fetchProductRes[0][0],
               images,
+              specs: fetchProductRes[2],
             },
           });
         }
@@ -233,10 +247,22 @@ router.put("/:id", (req, res) => {
       category,
       type,
       brand,
+      specs,
     } = req.body;
+    let sql = `update products set title = ?, discount = ?, price = ?, rating = ?, details = ?, detailsText = ?, qty = ?, category = ? , type = ? , brand = ?  where id = ?;`;
+
+    specs.forEach((spec) => {
+      if (spec.id) {
+        sql += `update productSpecs set thickness = ${spec.thickness}, t_uom = "${spec.t_uom}", width = ${spec.width}, w_uom = "${spec.w_uom}", height = ${spec.height}, h_uom = "${spec.h_uom}", product = ${spec.product} , qty = ${spec.qty}, price = ${spec.price} where id = ${spec.id}; `;
+      } else {
+        sql += `
+           insert into  productSpecs (thickness, t_uom, width, w_uom, height, h_uom, product, qty, price) values (${spec.thickness}, "${spec.t_uom}", ${spec.width}, "${spec.w_uom}", ${spec.height}, "${spec.h_uom}", ${req.params.id}, ${spec.qty},${spec.price});
+           `;
+      }
+    });
 
     connection.query(
-      `update products set title = ?, discount = ?, price = ?, rating = ?, details = ?, detailsText = ?, qty = ?, category = ? , type = ? , brand = ?  where id = ?`,
+      sql,
       [
         title,
         discount,
@@ -252,6 +278,7 @@ router.put("/:id", (req, res) => {
       ],
       (updateProductErr, updateProductRes) => {
         if (updateProductErr) {
+          console.log(updateProductErr);
           res.status(400).json({ msg: "Error while updating product" });
         } else {
           res.json({ msg: "Product updated" });

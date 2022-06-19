@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./CreateProductFormRight.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoryAction } from "../../actions/categoryAction";
@@ -12,19 +12,6 @@ const CreateProductFormRight = (props) => {
   const dispatch = useDispatch();
   const { categories, error } = useSelector((state) => state.fetchCategories);
 
-  const [productSpecs, setProductSpecs] = useState([
-    {
-      thickness: null,
-      t_uom: "m",
-      width: null,
-      w_uom: "m",
-      height: null,
-      h_uom: "",
-      price: null,
-      qty: null,
-    },
-  ]);
-
   useEffect(() => {
     dispatch(fetchCategoryAction());
   }, [dispatch]);
@@ -32,41 +19,43 @@ const CreateProductFormRight = (props) => {
   const types = ["Cold Rolled", "Hot Rolled"];
 
   const handleInputChange = (e, index) => {
-    console.log(e.target);
     const { name, value } = e.target;
-    const list = [...productSpecs];
+    const list = [...props.values.specs];
     list[index][name] = value;
-    setProductSpecs(list);
     props.setValues({
+      ...props.values,
       specs: list,
     });
   };
 
   // handle click event of the Remove button
   const handleRemoveClick = (index) => {
-    const list = [...productSpecs];
+    const list = [...props.values.specs];
     list.splice(index, 1);
-    setProductSpecs(list);
     props.setValues({
+      ...props.values,
       specs: list,
     });
   };
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setProductSpecs([
-      ...productSpecs,
-      {
-        thickness: null,
-        t_uom: "m",
-        width: null,
-        w_uom: "m",
-        height: null,
-        h_uom: "",
-        price: null,
-        qty: null,
-      },
-    ]);
+    props.setValues({
+      ...props.values,
+      specs: [
+        ...props.values.specs,
+        {
+          thickness: null,
+          t_uom: "m",
+          width: null,
+          w_uom: "m",
+          height: 0,
+          h_uom: "m",
+          price: null,
+          qty: null,
+        },
+      ],
+    });
   };
   return (
     <div className="createProductFormRight">
@@ -181,7 +170,7 @@ const CreateProductFormRight = (props) => {
         </div> */}
 
         {/* specs */}
-        {productSpecs.map((spec, i) => (
+        {props.values.specs.map((spec, i) => (
           <>
             <div className="productSpecContainer">
               <div className="productSpecUnits">
@@ -277,7 +266,7 @@ const CreateProductFormRight = (props) => {
               </div>
             </div>
             <div className="productSpecsAction">
-              {productSpecs.length !== 1 && (
+              {props.values.specs.length !== 1 && (
                 <IconButton
                   onClick={() => handleRemoveClick(i)}
                   color="error"
@@ -286,7 +275,7 @@ const CreateProductFormRight = (props) => {
                   <Delete />
                 </IconButton>
               )}
-              {productSpecs.length - 1 === i && (
+              {props.values.specs.length - 1 === i && (
                 <Button
                   variant="contained"
                   color="success"

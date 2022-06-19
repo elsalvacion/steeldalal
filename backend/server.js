@@ -62,7 +62,7 @@ app.post("/contact", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 const httpServer = createServer(app);
-const whitelist = ["http://localhost:45678", "http://localhost:3000"];
+const whitelist = ["http://localhost:44909", "http://localhost:3000"];
 
 const io = new Server(httpServer, {
   cors: {
