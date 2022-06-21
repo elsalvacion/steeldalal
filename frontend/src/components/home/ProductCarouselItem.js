@@ -1,5 +1,4 @@
 import React from "react";
-import { FaRupeeSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 const ProductCarouselItem = ({ product }) => {
@@ -16,10 +15,9 @@ const ProductCarouselItem = ({ product }) => {
         <Typography component="h4" noWrap>
           {product.title}
         </Typography>
-        <Typography component="p" noWrap>
-          <FaRupeeSign />
-          {product.price}
-        </Typography>
+        <p className="allProductItemPrice">
+          <b>{product.type}</b>
+        </p>
       </div>
     </Link>
   );

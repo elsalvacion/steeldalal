@@ -21,7 +21,7 @@ const ChangeQuantity = ({
       >
         <ChevronLeftOutlined />
       </IconButton>
-      <input value={qty} onChange={handleChange} type="number" />
+      <input disabled value={qty} onChange={handleChange} type="number" />
       <IconButton
         disabled={qty === countInStock}
         onClick={handleIncrement}

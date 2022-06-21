@@ -10,7 +10,7 @@ const ProductSlider = ({ images }) => {
   return (
     <div className="productSliderContainer">
       <ImageGallery
-        originalHeight="450px"
+        originalHeight="200px"
         showPlayButton={false}
         showIndex={true}
         items={slideImages}

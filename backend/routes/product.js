@@ -219,13 +219,24 @@ router.get("/:id", (req, res) => {
             fetchProductRes[1].forEach((product) => images.push(product.image));
           } else images.push(fetchProductRes[0][0].image);
 
-          res.json({
-            msg: {
-              ...fetchProductRes[0][0],
-              images,
-              specs: fetchProductRes[2],
-            },
-          });
+          connection.query(
+            `select * from users where id = ? `,
+            [fetchProductRes[0][0].user],
+            (fetchUserErr, fetchUserRes) => {
+              if (fetchProductErr) {
+                console.log(fetchUserErr);
+              } else {
+                res.json({
+                  msg: {
+                    ...fetchProductRes[0][0],
+                    images,
+                    specs: fetchProductRes[2],
+                    seller: fetchUserRes[0],
+                  },
+                });
+              }
+            }
+          );
         }
       }
     );

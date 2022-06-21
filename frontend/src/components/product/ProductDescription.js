@@ -1,27 +1,73 @@
-import { Favorite, LocalMall } from "@mui/icons-material";
-import { Button, Typography, Rating } from "@mui/material";
-import React, { useState } from "react";
+import { Typography, Rating, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import "./ProductDescription.css";
-import { useDispatch } from "react-redux";
-import { addToCartAction } from "../../actions/cartAction";
-import ChangeQuantity from "../layout/ChangeQuantity";
 import ProductSlider from "../product/ProductSlider";
-import { FaRupeeSign } from "react-icons/fa";
 import parse from "html-react-parser";
-import { useHistory } from "react-router-dom";
-
+import { FaCartPlus, FaRupeeSign } from "react-icons/fa";
+import ChangeQuantity from "../layout/ChangeQuantity";
+import { addToCartAction } from "../../actions/cartAction";
+import { useDispatch } from "react-redux";
 const ProductDescription = ({ details }) => {
+  const [specValues, setSpecValues] = useState({});
   const dispatch = useDispatch();
-  const history = useHistory();
-  const [qty, setQty] = useState(1);
-  const countInStock = details.qty;
-  const handleChange = (e) => {
-    const value = Number(e.target.value);
-    setQty(value < 1 ? 1 : value > countInStock ? countInStock : value);
+  useEffect(() => {
+    const specs = {};
+    details.specs.forEach((spec) => {
+      specs[spec.id] = {
+        ...spec,
+        yourQty: 0,
+      };
+    });
+    setSpecValues(specs);
+  }, [details]);
+  const handleInputChange = (newValue, id) => {
+    const value = Number(newValue);
+    setSpecValues({
+      ...specValues,
+      [id]: {
+        ...specValues[id],
+        yourQty:
+          value < 1
+            ? 0
+            : value > specValues[id].qty
+            ? specValues[id].qty
+            : value,
+      },
+    });
   };
-  const handleDecrement = () => setQty(qty === 1 ? 1 : qty - 1);
-  const handleIncrement = () =>
-    setQty(qty === countInStock ? countInStock : qty + 1);
+
+  const handleAddToCart = (id) => {
+    const spec = specValues[id];
+    if (spec.yourQty > 0)
+      dispatch(
+        addToCartAction({
+          ...details,
+          specs: spec,
+        })
+      );
+  };
+
+  const handleIncrement = (id) => {
+    setSpecValues({
+      ...specValues,
+      [id]: {
+        ...specValues[id],
+        yourQty:
+          specValues[id].yourQty === specValues[id].qty
+            ? specValues[id].qty
+            : specValues[id].yourQty + 1,
+      },
+    });
+  };
+  const handleDecrement = (id) => {
+    setSpecValues({
+      ...specValues,
+      [id]: {
+        ...specValues[id],
+        yourQty: specValues[id].yourQty === 0 ? 0 : specValues[id].yourQty - 1,
+      },
+    });
+  };
 
   return (
     <div className="productDesContainer">
@@ -31,12 +77,7 @@ const ProductDescription = ({ details }) => {
           <Typography variant="h6" component="h6">
             {details.title}
           </Typography>
-          <div className="productDesPrice">
-            <sup>
-              <FaRupeeSign fontSize={22} />
-            </sup>
-            <p>{details.price}</p>
-          </div>
+
           <Rating
             name="read-only"
             value={details.rating}
@@ -56,67 +97,76 @@ const ProductDescription = ({ details }) => {
             <b>Type: </b>
             {details.type}
           </p>
+          <p>
+            <b>Seller: </b>
+            {details.seller.name}
+          </p>
+          <p>
+            <b>State: </b>
+            {details.seller.state}
+          </p>
+          <p>
+            <b>City: </b>
+            {details.seller.city}
+          </p>
         </div>
       </div>
       <div className="productDesDetails">
         <b>Details: </b>
         <br />
-        <br />
 
         {parse(details.details)}
       </div>
-      <div className="productDesQty">
-        <p>
-          <b>Quantity: </b>
-        </p>
-        <ChangeQuantity
-          handleChange={handleChange}
-          handleDecrement={handleDecrement}
-          handleIncrement={handleIncrement}
-          qty={qty}
-          countInStock={countInStock}
-        />
-      </div>
-      <br />
-      <br />
-      <div className="productDesAction">
-        <Button
-          onClick={() => {
-            localStorage.setItem(
-              "bag",
-              JSON.stringify({
-                [details.id]: {
-                  ...details,
-                  qty,
-                },
-              })
-            );
-            history.push("/checkout");
-          }}
-          variant="contained"
-          color="primary"
-          endIcon={<LocalMall />}
-        >
-          BUY NOW
-        </Button>
-        <Button
-          onClick={() =>
-            dispatch(
-              addToCartAction({
-                ...details,
-                quantity: qty,
-                selected: false,
-              })
-            )
-          }
-          endIcon={<Favorite />}
-          variant="contained"
-          color="primary"
-        >
-          ADD TO WISHLIST
-        </Button>
-      </div>
-      <br />
+      {Object.keys(specValues).length > 0 && (
+        <div className="specs">
+          {Object.keys(specValues).map((key, i) => (
+            <div className="spec" key={key}>
+              <div className="spec-left">
+                <div>
+                  <b>Thickness: </b>
+                  <p>
+                    {specValues[key].thickness} {specValues[key].t_uom}
+                  </p>
+                </div>
+                <div>
+                  <b>Width: </b>
+                  <p>
+                    {specValues[key].width} {specValues[key].w_uom}
+                  </p>
+                </div>
+                <div>
+                  <b>Price: </b>
+                  <p>
+                    <FaRupeeSign /> {specValues[key].price.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+              <div className="spec-right">
+                <Typography>Qty (per piece)</Typography>
+                <ChangeQuantity
+                  handleChange={(e) =>
+                    handleInputChange(e.target.value, specValues[key].id)
+                  }
+                  handleDecrement={() => handleDecrement(specValues[key].id)}
+                  handleIncrement={() => handleIncrement(specValues[key].id)}
+                  qty={specValues[key].yourQty}
+                  countInStock={specValues[key].qty}
+                />
+
+                <small>Available in Stock: {specValues[key].qty}</small>
+
+                <Button
+                  onClick={() => handleAddToCart(specValues[key].id)}
+                  variant="contained"
+                  startIcon={<FaCartPlus />}
+                >
+                  Add To Cart
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

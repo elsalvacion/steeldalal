@@ -14,8 +14,8 @@ const CartScreen = () => {
   return (
     <Container>
       <CustomHelmet
-        title="Wishlist"
-        desc="We have an easy wishlist for you to save your favorite products for later use."
+        title="Cart"
+        desc="We have an easy cart for you to save your favorite products for later use."
       />
       {keys && keys.length > 0 ? (
         <CartContent keys={keys} cart={cart} />

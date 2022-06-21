@@ -1,7 +1,6 @@
 import React from "react";
 import "./AllProductItem.css";
 import { Link } from "react-router-dom";
-import { FaRupeeSign } from "react-icons/fa";
 
 const AllProductItem = ({ product }) => {
   return (
@@ -13,7 +12,7 @@ const AllProductItem = ({ product }) => {
       />
       <p className="allProductItemTitle">{product.title}</p>
       <p className="allProductItemPrice">
-        <FaRupeeSign /> <span>{product.price}</span>
+        <b>{product.type}</b>
       </p>
     </Link>
   );
