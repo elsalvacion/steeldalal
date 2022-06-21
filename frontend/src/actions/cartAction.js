@@ -42,6 +42,7 @@ export const addToCartAction = (details) => async (dispatch, getState) => {
       };
     }
     localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("bag", JSON.stringify(cart));
     dispatch({
       type: ADD_CART_SUCCESS,
     });
@@ -66,13 +67,13 @@ export const getCartAction = () => async (dispatch) => {
       : {};
 
     const keys = Object.keys(cart);
-    keys.forEach((key) => {
-      if (cart[key].selected) {
-        bag[cart[key].id] = cart[key];
-      }
-    });
+    // keys.forEach((key) => {
+    //   if (cart[key].selected) {
+    //     bag[cart[key].id] = cart[key];
+    //   }
+    // });
 
-    localStorage.setItem("bag", JSON.stringify(bag));
+    // localStorage.setItem("bag", JSON.stringify(bag));
 
     dispatch({
       type: GET_CART_SUCCESS,
@@ -80,10 +81,6 @@ export const getCartAction = () => async (dispatch) => {
         cart: cart,
         keys: keys,
       },
-    });
-    console.log({
-      cart: cart,
-      keys: keys,
     });
   } catch (error) {
     console.log(error);
@@ -106,11 +103,11 @@ export const deleteCartAction = (id, specId) => async (dispatch) => {
       delete cart[id];
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-    const bag = localStorage.getItem("bag")
-      ? JSON.parse(localStorage.getItem("bag"))
-      : {};
-    delete bag[id];
-    localStorage.setItem("bag", JSON.stringify(bag));
+    // const bag = localStorage.getItem("bag")
+    //   ? JSON.parse(localStorage.getItem("bag"))
+    //   : {};
+    // delete bag[id];
+    localStorage.setItem("bag", JSON.stringify(cart));
 
     dispatch({
       type: DELETE_CART_SUCCESS,
@@ -132,6 +129,7 @@ export const changeQtyAction = (id, qty) => async (dispatch) => {
       : {};
     cart[id].quantity = qty;
     localStorage.setItem("cart", JSON.stringify(cart));
+
     dispatch({
       type: CHANGE_QTY_SUCCESS,
     });

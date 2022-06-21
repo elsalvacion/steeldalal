@@ -2,6 +2,7 @@
   padding: 20px 10px;
   font-size: 12px;
   display: flex;
+  flex-direction: column-reverse;
 }
 .orderSummaryLeft,
 .orderSummaryRight {
@@ -27,11 +28,11 @@
   margin-right: 10px;
 }
 
-@media (max-width: 750px) {
+/* @media (max-width: 850px) {
   .orderSummaryContainer {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
-}
+} */
 @media (max-width: 600px) {
   .orderSummaryContainer {
     padding: 10px 0;

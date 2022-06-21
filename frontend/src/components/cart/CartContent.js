@@ -156,12 +156,7 @@ const CartContent = ({ keys, cart }) => {
                     }}
                   >
                     {Object.keys(cart[key].specs).map((specKey) => (
-                      <TableRow
-                        key={`spec-${key}-${specKey}`}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
+                      <TableRow key={`spec-${key}-${specKey}`}>
                         <TableCell>
                           {cart[key].specs[specKey].thickness}
                         </TableCell>
