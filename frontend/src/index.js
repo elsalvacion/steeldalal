@@ -1,8 +1,5 @@
 import React from "react";
-import App from "./App";
-// import reportWebVitals from "./reportWebVitals";
+import ReactDOM from "react-dom";
 import "./index.css";
-import { render } from "react-snapshot";
-render(<App />, document.getElementById("root"));
-
-// reportWebVitals();
+import App from "./App";
+ReactDOM.render(<App />, document.getElementById("root"));
