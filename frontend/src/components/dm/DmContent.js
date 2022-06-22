@@ -20,7 +20,10 @@ const DmContent = ({ userInfo }) => {
   const chatContainer = useRef();
   const chatItem = useRef();
   const currentUser = useRef(0);
-  const [renderMessages, setRenderMessages] = useState([]);
+  const [renderMessages, setRenderMessages] = useState({
+    keys: [],
+    messagesObject: {},
+  });
   const fixedMessages = useRef([]);
   const [noUnRead, setNoUnRead] = useState(0);
   // const [newMessages, setNewMessages] = useState([]);
@@ -46,17 +49,23 @@ const DmContent = ({ userInfo }) => {
       fixedSenders.current = users;
       setRenderSenders(users);
       if (users.length > 0) {
-        socket.emit("load_messages", {
+        socket.emit("load_sender_messages", {
           to: userInfo.id,
-          product: users[currentUser.current].product,
-          from: users[currentUser.current].from_who,
+          from: users[currentUser.current].id,
         });
       }
     });
 
-    socket.on("messages_loaded", (messages) => {
-      // let unRead = [];
-      // let read = [];
+    socket.on("sender_messages_loaded", (messages) => {
+      // if (
+      //   fixedSenders.current[currentUser.current].id === messages[0].from_who ||
+      //   fixedSenders.current[currentUser.current].id === messages[0].to_who
+      // ) {
+      //   socket.emit("mark_as_read", {
+      //     to: userInfo.id,
+      //     from: fixedSenders.current[currentUser.current].id,
+      //   });
+      // }
       const chatsBox = document.querySelector(
         ".DmContentRighChatMessagesContainer"
       );
@@ -65,22 +74,12 @@ const DmContent = ({ userInfo }) => {
       if (chatsBox) {
         chatsBox.scrollTop = chatsBox.scrollHeight;
       }
-      // messages.forEach((msg, i) => {
-      //   if (msg.isRead === 0 && msg.from_who !== userInfo.id) unRead.push(msg);
-      //   else read.push(msg);
-      //   if (i === messages.length - 1) {
-      //     setRenderMessages(read);
-      //     setNewMessages(unRead);
-      //     chatsBox.scrollTop = chatsBox.scrollHeight;
-      //   }
-      // });
     });
     socket.on("message_sent", () => {
       socket.emit("load_senders", userInfo.id);
-      socket.emit("load_messages", {
+      socket.emit("load_sender_messages", {
         to: userInfo.id,
-        product: fixedSenders.current[currentUser.current].product,
-        from: fixedSenders.current[currentUser.current].from_who,
+        from: fixedSenders.current[currentUser.current].id,
       });
     });
     // eslint-disable-next-line
@@ -93,20 +92,19 @@ const DmContent = ({ userInfo }) => {
         message,
         product: fixedSenders.current[currentUser.current].product,
         from: userInfo.id,
-        to: fixedSenders.current[currentUser.current].from_who,
+        to: fixedSenders.current[currentUser.current].id,
       });
       setMessage("");
     }
   };
   const handleUserChange = (sender) => {
-    socket.emit("load_messages", {
-      product: fixedSenders.current[sender].product,
+    socket.emit("load_sender_messages", {
       from: userInfo.id,
-      to: fixedSenders.current[sender].from_who,
+      to: fixedSenders.current[sender].id,
     });
     socket.emit("mark_as_read", {
       to: userInfo.id,
-      from: fixedSenders.current[sender].from_who,
+      from: fixedSenders.current[sender].id,
     });
     socket.emit("load_senders", userInfo.id);
 
@@ -171,23 +169,10 @@ const DmContent = ({ userInfo }) => {
           onScroll={onScroll}
           ref={chatContainer}
         >
-          {renderMessages.map((chatMessage) => (
-            <div
-              key={chatMessage.id}
-              className={`DmContentChatMessage ${
-                chatMessage.from_who === userInfo.id ? "right" : "left"
-              } `}
-              ref={chatItem}
-            >
-              {chatMessage.message}
-            </div>
-          ))}
-          {/* {newMessages.length > 0 && (
+          {renderMessages.keys.map((messageKey) => (
             <>
-              <div className="newMsgLine">
-                <h6>New</h6>
-              </div>
-              {newMessages.map((chatMessage) => (
+              <div className="DmContentRightProductHeader">{messageKey}</div>
+              {renderMessages.messagesObject[messageKey].map((chatMessage) => (
                 <div
                   key={chatMessage.id}
                   className={`DmContentChatMessage ${
@@ -199,7 +184,7 @@ const DmContent = ({ userInfo }) => {
                 </div>
               ))}
             </>
-          )} */}
+          ))}
         </div>
         <form onSubmit={handleSubmit} className="ChatBoxMarkdownArea">
           <input

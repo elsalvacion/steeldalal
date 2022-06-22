@@ -99,10 +99,11 @@ io.on("connection", (socket) => {
   // send messages
   socket.on("send_message", (data) => {
     const { message, product, to, from } = data;
+
     const sql = `insert into messages (message, product, to_who, from_who) values(? , ? , ? , ?)`;
     connection.query(
       sql,
-      [message, Number(product), to, from],
+      [message, product, to, from],
       (insertMessageErr, insertMessageRes) => {
         if (insertMessageErr) {
           console.log(insertMessageErr);
@@ -133,41 +134,37 @@ io.on("connection", (socket) => {
 
   // load senders
   socket.on("load_senders", (userId) => {
-    const sql = `select  distinct from_who, product, name from messages, users  where to_who = ? and users.id = messages.from_who group by name, product order by messages.createdAt desc;
-    `;
-    connection.query(
-      sql,
-      [userId, userId, 0],
-      (loadSendersErr, loadSendersRes) => {
-        if (loadSendersErr) console.log(loadSendersErr);
-        else {
-          const newSendersRes = [];
-          loadSendersRes.forEach((sender, i) => {
-            const connected = io.sockets.adapter.rooms.get(sender.from_who);
-            const data = {
-              ...sender,
-              online: connected ? true : false,
-            };
+    const sql = `select distinct users.* from users, messages where users.id = messages.from_who and to_who = ? `;
+    connection.query(sql, [userId], (loadSendersErr, loadSendersRes) => {
+      if (loadSendersErr) console.log(loadSendersErr);
+      else {
+        const newSendersRes = [];
+        loadSendersRes.forEach((sender, i) => {
+          const connected = io.sockets.adapter.rooms.get(sender.id);
+          const data = {
+            ...sender,
+            online: connected ? true : false,
+          };
 
-            connection.query(
-              `select count(isRead) from messages where to_who = ?  and from_who = ? and isRead = ?;`,
-              [userId, sender.from_who, 0],
-              (isReadErr, isReadRes) => {
-                if (isReadErr) console.log(isReadErr);
-                else {
-                  data.unread = isReadRes[0]["count(isRead)"];
+          connection.query(
+            `select count(isRead) from messages where to_who = ?  and from_who = ? and isRead = ?;
+            `,
+            [userId, sender.id, 0],
+            (isReadErr, isReadRes) => {
+              if (isReadErr) console.log(isReadErr);
+              else {
+                data.unread = isReadRes[0]["count(isRead)"];
 
-                  newSendersRes.push(data);
-                  if (i === loadSendersRes.length - 1) {
-                    socket.emit("senders_loaded", newSendersRes);
-                  }
+                newSendersRes.push(data);
+                if (i === loadSendersRes.length - 1) {
+                  socket.emit("senders_loaded", newSendersRes);
                 }
               }
-            );
-          });
-        }
+            }
+          );
+        });
       }
-    );
+    });
   });
 
   // get unread messages
@@ -192,6 +189,42 @@ io.on("connection", (socket) => {
       if (markAsReadErr) console.log(markAsReadErr);
       else socket.emit("message_marked_as_read");
     });
+  });
+
+  // load messages
+  socket.on("load_sender_messages", (data) => {
+    const { to, from } = data;
+    const sql = `select distinct product from messages where (to_who = ? and from_who = ? ) or (to_who = ? and from_who = ? )`;
+    connection.query(
+      sql,
+      [to, from, from, to],
+      (loadProductsErr, loadProductsRes) => {
+        if (loadProductsErr) {
+          console.log(loadProductsErr);
+        } else {
+          const messagesObject = {};
+          loadProductsRes.forEach(({ product }, i) => {
+            connection.query(
+              `select * from messages where (to_who = ? and from_who = ? and product = ? ) or (to_who = ? and from_who = ? and product = ? )`,
+              [to, from, product, from, to, product],
+              (loadMessagesErr, loadMessagesRes) => {
+                if (loadMessagesErr) {
+                  console.log(loadMessagesErr);
+                } else {
+                  messagesObject[product] = loadMessagesRes;
+                  if (i === loadProductsRes.length - 1) {
+                    socket.emit("sender_messages_loaded", {
+                      keys: Object.keys(messagesObject),
+                      messagesObject,
+                    });
+                  }
+                }
+              }
+            );
+          });
+        }
+      }
+    );
   });
 });
 // listen to a port
