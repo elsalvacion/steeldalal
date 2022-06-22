@@ -131,7 +131,10 @@ const Nav = () => {
         <div>
           <IconButton
             color="primary"
-            onClick={() => setOpenSearch(!openSearch)}
+            onClick={() => {
+              history.push("/search");
+              setOpenSearch(!openSearch);
+            }}
           >
             <SearchIcon />
           </IconButton>

@@ -30,6 +30,7 @@ import {
 } from "./reducers/cartReducer";
 import { loadMessagesReducer, socketReducer } from "./reducers/chatReducer";
 import { payOrderReducer, placeOrderReducer } from "./reducers/orderReducer";
+import { searchReducer, searchValueReducer } from "./reducers/searchReducer";
 
 const reducers = combineReducers({
   userLogin: loginReducer,
@@ -57,6 +58,8 @@ const reducers = combineReducers({
   loadMessages: loadMessagesReducer,
   payOrder: payOrderReducer,
   placeOrder: placeOrderReducer,
+  search: searchReducer,
+  searchValue: searchValueReducer,
 });
 
 const middleware = [thunk];

@@ -26,6 +26,7 @@ import PricingPolicyScreen from "./screens/PricingPolicyScreen";
 import RefundPolicyScreen from "./screens/RefundPolicyScreen";
 import AcceptancePolicyScreen from "./screens/AcceptancePolicyScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
+import SearchScreen from "./screens/SearchScreen";
 
 const App = () => {
   return (
@@ -91,6 +92,7 @@ const App = () => {
               />
 
               <Route exact path="/checkout" component={CheckoutScreen} />
+              <Route exact path="/search" component={SearchScreen} />
             </div>
           </Switch>
           <ScrollToTop />

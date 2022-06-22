@@ -322,4 +322,17 @@ router.delete("/:id", (req, res) => {
   }
 });
 
+router.post("/search", (req, res) => {
+  const { keyword } = req.body;
+  const sql = `select * from products where title like '%${keyword}%' or brand like '%${keyword}%' or type like '%${keyword}%' or  category like '%${keyword}%' order by createdAt desc`;
+  connection.query(sql, (searchErr, searchRes) => {
+    if (searchErr) {
+      console.log(searchErr);
+      res.status(400).json({ msg: "search engine error" });
+    } else {
+      res.json({ msg: searchRes });
+    }
+  });
+});
+
 module.exports = router;

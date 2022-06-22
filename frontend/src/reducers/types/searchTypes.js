@@ -1,0 +1,5 @@
+export const SEARCH_LOADING = "SEARCH_LOADING";
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
+export const SEARCH_ERROR = "SEARCH_ERROR";
+export const SEARCH_RESET = "SEARCH_RESET";
+export const SET_SEARCH_VALUE = "SET_SEARCH_VALUE";

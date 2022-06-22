@@ -1,20 +1,21 @@
 .mobileSearchContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgb(255, 255, 255); 
-    z-index: 500;
-    padding: 5px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgb(255, 255, 255);
+  z-index: 5000;
+  padding: 5px;
+  overflow: auto;
 }
 
 .mobileSearchInputContainer {
-    flex: 1;
+  flex: 1;
 }
 
 .mobileSearchBarContainer {
-    display: flex;
-    align-items: center;
-    background: #fff;
+  display: flex;
+  align-items: center;
+  background: #fff;
 }
