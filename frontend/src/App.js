@@ -27,6 +27,7 @@ import RefundPolicyScreen from "./screens/RefundPolicyScreen";
 import AcceptancePolicyScreen from "./screens/AcceptancePolicyScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import SearchScreen from "./screens/SearchScreen";
+import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 
 const App = () => {
   return (
@@ -84,6 +85,11 @@ const App = () => {
                 exact
                 path="/refund-policy"
                 component={RefundPolicyScreen}
+              />
+              <Route
+                exact
+                path="/privacy-policy"
+                component={PrivacyPolicyScreen}
               />
               <Route
                 exact
