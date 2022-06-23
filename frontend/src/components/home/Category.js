@@ -8,7 +8,7 @@ import { Typography } from "@mui/material";
 // import CustomAlert from "../layout/CustomAlert";
 // import { FETCH_CATEGORY_RESET } from "../../reducers/types/categoryTypes";
 import { ArrowForward } from "@mui/icons-material";
-export const categories = [
+const categories = [
   {
     id: 1,
     title: "Steel",

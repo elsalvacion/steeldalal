@@ -210,6 +210,7 @@ router.get("/:id", (req, res) => {
       `,
       [req.params.id, req.params.id, req.params.id],
       (fetchProductErr, fetchProductRes) => {
+        // console.log(fetchProductRes);
         if (fetchProductErr) {
           console.log(fetchProductErr);
           res.status(400).json({ msg: "Error while fetching product" });

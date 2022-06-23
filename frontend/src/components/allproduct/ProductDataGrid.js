@@ -8,7 +8,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { FaRupeeSign } from "react-icons/fa";
 import { makeStyles } from "@material-ui/styles";
 import { Delete, Edit, Visibility } from "@mui/icons-material";
 import { useHistory } from "react-router-dom";
@@ -41,15 +40,12 @@ const ProductDataGrid = ({ products }) => {
           <TableCell align="left">Title</TableCell>
           <TableCell align="left">Category</TableCell>
           <TableCell align="left">Type</TableCell>
-          <TableCell align="left">Quantity</TableCell>
-          <TableCell align="left">Price</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {products.map((product) => (
           <TableRow key={product.id}>
             <TableCell className={classes.action} align="left">
-             
               <IconButton
                 onClick={() => history.push(`/edit-product/${product.id}`)}
               >
@@ -73,11 +69,6 @@ const ProductDataGrid = ({ products }) => {
             </TableCell>
             <TableCell align="left">{product.category}</TableCell>
             <TableCell align="left">{product.type}</TableCell>
-            <TableCell align="left">{product.qty}</TableCell>
-            <TableCell align="left" className={classes.price}>
-              <FaRupeeSign fontSize={16} />
-              {product.price}
-            </TableCell>
           </TableRow>
         ))}
       </TableBody>

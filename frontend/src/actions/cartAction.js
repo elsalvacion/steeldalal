@@ -62,9 +62,9 @@ export const getCartAction = () => async (dispatch) => {
       ? JSON.parse(localStorage.getItem("cart"))
       : {};
 
-    const bag = localStorage.getItem("bag")
-      ? JSON.parse(localStorage.getItem("bag"))
-      : {};
+    // const bag = localStorage.getItem("bag")
+    //   ? JSON.parse(localStorage.getItem("bag"))
+    //   : {};
 
     const keys = Object.keys(cart);
     // keys.forEach((key) => {
