@@ -41,7 +41,7 @@ const corsOptions = {
     }
   },
 };
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(xss());
 app.use(hpp());
