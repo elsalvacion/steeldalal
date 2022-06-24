@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // static files
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 // external middlewares
 app.use(cors());
 app.use(helmet());
@@ -62,8 +62,26 @@ app.post("/contact", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 const httpServer = createServer(app);
+const whitelist = [
+  "http://localhost:80",
+  "http://steeldalal.com:80",
+  "https://steeldalal.com:80",
+  "http://43.204.147.225:80",
+  "https://43.204.147.225:80",
+];
 
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  cors: {
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST"],
+  },
+});
 
 io.on("connection", (socket) => {
   if (socket.connected) {
