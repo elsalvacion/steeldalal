@@ -24,23 +24,11 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // static files
+app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public/assets"));
+app.use(express.static(__dirname + "/public/static"));
+
 // external middlewares
-// const whitelist = [
-//   "http://localhost:80",
-//   "http://steeldalal.com:80",
-//   "https://steeldalal.com:80",
-//   "http://43.204.147.225:80",
-//   "https://43.204.147.225:80",
-// ];
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-// };
 app.use(cors());
 app.use(helmet());
 app.use(xss());
@@ -49,7 +37,6 @@ app.use(fileUpload());
 // express body parser
 app.use(express.json());
 
-app.use(express.static(__dirname + "/public"));
 // routes middleware
 app.use("/auth", user);
 app.use("/product", product);
