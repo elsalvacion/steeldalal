@@ -25,23 +25,23 @@ if (process.env.NODE_ENV === "development") {
 
 // static files
 // external middlewares
-const whitelist = [
-  "http://localhost:80",
-  "http://steeldalal.com:80",
-  "https://steeldalal.com:80",
-  "http://43.204.147.225:80",
-  "https://43.204.147.225:80",
-];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-app.use(cors(corsOptions));
+// const whitelist = [
+//   "http://localhost:80",
+//   "http://steeldalal.com:80",
+//   "https://steeldalal.com:80",
+//   "http://43.204.147.225:80",
+//   "https://43.204.147.225:80",
+// ];
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
+app.use(cors());
 app.use(helmet());
 app.use(xss());
 app.use(hpp());
