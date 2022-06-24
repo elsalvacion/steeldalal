@@ -62,20 +62,8 @@ app.post("/contact", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 const httpServer = createServer(app);
-const whitelist = ["http://localhost:44909", "http://localhost:3000"];
 
-const io = new Server(httpServer, {
-  cors: {
-    origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST"],
-  },
-});
+const io = new Server(httpServer);
 
 io.on("connection", (socket) => {
   if (socket.connected) {
