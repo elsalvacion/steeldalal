@@ -24,10 +24,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // static files
-app.use(express.static(__dirname + "/public"));
-app.use(express.static(__dirname + "/public/assets"));
-app.use(express.static(__dirname + "/public/static"));
-
+app.use(express.static("public"));
 // external middlewares
 app.use(cors());
 app.use(helmet());
