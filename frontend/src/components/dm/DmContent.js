@@ -12,7 +12,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { socket } from "../../utils/connectSocket";
 import CustomHelmet from "../layout/CustomHelmet";
 import "./DmContent.css";
-
 const DmContent = ({ userInfo }) => {
   const [message, setMessage] = useState("");
   const fixedSenders = useRef([]);
@@ -20,10 +19,7 @@ const DmContent = ({ userInfo }) => {
   const chatContainer = useRef();
   const chatItem = useRef();
   const currentUser = useRef(0);
-  const [renderMessages, setRenderMessages] = useState({
-    keys: [],
-    messagesObject: {},
-  });
+  const [renderMessages, setRenderMessages] = useState([]);
   const fixedMessages = useRef([]);
   const [noUnRead, setNoUnRead] = useState(0);
   // const [newMessages, setNewMessages] = useState([]);
@@ -41,31 +37,25 @@ const DmContent = ({ userInfo }) => {
     socket.on("new_user_connected", () =>
       socket.emit("load_senders", userInfo.id)
     );
-
     socket.on("bye", () => socket.emit("load_senders", userInfo.id));
-
     socket.emit("load_senders", userInfo.id);
     socket.on("senders_loaded", (users) => {
       fixedSenders.current = users;
       setRenderSenders(users);
       if (users.length > 0) {
-        socket.emit("load_sender_messages", {
+        socket.emit("load_messages", {
           to: userInfo.id,
+          // product: users[currentUser.current].product,
           from: users[currentUser.current].id,
         });
       }
     });
 
-    socket.on("sender_messages_loaded", (messages) => {
-      // if (
-      //   fixedSenders.current[currentUser.current].id === messages[0].from_who ||
-      //   fixedSenders.current[currentUser.current].id === messages[0].to_who
-      // ) {
-      //   socket.emit("mark_as_read", {
-      //     to: userInfo.id,
-      //     from: fixedSenders.current[currentUser.current].id,
-      //   });
-      // }
+    socket.on("messages_loaded", (messages) => {
+      socket.emit("mark_as_read", {
+        to: userInfo.id,
+        from: fixedSenders.current[currentUser.current].id,
+      });
       const chatsBox = document.querySelector(
         ".DmContentRighChatMessagesContainer"
       );
@@ -77,17 +67,21 @@ const DmContent = ({ userInfo }) => {
     });
     socket.on("message_sent", () => {
       socket.emit("load_senders", userInfo.id);
-      socket.emit("load_sender_messages", {
+      socket.emit("load_messages", {
         to: userInfo.id,
+        // product: fixedSenders.current[currentUser.current].product,
         from: fixedSenders.current[currentUser.current].id,
       });
     });
     // eslint-disable-next-line
   }, [userInfo]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message !== "") {
+      socket.emit("mark_as_read", {
+        to: userInfo.id,
+        from: fixedSenders.current[currentUser.current].id,
+      });
       socket.emit("send_message", {
         message,
         product: fixedSenders.current[currentUser.current].product,
@@ -98,7 +92,8 @@ const DmContent = ({ userInfo }) => {
     }
   };
   const handleUserChange = (sender) => {
-    socket.emit("load_sender_messages", {
+    socket.emit("load_messages", {
+      // product: fixedSenders.current[sender].product,
       from: userInfo.id,
       to: fixedSenders.current[sender].id,
     });
@@ -110,15 +105,12 @@ const DmContent = ({ userInfo }) => {
 
     currentUser.current = sender;
   };
-
   const onScroll = () => {
-    if (
-      chatContainer.current.scrollTop >=
-      chatItem.current.getBoundingClientRect().top
-    )
-      console.log("yes");
+    // if (
+    //   chatContainer.current.scrollTop >=
+    //   chatItem.current.getBoundingClientRect().top
+    // )
   };
-
   return (
     <div className="DmContentContainer">
       <CustomHelmet
@@ -138,7 +130,7 @@ const DmContent = ({ userInfo }) => {
                   i === currentUser.current ? "#eeeeee" : "transparent",
                 color: "#212121",
               }}
-              key={sender.from_who}
+              key={sender.id}
             >
               <ListItemIcon>
                 <Circle color={sender.online ? "success" : "disabled"} />
@@ -169,21 +161,16 @@ const DmContent = ({ userInfo }) => {
           onScroll={onScroll}
           ref={chatContainer}
         >
-          {renderMessages.keys.map((messageKey) => (
-            <>
-              <div className="DmContentRightProductHeader">{messageKey}</div>
-              {renderMessages.messagesObject[messageKey].map((chatMessage) => (
-                <div
-                  key={chatMessage.id}
-                  className={`DmContentChatMessage ${
-                    chatMessage.from_who === userInfo.id ? "right" : "left"
-                  } `}
-                  ref={chatItem}
-                >
-                  {chatMessage.message}
-                </div>
-              ))}
-            </>
+          {renderMessages.map((chatMessage) => (
+            <div
+              key={chatMessage.id}
+              className={`DmContentChatMessage ${
+                chatMessage.from_who === userInfo.id ? "right" : "left"
+              } `}
+              ref={chatItem}
+            >
+              {chatMessage.message}
+            </div>
           ))}
         </div>
         <form onSubmit={handleSubmit} className="ChatBoxMarkdownArea">
@@ -201,5 +188,4 @@ const DmContent = ({ userInfo }) => {
     </div>
   );
 };
-
 export default DmContent;

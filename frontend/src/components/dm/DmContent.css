@@ -27,18 +27,10 @@
   background: url(../../assets/chat-bg-4.jpg);
   background-position: center center;
   background-repeat: no-repeat;
+
   background-size: cover;
+
   /* background: white; */
-}
-.DmContentRightProductHeader {
-  background: #fff;
-  padding: 10px 5px;
-  font-size: 18px;
-  text-align: center;
-  border-radius: 20px;
-  margin: 30px auto;
-  width: 100px;
-  /* max-width: fit-content; */
 }
 
 .DmContentChatMessage {

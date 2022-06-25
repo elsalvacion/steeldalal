@@ -84,14 +84,19 @@ io.on("connection", (socket) => {
       socket.emit("is_online", 0);
     }
   });
+
   // send messages
+
   socket.on("send_message", (data) => {
     const { message, product, to, from } = data;
 
     const sql = `insert into messages (message, product, to_who, from_who) values(? , ? , ? , ?)`;
+
     connection.query(
       sql,
-      [message, product, to, from],
+
+      [message, Number(product), to, from],
+
       (insertMessageErr, insertMessageRes) => {
         if (insertMessageErr) {
           console.log(insertMessageErr);
@@ -105,54 +110,75 @@ io.on("connection", (socket) => {
   // load messages
   socket.on("load_messages", (data) => {
     const { product, to, from } = data;
-    const sql = `select * from messages where (to_who = ? and from_who = ? and product = ?) or (to_who = ? and from_who = ? and product = ?)`;
-    connection.query(
-      sql,
-      [to, from, Number(product), from, to, Number(product)],
-      (loadMessagesErr, loadMessagesRes) => {
-        if (loadMessagesErr) {
-          console.log(loadMessagesErr);
-        } else {
-          // console.log(loadMessagesRes);
-          socket.emit("messages_loaded", loadMessagesRes);
-        }
+    let sql;
+    if (data.product) {
+      sql = `select * from messages where (to_who = ${to} and from_who = ${from} and product = ${product}) or (to_who = ${from} and from_who = ${to} and product = ${product})`;
+    } else {
+      sql = `select * from messages where (to_who = ${to} and from_who = ${from}) or (to_who = ${from} and from_who = ${to})`;
+    }
+    connection.query(sql, (loadMessagesErr, loadMessagesRes) => {
+      if (loadMessagesErr) {
+        console.log(loadMessagesErr);
+      } else {
+        // console.log(loadMessagesRes);
+        socket.emit("messages_loaded", loadMessagesRes);
       }
-    );
+    });
   });
 
   // load senders
+
   socket.on("load_senders", (userId) => {
-    const sql = `select distinct users.* from users, messages where users.id = messages.from_who and to_who = ? `;
-    connection.query(sql, [userId], (loadSendersErr, loadSendersRes) => {
-      if (loadSendersErr) console.log(loadSendersErr);
-      else {
-        const newSendersRes = [];
-        loadSendersRes.forEach((sender, i) => {
-          const connected = io.sockets.adapter.rooms.get(sender.id);
-          const data = {
-            ...sender,
-            online: connected ? true : false,
-          };
+    const sql = `
+    select distinct users.* from users, messages where users.id = messages.from_who and to_who = ?;
+    select distinct facebook.* from facebook, messages where facebook.id = messages.from_who and to_who = ?;
+    select distinct google.* from google, messages where google.id = messages.from_who and to_who = ?
+    
+    
+    `;
 
-          connection.query(
-            `select count(isRead) from messages where to_who = ?  and from_who = ? and isRead = ?;
-            `,
-            [userId, sender.id, 0],
-            (isReadErr, isReadRes) => {
-              if (isReadErr) console.log(isReadErr);
-              else {
-                data.unread = isReadRes[0]["count(isRead)"];
+    connection.query(
+      sql,
+      [userId, userId, userId],
+      (loadSendersErr, loadSendersRes) => {
+        if (loadSendersErr) console.log(loadSendersErr);
+        else {
+          const newSendersRes = [];
+          const allSenders = []
+            .concat(loadSendersRes[0])
+            .concat(loadSendersRes[1])
+            .concat(loadSendersRes[2]);
+          allSenders.forEach((sender, i) => {
+            const connected = io.sockets.adapter.rooms.get(sender.id);
+            const data = {
+              ...sender,
+              online: connected ? true : false,
+            };
 
-                newSendersRes.push(data);
-                if (i === loadSendersRes.length - 1) {
-                  socket.emit("senders_loaded", newSendersRes);
+            connection.query(
+              `select count(isRead) from messages where to_who = ?  and from_who = ? and isRead = ?;
+                select product from messages where to_who = ?  and from_who = ? order by id desc limit 1;
+                `,
+              [userId, sender.id, 0, userId, sender.id],
+              (isReadErr, isReadRes) => {
+                if (isReadErr) console.log(isReadErr);
+                else {
+                  // console.log(isReadRes[1]);
+                  data.unread = isReadRes[0][0]["count(isRead)"];
+                  data.product = isReadRes[1][0].product;
+
+                  newSendersRes.push(data);
+
+                  if (i === allSenders.length - 1) {
+                    socket.emit("senders_loaded", newSendersRes);
+                  }
                 }
               }
-            }
-          );
-        });
+            );
+          });
+        }
       }
-    });
+    );
   });
 
   // get unread messages
@@ -178,44 +204,10 @@ io.on("connection", (socket) => {
       else socket.emit("message_marked_as_read");
     });
   });
-
-  // load messages
-  socket.on("load_sender_messages", (data) => {
-    const { to, from } = data;
-    const sql = `select distinct product from messages where (to_who = ? and from_who = ? ) or (to_who = ? and from_who = ? )`;
-    connection.query(
-      sql,
-      [to, from, from, to],
-      (loadProductsErr, loadProductsRes) => {
-        if (loadProductsErr) {
-          console.log(loadProductsErr);
-        } else {
-          const messagesObject = {};
-          loadProductsRes.forEach(({ product }, i) => {
-            connection.query(
-              `select * from messages where (to_who = ? and from_who = ? and product = ? ) or (to_who = ? and from_who = ? and product = ? )`,
-              [to, from, product, from, to, product],
-              (loadMessagesErr, loadMessagesRes) => {
-                if (loadMessagesErr) {
-                  console.log(loadMessagesErr);
-                } else {
-                  messagesObject[product] = loadMessagesRes;
-                  if (i === loadProductsRes.length - 1) {
-                    socket.emit("sender_messages_loaded", {
-                      keys: Object.keys(messagesObject),
-                      messagesObject,
-                    });
-                  }
-                }
-              }
-            );
-          });
-        }
-      }
-    );
-  });
 });
+
 // listen to a port
+
 httpServer.listen(PORT, () =>
   console.log(
     `server up and running on ${process.env.NODE_ENV} MODE at ${PORT}`

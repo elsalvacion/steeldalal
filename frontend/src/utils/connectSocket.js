@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-const server = "http://localhost:80";
+const server = "http://localhost:5000";
 
 let socket = io();
 const openSocket = () => (socket = io());
