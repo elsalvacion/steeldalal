@@ -19,6 +19,19 @@
   display: flex;
   flex-direction: column;
 }
+
+.DmContentRightProduct {
+  display: flex;
+  align-items: center;
+  padding: 7px 10px;
+  color: #1565c0;
+}
+.DmContentRightProduct img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
 .DmContentRighChatMessagesContainer {
   flex: 1;
   display: flex;

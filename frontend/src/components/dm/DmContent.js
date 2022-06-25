@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import { grey, red } from "@mui/material/colors";
 import React, { useEffect, useRef, useState } from "react";
@@ -84,7 +85,7 @@ const DmContent = ({ userInfo }) => {
       });
       socket.emit("send_message", {
         message,
-        product: fixedSenders.current[currentUser.current].product,
+        product: fixedSenders.current[currentUser.current].product.id,
         from: userInfo.id,
         to: fixedSenders.current[currentUser.current].id,
       });
@@ -111,7 +112,13 @@ const DmContent = ({ userInfo }) => {
     //   chatItem.current.getBoundingClientRect().top
     // )
   };
-  return (
+  return renderSenders.length === 0 ? (
+    <div>
+      <br />
+      <br />
+      <Typography>No Message in your DM</Typography>
+    </div>
+  ) : (
     <div className="DmContentContainer">
       <CustomHelmet
         title={noUnRead !== 0 ? `(${noUnRead}) messages` : "Direct Messages"}
@@ -135,7 +142,11 @@ const DmContent = ({ userInfo }) => {
               <ListItemIcon>
                 <Circle color={sender.online ? "success" : "disabled"} />
               </ListItemIcon>
-              <ListItemText>{sender.name}</ListItemText>
+              <ListItemText>
+                <b>{sender.name}</b>
+                <br />
+                <p>{sender.message}</p>
+              </ListItemText>
               {sender.unread !== 0 && (
                 <ListItemIcon>
                   <Avatar
@@ -156,6 +167,15 @@ const DmContent = ({ userInfo }) => {
         </List>
       </div>
       <div className="DmContentRight">
+        <div className="DmContentRightProduct">
+          <img
+            src={fixedSenders.current[currentUser.current].product.image}
+            alt="steeldalal.com"
+          />
+          <Typography>
+            {fixedSenders.current[currentUser.current].product.title}
+          </Typography>
+        </div>
         <div
           className="DmContentRighChatMessagesContainer"
           onScroll={onScroll}
