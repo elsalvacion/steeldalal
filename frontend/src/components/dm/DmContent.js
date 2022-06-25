@@ -1,4 +1,4 @@
-import { Circle, Send } from "@mui/icons-material";
+import { ArrowBack, Circle, Send } from "@mui/icons-material";
 import {
   Avatar,
   IconButton,
@@ -13,6 +13,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { socket } from "../../utils/connectSocket";
 import CustomHelmet from "../layout/CustomHelmet";
 import "./DmContent.css";
+import { Link } from "react-router-dom";
 const DmContent = ({ userInfo }) => {
   const [message, setMessage] = useState("");
   const fixedSenders = useRef([]);
@@ -23,7 +24,7 @@ const DmContent = ({ userInfo }) => {
   const [renderMessages, setRenderMessages] = useState([]);
   const fixedMessages = useRef([]);
   const [noUnRead, setNoUnRead] = useState(0);
-  // const [newMessages, setNewMessages] = useState([]);
+  const [showPanel, setShowPanel] = useState(true);
   useEffect(() => {
     socket.emit("join_room", userInfo.id);
     socket.emit("load_unread_messages", userInfo.id);
@@ -114,98 +115,225 @@ const DmContent = ({ userInfo }) => {
   };
   return renderSenders.length === 0 ? (
     <div>
+      <CustomHelmet
+        title={noUnRead !== 0 ? `(${noUnRead}) messages` : "Direct Messages"}
+        desc="Our real-time direct messaging system between sellers and buyers is just amazing. You should chek it out "
+      />
       <br />
       <br />
       <Typography>No Message in your DM</Typography>
     </div>
   ) : (
-    <div className="DmContentContainer">
+    <>
       <CustomHelmet
         title={noUnRead !== 0 ? `(${noUnRead}) messages` : "Direct Messages"}
         desc="Our real-time direct messaging system between sellers and buyers is just amazing. You should chek it out "
       />
-      <div className="DmContentLeft">
-        <List>
-          {renderSenders.map((sender, i) => (
-            <ListItem
-              button
-              onClick={() => handleUserChange(i)}
-              sx={{
-                m: 0,
-                p: 1,
-                background:
-                  i === currentUser.current ? "#eeeeee" : "transparent",
-                color: "#212121",
-              }}
-              key={sender.id}
-            >
-              <ListItemIcon>
-                <Circle color={sender.online ? "success" : "disabled"} />
-              </ListItemIcon>
-              <ListItemText>
-                <b>{sender.name}</b>
-                <br />
-                <p>{sender.message}</p>
-              </ListItemText>
-              {sender.unread !== 0 && (
+      <div className="DmContentContainer">
+        <div className="DmContentLeft">
+          <List>
+            {renderSenders.map((sender, i) => (
+              <ListItem
+                button
+                onClick={() => handleUserChange(i)}
+                sx={{
+                  m: 0,
+                  p: 1,
+                  background:
+                    i === currentUser.current ? "#eeeeee" : "transparent",
+                  color: "#212121",
+                }}
+                key={sender.id}
+              >
                 <ListItemIcon>
-                  <Avatar
-                    sx={{
-                      bgcolor: red[800],
-                      width: 24,
-                      height: 24,
-                      color: grey[50],
-                      fontSize: 16,
+                  <Circle color={sender.online ? "success" : "disabled"} />
+                </ListItemIcon>
+                <ListItemText
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  <b>{sender.name}</b>
+                  <br />
+                  <p>{sender.message}</p>
+                </ListItemText>
+                {sender.unread !== 0 && (
+                  <ListItemIcon>
+                    <Avatar
+                      sx={{
+                        bgcolor: red[800],
+                        width: 24,
+                        height: 24,
+                        color: grey[50],
+                        fontSize: 16,
+                      }}
+                    >
+                      {sender.unread}
+                    </Avatar>
+                  </ListItemIcon>
+                )}
+              </ListItem>
+            ))}
+          </List>
+        </div>
+        <div className="DmContentRight">
+          <Link
+            to={`/product/${
+              fixedSenders.current[currentUser.current].product.id
+            }`}
+            className="DmContentRightProduct"
+          >
+            <img
+              src={fixedSenders.current[currentUser.current].product.image}
+              alt="steeldalal.com"
+            />
+            <Typography>
+              {fixedSenders.current[currentUser.current].product.title}
+            </Typography>
+          </Link>
+          <div
+            className="DmContentRighChatMessagesContainer"
+            onScroll={onScroll}
+            ref={chatContainer}
+          >
+            {renderMessages.map((chatMessage) => (
+              <div
+                key={chatMessage.id}
+                className={`DmContentChatMessage ${
+                  chatMessage.from_who === userInfo.id ? "right" : "left"
+                } `}
+                ref={chatItem}
+              >
+                {chatMessage.message}
+              </div>
+            ))}
+          </div>
+          <form onSubmit={handleSubmit} className="ChatBoxMarkdownArea">
+            <input
+              value={message}
+              type="text"
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type here..."
+            ></input>
+            <IconButton type="submit" color="default">
+              <Send />
+            </IconButton>
+          </form>
+        </div>
+      </div>
+
+      {/* mobile screen size */}
+      <div className="DmContentContainer mobile">
+        {showPanel === false && (
+          <div className="DmContentLeft mobile">
+            <List>
+              {renderSenders.map((sender, i) => (
+                <ListItem
+                  button
+                  onClick={() => {
+                    handleUserChange(i);
+                    setShowPanel(!showPanel);
+                  }}
+                  sx={{
+                    m: 0,
+                    p: 1,
+                    background:
+                      i === currentUser.current ? "#eeeeee" : "transparent",
+                    color: "#212121",
+                  }}
+                  key={sender.id}
+                >
+                  <ListItemIcon>
+                    <Circle color={sender.online ? "success" : "disabled"} />
+                  </ListItemIcon>
+                  <ListItemText
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
                     }}
                   >
-                    {sender.unread}
-                  </Avatar>
-                </ListItemIcon>
-              )}
-            </ListItem>
-          ))}
-        </List>
-      </div>
-      <div className="DmContentRight">
-        <div className="DmContentRightProduct">
-          <img
-            src={fixedSenders.current[currentUser.current].product.image}
-            alt="steeldalal.com"
-          />
-          <Typography>
-            {fixedSenders.current[currentUser.current].product.title}
-          </Typography>
-        </div>
-        <div
-          className="DmContentRighChatMessagesContainer"
-          onScroll={onScroll}
-          ref={chatContainer}
-        >
-          {renderMessages.map((chatMessage) => (
-            <div
-              key={chatMessage.id}
-              className={`DmContentChatMessage ${
-                chatMessage.from_who === userInfo.id ? "right" : "left"
-              } `}
-              ref={chatItem}
-            >
-              {chatMessage.message}
+                    <b>{sender.name}</b>
+                    <br />
+                    <p>{sender.message}</p>
+                  </ListItemText>
+                  {sender.unread !== 0 && (
+                    <ListItemIcon>
+                      <Avatar
+                        sx={{
+                          bgcolor: red[800],
+                          width: 24,
+                          height: 24,
+                          color: grey[50],
+                          fontSize: 16,
+                        }}
+                      >
+                        {sender.unread}
+                      </Avatar>
+                    </ListItemIcon>
+                  )}
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        )}
+        {showPanel && (
+          <div className="DmContentRight mobile">
+            <div className="DmContentRightProduct mobile">
+              <div>
+                <IconButton onClick={() => setShowPanel(false)} color="primary">
+                  <ArrowBack />
+                </IconButton>
+                <p>{fixedSenders.current[currentUser.current].name}</p>
+              </div>
+              <Link
+                to={`/product/${
+                  fixedSenders.current[currentUser.current].product.id
+                }`}
+              >
+                <img
+                  src={fixedSenders.current[currentUser.current].product.image}
+                  alt="steeldalal.com"
+                />
+                <Typography>
+                  {fixedSenders.current[currentUser.current].product.title}
+                </Typography>
+              </Link>
             </div>
-          ))}
-        </div>
-        <form onSubmit={handleSubmit} className="ChatBoxMarkdownArea">
-          <input
-            value={message}
-            type="text"
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type here..."
-          ></input>
-          <IconButton type="submit" color="default">
-            <Send />
-          </IconButton>
-        </form>
+            <div
+              className="DmContentRighChatMessagesContainer"
+              onScroll={onScroll}
+              ref={chatContainer}
+            >
+              {renderMessages.map((chatMessage) => (
+                <div
+                  key={chatMessage.id}
+                  className={`DmContentChatMessage ${
+                    chatMessage.from_who === userInfo.id ? "right" : "left"
+                  } `}
+                  ref={chatItem}
+                >
+                  {chatMessage.message}
+                </div>
+              ))}
+            </div>
+            <form onSubmit={handleSubmit} className="ChatBoxMarkdownArea">
+              <input
+                value={message}
+                type="text"
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type here..."
+              ></input>
+              <IconButton type="submit" color="default">
+                <Send />
+              </IconButton>
+            </form>
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 export default DmContent;
