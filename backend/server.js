@@ -158,20 +158,41 @@ io.on("connection", (socket) => {
             connection.query(
               `select count(isRead) from messages where to_who = ?  and from_who = ? and isRead = ?;
                 select product from messages where to_who = ?  and from_who = ? order by id desc limit 1;
+                select message from messages where (from_who = ?  and to_who = ?) or (to_who = ?  and from_who = ?) order by id desc limit 1;
                 `,
-              [userId, sender.id, 0, userId, sender.id],
+              [
+                userId,
+                sender.id,
+                0,
+                userId,
+                sender.id,
+                userId,
+                sender.id,
+                userId,
+                sender.id,
+              ],
               (isReadErr, isReadRes) => {
                 if (isReadErr) console.log(isReadErr);
                 else {
                   // console.log(isReadRes[1]);
                   data.unread = isReadRes[0][0]["count(isRead)"];
                   data.product = isReadRes[1][0].product;
+                  data.message = isReadRes[2][0].message;
+                  connection.query(
+                    `select * from products where id = ?`,
+                    [data.product],
+                    (fetchProductErr, fetchProductRes) => {
+                      if (fetchProductErr) console.log(fetchProductErr);
+                      else {
+                        data.product = fetchProductRes[0];
+                        newSendersRes.push(data);
 
-                  newSendersRes.push(data);
-
-                  if (i === allSenders.length - 1) {
-                    socket.emit("senders_loaded", newSendersRes);
-                  }
+                        if (i === allSenders.length - 1) {
+                          socket.emit("senders_loaded", newSendersRes);
+                        }
+                      }
+                    }
+                  );
                 }
               }
             );
