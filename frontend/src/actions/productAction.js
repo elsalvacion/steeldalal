@@ -27,6 +27,7 @@ import {
 } from "../reducers/types/productTypes";
 // import { categories } from "../constants/category";
 import axios from "axios";
+import { backendBaseUrl } from "../constants/url";
 const categories = [
   {
     id: 1,
@@ -58,7 +59,7 @@ export const latestProductsAction = () => async (dispatch) => {
   try {
     dispatch({ type: LATEST_PRODUCT_LOADING });
     const { data } = await axios.post(
-      "/product/latest",
+      `${backendBaseUrl}/product/latest`,
       {
         category: {
           first: categories[0].title,
@@ -100,9 +101,13 @@ export const fetchAllProductsAction =
       } else {
         postData = {};
       }
-      const { data } = await axios.post("/product/category", postData, {
-        "Content-Type": "application/json",
-      });
+      const { data } = await axios.post(
+        `${backendBaseUrl}/product/category`,
+        postData,
+        {
+          "Content-Type": "application/json",
+        }
+      );
 
       dispatch({
         type: ALL_PRODUCT_SUCCESS,
@@ -124,9 +129,9 @@ export const fetchYourProductsAction =
       dispatch({ type: YOUR_PRODUCT_LOADING });
       let url;
       if (limit) {
-        url = `/product/your-products?limit=${limit}`;
+        url = `${backendBaseUrl}/product/your-products?limit=${limit}`;
       } else {
-        url = `/product/your-products`;
+        url = `${backendBaseUrl}/product/your-products`;
       }
 
       const {
@@ -158,7 +163,7 @@ export const fetchYourProductsAction =
 export const fetchSingleProductsAction = (id) => async (dispatch) => {
   try {
     dispatch({ type: SINGLE_PRODUCT_LOADING });
-    const { data } = await axios.get(`/product/${id}`);
+    const { data } = await axios.get(`${backendBaseUrl}/product/${id}`);
     dispatch({
       type: SINGLE_PRODUCT_SUCCESS,
       payload: data.msg,
@@ -187,7 +192,11 @@ export const editProductAction =
         },
       };
 
-      const { data } = await axios.put(`/product/${id}`, details, config);
+      const { data } = await axios.put(
+        `${backendBaseUrl}/product/${id}`,
+        details,
+        config
+      );
       dispatch({
         type: EDIT_PRODUCT_SUCCESS,
         payload: data.msg,
@@ -214,7 +223,11 @@ export const productUploadAction = (files) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post("/product/upload", formData, config);
+    const { data } = await axios.post(
+      `${backendBaseUrl}/product/upload`,
+      formData,
+      config
+    );
 
     dispatch({
       type: PRODUCT_UPLOAD_SUCCESS,
@@ -244,7 +257,11 @@ export const createProductAction = (details) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post("/product", details, config);
+    const { data } = await axios.post(
+      `${backendBaseUrl}/product`,
+      details,
+      config
+    );
 
     dispatch({
       type: CREATE_PRODUCT_SUCCESS,
@@ -274,7 +291,10 @@ export const deleteProductAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/product/${id}`, config);
+    const { data } = await axios.delete(
+      `${backendBaseUrl}/product/${id}`,
+      config
+    );
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,

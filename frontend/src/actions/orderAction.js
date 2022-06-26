@@ -1,4 +1,5 @@
 import axios from "axios";
+import { backendBaseUrl } from "../constants/url";
 import {} from "../reducers/orderReducer";
 import {
   PAY_ORDER_ERROR,
@@ -21,7 +22,11 @@ export const placeOrderAction = (details) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.post(`/order`, details, config);
+    const { data } = await axios.post(
+      `${backendBaseUrl}/order`,
+      details,
+      config
+    );
     dispatch({
       type: PLACE_ORDER_SUCCESS,
       payload: data.msg,
@@ -48,7 +53,11 @@ export const payOrderAction = (details) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.post(`/order/pay`, details, config);
+    const { data } = await axios.post(
+      `${backendBaseUrl}/order/pay`,
+      details,
+      config
+    );
     dispatch({
       type: PAY_ORDER_SUCCESS,
       payload: data.msg,

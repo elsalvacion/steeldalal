@@ -1,4 +1,5 @@
 import axios from "axios";
+import { backendBaseUrl } from "../constants/url";
 import {
   SEARCH_ERROR,
   SEARCH_LOADING,
@@ -8,7 +9,9 @@ import {
 export const searchAction = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: SEARCH_LOADING });
-    const { data } = await axios.post(`/product/search`, { keyword });
+    const { data } = await axios.post(`${backendBaseUrl}/product/search`, {
+      keyword,
+    });
     dispatch({
       type: SEARCH_SUCCESS,
       payload: data.msg,

@@ -12,6 +12,7 @@ import {
   VARIFY_EMAIL_SUCCESS,
 } from "../reducers/types/authTypes";
 import axios from "axios";
+import { backendBaseUrl } from "../constants/url";
 
 export const verifyEmailAction = (email) => async (dispatch) => {
   try {
@@ -21,7 +22,11 @@ export const verifyEmailAction = (email) => async (dispatch) => {
     const config = {
       "Content-Type": "application/json",
     };
-    const { data } = await axios.post("/auth/verify-email", { email }, config);
+    const { data } = await axios.post(
+      `${backendBaseUrl}/auth/verify-email`,
+      { email },
+      config
+    );
     dispatch({
       type: VARIFY_EMAIL_SUCCESS,
       payload: data.msg,
@@ -44,7 +49,11 @@ export const registerUser = (details) => async (dispatch) => {
     const config = {
       "Content-Type": "application/json",
     };
-    const { data } = await axios.post("/auth/register", details, config);
+    const { data } = await axios.post(
+      `${backendBaseUrl}/auth/register`,
+      details,
+      config
+    );
     localStorage.setItem("userInfo", JSON.stringify(data));
     dispatch({
       type: VARIFY_EMAIL_RESET,
@@ -71,7 +80,11 @@ export const loginUser = (details) => async (dispatch) => {
     const config = {
       "Content-Type": "application/json",
     };
-    const { data } = await axios.post("/auth/login", details, config);
+    const { data } = await axios.post(
+      `${backendBaseUrl}/auth/login`,
+      details,
+      config
+    );
     localStorage.setItem("userInfo", JSON.stringify(data));
 
     dispatch({
@@ -103,7 +116,7 @@ export const editUser = (details) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.put("/auth", details, config);
+    const { data } = await axios.put(`${backendBaseUrl}/auth`, details, config);
 
     const newUserInfo = {
       ...userInfo,

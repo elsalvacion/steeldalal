@@ -19,11 +19,12 @@ router.post("/", userProtect, (req, res) => {
       specs,
     } = req.body;
 
-    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?, ?, ?, ?); `;
+    const sql = `insert into products(id,title, discount, price, rating, qty, category, type, brand, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?,?, ?, ?, ?); `;
 
     connection.query(
       sql,
       [
+        nanoid(6),
         title,
         discount,
         price,
@@ -221,8 +222,15 @@ router.get("/:id", (req, res) => {
           } else images.push(fetchProductRes[0][0].image);
 
           connection.query(
-            `select * from users where id = ? `,
-            [fetchProductRes[0][0].user],
+            `select name, city, state from users where id = ?;
+            select name, city, state from google where id = ?;
+            select name, city, state from facebook where id = ?;
+            `,
+            [
+              fetchProductRes[0][0].user,
+              fetchProductRes[0][0].user,
+              fetchProductRes[0][0].user,
+            ],
             (fetchUserErr, fetchUserRes) => {
               if (fetchProductErr) {
                 console.log(fetchUserErr);
@@ -232,7 +240,11 @@ router.get("/:id", (req, res) => {
                     ...fetchProductRes[0][0],
                     images,
                     specs: fetchProductRes[2],
-                    seller: fetchUserRes[0],
+                    seller: {
+                      ...fetchUserRes[0][0],
+                      ...fetchUserRes[1][0],
+                      ...fetchUserRes[2][0],
+                    },
                   },
                 });
               }

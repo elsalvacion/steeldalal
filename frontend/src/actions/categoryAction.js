@@ -4,6 +4,7 @@ import {
   FETCH_CATEGORY_SUCCESS,
 } from "../reducers/types/categoryTypes";
 import axios from "axios";
+import { backendBaseUrl } from "../constants/url";
 
 export const fetchCategoryAction =
   (limit = null) =>
@@ -11,8 +12,8 @@ export const fetchCategoryAction =
     try {
       dispatch({ type: FETCH_CATEGORY_LOADING });
       let url;
-      if (limit) url = `/category?limit=${limit}`;
-      else url = `/category`;
+      if (limit) url = `${backendBaseUrl}/category?limit=${limit}`;
+      else url = `${backendBaseUrl}/category`;
       const { data } = await axios.get(url);
       dispatch({
         type: FETCH_CATEGORY_SUCCESS,

@@ -8,6 +8,7 @@ import { ArrowForward, ChevronLeft, ChevronRight } from "@mui/icons-material";
 import ProductCarouselItem from "../home/ProductCarouselItem";
 import CustomAlert from "../layout/CustomAlert";
 import AllProductShimmer from "../../shimmers/product/AllProductShimmer";
+import { backendBaseUrl } from "../../constants/url";
 
 const AllProductContent = ({ category, idx }) => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ const AllProductContent = ({ category, idx }) => {
       try {
         setLoading(true);
         const { data } = await axios.post(
-          "/product/category",
+          `${backendBaseUrl}/product/category`,
           {
             category,
           },

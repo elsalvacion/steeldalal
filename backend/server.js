@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
     connection.query(
       sql,
 
-      [message, Number(product), to, from],
+      [message, Number(product), String(to), String(from)],
 
       (insertMessageErr, insertMessageRes) => {
         if (insertMessageErr) {
@@ -109,12 +109,15 @@ io.on("connection", (socket) => {
 
   // load messages
   socket.on("load_messages", (data) => {
-    const { product, to, from } = data;
+    const to = String(data.to);
+    const from = String(data.from);
+
     let sql;
     if (data.product) {
-      sql = `select * from messages where (to_who = ${to} and from_who = ${from} and product = ${product}) or (to_who = ${from} and from_who = ${to} and product = ${product})`;
+      const product = Number(data.product);
+      sql = `select * from messages where (to_who = "${to}" and from_who = "${from}" and product = ${product}) or (to_who = "${from}" and from_who = "${to}" and product = ${product})`;
     } else {
-      sql = `select * from messages where (to_who = ${to} and from_who = ${from}) or (to_who = ${from} and from_who = ${to})`;
+      sql = `select * from messages where (to_who = "${to}" and from_who = "${from}") or (to_who = "${from}" and from_who = "${to}")`;
     }
     connection.query(sql, (loadMessagesErr, loadMessagesRes) => {
       if (loadMessagesErr) {

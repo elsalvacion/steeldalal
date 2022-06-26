@@ -91,6 +91,12 @@ const DmContent = ({ userInfo }) => {
         to: fixedSenders.current[currentUser.current].id,
       });
       setMessage("");
+      const chatsBox = document.querySelector(
+        ".DmContentRighChatMessagesContainer"
+      );
+      if (chatsBox) {
+        chatsBox.scrollTop = chatsBox.scrollHeight;
+      }
     }
   };
   const handleUserChange = (sender) => {
@@ -106,6 +112,12 @@ const DmContent = ({ userInfo }) => {
     socket.emit("load_senders", userInfo.id);
 
     currentUser.current = sender;
+    const chatsBox = document.querySelector(
+      ".DmContentRighChatMessagesContainer"
+    );
+    if (chatsBox) {
+      chatsBox.scrollTop = chatsBox.scrollHeight;
+    }
   };
   const onScroll = () => {
     // if (
@@ -189,9 +201,7 @@ const DmContent = ({ userInfo }) => {
               src={fixedSenders.current[currentUser.current].product.image}
               alt="steeldalal.com"
             />
-            <Typography>
-              {fixedSenders.current[currentUser.current].product.title}
-            </Typography>
+            <p>{fixedSenders.current[currentUser.current].product.title}</p>
           </Link>
           <div
             className="DmContentRighChatMessagesContainer"
