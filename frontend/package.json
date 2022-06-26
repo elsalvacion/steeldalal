@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:80",
+  "proxy": "http://steeldalal.com",
   "dependencies": {
     "@arcadian-digital/react-snap": "^1.23.3",
     "@babel/runtime": "^7.18.3",
