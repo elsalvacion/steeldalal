@@ -35,7 +35,6 @@ const ChatBox = ({ product, to }) => {
       });
 
       socket.on("messages_loaded", (messages) => {
-        console.log(messages);
         setChatMessages(messages);
         const chatsBox = document.querySelector(".ChatBoxChatsContainer");
         if (chatsBox) {

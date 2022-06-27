@@ -28,6 +28,7 @@ import AcceptancePolicyScreen from "./screens/AcceptancePolicyScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import SearchScreen from "./screens/SearchScreen";
 import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
+import CreateBizScreen from "./screens/CreateBizScreen";
 
 const App = () => {
   return (
@@ -57,6 +58,7 @@ const App = () => {
               />
               <Route exact path="/product/:id" component={ProductScreen} />
               <Route exact path="/login" component={LoginScreen} />
+              <Route exact path="/create-biz" component={CreateBizScreen} />
               <Route exact path="/register" component={LoginScreen} />
               <Route exact path="/profile" component={ProfileScreen} />
               <Route exact path="/category" component={CategoryScreen} />

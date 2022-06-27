@@ -1,7 +1,7 @@
 const router = require("express").Router();
+const path = require("path");
 const connection = require("../config/db");
 const { userProtect } = require("../middlewares/protect");
-const verifier = require("email-verify");
 const {
   emailRegister,
   facebookRegister,
@@ -59,6 +59,89 @@ router.put("/", userProtect, (req, res) => {
           res.status(400).json({ msg: "update user error" });
         } else {
           res.json({ msg: "User updated" });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+router.post("/create-biz", userProtect, (req, res) => {
+  try {
+    const uploadPath = path.join(path.resolve(), "public", "uploads");
+    const data = {};
+    data.name = req.body.name;
+    data.user = req.body.user;
+    if (!req.files) {
+      res.status(400).json({ msg: `Please upload a files` });
+    }
+    const fileKeys = [
+      "gstCertificate",
+      "panCard",
+      "aadharCard",
+      "cancelledCheque",
+    ];
+    fileKeys.forEach((fileKey, i) => {
+      const file = req.files[fileKey];
+      const user = data.user;
+      file.name = `${fileKey}-${user}${path.parse(file.name).ext}`;
+
+      file.mv(`${uploadPath}/${file.name}`, async (err) => {
+        if (err) {
+          console.log(err);
+          res.status(400).json({ msg: "Error while uploading file" });
+        } else {
+          data[fileKey] = `uploads/${file.name}`;
+          if (i === fileKeys.length - 1) {
+            const sql = `insert into yourBiz(name, gstCertificate, panCard, aadharCard, cancelledCheque, user) values(?, ? , ? , ? , ?, ?) `;
+
+            connection.query(
+              sql,
+              [
+                data.name,
+                data.gstCertificate,
+                data.panCard,
+                data.aadharCard,
+                data.cancelledCheque,
+                data.user,
+              ],
+              (createBizErr, createBiz) => {
+                if (createBizErr) {
+                  console.log(createBizErr);
+                  res.status(400).json({ msg: "update biz error" });
+                } else {
+                  res.json({ msg: data });
+                }
+              }
+            );
+          }
+        }
+      });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+router.put("/update-biz", userProtect, (req, res) => {
+  try {
+    const { name, gstCertificate, panCard, aadharCard, cancelledCheque, user } =
+      req.body;
+
+    const sql = `update yourBiz set name = ? , gstCertificate = ?, panCard = ? , aadharCard = ? , cancelledCheque = ?, address = ? where user  = ? `;
+
+    connection.query(
+      sql,
+      [name, gstCertificate, panCard, aadharCard, cancelledCheque, user],
+      (updateBizErr, updateBizRes) => {
+        if (updateBizErr) {
+          console.log(updateBizErr);
+          res.status(400).json({ msg: "update biz error" });
+        } else {
+          res.json({ msg: "Biz updated" });
         }
       }
     );

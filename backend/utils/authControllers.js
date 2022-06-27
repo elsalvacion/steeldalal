@@ -8,7 +8,8 @@ const emailLogin = (req, res) => {
 
   // find if user exist
   connection.query(
-    `select * from users where email = ?`,
+    `select * from users where email = ?;
+    `,
     [email],
     (existCheckErr, existCheckRes) => {
       if (existCheckErr) {
@@ -21,18 +22,34 @@ const emailLogin = (req, res) => {
       } else {
         const { name, id, password: hashedPass } = existCheckRes[0];
 
-        if (!bcrypt.compareSync(password, hashedPass)) {
-          res.status(400).json({
-            msg: "Incorrect password",
-          });
-        } else {
-          res.json({
-            ...existCheckRes[0],
-            token: jwt.sign({ id, type: "email" }, process.env.JWT_SECRET, {
-              expiresIn: "30d",
-            }),
-          });
-        }
+        connection.query(
+          `select * from yourBiz where user = ?`,
+          [id],
+          (fetchYourBizErr, fetchYourBizRes) => {
+            if (fetchYourBizErr) {
+              console.log(fetchYourBizErr);
+              res.status(400).json({ msg: "Fetch Biz Error" });
+            } else {
+              if (!bcrypt.compareSync(password, hashedPass)) {
+                res.status(400).json({
+                  msg: "Incorrect password",
+                });
+              } else {
+                res.json({
+                  ...existCheckRes[0],
+                  token: jwt.sign(
+                    { id, type: "email" },
+                    process.env.JWT_SECRET,
+                    {
+                      expiresIn: "30d",
+                    }
+                  ),
+                  yourBiz: fetchYourBizRes[0] ? fetchYourBizRes[0] : null,
+                });
+              }
+            }
+          }
+        );
       }
     }
   );
@@ -42,22 +59,25 @@ const facebookLogin = (req, res) => {
   const { id } = req.body;
   // find if user exist
   connection.query(
-    `select * from facebook where id = ?`,
-    [id],
+    `select * from facebook where id = ?;
+    select * from yourBiz where user = ?;
+    `,
+    [id, id],
     (existCheckErr, existCheckRes) => {
       if (existCheckErr) {
         console.log(existCheckErr);
         res.status(400).json({
           msg: "Error while checking if user exist",
         });
-      } else if (existCheckRes.length === 0) {
+      } else if (existCheckRes[0].length === 0) {
         res.status(400).json({ msg: "You do not exist, Register." });
       } else {
         res.json({
-          ...existCheckRes[0],
+          ...existCheckRes[0][0],
           token: jwt.sign({ id, type: "facebook" }, process.env.JWT_SECRET, {
             expiresIn: "30d",
           }),
+          yourBiz: existCheckRes[1][0] ? existCheckRes[1][0] : null,
         });
       }
     }
@@ -68,7 +88,8 @@ const googleLogin = (req, res) => {
   const { email } = req.body;
   // find if user exist
   connection.query(
-    `select * from google where email = ?`,
+    `select * from google where email = ?;
+    select * from yourBiz where user = ?;`,
     [email],
     (existCheckErr, existCheckRes) => {
       if (existCheckErr) {
@@ -76,11 +97,11 @@ const googleLogin = (req, res) => {
         res.status(400).json({
           msg: "Error while checking if user exist",
         });
-      } else if (existCheckRes.length === 0) {
+      } else if (existCheckRes[0].length === 0) {
         res.status(400).json({ msg: "You do not exist, Register." });
       } else {
         res.json({
-          ...existCheckRes[0],
+          ...existCheckRes[0][0],
           token: jwt.sign(
             { id: existCheckRes[0].id, type: "google" },
             process.env.JWT_SECRET,
@@ -88,6 +109,7 @@ const googleLogin = (req, res) => {
               expiresIn: "30d",
             }
           ),
+          yourBiz: existCheckRes[1][0] ? existCheckRes[1][0] : null,
         });
       }
     }

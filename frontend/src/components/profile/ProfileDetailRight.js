@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchYourProductsAction } from "../../actions/productAction";
 import ProfileRightShimmer from "../../shimmers/profile/ProfileRightShimmer";
 
-const ProfileDetailRight = ({ editUserInfo }) => {
+const ProfileDetailRight = ({ editUserInfo, userInfo }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { loading, products } = useSelector((state) => state.yourProduct);
@@ -29,7 +29,11 @@ const ProfileDetailRight = ({ editUserInfo }) => {
           Recent Products
         </Typography>
         <IconButton
-          onClick={() => history.push("/create-product")}
+          onClick={() =>
+            history.push(
+              userInfo && userInfo.yourBiz ? "/create-product" : "/create-biz"
+            )
+          }
           color="primary"
         >
           <Add />

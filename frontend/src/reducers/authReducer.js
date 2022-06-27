@@ -1,8 +1,16 @@
 import {
+  CREATE_BIZ_ERROR,
+  CREATE_BIZ_LOADING,
+  CREATE_BIZ_RESET,
+  CREATE_BIZ_SUCCESS,
   LOGIN_USER_ERROR,
   LOGIN_USER_LOADING,
   LOGIN_USER_RESET,
   LOGIN_USER_SUCCESS,
+  UPDATE_BIZ_ERROR,
+  UPDATE_BIZ_LOADING,
+  UPDATE_BIZ_RESET,
+  UPDATE_BIZ_SUCCESS,
   UPDATE_USER_ERROR,
   UPDATE_USER_LOADING,
   UPDATE_USER_RESET,
@@ -58,6 +66,40 @@ export const verifyEmailReducer = (state = {}, action) => {
         error: action.payload,
       };
     case VARIFY_EMAIL_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const createBizReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CREATE_BIZ_LOADING:
+      return { loading: true };
+    case CREATE_BIZ_SUCCESS:
+      return { success: true };
+    case CREATE_BIZ_ERROR:
+      return {
+        error: action.payload,
+      };
+    case CREATE_BIZ_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const editBizReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_BIZ_LOADING:
+      return { loading: true };
+    case UPDATE_BIZ_SUCCESS:
+      return { success: true };
+    case UPDATE_BIZ_ERROR:
+      return {
+        error: action.payload,
+      };
+    case UPDATE_BIZ_RESET:
       return {};
     default:
       return state;

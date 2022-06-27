@@ -29,7 +29,7 @@ const ProfileDetailContainer = ({ userInfo }) => {
           />
         </div>
         <div className="profileDetailRight">
-          <ProfileDetailRight editUserInfo={editUserInfo} />
+          <ProfileDetailRight userInfo={userInfo} editUserInfo={editUserInfo} />
         </div>
       </div>
     </div>

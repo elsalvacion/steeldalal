@@ -2,6 +2,8 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import thunk from "redux-thunk";
 import {
+  createBizReducer,
+  editBizReducer,
   editUserReducer,
   loginReducer,
   verifyEmailReducer,
@@ -60,6 +62,8 @@ const reducers = combineReducers({
   placeOrder: placeOrderReducer,
   search: searchReducer,
   searchValue: searchValueReducer,
+  createBiz: createBizReducer,
+  editBiz: editBizReducer,
 });
 
 const middleware = [thunk];

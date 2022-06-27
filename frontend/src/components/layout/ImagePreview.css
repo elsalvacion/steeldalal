@@ -1,0 +1,13 @@
+.imagePreviewContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.imagePreview {
+  width: 70%;
+  height: 150px;
+  margin: auto;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
