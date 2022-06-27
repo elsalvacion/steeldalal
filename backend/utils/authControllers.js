@@ -89,7 +89,7 @@ const googleLogin = (req, res) => {
   // find if user exist
   connection.query(
     `select * from google where email = ?;
-    select * from yourBiz where user = ?;`,
+   `,
     [email],
     (existCheckErr, existCheckRes) => {
       if (existCheckErr) {
@@ -97,20 +97,31 @@ const googleLogin = (req, res) => {
         res.status(400).json({
           msg: "Error while checking if user exist",
         });
-      } else if (existCheckRes[0].length === 0) {
+      } else if (existCheckRes.length === 0) {
         res.status(400).json({ msg: "You do not exist, Register." });
       } else {
-        res.json({
-          ...existCheckRes[0][0],
-          token: jwt.sign(
-            { id: existCheckRes[0].id, type: "google" },
-            process.env.JWT_SECRET,
-            {
-              expiresIn: "30d",
+        connection.query(
+          ` select * from yourBiz where user = ?;`,
+          [existCheckRes[0].id],
+          (fetchYourBizErr, fetchYourBizRes) => {
+            if (fetchYourBizErr) {
+              console.log(fetchYourBizErr);
+              res.status(400).json({ msg: "Fetch Biz Error" });
+            } else {
+              res.json({
+                ...existCheckRes[0],
+                token: jwt.sign(
+                  { id: existCheckRes[0].id, type: "google" },
+                  process.env.JWT_SECRET,
+                  {
+                    expiresIn: "30d",
+                  }
+                ),
+                yourBiz: fetchYourBizRes[0] ? fetchYourBizRes[0] : null,
+              });
             }
-          ),
-          yourBiz: existCheckRes[1][0] ? existCheckRes[1][0] : null,
-        });
+          }
+        );
       }
     }
   );
