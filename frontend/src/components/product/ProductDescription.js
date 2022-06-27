@@ -101,14 +101,14 @@ const ProductDescription = ({ details }) => {
             <b>Seller: </b>
             {details.seller.name}
           </p>
-          <p>
+          {/* <p>
             <b>State: </b>
             {details.seller.state}
           </p>
           <p>
             <b>City: </b>
             {details.seller.city}
-          </p>
+          </p> */}
         </div>
       </div>
       <div className="productDesDetails">

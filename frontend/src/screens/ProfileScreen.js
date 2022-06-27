@@ -1,14 +1,9 @@
-import { Business } from "@mui/icons-material";
 import {
   Card,
   CardContent,
   CardMedia,
   Container,
   Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Typography,
 } from "@mui/material";
 
@@ -52,16 +47,9 @@ const ProfileScreen = () => {
         <Card sx={{ m: 2 }}>
           <CardContent>
             <Typography sx={{ mb: 3 }} variant="h6" component="h6">
-              Business Details
+              Business Credentails
             </Typography>
-            <List>
-              <ListItem>
-                <ListItemIcon>
-                  <Business />
-                </ListItemIcon>
-                <ListItemText>{userInfo.yourBiz.name}</ListItemText>
-              </ListItem>
-            </List>
+
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Card elevation={0}>

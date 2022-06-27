@@ -18,7 +18,6 @@ const CreateBizScreen = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [values, setValues] = useState({
-    name: "",
     gstCertificate: null,
     panCard: null,
     aadharCard: null,
@@ -54,21 +53,6 @@ const CreateBizScreen = () => {
         </p>
         <form onSubmit={handleSubmit}>
           <Grid sx={{ mt: 3, mb: 2 }} container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                name="name"
-                onChange={(e) =>
-                  setValues({ ...values, [e.target.name]: e.target.value })
-                }
-                fullWidth
-                type="text"
-                label="Business Name"
-                InputLabelProps={{ shrink: true }}
-                value={values.name}
-              />
-            </Grid>
             <Grid item xs={12} md={6}>
               {values.gstCertificate ? (
                 <ImagePreview

@@ -72,7 +72,6 @@ router.post("/create-biz", userProtect, (req, res) => {
   try {
     const uploadPath = path.join(path.resolve(), "public", "uploads");
     const data = {};
-    data.name = req.body.name;
     data.user = req.body.user;
     if (!req.files) {
       res.status(400).json({ msg: `Please upload a files` });
@@ -95,12 +94,11 @@ router.post("/create-biz", userProtect, (req, res) => {
         } else {
           data[fileKey] = `uploads/${file.name}`;
           if (i === fileKeys.length - 1) {
-            const sql = `insert into yourBiz(name, gstCertificate, panCard, aadharCard, cancelledCheque, user) values(?, ? , ? , ? , ?, ?) `;
+            const sql = `insert into yourBiz( gstCertificate, panCard, aadharCard, cancelledCheque, user) values( ? , ? , ? , ?, ?) `;
 
             connection.query(
               sql,
               [
-                data.name,
                 data.gstCertificate,
                 data.panCard,
                 data.aadharCard,
@@ -128,14 +126,14 @@ router.post("/create-biz", userProtect, (req, res) => {
 
 router.put("/update-biz", userProtect, (req, res) => {
   try {
-    const { name, gstCertificate, panCard, aadharCard, cancelledCheque, user } =
+    const { gstCertificate, panCard, aadharCard, cancelledCheque, user } =
       req.body;
 
-    const sql = `update yourBiz set name = ? , gstCertificate = ?, panCard = ? , aadharCard = ? , cancelledCheque = ?, address = ? where user  = ? `;
+    const sql = `update yourBiz set  gstCertificate = ?, panCard = ? , aadharCard = ? , cancelledCheque = ?, address = ? where user  = ? `;
 
     connection.query(
       sql,
-      [name, gstCertificate, panCard, aadharCard, cancelledCheque, user],
+      [gstCertificate, panCard, aadharCard, cancelledCheque, user],
       (updateBizErr, updateBizRes) => {
         if (updateBizErr) {
           console.log(updateBizErr);
