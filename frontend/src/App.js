@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import store from "./store";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
@@ -36,7 +36,7 @@ const App = () => {
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_LOGIN}>
       <Provider store={store}>
         <div id="back-to-top-anchor"></div>
-        <BrowserRouter>
+        <HashRouter>
           <Nav />
           <Switch>
             {/* <div className="app" id="app"> */}
@@ -106,7 +106,7 @@ const App = () => {
           <ScrollToTop />
           <MobileBottomFooter />
           <Footer />
-        </BrowserRouter>
+        </HashRouter>
       </Provider>
     </GoogleOAuthProvider>
   );
