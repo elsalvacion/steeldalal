@@ -1,108 +1,109 @@
 .navContainer {
-    box-shadow: 1px 1px 5px  -3px rgba(0, 0, 0, 0.5);
-    position: sticky;
+  box-shadow: 1px 1px 5px -3px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  background: #fff;
 }
 .topNavContent {
-    padding: 7px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  padding: 7px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .logo {
-    display: flex;
-    align-items: flex-end;
-    text-decoration: none;
-    color: black;
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  color: black;
 }
 .logo img {
-    height: 30px;
-    /* width: 50px; */
-    object-fit: scale-down;
+  height: 30px;
+  /* width: 50px; */
+  object-fit: scale-down;
 }
 .logo h3 {
-    margin-left: 7px;
-    font-weight: lighter;
-    font-size: 20px;
+  margin-left: 7px;
+  font-weight: lighter;
+  font-size: 20px;
 }
 
 .searchBarContainer {
-    flex: 1;
-    padding: 0 60px;
+  flex: 1;
+  padding: 0 60px;
 }
 .bottomNavContent {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background: var(--primary-color);
-    padding: 7px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: var(--primary-color);
+  padding: 7px;
 }
 .navLinks {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .topNavLinks {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .topNavLink {
-    font-size: 14px;
-    text-decoration: none;
-    padding:  10px;
-    color: rgb(12 44 201);
+  font-size: 14px;
+  text-decoration: none;
+  padding: 10px;
+  color: rgb(12 44 201);
 }
 .topNavLink:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 .navLink {
-    font-size: 14px;
-    /* font-weight: bolder; */
-    text-decoration: none;
-    padding:  10px;
-    color: #f2f2f2;
-    border-radius: 7px;
+  font-size: 14px;
+  /* font-weight: bolder; */
+  text-decoration: none;
+  padding: 10px;
+  color: #f2f2f2;
+  border-radius: 7px;
 }
 
 .navLink:hover {
-    background: #e3f2fd;
-    color: rgb(12 44 201);
+  background: #e3f2fd;
+  color: rgb(12 44 201);
 }
 .mobileNav {
-    display: none;
+  display: none;
 }
-@media(max-width: 850px) {
-    .mobileNav {
-        padding: 7px 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: sticky;
-        top: 0;
-        background: white;
-        z-index: 15;
-        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    }
-    .mobileLogo img {
-        height: 40px;
-        width: 40px;
-        object-fit: scale-down;
-    }
-    .navContainer {
-        display: none;
-    }
-.navLink {
+@media (max-width: 850px) {
+  .mobileNav {
+    padding: 7px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 15;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  .mobileLogo img {
+    height: 40px;
+    width: 40px;
+    object-fit: scale-down;
+  }
+  .navContainer {
+    display: none;
+  }
+  .navLink {
     font-size: 12px;
     padding: 10px;
-}
-.searchBarContainer {
+  }
+  .searchBarContainer {
     padding: 0 20px;
-}
-.logo h3 {
+  }
+  .logo h3 {
     font-size: 18px;
+  }
 }
+@media (max-width: 600px) {
+  .navLink {
+    font-size: 10px;
+    padding: 5px;
+  }
 }
-@media(max-width: 600px) {
-    .navLink {
-        font-size: 10px;
-        padding: 5px;
-    }
-    }
