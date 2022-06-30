@@ -55,14 +55,12 @@ const LoginContent = ({ redirect }) => {
         <CustomAlert
           type="success"
           text={text === "login" ? "Logging.. in" : "Registering..."}
-          handleClose={() => dispatch({ type: LOGIN_USER_RESET })}
         />
       )}
       {userInfo && (
         <CustomAlert
           type="success"
           text={text === "login" ? "Logging.. in" : "Registering..."}
-          handleClose={() => dispatch({ type: LOGIN_USER_RESET })}
         />
       )}
       <div className="loginContentContainer">

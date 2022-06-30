@@ -30,6 +30,7 @@ import SearchScreen from "./screens/SearchScreen";
 import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 import CreateBizScreen from "./screens/CreateBizScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
+import EditBizScreen from "./screens/EditBizScreen";
 
 const App = () => {
   return (
@@ -39,7 +40,6 @@ const App = () => {
         <HashRouter>
           <Nav />
           <Switch>
-            {/* <div className="app" id="app"> */}
             <Route exact path="/" component={HomeScreen} />
             <Route exact path="/products" component={AllProductScreen} />
             <Route
@@ -60,6 +60,7 @@ const App = () => {
             <Route exact path="/product/:id" component={ProductScreen} />
             <Route exact path="/login" component={LoginScreen} />
             <Route exact path="/create-biz" component={CreateBizScreen} />
+            <Route exact path="/edit-biz" component={EditBizScreen} />
             <Route exact path="/register" component={LoginScreen} />
             <Route exact path="/profile" component={ProfileScreen} />
             <Route exact path="/category" component={CategoryScreen} />
@@ -101,7 +102,6 @@ const App = () => {
             <Route path="*">
               <NotFoundScreen />
             </Route>
-            {/* </div> */}
           </Switch>
           <ScrollToTop />
           <MobileBottomFooter />

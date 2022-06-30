@@ -1,9 +1,11 @@
+import { Edit } from "@mui/icons-material";
 import {
   Card,
   CardContent,
   CardMedia,
   Container,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 
@@ -21,7 +23,7 @@ const ProfileScreen = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { success: createBizSuccess } = useSelector((state) => state.createBiz);
-  const { success: editBizSuccess } = useSelector((state) => state.createBiz);
+  const { success: editBizSuccess } = useSelector((state) => state.editBiz);
   useEffect(() => {
     if (!userInfo) history.push(`/login?redirect=profile`);
     if (createBizSuccess) {
@@ -46,10 +48,18 @@ const ProfileScreen = () => {
       {userInfo && userInfo.yourBiz && (
         <Card sx={{ m: 2 }}>
           <CardContent>
-            <Typography sx={{ mb: 3 }} variant="h6" component="h6">
-              Business Credentails
-            </Typography>
-
+            <div className="ProfileDetailRightHeader">
+              <Typography variant="h6" component="h6">
+                Business Credentails
+              </Typography>
+              <IconButton
+                onClick={() => history.push("/edit-biz")}
+                color="primary"
+              >
+                <Edit />
+              </IconButton>
+            </div>
+            <br />
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Card elevation={0}>

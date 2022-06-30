@@ -133,6 +133,8 @@ export const editUser = (details) => async (dispatch, getState) => {
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,
     });
+    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+
     dispatch({
       type: UPDATE_USER_SUCCESS,
       payload: data,
@@ -169,12 +171,14 @@ export const createBiz = (details) => async (dispatch, getState) => {
     );
     const newUserInfo = {
       ...userInfo,
-      ...data,
+      yourBiz: data.msg,
     };
     dispatch({
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,
     });
+    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+
     dispatch({
       type: CREATE_BIZ_SUCCESS,
       payload: data,
@@ -200,15 +204,24 @@ export const editBiz = (details) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
     const { data } = await axios.put(
-      `${backendBaseUrl}/auth/update-biz`,
+      `${backendBaseUrl}/auth/edit-biz`,
       details,
       config
     );
+    const newUserInfo = {
+      ...userInfo,
+      yourBiz: data.msg,
+    };
+    dispatch({
+      type: LOGIN_USER_SUCCESS,
+      payload: newUserInfo,
+    });
+    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
 
     dispatch({
       type: UPDATE_BIZ_SUCCESS,

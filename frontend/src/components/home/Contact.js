@@ -99,13 +99,7 @@ const Contact = () => {
       </Typography>
       <div className="contactContentContainer">
         <div className="contactContentContainerLeft">
-          {loading && (
-            <CustomAlert
-              type="success"
-              text="Sending..."
-              handleClose={() => setLoading(false)}
-            />
-          )}
+          {loading && <CustomAlert type="success" text="Sending..." />}
           {sent && (
             <CustomAlert
               type="success"

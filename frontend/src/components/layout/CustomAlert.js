@@ -10,14 +10,16 @@ const CustomAlert = ({ text, type, handleClose }) => {
           variant="filled"
           severity={type}
           action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={handleClose}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
+            handleClose ? (
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={handleClose}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            ) : null
           }
           sx={{ mb: 2 }}
         >

@@ -8,7 +8,7 @@ const hpp = require("hpp");
 const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
 require("dotenv").config();
-
+const path = require("path");
 // require routes
 const user = require("./routes/user");
 const product = require("./routes/product");
@@ -25,6 +25,7 @@ if (process.env.NODE_ENV === "development") {
 
 // static files
 app.use(express.static("public"));
+
 // external middlewares
 app.use(cors());
 app.use(helmet());

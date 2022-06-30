@@ -34,7 +34,6 @@ const CreateBizScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
     dispatch(createBiz(values));
   };
 
@@ -46,11 +45,11 @@ const CreateBizScreen = () => {
         <Typography variant="h5" component="h5">
           Create Business Profile
         </Typography>
-        <p>
+        <Typography sx={{ fontSize: 13 }}>
           To be able to sell on steeldalal.com you have to upload scanned copy
           of the following documents so that we can verify that you are legit.
           We take pride in ensuring our buyers get the best.
-        </p>
+        </Typography>
         <form onSubmit={handleSubmit}>
           <Grid sx={{ mt: 3, mb: 2 }} container spacing={2}>
             <Grid item xs={12} md={6}>
@@ -100,6 +99,7 @@ const CreateBizScreen = () => {
                   }
                   fullWidth
                   type="file"
+                  accept="image/*"
                   label="Pan Card"
                   InputLabelProps={{ shrink: true }}
                 />
@@ -118,6 +118,7 @@ const CreateBizScreen = () => {
                   required
                   fullWidth
                   type="file"
+                  accept="image/*"
                   label="Aadhar Card"
                   name="aadharCard"
                   InputLabelProps={{ shrink: true }}
@@ -152,13 +153,14 @@ const CreateBizScreen = () => {
                   }
                   fullWidth
                   type="file"
+                  accept="image/*"
                   label="Cancelled Cheque"
                   InputLabelProps={{ shrink: true }}
                 />
               )}
             </Grid>
           </Grid>
-          {loading && <CustomAlert type="success" text="Creating... Biz" />}
+          {loading && <CustomAlert type="success" text="Saving... Biz" />}
 
           {error && (
             <CustomAlert
@@ -181,7 +183,7 @@ const CreateBizScreen = () => {
             endIcon={<Save />}
             disabled={loading}
           >
-            {loading ? "Creating..." : "Save"}
+            {loading ? "Saving..." : "Save"}
           </Button>
         </form>
       </CreateProductContainer>

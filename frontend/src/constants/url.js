@@ -1,1 +1,1 @@
-export const backendBaseUrl = `http://steeldalal.com`;
+export const backendBaseUrl = `http://localhost:5000`;

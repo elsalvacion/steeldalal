@@ -124,25 +124,56 @@ router.post("/create-biz", userProtect, (req, res) => {
   }
 });
 
-router.put("/update-biz", userProtect, (req, res) => {
+router.put("/edit-biz", userProtect, (req, res) => {
   try {
-    const { gstCertificate, panCard, aadharCard, cancelledCheque, user } =
-      req.body;
+    const uploadPath = path.join(path.resolve(), "public", "uploads");
+    const data = {
+      ...req.body,
+    };
+    const fileKeys = [];
+    if (req.files.gstCertificate) fileKeys.push("gstCertificate");
+    if (req.files.panCard) fileKeys.push("panCard");
+    if (req.files.aadharCard) fileKeys.push("aadharCard");
+    if (req.files.cancelledCheque) fileKeys.push("cancelledCheque");
+    console.log(fileKeys);
+    fileKeys.forEach((fileKey, i) => {
+      const user = data.user;
+      const file = req.files[fileKey];
 
-    const sql = `update yourBiz set  gstCertificate = ?, panCard = ? , aadharCard = ? , cancelledCheque = ?, address = ? where user  = ? `;
+      file.name = `${fileKey}-${user}${path.parse(file.name).ext}`;
 
-    connection.query(
-      sql,
-      [gstCertificate, panCard, aadharCard, cancelledCheque, user],
-      (updateBizErr, updateBizRes) => {
-        if (updateBizErr) {
-          console.log(updateBizErr);
-          res.status(400).json({ msg: "update biz error" });
+      file.mv(`${uploadPath}/${file.name}`, (err) => {
+        if (err) {
+          console.log(err);
+          res.status(400).json({ msg: "Error while uploading file" });
         } else {
-          res.json({ msg: "Biz updated" });
+          data[fileKey] = `uploads/${file.name}`;
+
+          if (i === fileKeys.length - 1) {
+            const sql = `update yourBiz set  gstCertificate = ?, panCard = ?, aadharCard = ?, cancelledCheque = ?  where user = ?`;
+
+            connection.query(
+              sql,
+              [
+                data.gstCertificate,
+                data.panCard,
+                data.aadharCard,
+                data.cancelledCheque,
+                data.user,
+              ],
+              (updateBizErr, updateBiz) => {
+                if (updateBizErr) {
+                  console.log(updateBizErr);
+                  res.status(400).json({ msg: "update biz error" });
+                } else {
+                  res.json({ msg: data });
+                }
+              }
+            );
+          }
         }
-      }
-    );
+      });
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });
