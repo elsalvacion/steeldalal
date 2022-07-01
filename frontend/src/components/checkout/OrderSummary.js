@@ -10,17 +10,28 @@ import {
   TableBody,
   Table,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useEffect } from "react";
 
 const OrderSummary = ({ bagState }) => {
   const { loading, error, keys, bag } = bagState;
-  const [subTotal] = useState(
-    keys.reduce(
-      (previousValue, currentValue) =>
-        previousValue + bag[currentValue].price * bag[currentValue].qty,
-      0
-    )
-  );
+  const [subTotal, setSubTotal] = useState(0);
+  const history = useHistory();
+  useEffect(() => {
+    if (keys.length === 0) history.push("/cart");
+    else
+      keys.forEach((key) => {
+        setSubTotal(
+          Object.keys(bag[key].specs).reduce(
+            (previousValue, currentValue) =>
+              previousValue +
+              bag[key].specs[currentValue].price *
+                bag[key].specs[currentValue].yourQty,
+            0
+          )
+        );
+      });
+  }, [keys, history, bag]);
 
   return (
     <div className="orderSummaryContainer">
@@ -32,7 +43,7 @@ const OrderSummary = ({ bagState }) => {
           <p>{error}</p>
         ) : (
           keys.map((key) => (
-            <div className="cartContentLeftContainer">
+            <div className="cartContentLeftContainer" key={key}>
               <div className="cartContentLeftTop">
                 <Link className="cartItemLink" to={`/product/${key}`}>
                   <img
@@ -113,7 +124,7 @@ const OrderSummary = ({ bagState }) => {
           <Typography>Total</Typography>
           <Typography component="span">
             <FaRupeeSign />
-            {subTotal + 200}
+            {(subTotal + 200).toFixed(2)}
           </Typography>
         </div>
       </div>

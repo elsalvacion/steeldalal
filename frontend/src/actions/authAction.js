@@ -19,6 +19,7 @@ import {
 } from "../reducers/types/authTypes";
 import axios from "axios";
 import { backendBaseUrl } from "../constants/url";
+import { GET_SHIPPING_INFO_SUCCESS } from "../reducers/types/cartTypes";
 
 export const verifyEmailAction = (email) => async (dispatch) => {
   try {
@@ -62,6 +63,10 @@ export const registerUser = (details) => async (dispatch) => {
     );
     localStorage.setItem("userInfo", JSON.stringify(data));
     dispatch({
+      type: GET_SHIPPING_INFO_SUCCESS,
+      payload: data,
+    });
+    dispatch({
       type: VARIFY_EMAIL_RESET,
     });
     dispatch({
@@ -92,7 +97,10 @@ export const loginUser = (details) => async (dispatch) => {
       config
     );
     localStorage.setItem("userInfo", JSON.stringify(data));
-
+    dispatch({
+      type: GET_SHIPPING_INFO_SUCCESS,
+      payload: data,
+    });
     dispatch({
       type: LOGIN_USER_SUCCESS,
       payload: data,
@@ -128,7 +136,10 @@ export const editUser = (details) => async (dispatch, getState) => {
       ...userInfo,
       ...details,
     };
-
+    dispatch({
+      type: GET_SHIPPING_INFO_SUCCESS,
+      payload: newUserInfo,
+    });
     dispatch({
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,
@@ -174,6 +185,10 @@ export const createBiz = (details) => async (dispatch, getState) => {
       yourBiz: data.msg,
     };
     dispatch({
+      type: GET_SHIPPING_INFO_SUCCESS,
+      payload: newUserInfo,
+    });
+    dispatch({
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,
     });
@@ -217,6 +232,10 @@ export const editBiz = (details) => async (dispatch, getState) => {
       ...userInfo,
       yourBiz: data.msg,
     };
+    dispatch({
+      type: GET_SHIPPING_INFO_SUCCESS,
+      payload: newUserInfo,
+    });
     dispatch({
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,

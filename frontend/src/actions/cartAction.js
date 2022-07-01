@@ -62,18 +62,7 @@ export const getCartAction = () => async (dispatch) => {
       ? JSON.parse(localStorage.getItem("cart"))
       : {};
 
-    // const bag = localStorage.getItem("bag")
-    //   ? JSON.parse(localStorage.getItem("bag"))
-    //   : {};
-
     const keys = Object.keys(cart);
-    // keys.forEach((key) => {
-    //   if (cart[key].selected) {
-    //     bag[cart[key].id] = cart[key];
-    //   }
-    // });
-
-    // localStorage.setItem("bag", JSON.stringify(bag));
 
     dispatch({
       type: GET_CART_SUCCESS,
@@ -103,10 +92,7 @@ export const deleteCartAction = (id, specId) => async (dispatch) => {
       delete cart[id];
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-    // const bag = localStorage.getItem("bag")
-    //   ? JSON.parse(localStorage.getItem("bag"))
-    //   : {};
-    // delete bag[id];
+
     localStorage.setItem("bag", JSON.stringify(cart));
 
     dispatch({

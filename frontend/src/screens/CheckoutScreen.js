@@ -11,27 +11,65 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBagAction } from "../actions/cartAction";
+import { placeOrderAction } from "../actions/orderAction";
 import OrderSummary from "../components/checkout/OrderSummary";
 import Payment from "../components/checkout/Payment";
 import ShippingDetails from "../components/checkout/ShippingDetails";
+import CustomSnack from "../components/layout/CustomSnack";
+import { PLACE_ORDER_RESET } from "../reducers/types/orderTypes";
+
 const ChecoutScreen = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { loading, error, order } = useSelector((state) => state.placeOrder);
+
   const bagState = useSelector((state) => state.getBag);
 
   const [activeStep, setActiveStep] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
   const { shippingDetails } = useSelector((state) => state.getShippingInfo);
   useEffect(() => {
     if (!userInfo) {
       history.push("/login?redirect=checkout");
     } else {
-      dispatch(getBagAction());
+      if (!bagState.bag) {
+        dispatch(getBagAction());
+      }
     }
-  }, [userInfo, history, dispatch]);
+    if (activeStep === 1 && bagState.bag) {
+      bagState.keys.forEach((key) => {
+        setSubTotal(
+          Object.keys(bagState.bag[key].specs).reduce(
+            (previousValue, currentValue) =>
+              previousValue +
+              bagState.bag[key].specs[currentValue].price *
+                bagState.bag[key].specs[currentValue].yourQty,
+            0
+          )
+        );
+      });
+    }
+    if (order) {
+      setActiveStep(2);
+    }
+    if (activeStep === steps.length) history.push("/profile");
+    // eslint-disable-next-line
+  }, [userInfo, history, dispatch, bagState, activeStep, order]);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === 1 && !order) {
+      dispatch(
+        placeOrderAction({
+          bag: bagState.bag,
+          totalPrice: subTotal,
+          shippingPrice: 200,
+          ...shippingDetails,
+        })
+      );
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -81,6 +119,14 @@ const ChecoutScreen = () => {
           {activeStep === 1 && <OrderSummary bagState={bagState} />}
           {activeStep === 2 && <Payment />}
         </div>
+        {error && (
+          <CustomSnack
+            type="error"
+            text={error}
+            handleClose={() => dispatch({ type: PLACE_ORDER_RESET })}
+          />
+        )}
+        {loading && <CustomSnack type="error" text="Placing... order" />}
         <MobileStepper
           variant="progress"
           steps={maxSteps}
@@ -91,6 +137,7 @@ const ChecoutScreen = () => {
               size="small"
               onClick={handleNext}
               endIcon={<KeyboardArrowRight />}
+              disabled={loading || activeStep === steps.length}
             >
               {activeStep === 0
                 ? "Next"
@@ -103,7 +150,7 @@ const ChecoutScreen = () => {
             <Button
               size="small"
               onClick={handleBack}
-              disabled={activeStep === 0}
+              disabled={activeStep === 0 || loading || order}
               startIcon={<KeyboardArrowLeft />}
             >
               Back

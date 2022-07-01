@@ -1,4 +1,4 @@
-import { Edit } from "@mui/icons-material";
+import { Edit, Save } from "@mui/icons-material";
 import {
   Autocomplete,
   IconButton,
@@ -12,16 +12,26 @@ import {
 import React, { useState } from "react";
 import "./ShippingDetails.css";
 import { states, getCities } from "../../constants/cities";
+import { useDispatch } from "react-redux";
+import { GET_SHIPPING_INFO_SUCCESS } from "../../reducers/types/cartTypes";
 
 const ShippingDetails = ({ shippingDetails }) => {
   const [shippingInfo, setShippingInfo] = useState(shippingDetails);
   const [editUserInfo, setEditUserInfo] = useState(false);
-
+  const dispatch = useDispatch();
   const handleChange = (e) =>
     setShippingInfo({
       ...shippingInfo,
       [e.target.name]: e.target.value,
     });
+
+  const handleSave = () => {
+    dispatch({
+      type: GET_SHIPPING_INFO_SUCCESS,
+      payload: shippingInfo,
+    });
+    setEditUserInfo(false);
+  };
   return (
     <div className="shippingDetailsContainer">
       <div className="shippingDetailsHeader">
@@ -55,7 +65,7 @@ const ShippingDetails = ({ shippingDetails }) => {
                   height: "100%",
                 }}
                 type="text"
-                name="phone"
+                name="name"
                 label="Name"
                 value={shippingInfo.name}
               />
@@ -77,7 +87,7 @@ const ShippingDetails = ({ shippingDetails }) => {
                   height: "100%",
                 }}
                 type="text"
-                name="phone"
+                name="email"
                 value={shippingInfo.email}
                 label="Email"
               />
@@ -198,6 +208,18 @@ const ShippingDetails = ({ shippingDetails }) => {
             )}
           </ListItemText>
         </ListItem>
+        {editUserInfo && (
+          <ListItem>
+            <Button
+              variant="contained"
+              color="success"
+              endIcon={<Save />}
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+          </ListItem>
+        )}
       </List>
     </div>
   );

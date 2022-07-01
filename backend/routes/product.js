@@ -217,7 +217,7 @@ router.get("/:id", (req, res) => {
           res.status(400).json({ msg: "Error while fetching product" });
         } else {
           const images = [];
-          if (fetchProductRes[1].length > 1) {
+          if (fetchProductRes[1].length > 0) {
             fetchProductRes[1].forEach((product) => images.push(product.image));
           } else images.push(fetchProductRes[0][0].image);
 

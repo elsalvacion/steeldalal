@@ -81,6 +81,11 @@ const initialState = {
       ? JSON.parse(localStorage.getItem("cart"))
       : {},
   },
+  getShippingInfo: {
+    shippingDetails: localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : {},
+  },
 };
 
 const store = createStore(

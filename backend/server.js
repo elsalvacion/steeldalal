@@ -11,6 +11,7 @@ require("dotenv").config();
 const path = require("path");
 // require routes
 const user = require("./routes/user");
+const order = require("./routes/order");
 const product = require("./routes/product");
 const category = require("./routes/category");
 const keys = require("./routes/keys");
@@ -40,6 +41,7 @@ app.use("/auth", user);
 app.use("/product", product);
 app.use("/category", category);
 app.use("/keys", keys);
+app.use("/order", order);
 
 app.get("/config/paypal", (req, res) => {
   try {
