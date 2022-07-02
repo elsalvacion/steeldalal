@@ -8,14 +8,34 @@ router.get("/", userProtect, (req, res) => {
     if (req.query.limit) {
       sql += ` limit ${req.query.limit}`;
     }
-    const orders = [];
 
     connection.query(sql, [req.user.id], (fetchOrdersErr, fetchOrdersRes) => {
       if (fetchOrdersErr) {
         console.log(fetchOrdersErr);
         res.status(400).json({ msg: "Error while fetching orders" });
       } else {
-        fetchOrdersRes.forEach((order, i) => {
+        res.json({ msg: fetchOrdersRes });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+router.get("/:id", userProtect, (req, res) => {
+  try {
+    let sql = `select * from orders where userId = ? and id = ?`;
+
+    connection.query(
+      sql,
+      [req.user.id, req.params.id],
+      (fetchOrderErr, fetchOrderRes) => {
+        if (fetchOrderErr) {
+          console.log(fetchOrderErr);
+          res.status(400).json({ msg: "Error while fetching order" });
+        } else {
+          const order = fetchOrderRes[0];
           const products = [];
           connection.query(
             `select distinct product from orderSpecs where orderId = ? `,
@@ -44,15 +64,12 @@ router.get("/", userProtect, (req, res) => {
                         });
 
                         if (productIdx === fetchOrderProductRes.length - 1) {
-                          orders.push({
-                            ...order,
-                            products,
+                          res.json({
+                            msg: {
+                              ...order,
+                              products,
+                            },
                           });
-
-                          if (i === fetchOrdersRes.length - 1)
-                            res.json({
-                              msg: orders,
-                            });
                         }
                       }
                     }
@@ -61,15 +78,14 @@ router.get("/", userProtect, (req, res) => {
               }
             }
           );
-        });
+        }
       }
-    });
+    );
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Server Error" });
   }
 });
-
 router.post("/", userProtect, (req, res) => {
   try {
     const {

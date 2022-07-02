@@ -31,6 +31,8 @@ import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 import CreateBizScreen from "./screens/CreateBizScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import EditBizScreen from "./screens/EditBizScreen";
+import SingleOrderScreen from "./screens/SingleOrderScreen";
+import OrderScreen from "./screens/OrderScreen";
 
 const App = () => {
   return (
@@ -99,6 +101,8 @@ const App = () => {
 
             <Route exact path="/checkout" component={CheckoutScreen} />
             <Route exact path="/search" component={SearchScreen} />
+            <Route exact path="/order/:id" component={SingleOrderScreen} />
+            <Route exact path="/order" component={OrderScreen} />
             <Route path="*">
               <NotFoundScreen />
             </Route>
