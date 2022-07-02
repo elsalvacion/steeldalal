@@ -28,56 +28,60 @@ const OrderSummary = () => {
       handleClose={() => dispatch({ type: FETCH_ORDERS_RESET })}
     />
   ) : orders ? (
-    <Card sx={{ m: 2 }}>
-      <CardContent>
-        <div className="ProfileDetailRightHeader">
-          <Typography variant="h6" component="h6">
-            Order Summary
-          </Typography>
-        </div>
-        <Grid sx={{ my: 2 }} container spacing={2}>
-          <Grid item xs={2}>
-            ID
-          </Grid>
-          <Grid item xs={3}>
-            Paid
-          </Grid>
-          <Grid item xs={3}>
-            Delivered
-          </Grid>
-          <Grid item xs={4}>
-            Action
-          </Grid>
-        </Grid>
-        {orders.map((order) => (
-          <Grid container sx={{ my: 1 }} spacing={2} key={order.id}>
+    orders.length > 0 ? (
+      <Card sx={{ m: 2 }}>
+        <CardContent>
+          <div className="ProfileDetailRightHeader">
+            <Typography variant="h6" component="h6">
+              Order Summary
+            </Typography>
+          </div>
+          <Grid sx={{ my: 2 }} container spacing={2}>
             <Grid item xs={2}>
-              {order.id}
+              ID
             </Grid>
             <Grid item xs={3}>
-              <Chip
-                label={order.isPaid === 1 ? "Paid" : "UnPaid"}
-                color={order.isPaid === 0 ? "error" : "success"}
-              />
+              Paid
             </Grid>
             <Grid item xs={3}>
-              <Chip
-                label={order.isDelivered === 1 ? "Delivered" : "Not Delivered"}
-                color={order.isDelivered === 0 ? "warning" : "success"}
-              />
+              Delivered
             </Grid>
             <Grid item xs={4}>
-              <Button
-                onClick={() => history.push(`/order/${order.id}`)}
-                endIcon={<ChevronRightOutlined />}
-              >
-                More
-              </Button>
+              Action
             </Grid>
           </Grid>
-        ))}
-      </CardContent>
-    </Card>
+          {orders.map((order) => (
+            <Grid container sx={{ my: 1 }} spacing={2} key={order.id}>
+              <Grid item xs={2}>
+                {order.id}
+              </Grid>
+              <Grid item xs={3}>
+                <Chip
+                  label={order.isPaid === 1 ? "Paid" : "UnPaid"}
+                  color={order.isPaid === 0 ? "error" : "success"}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Chip
+                  label={
+                    order.isDelivered === 1 ? "Delivered" : "Not Delivered"
+                  }
+                  color={order.isDelivered === 0 ? "warning" : "success"}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  onClick={() => history.push(`/order/${order.id}`)}
+                  endIcon={<ChevronRightOutlined />}
+                >
+                  More
+                </Button>
+              </Grid>
+            </Grid>
+          ))}
+        </CardContent>
+      </Card>
+    ) : null
   ) : null;
 };
 

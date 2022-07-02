@@ -19,12 +19,11 @@ router.post("/", userProtect, (req, res) => {
       specs,
     } = req.body;
 
-    const sql = `insert into products(id,title, discount, price, rating, qty, category, type, brand, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?,?, ?, ?, ?); `;
+    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?,?, ?, ?); `;
 
     connection.query(
       sql,
       [
-        nanoid(6),
         title,
         discount,
         price,
