@@ -31,7 +31,12 @@ import {
   selectCartReducer,
 } from "./reducers/cartReducer";
 import { loadMessagesReducer, socketReducer } from "./reducers/chatReducer";
-import { payOrderReducer, placeOrderReducer } from "./reducers/orderReducer";
+import {
+  fetchOrderReducer,
+  fetchOrdersReducer,
+  payOrderReducer,
+  placeOrderReducer,
+} from "./reducers/orderReducer";
 import { searchReducer, searchValueReducer } from "./reducers/searchReducer";
 
 const reducers = combineReducers({
@@ -60,6 +65,8 @@ const reducers = combineReducers({
   loadMessages: loadMessagesReducer,
   payOrder: payOrderReducer,
   placeOrder: placeOrderReducer,
+  fetchOrders: fetchOrdersReducer,
+  fetchOrder: fetchOrderReducer,
   search: searchReducer,
   searchValue: searchValueReducer,
   createBiz: createBizReducer,

@@ -13,11 +13,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import CustomHelmet from "../components/layout/CustomHelmet";
+import OrderSummary from "../components/profile/OrderSummary";
 import ProfileDetailContainer from "../components/profile/ProfileDetailContainer";
 import {
   CREATE_BIZ_RESET,
   UPDATE_BIZ_RESET,
 } from "../reducers/types/authTypes";
+import { PLACE_ORDER_RESET } from "../reducers/types/orderTypes";
 const ProfileScreen = () => {
   const { userInfo } = useSelector((state) => state.userLogin);
   const history = useHistory();
@@ -26,6 +28,7 @@ const ProfileScreen = () => {
   const { success: editBizSuccess } = useSelector((state) => state.editBiz);
   useEffect(() => {
     if (!userInfo) history.push(`/login?redirect=profile`);
+    dispatch({ type: PLACE_ORDER_RESET });
     if (createBizSuccess) {
       dispatch({ type: CREATE_BIZ_RESET });
     }
@@ -45,6 +48,7 @@ const ProfileScreen = () => {
       </Typography>
       <br />
       {userInfo && <ProfileDetailContainer userInfo={userInfo} />}
+      <OrderSummary />
       {userInfo && userInfo.yourBiz && (
         <Card sx={{ m: 2 }}>
           <CardContent>

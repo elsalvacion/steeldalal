@@ -1,4 +1,12 @@
 import {
+  FETCH_ORDERS_ERROR,
+  FETCH_ORDERS_LOADING,
+  FETCH_ORDERS_RESET,
+  FETCH_ORDERS_SUCCESS,
+  FETCH_ORDER_ERROR,
+  FETCH_ORDER_LOADING,
+  FETCH_ORDER_RESET,
+  FETCH_ORDER_SUCCESS,
   PAY_ORDER_ERROR,
   PAY_ORDER_LOADING,
   PAY_ORDER_RESET,
@@ -24,6 +32,48 @@ export const placeOrderReducer = (state = {}, action) => {
         error: action.payload,
       };
     case PLACE_ORDER_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const fetchOrdersReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FETCH_ORDERS_LOADING:
+      return {
+        loading: true,
+      };
+    case FETCH_ORDERS_SUCCESS:
+      return {
+        orders: action.payload,
+      };
+    case FETCH_ORDERS_ERROR:
+      return {
+        error: action.payload,
+      };
+    case FETCH_ORDERS_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const fetchOrderReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FETCH_ORDER_LOADING:
+      return {
+        loading: true,
+      };
+    case FETCH_ORDER_SUCCESS:
+      return {
+        order: action.payload,
+      };
+    case FETCH_ORDER_ERROR:
+      return {
+        error: action.payload,
+      };
+    case FETCH_ORDER_RESET:
       return {};
     default:
       return state;

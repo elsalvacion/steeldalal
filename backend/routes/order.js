@@ -1,6 +1,75 @@
 const router = require("express").Router();
 const connection = require("../config/db");
 const { userProtect } = require("../middlewares/protect");
+
+router.get("/", userProtect, (req, res) => {
+  try {
+    let sql = `select * from orders where userId = ?`;
+    if (req.query.limit) {
+      sql += ` limit ${req.query.limit}`;
+    }
+    const orders = [];
+
+    connection.query(sql, [req.user.id], (fetchOrdersErr, fetchOrdersRes) => {
+      if (fetchOrdersErr) {
+        console.log(fetchOrdersErr);
+        res.status(400).json({ msg: "Error while fetching orders" });
+      } else {
+        fetchOrdersRes.forEach((order, i) => {
+          const products = [];
+          connection.query(
+            `select distinct product from orderSpecs where orderId = ? `,
+            [order.id],
+            (fetchOrderProductErr, fetchOrderProductRes) => {
+              if (fetchOrderProductErr) {
+                console.log(fetchOrderProductErr);
+                res.status(400).json({ msg: "Fetching order products error" });
+              } else {
+                fetchOrderProductRes.forEach(({ product }, productIdx) => {
+                  connection.query(
+                    `select * from products where id = ?;
+                  select * from orderSpecs where product = ?  and orderId = ? 
+                  `,
+                    [product, product, order.id],
+                    (fetchOrderSpecsErr, fetchOrderSpecRes) => {
+                      if (fetchOrderSpecsErr) {
+                        console.log(fetchOrderSpecsErr);
+                        res
+                          .status(400)
+                          .json({ msg: "Error while fetching specs" });
+                      } else {
+                        products.push({
+                          ...fetchOrderSpecRes[0][0],
+                          specs: fetchOrderSpecRes[1],
+                        });
+
+                        if (productIdx === fetchOrderProductRes.length - 1) {
+                          orders.push({
+                            ...order,
+                            products,
+                          });
+
+                          if (i === fetchOrdersRes.length - 1)
+                            res.json({
+                              msg: orders,
+                            });
+                        }
+                      }
+                    }
+                  );
+                });
+              }
+            }
+          );
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 router.post("/", userProtect, (req, res) => {
   try {
     const {
