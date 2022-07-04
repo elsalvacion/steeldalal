@@ -4,7 +4,7 @@ const { userProtect } = require("../middlewares/protect");
 
 router.get("/", userProtect, (req, res) => {
   try {
-    let sql = `select * from orders where userId = ?`;
+    let sql = `select * from orders where userId = ? order by id desc`;
     if (req.query.limit) {
       sql += ` limit ${req.query.limit}`;
     }

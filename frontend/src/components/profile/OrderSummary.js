@@ -33,7 +33,7 @@ const OrderSummary = () => {
         <CardContent>
           <div className="ProfileDetailRightHeader">
             <Typography variant="h6" component="h6">
-              Order Summary
+              Recent Orders
             </Typography>
           </div>
           <Grid sx={{ my: 2 }} container spacing={2}>
@@ -79,6 +79,14 @@ const OrderSummary = () => {
               </Grid>
             </Grid>
           ))}
+          <Button
+            sx={{ mt: 2 }}
+            variant="contained"
+            endIcon={<ChevronRightOutlined />}
+            onClick={() => history.push("/order")}
+          >
+            Orders
+          </Button>
         </CardContent>
       </Card>
     ) : null

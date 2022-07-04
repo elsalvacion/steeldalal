@@ -1,21 +1,21 @@
 .mobileBottomFooterContainer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    box-shadow: -7px -7px 10px lightgray;
-    padding: 7px;
-    display: none;
-    z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: -7px -7px 10px lightgray;
+  padding: 7px;
+  display: none;
+  z-index: 5000;
 }
 .mobileBottomFooterContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-@media(max-width: 850px ) {
-    .mobileBottomFooterContainer {
-        display: block;
-    }
+@media (max-width: 850px) {
+  .mobileBottomFooterContainer {
+    display: block;
+  }
 }

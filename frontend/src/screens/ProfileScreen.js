@@ -29,6 +29,7 @@ const ProfileScreen = () => {
   useEffect(() => {
     if (!userInfo) history.push(`/login?redirect=profile`);
     dispatch({ type: PLACE_ORDER_RESET });
+
     if (createBizSuccess) {
       dispatch({ type: CREATE_BIZ_RESET });
     }
