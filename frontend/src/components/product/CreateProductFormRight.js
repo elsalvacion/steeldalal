@@ -130,45 +130,6 @@ const CreateProductFormRight = (props) => {
           </select>
         </div>
 
-        {/* <div className="createProductFormPrices">
-         
-          <div className="createProductFormPrice">
-            <label htmlFor="createProductFormPrice">Product Price *</label>
-            <input
-              name="price"
-              id="createProductFormPrice"
-              value={props.values.price}
-              type="number"
-              onChange={props.handleChange}
-              placeholder="Enter Price"
-            />
-          </div>
-
-          <div className="createProductFormQty">
-            <label htmlFor="createProductFormQty">Quantity *</label>
-            <input
-              name="qty"
-              id="createProductFormQty"
-              value={props.values.qty}
-              type="number"
-              onChange={props.handleChange}
-              placeholder="Enter Quantity"
-            />
-          </div>
-
-          <div className="createProductFormDiscount">
-            <label htmlFor="createProductFormDiscount">Discount(%)</label>
-            <input
-              name="discount"
-              id="createProductFormDiscount"
-              value={props.values.discount}
-              type="number"
-              onChange={props.handleChange}
-              placeholder="Enter Discount"
-            />
-          </div>
-        </div> */}
-
         {/* specs */}
         {props.values.specs.map((spec, i) => (
           <>
@@ -195,9 +156,8 @@ const CreateProductFormRight = (props) => {
                   <select
                     onChange={(e) => handleInputChange(e, i)}
                     value={spec.t_uom}
-                    name="tUoM"
+                    name="t_uom"
                   >
-                    <option value=""></option>
                     <option value="mm">mm</option>
                     <option value="cm">cm</option>
                     <option value="m">m</option>
@@ -226,9 +186,8 @@ const CreateProductFormRight = (props) => {
                   <select
                     onChange={(e) => handleInputChange(e, i)}
                     value={spec.w_uom}
-                    name="wUoM"
+                    name="w_uom"
                   >
-                    <option value=""></option>
                     <option value="mm">mm</option>
                     <option value="cm">cm</option>
                     <option value="m">m</option>

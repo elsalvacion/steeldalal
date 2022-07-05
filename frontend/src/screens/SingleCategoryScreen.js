@@ -20,7 +20,10 @@ const SingleCategoryScreen = () => {
   }, [category, dispatch]);
   return (
     <Container>
-      <CustomHelmet title={category || "Category"} desc="" />
+      <CustomHelmet
+        title={category || "Category"}
+        desc={category || "Category"}
+      />
       <br />
       <br />
       <SingleCategoryContainer>

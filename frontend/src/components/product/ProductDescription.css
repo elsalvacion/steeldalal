@@ -39,6 +39,7 @@
 .productDesContainer .spec-left div p {
   font-weight: lighter;
   margin-left: 10px;
+  text-transform: lowercase;
 }
 
 .productDesContainer .spec-right small {

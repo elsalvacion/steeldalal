@@ -15,6 +15,10 @@ import {
   EDIT_PRODUCT_LOADING,
   EDIT_PRODUCT_RESET,
   EDIT_PRODUCT_SUCCESS,
+  FETCH_SELLERS_ERROR,
+  FETCH_SELLERS_LOADING,
+  FETCH_SELLERS_RESET,
+  FETCH_SELLERS_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_RESET,
@@ -23,6 +27,10 @@ import {
   PRODUCT_UPLOAD_LOADING,
   PRODUCT_UPLOAD_RESET,
   PRODUCT_UPLOAD_SUCCESS,
+  SELLER_PRODUCTS_ERROR,
+  SELLER_PRODUCTS_LOADING,
+  SELLER_PRODUCTS_RESET,
+  SELLER_PRODUCTS_SUCCESS,
   SINGLE_PRODUCT_ERROR,
   SINGLE_PRODUCT_LOADING,
   SINGLE_PRODUCT_RESET,
@@ -195,6 +203,48 @@ export const deleteProductReducer = (state = {}, action) => {
         error: action.payload,
       };
     case DELETE_PRODUCT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const fetchSellersReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FETCH_SELLERS_LOADING:
+      return {
+        loading: true,
+      };
+    case FETCH_SELLERS_SUCCESS:
+      return {
+        sellers: action.payload,
+      };
+    case FETCH_SELLERS_ERROR:
+      return {
+        error: action.payload,
+      };
+    case FETCH_SELLERS_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const sellerProductsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SELLER_PRODUCTS_LOADING:
+      return {
+        loading: true,
+      };
+    case SELLER_PRODUCTS_SUCCESS:
+      return {
+        products: action.payload,
+      };
+    case SELLER_PRODUCTS_ERROR:
+      return {
+        error: action.payload,
+      };
+    case SELLER_PRODUCTS_RESET:
       return {};
     default:
       return state;

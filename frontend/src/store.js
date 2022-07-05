@@ -13,8 +13,10 @@ import {
   createProductReducer,
   deleteProductReducer,
   editProductReducer,
+  fetchSellersReducer,
   latestProductReducer,
   productUploadReducer,
+  sellerProductsReducer,
   singleProductReducer,
   yourProductsReducer,
 } from "./reducers/productReducer";
@@ -71,6 +73,8 @@ const reducers = combineReducers({
   searchValue: searchValueReducer,
   createBiz: createBizReducer,
   editBiz: editBizReducer,
+  fetchSellers: fetchSellersReducer,
+  sellerProducts: sellerProductsReducer,
 });
 
 const middleware = [thunk];

@@ -12,12 +12,18 @@ import {
   EDIT_PRODUCT_ERROR,
   EDIT_PRODUCT_LOADING,
   EDIT_PRODUCT_SUCCESS,
+  FETCH_SELLERS_ERROR,
+  FETCH_SELLERS_LOADING,
+  FETCH_SELLERS_SUCCESS,
   LATEST_PRODUCT_ERROR,
   LATEST_PRODUCT_LOADING,
   LATEST_PRODUCT_SUCCESS,
   PRODUCT_UPLOAD_ERROR,
   PRODUCT_UPLOAD_LOADING,
   PRODUCT_UPLOAD_SUCCESS,
+  SELLER_PRODUCTS_ERROR,
+  SELLER_PRODUCTS_LOADING,
+  SELLER_PRODUCTS_SUCCESS,
   SINGLE_PRODUCT_ERROR,
   SINGLE_PRODUCT_LOADING,
   SINGLE_PRODUCT_SUCCESS,
@@ -304,6 +310,44 @@ export const deleteProductAction = (id) => async (dispatch, getState) => {
     console.log(error);
     dispatch({
       type: DELETE_PRODUCT_ERROR,
+      payload: error.response.data.msg,
+    });
+  }
+};
+
+export const fetchSellersAction = () => async (dispatch) => {
+  try {
+    dispatch({ type: FETCH_SELLERS_LOADING });
+
+    const { data } = await axios.get(`${backendBaseUrl}/seller`);
+
+    dispatch({
+      type: FETCH_SELLERS_SUCCESS,
+      payload: data.msg,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: FETCH_SELLERS_ERROR,
+      payload: error.response.data.msg,
+    });
+  }
+};
+
+export const fetchSellerProductsAction = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: SELLER_PRODUCTS_LOADING });
+
+    const { data } = await axios.get(`${backendBaseUrl}/seller/${id}`);
+
+    dispatch({
+      type: SELLER_PRODUCTS_SUCCESS,
+      payload: data.msg,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: SELLER_PRODUCTS_ERROR,
       payload: error.response.data.msg,
     });
   }

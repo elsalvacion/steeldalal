@@ -1,35 +1,28 @@
-const nodemailer = require("nodemailer");
-const smtpPassword = require("aws-smtp-credentials");
+var ses = require("node-ses"),
+  client = ses.createClient({
+    key: "AKIA5E377A3C5U2QWFEO",
+    secret: "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",
+  });
 
 const sendContactEmail = (details, res) => {
-  const mailOptions = {
-    from: details.email,
-    to: "alieukeita201@gmail.com",
-    text: details.message,
-    subject: details.subject,
-  };
-  function callback(error, info) {
-    if (error) {
-      console.log(error);
-      res.status(400).json({ msg: "Could not send email" });
-    } else {
-      console.log("Message sent: " + info.response);
-      res.json({ msg: "Email sent" });
-    }
-  }
-
-  // Send e-mail using SMTP
-  const smtpTransporter = nodemailer.createTransport({
-    port: process.env.SMTP_PORT,
-    host: process.env.SMTP_ENDPOINT,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USERNAME,
-      pass: smtpPassword(process.env.SMTP_PASSWORD),
+  client.sendEmail(
+    {
+      to: details.email,
+      from: "alieukeita201@gmail.com",
+      subject: details.subject,
+      message: details.message,
+      altText: "plain text",
     },
-    debug: true,
-  });
-  smtpTransporter.sendMail(mailOptions, callback);
+    function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(400).json({ msg: "Error while sending" });
+      } else {
+        console.log(data);
+        res.json({ msg: "sent" });
+      }
+    }
+  );
 };
 
 module.exports = {

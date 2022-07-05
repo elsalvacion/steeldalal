@@ -33,6 +33,8 @@ import NotFoundScreen from "./screens/NotFoundScreen";
 import EditBizScreen from "./screens/EditBizScreen";
 import SingleOrderScreen from "./screens/SingleOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
+import SellersScreen from "./screens/SellersScreen";
+import SingleSellerScreen from "./screens/SingleSellerScreen";
 
 const App = () => {
   return (
@@ -103,6 +105,9 @@ const App = () => {
             <Route exact path="/search" component={SearchScreen} />
             <Route exact path="/order/:id" component={SingleOrderScreen} />
             <Route exact path="/order" component={OrderScreen} />
+            <Route exact path="/sellers" component={SellersScreen} />
+            <Route exact path="/seller/:id" component={SingleSellerScreen} />
+
             <Route path="*">
               <NotFoundScreen />
             </Route>

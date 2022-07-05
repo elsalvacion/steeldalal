@@ -15,6 +15,7 @@ const order = require("./routes/order");
 const product = require("./routes/product");
 const category = require("./routes/category");
 const keys = require("./routes/keys");
+const seller = require("./routes/seller");
 const connection = require("./config/db");
 const { sendContactEmail } = require("./utils/sendEmail");
 
@@ -42,6 +43,7 @@ app.use("/product", product);
 app.use("/category", category);
 app.use("/keys", keys);
 app.use("/order", order);
+app.use("/seller", seller);
 
 app.get("/config/paypal", (req, res) => {
   try {
