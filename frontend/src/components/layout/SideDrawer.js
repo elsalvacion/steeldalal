@@ -20,6 +20,7 @@ const SideDrawer = (props) => {
           display: "flex",
           flexDirection: "column",
           padding: "10px 3px",
+          zIndex: 9000,
         }}
         role="presentation"
       >
