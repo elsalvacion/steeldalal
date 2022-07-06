@@ -24,7 +24,7 @@ import {
 } from "@mui/icons-material";
 import CreateProductDescription from "../components/product/CreateProductDescription";
 import CreateProductFormRight from "../components/product/CreateProductFormRight";
-import CustomAlert from "../components/layout/CustomAlert";
+import CustomSnack from "../components/layout/CustomSnack";
 import {
   EDIT_PRODUCT_RESET,
   SINGLE_PRODUCT_RESET,
@@ -121,14 +121,14 @@ const EditProductScreen = () => {
           Edit Product
         </Typography>
         {editProductError && (
-          <CustomAlert
+          <CustomSnack
             type="error"
             text={editProductError}
             handleClose={() => dispatch({ type: EDIT_PRODUCT_RESET })}
           />
         )}
         {error && (
-          <CustomAlert
+          <CustomSnack
             type="error"
             text={error}
             handleClose={() => dispatch({ type: SINGLE_PRODUCT_RESET })}

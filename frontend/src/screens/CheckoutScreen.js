@@ -53,6 +53,7 @@ const ChecoutScreen = () => {
     if (order) {
       setActiveStep(2);
     }
+    if (activeStep === 2 && !order) setActiveStep(1);
     if (activeStep === steps.length) history.push("/profile");
     // eslint-disable-next-line
   }, [userInfo, history, dispatch, bagState, activeStep, order]);

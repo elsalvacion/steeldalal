@@ -7,22 +7,24 @@ import { loginUser, registerUser } from "../../actions/authAction";
 const FacebookLoginBtn = ({ text }) => {
   const dispatch = useDispatch();
   const responseFacebook = ({ name, userID }) => {
-    if (text === "login") {
-      dispatch(
-        loginUser({
-          id: userID,
-          type: "facebook",
-        })
-      );
-    } else {
-      dispatch(
-        registerUser({
-          id: userID,
-          email: "",
-          name,
-          type: "facebook",
-        })
-      );
+    if (name && userID) {
+      if (text === "login") {
+        dispatch(
+          loginUser({
+            id: userID,
+            type: "facebook",
+          })
+        );
+      } else {
+        dispatch(
+          registerUser({
+            id: userID,
+            email: "",
+            name,
+            type: "facebook",
+          })
+        );
+      }
     }
   };
   return (

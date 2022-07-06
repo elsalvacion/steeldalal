@@ -37,7 +37,7 @@ const SingleSellerScreen = () => {
             variant="contained"
             sx={{ mb: 1 }}
           >
-            Back
+            Sellers
           </Button>
 
           <Container

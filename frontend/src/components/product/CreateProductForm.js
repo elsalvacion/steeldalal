@@ -5,7 +5,7 @@ import {
   CREATE_PRODUCT_RESET,
   PRODUCT_UPLOAD_RESET,
 } from "../../reducers/types/productTypes";
-import CustomAlert from "../layout/CustomAlert";
+import CustomSnack from "../layout/CustomSnack";
 import CreateProductDescription from "./CreateProductDescription";
 import "./CreateProductForm.css";
 import CreateProductFormLeft from "./CreateProductFormLeft";
@@ -95,18 +95,18 @@ const CreateProductForm = () => {
           <StepContent>
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
-              {/* {images && ( */}
-              <div>
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  endIcon={<ChevronRightOutlined />}
-                  sx={{ mt: 1, mr: 1 }}
-                >
-                  Continue
-                </Button>
-              </div>
-              {/* )} */}
+              {images && (
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    endIcon={<ChevronRightOutlined />}
+                    sx={{ mt: 1, mr: 1 }}
+                  >
+                    Continue
+                  </Button>
+                </div>
+              )}
             </Box>
           </StepContent>
         </Step>
@@ -134,13 +134,12 @@ const CreateProductForm = () => {
                   onClick={handleNext}
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={<ChevronRightOutlined />}
-                  // disabled={Object.keys(values).find(
-                  //   (key) =>
-                  //     values[key] === "" ||
-                  //     values["price"] === 0 ||
-                  //     values[key] === [] ||
-                  //     values[key] === {}
-                  // )}
+                  disabled={Object.keys(values).find(
+                    (key) =>
+                      values[key] === "" ||
+                      values[key] === [] ||
+                      values[key] === {}
+                  )}
                 >
                   Continue
                 </Button>
@@ -170,14 +169,9 @@ const CreateProductForm = () => {
                 Creating... product
               </Typography>
             )}
-            {/* {success && (
-              <Typography sx={{ mb: 2, mt: 2 }} color="green">
-                Product Created
-              </Typography>
-            )} */}
 
             {success && (
-              <CustomAlert
+              <CustomSnack
                 type="success"
                 text="Product Created"
                 handleClose={() => {
@@ -188,7 +182,7 @@ const CreateProductForm = () => {
               />
             )}
             {createProductError && (
-              <CustomAlert
+              <CustomSnack
                 type="error"
                 text={createProductError}
                 handleClose={() => dispatch({ type: CREATE_PRODUCT_RESET })}

@@ -131,12 +131,13 @@ const emailRegister = (req, res) => {
   const { email, name } = req.body;
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(req.body.password, salt);
-  verifier.verify(details.email, async function (emailVerifyErr, info) {
+  verifier.verify(email, async function (emailVerifyErr, info) {
     if (emailVerifyErr) {
       console.log(emailVerifyErr);
       res.status(400).json({ msg: "Invalid email" });
     } else {
       if (info.success) {
+        const id = nanoid(6);
         // find if user exist
         connection.query(
           `select email from users where email = ?`,
@@ -152,9 +153,9 @@ const emailRegister = (req, res) => {
             } else {
               connection.query(
                 `
-                insert into users(name, email, password) values(?, ?, ?);
+                insert into users(id, name, email, password) values(?,?, ?, ?);
                 `,
-                [name, email, password],
+                [id, name, email, password],
                 (createUserErr, createUserRes) => {
                   if (createUserErr) {
                     console.log(createUserErr);
@@ -162,7 +163,7 @@ const emailRegister = (req, res) => {
                   } else {
                     connection.query(
                       `select * from users where id = ?`,
-                      [createUserRes.insertId],
+                      [id],
                       (selectUserErr, selectUserRes) => {
                         if (selectUserErr) {
                           console.log(selectUserErr);
@@ -170,7 +171,7 @@ const emailRegister = (req, res) => {
                           res.json({
                             ...selectUserRes[0],
                             token: jwt.sign(
-                              { id: createUserRes.insertId, type: "email" },
+                              { id, type: "email" },
                               process.env.JWT_SECRET,
                               {
                                 expiresIn: "30d",

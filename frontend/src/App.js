@@ -38,7 +38,7 @@ import SingleSellerScreen from "./screens/SingleSellerScreen";
 
 const App = () => {
   return (
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_LOGIN}>
+    <GoogleOAuthProvider clientId="31292816526-u02re3s8fr3fie9gu4j68st9oadp8sdu.apps.googleusercontent.com">
       <Provider store={store}>
         <div id="back-to-top-anchor"></div>
         <HashRouter>
