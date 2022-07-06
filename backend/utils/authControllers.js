@@ -131,67 +131,57 @@ const emailRegister = (req, res) => {
   const { email, name } = req.body;
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(req.body.password, salt);
-  verifier.verify(email, async function (emailVerifyErr, info) {
-    if (emailVerifyErr) {
-      console.log(emailVerifyErr);
-      res.status(400).json({ msg: "Invalid email" });
-    } else {
-      if (info.success) {
-        const id = nanoid(6);
-        // find if user exist
+
+  const id = nanoid(6);
+  // find if user exist
+  connection.query(
+    `select email from users where email = ?`,
+    [email],
+    (existCheckErr, existCheckRes) => {
+      if (existCheckErr) {
+        console.log(existCheckErr);
+        res.status(400).json({
+          msg: "Error while checking if user exist",
+        });
+      } else if (existCheckRes.length > 0) {
+        res.status(400).json({ msg: "email already exist" });
+      } else {
         connection.query(
-          `select email from users where email = ?`,
-          [email],
-          (existCheckErr, existCheckRes) => {
-            if (existCheckErr) {
-              console.log(existCheckErr);
-              res.status(400).json({
-                msg: "Error while checking if user exist",
-              });
-            } else if (existCheckRes.length > 0) {
-              res.status(400).json({ msg: "email already exist" });
-            } else {
-              connection.query(
-                `
+          `
                 insert into users(id, name, email, password) values(?,?, ?, ?);
                 `,
-                [id, name, email, password],
-                (createUserErr, createUserRes) => {
-                  if (createUserErr) {
-                    console.log(createUserErr);
-                    res.status(400).json({ msg: "Error while creating user" });
+          [id, name, email, password],
+          (createUserErr, createUserRes) => {
+            if (createUserErr) {
+              console.log(createUserErr);
+              res.status(400).json({ msg: "Error while creating user" });
+            } else {
+              connection.query(
+                `select * from users where id = ?`,
+                [id],
+                (selectUserErr, selectUserRes) => {
+                  if (selectUserErr) {
+                    console.log(selectUserErr);
                   } else {
-                    connection.query(
-                      `select * from users where id = ?`,
-                      [id],
-                      (selectUserErr, selectUserRes) => {
-                        if (selectUserErr) {
-                          console.log(selectUserErr);
-                        } else {
-                          res.json({
-                            ...selectUserRes[0],
-                            token: jwt.sign(
-                              { id, type: "email" },
-                              process.env.JWT_SECRET,
-                              {
-                                expiresIn: "30d",
-                              }
-                            ),
-                          });
+                    res.json({
+                      ...selectUserRes[0],
+                      token: jwt.sign(
+                        { id, type: "email" },
+                        process.env.JWT_SECRET,
+                        {
+                          expiresIn: "30d",
                         }
-                      }
-                    );
+                      ),
+                    });
                   }
                 }
               );
             }
           }
         );
-      } else {
-        res.status(400).json({ msg: "Invalid email" });
       }
     }
-  });
+  );
 };
 
 const facebookRegister = (req, res) => {
