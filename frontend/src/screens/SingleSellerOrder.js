@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { fetchOrderAction } from "../actions/orderAction";
+import { fetchSellerOrderAction } from "../actions/orderAction";
 import {
   Card,
   CardContent,
-  Chip,
   Container,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -20,21 +16,20 @@ import {
   Typography,
 } from "@mui/material";
 import CustomSnack from "../components/layout/CustomSnack";
-import { FETCH_ORDER_RESET } from "../reducers/types/orderTypes";
-import { FaRupeeSign } from "react-icons/fa";
-// import Payment from "../components/checkout/Payment";
 import CustomHelmet from "../components/layout/CustomHelmet";
-
-const SingleOrderScreen = () => {
+import { FETCH_SELLER_ORDER_RESET } from "../reducers/types/orderTypes";
+const SingleSellerOrder = () => {
   const { id } = useParams();
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { loading, error, order } = useSelector((state) => state.fetchOrder);
+  const { loading, error, order } = useSelector(
+    (state) => state.fetchSellerOrder
+  );
   const dispatch = useDispatch();
   const history = useHistory();
   useEffect(() => {
-    if (!userInfo) history.push(`/login?redirect=order/${id}`);
+    if (!userInfo) history.push(`/login?redirect=seller/order/${id}`);
     else {
-      dispatch(fetchOrderAction(id));
+      dispatch(fetchSellerOrderAction(id));
     }
   }, [id, userInfo, history, dispatch]);
   return (
@@ -45,85 +40,14 @@ const SingleOrderScreen = () => {
         <CustomSnack
           type="error"
           text={error}
-          handleClose={() => dispatch({ type: FETCH_ORDER_RESET })}
+          handleClose={() => dispatch({ type: FETCH_SELLER_ORDER_RESET })}
         />
       ) : order ? (
         <>
-          <CustomHelmet title="Order" desc="Steeldalal order" />
+          <CustomHelmet title="Seller Order" desc="Steeldalal seller order" />
           <Typography sx={{ mb: 2 }} variant="h6">
-            Order ID: {order.id}
+            Seller Order
           </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Card sx={{ height: "100%" }}>
-                <CardContent>
-                  <Typography sx={{ mb: 2 }} variant="h6">
-                    Status
-                  </Typography>
-                  <List>
-                    <ListItem>
-                      <ListItemText>
-                        <b>Price</b>
-                      </ListItemText>
-                      <ListItemText sx={{ textAlign: "left" }}>
-                        <FaRupeeSign /> {order.totalPrice}
-                      </ListItemText>
-                    </ListItem>
-
-                    <ListItem>
-                      <ListItemText>
-                        <b>Payment</b>
-                      </ListItemText>
-                      <ListItemText sx={{ textAlign: "left" }}>
-                        <Chip
-                          label={order.isPaid === 1 ? "Paid" : "UnPaid"}
-                          color={order.isPaid === 0 ? "error" : "success"}
-                        />
-                      </ListItemText>
-                    </ListItem>
-
-                    <ListItem>
-                      <ListItemText>
-                        <b>Delivery</b>
-                      </ListItemText>
-                      <ListItemText>
-                        <Chip
-                          label={
-                            order.isDelivered === 1
-                              ? "Delivered"
-                              : "Not Delivered"
-                          }
-                          color={
-                            order.isDelivered === 0 ? "warning" : "success"
-                          }
-                        />
-                      </ListItemText>
-                    </ListItem>
-                  </List>
-                  {/* {order.isPaid === 0 && <Payment />} */}
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card sx={{ height: "100%" }}>
-                <CardContent>
-                  <Typography variant="h6">Shipping Details</Typography>
-                  <List>
-                    {["name", "state", "city", "address", "phone", "email"].map(
-                      (detailKey) => (
-                        <ListItem key={detailKey}>
-                          <ListItemText sx={{ textTransform: "capitalize" }}>
-                            <b>{detailKey}</b>
-                          </ListItemText>
-                          <ListItemText>{order[detailKey]}</ListItemText>
-                        </ListItem>
-                      )
-                    )}
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
           <Card sx={{ mt: 1, width: "100%" }}>
             <CardContent>
               <Typography variant="h6" sx={{ mb: 2 }}>
@@ -197,4 +121,4 @@ const SingleOrderScreen = () => {
   );
 };
 
-export default SingleOrderScreen;
+export default SingleSellerOrder;

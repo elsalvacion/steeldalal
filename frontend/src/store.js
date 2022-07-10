@@ -2,11 +2,12 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import thunk from "redux-thunk";
 import {
+  confirmOtpReducer,
   createBizReducer,
   editBizReducer,
   editUserReducer,
   loginReducer,
-  verifyEmailReducer,
+  verifyPhoneReducer,
 } from "./reducers/authReducer";
 import {
   allProductsReducer,
@@ -36,6 +37,7 @@ import { loadMessagesReducer, socketReducer } from "./reducers/chatReducer";
 import {
   fetchOrderReducer,
   fetchOrdersReducer,
+  fetchSellerOrderReducer,
   payOrderReducer,
   placeOrderReducer,
 } from "./reducers/orderReducer";
@@ -44,7 +46,8 @@ import { searchReducer, searchValueReducer } from "./reducers/searchReducer";
 const reducers = combineReducers({
   userLogin: loginReducer,
   editUser: editUserReducer,
-  verifyEmail: verifyEmailReducer,
+  verifyPhone: verifyPhoneReducer,
+  confirmOtp: confirmOtpReducer,
   latestProduct: latestProductReducer,
   fetchCategories: fetchCategoryReducer,
   singleProduct: singleProductReducer,
@@ -69,6 +72,7 @@ const reducers = combineReducers({
   placeOrder: placeOrderReducer,
   fetchOrders: fetchOrdersReducer,
   fetchOrder: fetchOrderReducer,
+  fetchSellerOrder: fetchSellerOrderReducer,
   search: searchReducer,
   searchValue: searchValueReducer,
   createBiz: createBizReducer,

@@ -35,6 +35,9 @@ import SingleOrderScreen from "./screens/SingleOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import SellersScreen from "./screens/SellersScreen";
 import SingleSellerScreen from "./screens/SingleSellerScreen";
+import VerifyNumberScreen from "./screens/VerifyNumberScreen";
+import SellerOrders from "./screens/SellerOrders";
+import SingleSellerOrder from "./screens/SingleSellerOrder";
 
 const App = () => {
   return (
@@ -107,7 +110,13 @@ const App = () => {
             <Route exact path="/order" component={OrderScreen} />
             <Route exact path="/sellers" component={SellersScreen} />
             <Route exact path="/seller/:id" component={SingleSellerScreen} />
-
+            <Route
+              exact
+              path="/seller/order/:id"
+              component={SingleSellerOrder}
+            />
+            <Route exact path="/seller/order" component={SellerOrders} />
+            <Route exact path="/verify-number" component={VerifyNumberScreen} />
             <Route path="*">
               <NotFoundScreen />
             </Route>

@@ -14,10 +14,10 @@ import {
   Edit,
   Email,
   HomeWork,
-  LocalPhone,
   OtherHouses,
   Person,
   Villa,
+  WhatsApp,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { UPDATE_USER_RESET } from "../../reducers/types/authTypes";
@@ -87,7 +87,7 @@ const ProfileDetailLeft = ({ userInfo, editUserInfo, setEditUserInfo }) => {
                   height: "100%",
                 }}
                 type="text"
-                name="phone"
+                name="name"
                 label="Name"
                 value={values.name}
               />
@@ -111,7 +111,7 @@ const ProfileDetailLeft = ({ userInfo, editUserInfo, setEditUserInfo }) => {
                   height: "100%",
                 }}
                 type="text"
-                name="phone"
+                name="email"
                 value={values.email}
                 label="Email"
               />
@@ -123,7 +123,7 @@ const ProfileDetailLeft = ({ userInfo, editUserInfo, setEditUserInfo }) => {
 
         <ListItem>
           <ListItemIcon>
-            <LocalPhone />
+            <WhatsApp />
           </ListItemIcon>
           <ListItemText>
             {editUserInfo ? (
@@ -137,7 +137,7 @@ const ProfileDetailLeft = ({ userInfo, editUserInfo, setEditUserInfo }) => {
                 type="text"
                 name="phone"
                 value={values.phone}
-                label="Phone"
+                label="Whatsapp Number"
               />
             ) : (
               userInfo.phone

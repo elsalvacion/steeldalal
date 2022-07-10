@@ -7,6 +7,10 @@ import {
   FETCH_ORDER_LOADING,
   FETCH_ORDER_RESET,
   FETCH_ORDER_SUCCESS,
+  FETCH_SELLER_ORDER_ERROR,
+  FETCH_SELLER_ORDER_LOADING,
+  FETCH_SELLER_ORDER_RESET,
+  FETCH_SELLER_ORDER_SUCCESS,
   PAY_ORDER_ERROR,
   PAY_ORDER_LOADING,
   PAY_ORDER_RESET,
@@ -74,6 +78,27 @@ export const fetchOrderReducer = (state = {}, action) => {
         error: action.payload,
       };
     case FETCH_ORDER_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const fetchSellerOrderReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FETCH_SELLER_ORDER_LOADING:
+      return {
+        loading: true,
+      };
+    case FETCH_SELLER_ORDER_SUCCESS:
+      return {
+        order: action.payload,
+      };
+    case FETCH_SELLER_ORDER_ERROR:
+      return {
+        error: action.payload,
+      };
+    case FETCH_SELLER_ORDER_RESET:
       return {};
     default:
       return state;

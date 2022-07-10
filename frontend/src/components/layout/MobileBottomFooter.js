@@ -12,7 +12,7 @@ import { socket } from "../../utils/connectSocket";
 import "./MobileBottomFooter.css";
 const MobileBottomFooter = () => {
   const history = useHistory();
-  const { keys } = useSelector((state) => state.getCart);
+  const { cart } = useSelector((state) => state.getCart);
   const { userInfo } = useSelector((state) => state.userLogin);
   useEffect(() => {
     if (userInfo) {
@@ -31,7 +31,10 @@ const MobileBottomFooter = () => {
         </IconButton>
 
         <IconButton onClick={() => history.push("/cart")} color="primary">
-          <Badge badgeContent={keys ? keys.length : 0} color="error">
+          <Badge
+            badgeContent={cart ? Object.keys(cart.specs).length : 0}
+            color="error"
+          >
             <ShoppingCart />
           </Badge>
         </IconButton>

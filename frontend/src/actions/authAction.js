@@ -1,4 +1,7 @@
 import {
+  CONFIRM_OTP_ERROR,
+  CONFIRM_OTP_LOADING,
+  CONFIRM_OTP_SUCCESS,
   CREATE_BIZ_ERROR,
   CREATE_BIZ_LOADING,
   CREATE_BIZ_SUCCESS,
@@ -12,41 +15,90 @@ import {
   UPDATE_USER_ERROR,
   UPDATE_USER_LOADING,
   UPDATE_USER_SUCCESS,
-  VARIFY_EMAIL_ERROR,
-  VARIFY_EMAIL_LOADING,
-  VARIFY_EMAIL_RESET,
-  VARIFY_EMAIL_SUCCESS,
+  VARIFY_PHONE_ERROR,
+  VARIFY_PHONE_LOADING,
+  VARIFY_PHONE_RESET,
+  VARIFY_PHONE_SUCCESS,
 } from "../reducers/types/authTypes";
 import axios from "axios";
 import { backendBaseUrl } from "../constants/url";
 import { GET_SHIPPING_INFO_SUCCESS } from "../reducers/types/cartTypes";
 
-export const verifyEmailAction = (email) => async (dispatch) => {
-  try {
-    dispatch({
-      type: VARIFY_EMAIL_LOADING,
-    });
-    const config = {
-      "Content-Type": "application/json",
-    };
-    const { data } = await axios.post(
-      `${backendBaseUrl}/auth/verify-email`,
-      { email },
-      config
-    );
-    dispatch({
-      type: VARIFY_EMAIL_SUCCESS,
-      payload: data.msg,
-    });
-  } catch (err) {
-    console.log(err.response);
-    const message = err.response.data.msg || err.response.data;
-    dispatch({
-      type: VARIFY_EMAIL_ERROR,
-      payload: message,
-    });
-  }
-};
+export const verifyPhoneAction =
+  (phone, confirm = null) =>
+  async (dispatch, getState) => {
+    try {
+      if (confirm) {
+        dispatch({
+          type: CONFIRM_OTP_LOADING,
+        });
+      } else {
+        dispatch({
+          type: VARIFY_PHONE_LOADING,
+        });
+      }
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      let url;
+      if (!confirm) {
+        url = `${backendBaseUrl}/auth/verify-phone`;
+      } else {
+        url = `${backendBaseUrl}/auth/check-otp`;
+      }
+      const { data } = await axios.post(url, { phone }, config);
+      dispatch({
+        type: VARIFY_PHONE_SUCCESS,
+        payload: data.msg,
+      });
+      if (confirm) {
+        dispatch({
+          type: LOGIN_USER_SUCCESS,
+          payload: {
+            ...userInfo,
+            isVerified: 1,
+          },
+        });
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            ...userInfo,
+            isVerified: 1,
+          })
+        );
+        dispatch({
+          type: CONFIRM_OTP_SUCCESS,
+          payload: data.msg,
+        });
+      } else {
+        dispatch({
+          type: VARIFY_PHONE_SUCCESS,
+          payload: data.msg,
+        });
+      }
+    } catch (err) {
+      console.log(err.response);
+      const message = err.response.data.msg || err.response.data;
+      if (confirm) {
+        dispatch({
+          type: CONFIRM_OTP_ERROR,
+          payload: message,
+        });
+      } else {
+        dispatch({
+          type: VARIFY_PHONE_ERROR,
+          payload: message,
+        });
+      }
+    }
+  };
 
 export const registerUser = (details) => async (dispatch) => {
   try {
@@ -67,7 +119,7 @@ export const registerUser = (details) => async (dispatch) => {
       payload: data,
     });
     dispatch({
-      type: VARIFY_EMAIL_RESET,
+      type: VARIFY_PHONE_RESET,
     });
     dispatch({
       type: LOGIN_USER_SUCCESS,

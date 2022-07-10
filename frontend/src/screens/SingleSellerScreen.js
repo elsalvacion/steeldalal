@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { fetchSellerProductsAction } from "../actions/productAction";
 import AllProductItem from "../components/allproduct/AllProductItem";
+import CustomHelmet from "../components/layout/CustomHelmet";
 import CustomSnack from "../components/layout/CustomSnack";
 import { SELLER_PRODUCTS_RESET } from "../reducers/types/productTypes";
 
@@ -31,6 +32,11 @@ const SingleSellerScreen = () => {
         />
       ) : products ? (
         <>
+          <CustomHelmet
+            title={products.name || "Seller Order"}
+            desc={`Steeldalal seller order ${products.name}`}
+          />
+
           <Button
             onClick={() => history.push("/sellers")}
             startIcon={<ArrowBackOutlined />}

@@ -10,6 +10,105 @@ const {
   facebookLogin,
   googleLogin,
 } = require("../utils/authControllers");
+const { sendMessage } = require("../utils/sendEmail");
+
+// verify phone
+router.post("/verify-phone", userProtect, (req, res) => {
+  try {
+    const verifyNumber = Math.floor(1000 + Math.random() * 9000);
+    const { type } = req.user;
+    let updateSql;
+    if (type.toLowerCase() === "facebook") {
+      updateSql = `update facebook set verifyNumber = ? , phone = ? where id = ?`;
+    } else if (type.toLowerCase() === "email") {
+      updateSql = `update users set verifyNumber = ? , phone = ? where id = ?`;
+    } else {
+      updateSql = `update google set verifyNumber = ? , phone = ? where id = ?`;
+    }
+
+    connection.query(
+      updateSql,
+      [verifyNumber, req.body.phone, req.user.id],
+      (updateUserErr, updateUserRes) => {
+        if (updateUserErr) {
+          console.log(updateUserErr);
+          res.status(400).json({ msg: "Verify phone error" });
+        } else {
+          sendMessage(
+            {
+              to: req.body.phone,
+              message: `
+            *Your one-time OTP*
+
+Here is your 4 digit verification: *${verifyNumber}*
+
+_From: steeldalal.com_
+            `,
+            },
+            res
+          );
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+// check otp
+router.post("/check-otp", userProtect, (req, res) => {
+  try {
+    const verifyNumber = req.body.phone;
+    const { id, type } = req.user;
+    let fetchSql;
+    if (type.toLowerCase() === "facebook") {
+      fetchSql = `select verifyNumber from facebook where verifyNumber =  ? and id = ?`;
+    } else if (type.toLowerCase() === "email") {
+      fetchSql = `select verifyNumber from users where verifyNumber =  ? and id = ?`;
+    } else {
+      fetchSql = `select verifyNumber from google where verifyNumber =  ? and id = ?`;
+    }
+    connection.query(
+      fetchSql,
+      [verifyNumber, req.user.id],
+      (verifyCheckErr, verifyCheckRes) => {
+        if (verifyCheckErr) {
+          console.log(verifyCheckErr);
+          res.status(400).json({ msg: "could not verify otp" });
+        } else {
+          if (verifyCheckRes.length === 0) {
+            res.status(400).json({ msg: "Invalid OTP" });
+          } else {
+            let updateSql;
+            if (type.toLowerCase() === "facebook") {
+              updateSql = `update facebook set isVerified = 1 where id = ?`;
+            } else if (type.toLowerCase() === "email") {
+              updateSql = `update users set isVerified = 1 where id = ?`;
+            } else {
+              updateSql = `update google set isVerified = 1 where id = ?`;
+            }
+            connection.query(
+              updateSql,
+              [req.user.id],
+              (updateUserErr, updateUserRes) => {
+                if (updateUserErr) {
+                  console.log(updateUserErr);
+                  res.status(400).json({ msg: "Error while verifying" });
+                } else {
+                  res.json({ msg: "Valid" });
+                }
+              }
+            );
+          }
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
 
 // register user
 router.post("/register", (req, res) => {

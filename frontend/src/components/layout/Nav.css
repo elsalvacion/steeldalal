@@ -2,7 +2,7 @@
   box-shadow: 1px 1px 5px -3px rgba(0, 0, 0, 0.5);
   position: sticky;
   background: #fff;
-  z-index: 4000;
+  z-index: 1000;
 }
 .topNavContent {
   padding: 7px 20px;
@@ -80,7 +80,7 @@
     position: sticky;
     top: 0;
     background: white;
-    z-index: 4000;
+    z-index: 1000;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   }
   .mobileLogo img {

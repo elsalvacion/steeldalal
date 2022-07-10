@@ -7,13 +7,11 @@ const About = () => {
     <div className="aboutContainer" id="about">
       <div className="aboutLeft">
         <iframe
-          src="https://www.youtube.com/embed/WI5LLBteInI"
+          src="https://www.youtube.com/embed/hYvkqOg7oBo"
           title="YouTube video player"
-          frameBorder="0"
+          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          autoPlay="1"
-          muted="1"
+          allowfullscreen
         ></iframe>
       </div>
       <div className="aboutRight">

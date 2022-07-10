@@ -33,7 +33,7 @@ const OrderSummary = () => {
         <CardContent>
           <div className="ProfileDetailRightHeader">
             <Typography variant="h6" component="h6">
-              Recent Orders
+              Recent Purchase Orders
             </Typography>
           </div>
           <Grid sx={{ my: 2 }} container spacing={2}>

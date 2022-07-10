@@ -17,7 +17,7 @@ const category = require("./routes/category");
 const keys = require("./routes/keys");
 const seller = require("./routes/seller");
 const connection = require("./config/db");
-const { sendContactEmail } = require("./utils/sendEmail");
+const { sendContactEmail, sendMessage } = require("./utils/sendEmail");
 
 const app = express();
 
@@ -57,7 +57,18 @@ app.get("/config/paypal", (req, res) => {
 app.post("/contact", (req, res) => {
   try {
     const details = req.body;
-    sendContactEmail(details, res);
+    details.to = `+8801858328387`;
+    details.message = `
+*Contact Message*
+ _Subject: *${details.subject}*_
+
+${details.message}
+  
+_Send By: ${details.name}_
+_Whatsapp: ${details.phone}_ 
+_From: steeldalal.com_
+    `;
+    sendMessage(details, res);
   } catch (err) {
     console.log(err);
     res.status(400).json({ msg: "Server Error: Try other methods." });

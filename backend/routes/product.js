@@ -221,9 +221,9 @@ router.get("/:id", (req, res) => {
           } else images.push(fetchProductRes[0][0].image);
 
           connection.query(
-            `select name, city, state from users where id = ?;
-            select name, city, state from google where id = ?;
-            select name, city, state from facebook where id = ?;
+            `select name, city, state, phone from users where id = ?;
+            select name, city, state, phone from google where id = ?;
+            select name, city, state, phone from facebook where id = ?;
             `,
             [
               fetchProductRes[0][0].user,

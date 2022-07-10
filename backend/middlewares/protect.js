@@ -12,11 +12,7 @@ const userProtect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
       if (!token) {
         res.status(401).json({
-          errors: [
-            {
-              msg: "Not Authorized: No Token",
-            },
-          ],
+          msg: "Not Authorized: No Token",
         });
       }
 
@@ -37,27 +33,39 @@ const userProtect = async (req, res, next) => {
 
         if (!data) {
           res.status(401).json({
-            errors: [
-              {
-                msg: "Not Authorized: No Token",
-              },
-            ],
+            msg: "Not Authorized: No Token",
           });
         } else {
-          req.user = data;
+          req.user = {
+            ...data,
+            type,
+          };
 
           next();
         }
       });
     } catch (error) {
       res.status(401).json({
-        errors: [
-          {
-            msg: "Not Authorized: Invalid User",
-          },
-        ],
+        msg: "Not Authorized: Invalid User",
       });
     }
+  }
+};
+
+const sellerProtect = (req, res, next) => {
+  try {
+    if (req.user && req.user.isSeller) {
+      next();
+    } else {
+      res.status(401).json({
+        msg: "Not authorized as seller",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({
+      msg: "Not authorized as seller",
+    });
   }
 };
 
@@ -67,21 +75,13 @@ const adminProtect = (req, res, next) => {
       next();
     } else {
       res.status(401).json({
-        errors: [
-          {
-            msg: "Not authorized as an admin",
-          },
-        ],
+        msg: "Not authorized as admin",
       });
     }
   } catch (err) {
     console.log(err);
     res.status(401).json({
-      errors: [
-        {
-          msg: "Not authorized as an admin",
-        },
-      ],
+      msg: "Not authorized as admin",
     });
   }
 };
@@ -89,4 +89,5 @@ const adminProtect = (req, res, next) => {
 module.exports = {
   userProtect,
   adminProtect,
+  sellerProtect,
 };

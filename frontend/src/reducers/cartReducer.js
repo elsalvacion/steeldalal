@@ -44,7 +44,9 @@ export const getCartReducer = (state = {}, action) => {
         loading: true,
       };
     case GET_CART_SUCCESS:
-      return action.payload;
+      return {
+        cart: action.payload,
+      };
     case GET_CART_ERROR:
       return {
         error: action.payload,
@@ -84,7 +86,9 @@ export const getBagReducer = (state = {}, action) => {
         loading: true,
       };
     case GET_BAG_SUCCESS:
-      return action.payload;
+      return {
+        bag: action.payload,
+      };
     case GET_BAG_ERROR:
       return {
         error: action.payload,

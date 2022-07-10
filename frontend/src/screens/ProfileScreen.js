@@ -27,9 +27,12 @@ const ProfileScreen = () => {
   const { success: createBizSuccess } = useSelector((state) => state.createBiz);
   const { success: editBizSuccess } = useSelector((state) => state.editBiz);
   useEffect(() => {
-    if (!userInfo) history.push(`/login?redirect=profile`);
     dispatch({ type: PLACE_ORDER_RESET });
-
+    if (!userInfo) history.push(`/login?redirect=profile`);
+    else {
+      if (!userInfo.isVerified || userInfo.isVerified === 0)
+        history.push("/verify-number");
+    }
     if (createBizSuccess) {
       dispatch({ type: CREATE_BIZ_RESET });
     }

@@ -19,7 +19,9 @@ const CreateProductFormRight = (props) => {
   const types = ["Cold Rolled", "Hot Rolled"];
 
   const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
+
+    const value = e.target.value === "" ? null : e.target.value;
     const list = [...props.values.specs];
     list[index][name] = value;
     props.setValues({

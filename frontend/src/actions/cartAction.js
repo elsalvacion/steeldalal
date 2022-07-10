@@ -26,15 +26,15 @@ import {
 export const addToCartAction = (details) => async (dispatch, getState) => {
   try {
     dispatch({ type: ADD_CART_LOADING });
-    const cart = localStorage.getItem("cart")
+    let cart = localStorage.getItem("cart")
       ? JSON.parse(localStorage.getItem("cart"))
       : {};
-    const oldCart = cart[details.id];
-    if (oldCart) {
-      oldCart.specs[details.specs.id] = details.specs;
-      cart[oldCart.id] = oldCart;
+
+    if (cart && cart.id === details.id) {
+      cart.specs[details.specs.id] = details.specs;
     } else {
-      cart[details.id] = {
+      cart = {};
+      cart = {
         ...details,
         specs: {
           [details.specs.id]: details.specs,
@@ -62,14 +62,9 @@ export const getCartAction = () => async (dispatch) => {
       ? JSON.parse(localStorage.getItem("cart"))
       : {};
 
-    const keys = Object.keys(cart);
-
     dispatch({
       type: GET_CART_SUCCESS,
-      payload: {
-        cart: cart,
-        keys: keys,
-      },
+      payload: cart,
     });
   } catch (error) {
     console.log(error);
@@ -80,17 +75,16 @@ export const getCartAction = () => async (dispatch) => {
   }
 };
 
-export const deleteCartAction = (id, specId) => async (dispatch) => {
+export const deleteCartAction = (specId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_LOADING });
-    const cart = localStorage.getItem("cart")
+    let cart = localStorage.getItem("cart")
       ? JSON.parse(localStorage.getItem("cart"))
       : {};
-    if (Object.keys(cart[id].specs).length > 1) {
-      delete cart[id].specs[specId];
-    } else {
-      delete cart[id];
-    }
+
+    delete cart.specs[specId];
+
+    if (Object.keys(cart.specs).length === 0) cart = null;
     localStorage.setItem("cart", JSON.stringify(cart));
 
     localStorage.setItem("bag", JSON.stringify(cart));
@@ -184,13 +178,9 @@ export const getBagAction = () => async (dispatch) => {
     const bag = localStorage.getItem("bag")
       ? JSON.parse(localStorage.getItem("bag"))
       : {};
-    const keys = Object.keys(bag);
     dispatch({
       type: GET_BAG_SUCCESS,
-      payload: {
-        bag: bag,
-        keys: keys,
-      },
+      payload: bag,
     });
   } catch (error) {
     console.log(error);

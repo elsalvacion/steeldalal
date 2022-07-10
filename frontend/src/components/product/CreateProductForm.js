@@ -215,7 +215,17 @@ const CreateProductForm = () => {
                   }
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={success ? <RestartAlt /> : <AddBox />}
-                  disabled={createProductLoading}
+                  disabled={
+                    createProductLoading ||
+                    values.specs.find(
+                      (spec) =>
+                        spec.qty === null ||
+                        spec.price === null ||
+                        spec.width === null ||
+                        spec.height === null ||
+                        spec.thicknes === null
+                    )
+                  }
                 >
                   {success ? "New Product" : "Create"}
                 </Button>

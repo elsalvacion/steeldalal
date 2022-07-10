@@ -4,12 +4,16 @@ import CartContent from "../components/cart/CartContent";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartAction } from "../actions/cartAction";
 import CustomHelmet from "../components/layout/CustomHelmet";
+import { PLACE_ORDER_RESET } from "../reducers/types/orderTypes";
 
 const CartScreen = () => {
-  const { cart, keys } = useSelector((state) => state.getCart);
+  const { cart } = useSelector((state) => state.getCart);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCartAction());
+    dispatch({
+      type: PLACE_ORDER_RESET,
+    });
   }, [dispatch]);
   return (
     <Container>
@@ -17,8 +21,8 @@ const CartScreen = () => {
         title="Cart"
         desc="We have an easy cart for you to save your favorite products for later use."
       />
-      {keys && keys.length > 0 ? (
-        <CartContent keys={keys} cart={cart} />
+      {cart ? (
+        <CartContent cart={cart} />
       ) : (
         <>
           <br />

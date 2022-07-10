@@ -1,4 +1,4 @@
-import { Typography, Rating, Button } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "./ProductDescription.css";
 import ProductSlider from "../product/ProductSlider";
@@ -78,12 +78,12 @@ const ProductDescription = ({ details }) => {
             {details.title}
           </Typography>
 
-          <Rating
+          {/* <Rating
             name="read-only"
             value={details.rating}
             readOnly
             size="large"
-          />
+          /> */}
 
           <p>
             <b>Brand: </b>

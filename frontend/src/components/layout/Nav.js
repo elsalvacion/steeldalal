@@ -28,7 +28,7 @@ const Nav = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { keys } = useSelector((state) => state.getCart);
+  const { cart } = useSelector((state) => state.getCart);
   useEffect(() => {
     if (userInfo) {
       socket.emit("join_room", userInfo.id);
@@ -71,7 +71,10 @@ const Nav = () => {
               title="cart"
               color="primary"
             >
-              <Badge badgeContent={keys ? keys.length : 0} color="error">
+              <Badge
+                badgeContent={cart ? Object.keys(cart.specs).length : 0}
+                color="error"
+              >
                 <ShoppingCart />
               </Badge>
             </IconButton>

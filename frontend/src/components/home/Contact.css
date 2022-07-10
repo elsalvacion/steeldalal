@@ -22,6 +22,10 @@
 .contactFormInput label {
   display: block;
   margin-bottom: 4px;
+  margin-top: 12px;
+}
+.contactFormInput small {
+  margin: 10px 0;
 }
 .contactFormInput input,
 textarea {
@@ -29,7 +33,6 @@ textarea {
   width: 100%;
   padding: 10px;
   font-size: 15px;
-  margin-bottom: 17px;
   border-radius: 7px;
   border: 1px solid #7e6fe2;
   outline: 0;

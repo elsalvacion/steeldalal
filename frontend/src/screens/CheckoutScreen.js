@@ -13,7 +13,6 @@ import { useHistory } from "react-router-dom";
 import { getBagAction } from "../actions/cartAction";
 import { placeOrderAction } from "../actions/orderAction";
 import OrderSummary from "../components/checkout/OrderSummary";
-import Payment from "../components/checkout/Payment";
 import ShippingDetails from "../components/checkout/ShippingDetails";
 import CustomSnack from "../components/layout/CustomSnack";
 import { PLACE_ORDER_RESET } from "../reducers/types/orderTypes";
@@ -51,7 +50,7 @@ const ChecoutScreen = () => {
       });
     }
     if (order) {
-      setActiveStep(2);
+      history.push(`/order/${order.id}`);
     }
     if (activeStep === 2 && !order) setActiveStep(1);
     if (activeStep === steps.length) history.push("/profile");
@@ -76,7 +75,7 @@ const ChecoutScreen = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  const steps = ["Shipping Info", "Confirm Order", "Payment"];
+  const steps = ["Shipping Info", "Confirm Order"];
   const maxSteps = steps.length;
 
   return (
@@ -118,7 +117,6 @@ const ChecoutScreen = () => {
             />
           )}
           {activeStep === 1 && <OrderSummary bagState={bagState} />}
-          {activeStep === 2 && <Payment />}
         </div>
         {error && (
           <CustomSnack
@@ -127,7 +125,7 @@ const ChecoutScreen = () => {
             handleClose={() => dispatch({ type: PLACE_ORDER_RESET })}
           />
         )}
-        {loading && <CustomSnack type="error" text="Placing... order" />}
+        {loading && <CustomSnack type="success" text="Placing... order" />}
         <MobileStepper
           variant="progress"
           steps={maxSteps}

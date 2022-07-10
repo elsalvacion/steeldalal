@@ -5,6 +5,7 @@ import AllProductItem from "../components/allproduct/AllProductItem";
 import CustomAlert from "../components/layout/CustomAlert";
 import { SEARCH_RESET } from "../reducers/types/searchTypes";
 import SingleCategoryContainer from "../components/category/SingleCategoryContainer";
+import CustomHelmet from "../components/layout/CustomHelmet";
 
 const SearchScreen = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const SearchScreen = () => {
 
   return (
     <Container>
+      <CustomHelmet title={"Search"} desc={`Steeldalal search`} />
       <SingleCategoryContainer>
         {loading ? (
           <Typography variant="h5">Searching...</Typography>

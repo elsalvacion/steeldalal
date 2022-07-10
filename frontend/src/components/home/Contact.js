@@ -39,9 +39,10 @@ const Contact = () => {
     },
     {
       id: 6,
-      label: "Email *",
-      name: "email",
-      placeholder: "Enter your email",
+      label: "Whatsapp *",
+      name: "phone",
+      placeholder: "Enter your whatsapp",
+      small: "Format: +917412900222",
     },
     {
       id: 7,
@@ -61,19 +62,22 @@ const Contact = () => {
   const [sent, setSent] = useState(false);
   const [values, setValues] = useState({
     name: "",
-    email: "",
+    phone: "",
     subject: "",
     message: "",
   });
   const handleChange = (e) =>
     setValues({
       ...values,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.name === "phone"
+          ? String(e.target.value).trim()
+          : e.target.value,
     });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, subject, message } = values;
-    if (name !== "" || email !== "" || subject !== "" || message !== "") {
+    const { name, phone, subject, message } = values;
+    if (name !== "" || phone !== "" || subject !== "" || message !== "") {
       try {
         setError(null);
         setSent(false);
@@ -116,16 +120,19 @@ const Contact = () => {
           )}
           <form className="contactForm" onSubmit={handleSubmit}>
             {contactFormDetails.map((detail) => (
-              <div className="contactFormInput" key={detail.id}>
+              <div className="contactFormInput" key={`contact-` + detail.id}>
                 <label htmlFor={detail.name}>{detail.label}</label>
                 {detail.name !== "message" ? (
-                  <input
-                    type="text"
-                    name={detail.name}
-                    placeholder={detail.placeholder}
-                    required
-                    onChange={handleChange}
-                  />
+                  <>
+                    <input
+                      type="text"
+                      name={detail.name}
+                      placeholder={detail.placeholder}
+                      required
+                      onChange={handleChange}
+                    />
+                    {detail.small && <small>{detail.small}</small>}
+                  </>
                 ) : (
                   <textarea
                     name={detail.name}
