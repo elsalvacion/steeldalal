@@ -17,7 +17,7 @@ const category = require("./routes/category");
 const keys = require("./routes/keys");
 const seller = require("./routes/seller");
 const connection = require("./config/db");
-const { sendContactEmail, sendMessage } = require("./utils/sendEmail");
+const { sendMessage } = require("./utils/sendEmail");
 
 const app = express();
 
@@ -60,13 +60,14 @@ app.post("/contact", (req, res) => {
     details.to = `+8801858328387`;
     details.message = `
 *Contact Message*
- _Subject: *${details.subject}*_
+
+_Subject: ${details.subject}_
 
 ${details.message}
   
-_Send By: ${details.name}_
-_Whatsapp: ${details.phone}_ 
-_From: steeldalal.com_
+_*Send By:* ${details.name}_
+_*Whatsapp:* ${details.phone}_
+_*From:* steeldalal.com_
     `;
     sendMessage(details, res);
   } catch (err) {

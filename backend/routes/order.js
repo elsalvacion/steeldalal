@@ -111,18 +111,21 @@ router.get("/:id", userProtect, (req, res) => {
 
 router.get("/seller/:id", userProtect, (req, res) => {
   try {
-    let sql = `select * from orders, products where products.id = ? and products.user = ?`;
-
+    let sql = `select * from orders where id = ?;
+      select * from orders, products where orders.id = ? and products.user = ? 
+    `;
     connection.query(
       sql,
-      [req.params.id, req.user.id],
+      [req.params.id, req.params.id, req.user.id],
       (fetchOrderErr, fetchOrderRes) => {
         if (fetchOrderErr) {
           console.log(fetchOrderErr);
           res.status(400).json({ msg: "Error while fetching order" });
         } else {
-          const order = fetchOrderRes[0];
-          if (!order) res.status(400).json({ msg: "Not Authorized" });
+          const order = fetchOrderRes[0][0];
+          const user = fetchOrderRes[1][0];
+
+          if (!user) res.status(400).json({ msg: "Not Authorized" });
           else {
             const products = [];
             connection.query(
@@ -177,7 +180,48 @@ router.get("/seller/:id", userProtect, (req, res) => {
     res.status(500).json({ msg: "Server Error" });
   }
 });
-
+router.put("/instock", userProtect, (req, res) => {
+  try {
+    const { status, order } = req.body;
+    const sql = `update orders set inStock = ? where id = ?`;
+    connection.query(
+      sql,
+      [status, order.id],
+      (updateOrderErr, updateOrderRes) => {
+        if (updateOrderErr) {
+          console.log(updateOrderErr);
+          res.status(400).json({ msg: "update order error" });
+        } else {
+          if (status === 1) {
+            sendJustMessage({
+              to: order.phone,
+              message: `
+*Order Confirmed by Seller*
+  
+The seller has confirmed that the items you ordered are in stock. Please do your payment to authorize logistics. Vist steeldalal.com/#/order/${order.id} to pay.
+  
+  `,
+            });
+          } else {
+            sendJustMessage({
+              to: order.phone,
+              message: `
+*Order Out of Stock*
+  
+We are sorry to break to you that the items you ordered are out of stock. Please try other sellers, vist steeldalal.com/#/products
+  
+  `,
+            });
+          }
+          res.json({ msg: "updated" });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
 router.post("/", userProtect, (req, res) => {
   try {
     const {
@@ -195,6 +239,7 @@ router.post("/", userProtect, (req, res) => {
     const sql = `
   insert into orders (name, email, phone, state, city, address, totalPrice, shippingPrice, userId) values (?, ?, ?, ? , ? , ?, ? , ? , ?);
   `;
+
     connection.query(
       sql,
       [
@@ -213,25 +258,22 @@ router.post("/", userProtect, (req, res) => {
           console.log(createOrderErr);
           res.status(400).json({ msg: "Error while creating order" });
         } else {
-          const bagKey = Object.keys(bag).forEach((bagKey, bagIndex) => {
-            sellers[bag[bagKey].seller.phone] = bag[bagKey].seller.phone;
+          Object.keys(bag).forEach((bagKey, bagIndex) => {
             Object.keys(bag[bagKey].specs).forEach((specKey, specIndex) => {
-              const { thickness, t_uom, width, w_uom, height, h_uom, yourQty } =
-                bag[bagKey].specs[specKey];
               connection.query(
                 `
-              insert into orderSpecs (thickness,t_uom,width,w_uom,height,h_uom,orderId,product, qty) values(?, ?, ?, ?, ?, ?, ?, ?, ?)
+              insert into orderSpecs (thickness,t_uom,width,w_uom,height,h_uom,orderId,product, qty) values(?, ?, ?, ?, ?, ?, ?,?, ?)
               `,
                 [
-                  thickness,
-                  t_uom,
-                  width,
-                  w_uom,
-                  height,
-                  h_uom,
+                  bag[bagKey].specs[specKey].thickness,
+                  bag[bagKey].specs[specKey].t_uom,
+                  bag[bagKey].specs[specKey].width,
+                  bag[bagKey].specs[specKey].w_uom,
+                  bag[bagKey].specs[specKey].height,
+                  bag[bagKey].specs[specKey].h_uom,
                   createOrderRes.insertId,
                   bag[bagKey].id,
-                  yourQty,
+                  bag[bagKey].specs[specKey].yourQty,
                 ],
                 (createOrderSpecErr, createOrderSpecRes) => {
                   if (createOrderSpecErr) {
@@ -242,14 +284,31 @@ router.post("/", userProtect, (req, res) => {
                       bagIndex === Object.keys(bag).length - 1 &&
                       specIndex === Object.keys(bag[bagKey].specs).length - 1
                     ) {
-                      Object.keys(sellers).forEach((seller, sellerIdx) => {
-                        if (Object.keys(sellers).length - 1 === sellerIdx) {
-                          res.json({
-                            msg: {
-                              id: createOrderRes.insertId,
-                            },
-                          });
-                        }
+                      console.log(bag[bagIndex]);
+                      sendJustMessage({
+                        to: bag[bagKey].seller.phone,
+                        message: `
+*New Order*
+
+A new order is placed for your product(s) on sale at steeldalal.com
+
+For more details visit steeldalal.com/#/seller/order/${createOrderRes.insertId} to verify the order specifications.
+                        `,
+                      });
+                      sendJustMessage({
+                        to: req.user.phone,
+                        message: `
+*Order placed*
+
+Your order is placed. For more details visit steeldalal.com/#/order/${createOrderRes.insertId}
+
+Once your order specifications are verified by the seller your will receive payment link.
+                        `,
+                      });
+                      res.json({
+                        msg: {
+                          id: createOrderRes.insertId,
+                        },
                       });
                     }
                   }
