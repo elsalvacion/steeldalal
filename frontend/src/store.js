@@ -38,6 +38,7 @@ import {
   fetchOrderReducer,
   fetchOrdersReducer,
   fetchSellerOrderReducer,
+  orderInStockReducer,
   payOrderReducer,
   placeOrderReducer,
 } from "./reducers/orderReducer";
@@ -72,6 +73,7 @@ const reducers = combineReducers({
   placeOrder: placeOrderReducer,
   fetchOrders: fetchOrdersReducer,
   fetchOrder: fetchOrderReducer,
+  orderInStock: orderInStockReducer,
   fetchSellerOrder: fetchSellerOrderReducer,
   search: searchReducer,
   searchValue: searchValueReducer,

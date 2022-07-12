@@ -32,7 +32,7 @@ const MobileBottomFooter = () => {
 
         <IconButton onClick={() => history.push("/cart")} color="primary">
           <Badge
-            badgeContent={cart ? Object.keys(cart.specs).length : 0}
+            badgeContent={cart ? Object.keys(cart).length : 0}
             color="error"
           >
             <ShoppingCart />

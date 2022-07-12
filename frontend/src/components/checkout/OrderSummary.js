@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import "./OrderSummary.css";
 import {
@@ -11,27 +11,28 @@ import {
   Table,
 } from "@mui/material";
 import { Link, useHistory } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const OrderSummary = ({ bagState }) => {
-  const { loading, error, keys, bag } = bagState;
-  const [subTotal, setSubTotal] = useState(0);
+  const { loading, error, bag } = bagState;
+  const subTotal = useRef(0);
   const history = useHistory();
   useEffect(() => {
-    if (keys.length === 0) history.push("/cart");
-    else
-      keys.forEach((key) => {
-        setSubTotal(
+    if (Object.keys(bag).length === 0) history.push("/cart");
+    else {
+      Object.keys(bag).forEach((key) => {
+        subTotal.current =
+          subTotal.current +
           Object.keys(bag[key].specs).reduce(
             (previousValue, currentValue) =>
               previousValue +
               bag[key].specs[currentValue].price *
                 bag[key].specs[currentValue].yourQty,
             0
-          )
-        );
+          );
       });
-  }, [keys, history, bag]);
+    }
+  }, [history, bag]);
 
   return (
     <div className="orderSummaryContainer">
@@ -42,7 +43,7 @@ const OrderSummary = ({ bagState }) => {
         ) : error ? (
           <p>{error}</p>
         ) : (
-          keys.map((key) => (
+          Object.keys(bag).map((key) => (
             <div className="cartContentLeftContainer" key={key}>
               <div className="cartContentLeftTop">
                 <Link className="cartItemLink" to={`/product/${key}`}>
@@ -109,7 +110,7 @@ const OrderSummary = ({ bagState }) => {
           <Typography>Sub Total</Typography>
           <Typography component="span">
             <FaRupeeSign />
-            {subTotal === 0 ? 0 : subTotal.toFixed(2)}
+            {subTotal.current === 0 ? 0 : subTotal.current.toFixed(2)}
           </Typography>
         </div>
         <div className="cartContentSubTotal">
@@ -124,7 +125,7 @@ const OrderSummary = ({ bagState }) => {
           <Typography>Total</Typography>
           <Typography component="span">
             <FaRupeeSign />
-            {(subTotal + 200).toFixed(2)}
+            {(subTotal.current + 200).toFixed(2)}
           </Typography>
         </div>
       </div>

@@ -21,7 +21,7 @@ const CartScreen = () => {
         title="Cart"
         desc="We have an easy cart for you to save your favorite products for later use."
       />
-      {cart ? (
+      {Object.keys(cart).length > 0 ? (
         <CartContent cart={cart} />
       ) : (
         <>

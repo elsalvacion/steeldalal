@@ -30,11 +30,18 @@ export const addToCartAction = (details) => async (dispatch, getState) => {
       ? JSON.parse(localStorage.getItem("cart"))
       : {};
 
-    if (cart && cart.id === details.id) {
-      cart.specs[details.specs.id] = details.specs;
+    if (cart[details.id]) {
+      cart[details.id].specs[details.specs.id] = details.specs;
     } else {
-      cart = {};
-      cart = {
+      if (Object.keys.length > 0) {
+        Object.keys(cart).forEach((key) => {
+          if (cart[key].seller.name !== details.seller.name) {
+            delete cart[key];
+          }
+        });
+      }
+
+      cart[details.id] = {
         ...details,
         specs: {
           [details.specs.id]: details.specs,
@@ -75,18 +82,19 @@ export const getCartAction = () => async (dispatch) => {
   }
 };
 
-export const deleteCartAction = (specId) => async (dispatch) => {
+export const deleteCartAction = (id, specId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_LOADING });
-    let cart = localStorage.getItem("cart")
+    const cart = localStorage.getItem("cart")
       ? JSON.parse(localStorage.getItem("cart"))
       : {};
+    if (Object.keys(cart[id].specs).length > 1) {
+      delete cart[id].specs[specId];
+    } else {
+      delete cart[id];
+    }
 
-    delete cart.specs[specId];
-
-    if (Object.keys(cart.specs).length === 0) cart = null;
     localStorage.setItem("cart", JSON.stringify(cart));
-
     localStorage.setItem("bag", JSON.stringify(cart));
 
     dispatch({

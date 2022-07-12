@@ -22,7 +22,7 @@ import {
 import CustomSnack from "../components/layout/CustomSnack";
 import { FETCH_ORDER_RESET } from "../reducers/types/orderTypes";
 import { FaRupeeSign } from "react-icons/fa";
-// import Payment from "../components/checkout/Payment";
+import Payment from "../components/checkout/Payment";
 import CustomHelmet from "../components/layout/CustomHelmet";
 
 const SingleOrderScreen = () => {
@@ -100,7 +100,7 @@ const SingleOrderScreen = () => {
                       </ListItemText>
                     </ListItem>
                   </List>
-                  {/* {order.isPaid === 0 && <Payment />} */}
+                  {order.isPaid === 0 && order.inStock === 1 && <Payment />}
                 </CardContent>
               </Card>
             </Grid>

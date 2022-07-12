@@ -4,7 +4,7 @@ import { Button, Typography } from "@mui/material";
 import "./Contact.css";
 import { Fade, Zoom } from "react-reveal";
 import axios from "axios";
-import CustomAlert from "../layout/CustomAlert";
+import CustomSnack from "../layout/CustomSnack";
 const Contact = () => {
   const contacts = [
     {
@@ -103,16 +103,16 @@ const Contact = () => {
       </Typography>
       <div className="contactContentContainer">
         <div className="contactContentContainerLeft">
-          {loading && <CustomAlert type="success" text="Sending..." />}
+          {loading && <CustomSnack type="success" text="Sending..." />}
           {sent && (
-            <CustomAlert
+            <CustomSnack
               type="success"
               text="Message sent"
               handleClose={() => setSent(false)}
             />
           )}
           {error && (
-            <CustomAlert
+            <CustomSnack
               type="error"
               text={error}
               handleClose={() => setError(null)}

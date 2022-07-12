@@ -9,7 +9,7 @@ import {
   TableBody,
   Table,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "./CartContent.css";
 import { ArrowBack, Delete } from "@mui/icons-material";
 import { Link, useHistory } from "react-router-dom";
@@ -36,8 +36,8 @@ const CartContent = ({ cart }) => {
   const { success: selectCartSuccess, error: selectCartError } = useSelector(
     (state) => state.selectCart
   );
-  const [subTotal, setSubTotal] = useState(0);
-  const [selectedTotal, setSelectedTotal] = useState(0);
+  const subTotal = useRef(0);
+  const selectedTotal = useRef(0);
 
   useEffect(() => {
     if (deleteSuccess) {
@@ -53,19 +53,19 @@ const CartContent = ({ cart }) => {
       dispatch({ type: SELECT_CART_ITEM_RESET });
     }
 
-    let total = 0;
-    let selected = 0;
-
-    const specsKeys = Object.keys(cart.specs);
-    const specs = cart.specs;
-    specsKeys.forEach((specKey) => {
-      selected++;
-      total += specs[specKey].qty * specs[specKey].price;
+    Object.keys(cart).forEach((key) => {
+      selectedTotal.current =
+        selectedTotal.current + Object.keys(cart[key].specs).length;
+      subTotal.current =
+        subTotal.current +
+        Object.keys(cart[key].specs).reduce(
+          (previousValue, currentValue) =>
+            previousValue +
+            cart[key].specs[currentValue].price *
+              cart[key].specs[currentValue].yourQty,
+          0
+        );
     });
-    // if (i === key.length - 1) {
-    // }
-    setSubTotal(total);
-    setSelectedTotal(selected);
   }, [deleteSuccess, dispatch, changeQtySuccess, selectCartSuccess, cart]);
   return (
     <div className="cartContentContainer">
@@ -111,71 +111,81 @@ const CartContent = ({ cart }) => {
             />
           )}
 
-          <div className="cartContentLeftContainer">
-            <div className="cartContentLeftTop">
-              <Link className="cartItemLink" to={`/product/${cart.id}`}>
-                <img
-                  className="cartItemImage"
-                  src={cart.image}
-                  alt={`steeldalal ${cart.title}`}
-                />
-              </Link>
-              <Link className="cartItemLink" to={`/product/${cart.id}`}>
-                <p className="cartItemTitle">{cart.title}</p>
-              </Link>
-            </div>
-            <TableContainer>
-              <Table
-                sx={{
-                  overflow: "scroll",
-                }}
-                size="small"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Thickness</TableCell>
-                    <TableCell>T. UoM</TableCell>
-                    <TableCell>Width</TableCell>
-                    <TableCell>W. UoM</TableCell>
-                    <TableCell>Qty</TableCell>
-                    <TableCell>Price</TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody
+          {Object.keys(cart).map((key) => (
+            <div className="cartContentLeftContainer">
+              <div className="cartContentLeftTop">
+                <Link className="cartItemLink" to={`/product/${key}`}>
+                  <img
+                    className="cartItemImage"
+                    src={cart[key].image}
+                    alt={`steeldalal ${cart[key].title}`}
+                  />
+                </Link>
+                <Link className="cartItemLink" to={`/product/${key}`}>
+                  <p className="cartItemTitle">{cart[key].title}</p>
+                </Link>
+              </div>
+              <TableContainer>
+                <Table
                   sx={{
-                    textAlign: "center",
+                    overflow: "scroll",
                   }}
+                  size="small"
                 >
-                  {Object.keys(cart.specs).map((specKey) => (
-                    <TableRow key={`spec-${cart.id}-${specKey}`}>
-                      <TableCell>{cart.specs[specKey].thickness}</TableCell>
-                      <TableCell>{cart.specs[specKey].t_uom}</TableCell>
-                      <TableCell>{cart.specs[specKey].width}</TableCell>
-                      <TableCell>{cart.specs[specKey].w_uom}</TableCell>
-                      <TableCell>{cart.specs[specKey].yourQty}</TableCell>
-                      <TableCell>
-                        <FaRupeeSign />{" "}
-                        {(
-                          cart.specs[specKey].yourQty *
-                          cart.specs[specKey].price
-                        ).toFixed(2)}
-                      </TableCell>
-                      <TableCell>
-                        <IconButton
-                          onClick={() => dispatch(deleteCartAction(specKey))}
-                          color="error"
-                          className="cartItemDelete"
-                        >
-                          <Delete />
-                        </IconButton>
-                      </TableCell>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Thickness</TableCell>
+                      <TableCell>T. UoM</TableCell>
+                      <TableCell>Width</TableCell>
+                      <TableCell>W. UoM</TableCell>
+                      <TableCell>Qty</TableCell>
+                      <TableCell>Price</TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
+                  </TableHead>
+                  <TableBody
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    {Object.keys(cart[key].specs).map((specKey) => (
+                      <TableRow key={`spec-${key}-${specKey}`}>
+                        <TableCell>
+                          {cart[key].specs[specKey].thickness}
+                        </TableCell>
+                        <TableCell>{cart[key].specs[specKey].t_uom}</TableCell>
+                        <TableCell>{cart[key].specs[specKey].width}</TableCell>
+                        <TableCell>{cart[key].specs[specKey].w_uom}</TableCell>
+                        <TableCell>
+                          {cart[key].specs[specKey].yourQty}
+                        </TableCell>
+                        <TableCell>
+                          <FaRupeeSign />{" "}
+                          {(
+                            cart[key].specs[specKey].yourQty *
+                            cart[key].specs[specKey].price
+                          ).toFixed(2)}
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            onClick={() => {
+                              selectedTotal.current = 0;
+                              subTotal.current = 0;
+                              dispatch(deleteCartAction(key, specKey));
+                            }}
+                            color="error"
+                            className="cartItemDelete"
+                          >
+                            <Delete />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          ))}
         </div>
 
         <div className="cartContentRight">
@@ -184,24 +194,24 @@ const CartContent = ({ cart }) => {
           </Typography>
           <div className="cartContentSubTotal">
             <p>Total Specs</p>
-            <span>{selectedTotal}</span>
+            <span>{selectedTotal.current}</span>
           </div>
 
           <div className="cartContentSubTotal">
             <Typography>Total</Typography>
             <span>
               <FaRupeeSign />
-              {subTotal === 0 ? 0 : subTotal.toFixed(2)}
+              {subTotal.current === 0 ? 0 : subTotal.current.toFixed(2)}
             </span>
           </div>
           <Button
-            disabled={selectedTotal === 0}
+            disabled={selectedTotal.current === 0}
             variant="contained"
             color="primary"
             fullWidth
             onClick={() => history.push("/checkout")}
           >
-            {selectedTotal === 0
+            {selectedTotal.current === 0
               ? "No Product to checkout"
               : "Proceed To Checkout"}
           </Button>
@@ -214,7 +224,7 @@ const CartContent = ({ cart }) => {
             <div className="fixedCartSummaryLeftSubtotal">
               <Typography>Total specs</Typography>
               <Typography className="fixedCartSummaryPrice">
-                {selectedTotal}
+                {selectedTotal.current}
               </Typography>
             </div>
 
@@ -222,18 +232,20 @@ const CartContent = ({ cart }) => {
               <Typography>Total</Typography>
               <Typography className="fixedCartSummaryPrice">
                 <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
-                {subTotal === 0 ? (0).toFixed(2) : subTotal.toFixed(2)}
+                {subTotal.current === 0
+                  ? (0).toFixed(2)
+                  : subTotal.current.toFixed(2)}
               </Typography>
             </div>
           </div>
           <div className="fixedCartSummaryRight">
             <Button
-              disabled={selectedTotal === 0}
+              disabled={selectedTotal.current === 0}
               color="primary"
               variant="contained"
               onClick={() => history.push("/checkout")}
             >
-              {selectedTotal === 0
+              {selectedTotal.current === 0
                 ? "No Product to checkout"
                 : "Proceed To Checkout"}
             </Button>

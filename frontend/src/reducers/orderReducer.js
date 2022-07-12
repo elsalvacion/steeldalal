@@ -11,6 +11,10 @@ import {
   FETCH_SELLER_ORDER_LOADING,
   FETCH_SELLER_ORDER_RESET,
   FETCH_SELLER_ORDER_SUCCESS,
+  ORDER_INSTOCK_ERROR,
+  ORDER_INSTOCK_LOADING,
+  ORDER_INSTOCK_RESET,
+  ORDER_INSTOCK_SUCCESS,
   PAY_ORDER_ERROR,
   PAY_ORDER_LOADING,
   PAY_ORDER_RESET,
@@ -99,6 +103,27 @@ export const fetchSellerOrderReducer = (state = {}, action) => {
         error: action.payload,
       };
     case FETCH_SELLER_ORDER_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const orderInStockReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_INSTOCK_LOADING:
+      return {
+        loading: true,
+      };
+    case ORDER_INSTOCK_SUCCESS:
+      return {
+        success: true,
+      };
+    case ORDER_INSTOCK_ERROR:
+      return {
+        error: action.payload,
+      };
+    case ORDER_INSTOCK_RESET:
       return {};
     default:
       return state;

@@ -7,7 +7,7 @@ import {
   StepLabel,
   Stepper,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBagAction } from "../actions/cartAction";
@@ -26,27 +26,25 @@ const ChecoutScreen = () => {
   const bagState = useSelector((state) => state.getBag);
 
   const [activeStep, setActiveStep] = useState(0);
-  const [subTotal, setSubTotal] = useState(0);
+  const subTotal = useRef(0);
   const { shippingDetails } = useSelector((state) => state.getShippingInfo);
   useEffect(() => {
     if (!userInfo) {
       history.push("/login?redirect=checkout");
     } else {
-      if (!bagState.bag) {
-        dispatch(getBagAction());
-      }
+      dispatch(getBagAction());
     }
     if (activeStep === 1 && bagState.bag) {
-      bagState.keys.forEach((key) => {
-        setSubTotal(
+      Object.keys(bagState.bag).forEach((key) => {
+        subTotal.current =
+          subTotal.current +
           Object.keys(bagState.bag[key].specs).reduce(
             (previousValue, currentValue) =>
               previousValue +
               bagState.bag[key].specs[currentValue].price *
                 bagState.bag[key].specs[currentValue].yourQty,
             0
-          )
-        );
+          );
       });
     }
     if (order) {
@@ -55,14 +53,14 @@ const ChecoutScreen = () => {
     if (activeStep === 2 && !order) setActiveStep(1);
     if (activeStep === steps.length) history.push("/profile");
     // eslint-disable-next-line
-  }, [userInfo, history, dispatch, bagState, activeStep, order]);
+  }, [userInfo, history, dispatch, activeStep, order]);
 
   const handleNext = () => {
     if (activeStep === 1 && !order) {
       dispatch(
         placeOrderAction({
           bag: bagState.bag,
-          totalPrice: subTotal,
+          totalPrice: subTotal.current,
           shippingPrice: 200,
           ...shippingDetails,
         })
