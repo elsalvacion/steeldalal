@@ -138,7 +138,7 @@ export const payOrderReducer = (state = {}, action) => {
       };
     case PAY_ORDER_SUCCESS:
       return {
-        success: true,
+        paymentData: action.payload,
       };
     case PAY_ORDER_ERROR:
       return {

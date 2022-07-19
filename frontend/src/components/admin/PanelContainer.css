@@ -1,0 +1,11 @@
+.panelMainContainer {
+  display: flex;
+  align-items: stretch;
+  margin-top: 3px;
+}
+
+.panelRight {
+  flex: 1;
+  background: #fff;
+  min-height: 100vh;
+}

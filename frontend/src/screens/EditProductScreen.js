@@ -151,12 +151,20 @@ const EditProductScreen = () => {
                       onClick={handleNext}
                       sx={{ mt: 1, mr: 1 }}
                       endIcon={<ChevronRightOutlined />}
-                      disabled={Object.keys(values).find(
-                        (key) =>
-                          (key !== "detailsText" && values[key] === "") ||
-                          values[key] === [] ||
-                          values[key] === {}
-                      )}
+                      disabled={
+                        values.brand.trim() === "" ||
+                        values.title.trim() === "" ||
+                        values.category.trim() === "" ||
+                        values.type.trim() === "" ||
+                        values.specs.find(
+                          (spec) =>
+                            spec.qty === null ||
+                            spec.price === null ||
+                            spec.width === null ||
+                            spec.height === null ||
+                            spec.thicknes === null
+                        )
+                      }
                     >
                       Continue
                     </Button>
@@ -202,6 +210,9 @@ const EditProductScreen = () => {
                       color={"success"}
                       endIcon={<Save />}
                       onClick={() => dispatch(editProductAction(id, values))}
+                      disabled={
+                        editProductLoading || values.details.html.trim() === ""
+                      }
                     >
                       Save
                     </Button>

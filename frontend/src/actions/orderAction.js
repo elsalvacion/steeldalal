@@ -160,7 +160,7 @@ export const payOrderAction = (details) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `${backendBaseUrl}/order/pay`,
+      `${backendBaseUrl}/order/pay/${details.id}`,
       details,
       config
     );

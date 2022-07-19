@@ -1,5 +1,6 @@
-import { Edit } from "@mui/icons-material";
+import { AdminPanelSettings, Edit } from "@mui/icons-material";
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -47,9 +48,21 @@ const ProfileScreen = () => {
         desc="Your Profile"
       />
       <br />
-      <Typography variant="h5" component="h5">
-        Profile
-      </Typography>
+      <div className="ProfileDetailRightHeader">
+        <Typography variant="h5" component="h5">
+          Profile
+        </Typography>
+        {userInfo && userInfo.isAdmin === 1 && (
+          <Button
+            onClick={() => history.push("/admin-panel")}
+            color="primary"
+            variant="contained"
+            startIcon={<AdminPanelSettings />}
+          >
+            Admin Panel
+          </Button>
+        )}
+      </div>
       <br />
       {userInfo && <ProfileDetailContainer userInfo={userInfo} />}
       <OrderSummary />

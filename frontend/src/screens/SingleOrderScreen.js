@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { fetchOrderAction } from "../actions/orderAction";
+import { fetchOrderAction, payOrderAction } from "../actions/orderAction";
 import {
   Card,
   CardContent,
@@ -20,23 +20,70 @@ import {
   Typography,
 } from "@mui/material";
 import CustomSnack from "../components/layout/CustomSnack";
-import { FETCH_ORDER_RESET } from "../reducers/types/orderTypes";
+import {
+  FETCH_ORDER_RESET,
+  PAY_ORDER_RESET,
+} from "../reducers/types/orderTypes";
 import { FaRupeeSign } from "react-icons/fa";
 import Payment from "../components/checkout/Payment";
 import CustomHelmet from "../components/layout/CustomHelmet";
-
+import { ArrowRightAltOutlined } from "@mui/icons-material";
+import { useState } from "react";
+import { backendBaseUrl } from "../constants/url";
+import axios from "axios";
 const SingleOrderScreen = () => {
   const { id } = useParams();
   const { userInfo } = useSelector((state) => state.userLogin);
   const { loading, error, order } = useSelector((state) => state.fetchOrder);
+  const { paymentData, error: fetchHashError } = useSelector(
+    (state) => state.payOrder
+  );
   const dispatch = useDispatch();
   const history = useHistory();
+  const [boltError, setBoltError] = useState(null);
+
   useEffect(() => {
     if (!userInfo) history.push(`/login?redirect=order/${id}`);
     else {
       dispatch(fetchOrderAction(id));
     }
-  }, [id, userInfo, history, dispatch]);
+    const redirectToPayU = (hashData) => {
+      console.log(hashData);
+      window.bolt.launch(hashData, {
+        responseHandler: async function (response) {
+          try {
+            const { data } = await axios.post(
+              `${backendBaseUrl}/order/save-payment/${order.id}`,
+              response.response,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${userInfo.token}`,
+                },
+              }
+            );
+            console.log(data);
+          } catch (err) {
+            console.log(err);
+            setBoltError(`Couldn't save payment`);
+          }
+        },
+        catchException: function (response) {
+          setBoltError(response.message);
+          // the code you use to handle the integration errors goes here
+          // Make any UI changes to convey the error to the user
+        },
+      });
+    };
+    if (paymentData) {
+      if (!window.bolt) {
+        setBoltError("Payment Gateway not accessible. Reload and Try again.");
+      } else {
+        redirectToPayU(paymentData);
+      }
+    }
+    // eslint-disable-next-line
+  }, [id, userInfo, history, dispatch, paymentData]);
   return (
     <Container sx={{ py: 2 }}>
       {loading ? (
@@ -49,7 +96,39 @@ const SingleOrderScreen = () => {
         />
       ) : order ? (
         <>
+          {boltError && (
+            <CustomSnack
+              type="error"
+              text={boltError}
+              handleClose={() => setBoltError(null)}
+            />
+          )}
+          {fetchHashError && (
+            <CustomSnack
+              type="error"
+              text={fetchHashError}
+              handleClose={() => dispatch({ type: PAY_ORDER_RESET })}
+            />
+          )}
           <CustomHelmet title="Order" desc="Steeldalal order" />
+          <Card sx={{ my: 2 }}>
+            <CardContent
+              sx={{
+                display: "flex",
+                alignItems: "ceter",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography sx={{ mr: 2, display: "flex", alignItems: "center" }}>
+                Your order is confirmed by seller. Do your payment to complete
+                your order. Click here
+                <ArrowRightAltOutlined sx={{ ml: 2, fontSize: 18 }} />
+              </Typography>
+              {order.isPaid === 0 && order.inStock === 1 && (
+                <Payment handlePay={() => dispatch(payOrderAction(order))} />
+              )}
+            </CardContent>
+          </Card>
           <Typography sx={{ mb: 2 }} variant="h6">
             Order ID: {order.id}
           </Typography>
@@ -100,7 +179,6 @@ const SingleOrderScreen = () => {
                       </ListItemText>
                     </ListItem>
                   </List>
-                  {order.isPaid === 0 && order.inStock === 1 && <Payment />}
                 </CardContent>
               </Card>
             </Grid>
@@ -109,7 +187,7 @@ const SingleOrderScreen = () => {
                 <CardContent>
                   <Typography variant="h6">Shipping Details</Typography>
                   <List>
-                    {["name", "state", "city", "address", "phone", "email"].map(
+                    {["name", "state", "city", "address", "phone"].map(
                       (detailKey) => (
                         <ListItem key={detailKey}>
                           <ListItemText sx={{ textTransform: "capitalize" }}>

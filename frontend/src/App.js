@@ -38,6 +38,7 @@ import SingleSellerScreen from "./screens/SingleSellerScreen";
 import VerifyNumberScreen from "./screens/VerifyNumberScreen";
 import SellerOrders from "./screens/SellerOrders";
 import SingleSellerOrder from "./screens/SingleSellerOrder";
+import AdminPanelScreen from "./screens/AdminPanelScreen";
 
 const App = () => {
   return (
@@ -117,6 +118,7 @@ const App = () => {
             />
             <Route exact path="/seller/order" component={SellerOrders} />
             <Route exact path="/verify-number" component={VerifyNumberScreen} />
+            <Route exact path="/admin-panel" component={AdminPanelScreen} />
             <Route path="*">
               <NotFoundScreen />
             </Route>

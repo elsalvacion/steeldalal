@@ -2,6 +2,8 @@ const router = require("express").Router();
 const connection = require("../config/db");
 const { userProtect } = require("../middlewares/protect");
 const { sendJustMessage } = require("../utils/sendEmail");
+// const axios = require("axios").default;
+const jsSHA = require("jssha");
 
 router.get("/", userProtect, (req, res) => {
   try {
@@ -325,4 +327,45 @@ Once your order specifications are verified by the seller your will receive paym
   }
 });
 
+router.post("/pay/:id", async (req, res) => {
+  try {
+    const details = req.body;
+    // console.log(details);
+    const data = {
+      key: process.env.PAYU_KEY,
+      txnid: String(details.id),
+      amount: String(details.totalPrice),
+      productinfo: details.products
+        .map((product) => product.title)
+        .join(" and "),
+      firstname: details.name,
+      email: details.email,
+      phone: details.phone,
+      surl: `http://localhost:3000/order/${details.id}`,
+      furl: `http://localhost:3000/order/${details.id}`,
+      salt: process.env.PAYU_SALT,
+    };
+
+    const hashSequence = `${data.key}|${data.txnid}|${data.amount}|${data.productinfo}|${data.firstname}|${data.email}|||||||||||${data.salt}`;
+
+    const sha = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
+    sha.update(hashSequence);
+    const hash = sha.getHash("HEX");
+    data.hash = hash;
+    delete data.salt;
+    res.json({ msg: data });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+router.post(`/save-payment/:id`, (req, res) => {
+  try {
+    console.log(req.body);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
 module.exports = router;

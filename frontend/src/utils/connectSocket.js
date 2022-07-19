@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-const server = "http://steeldalal.com";
+const server = "http://localhost:5000";
 
 let socket = io();
 const openSocket = () => (socket = io());

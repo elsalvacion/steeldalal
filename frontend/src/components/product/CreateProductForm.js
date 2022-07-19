@@ -134,12 +134,20 @@ const CreateProductForm = () => {
                   onClick={handleNext}
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={<ChevronRightOutlined />}
-                  disabled={Object.keys(values).find(
-                    (key) =>
-                      values[key] === "" ||
-                      values[key] === [] ||
-                      values[key] === {}
-                  )}
+                  disabled={
+                    values.brand.trim() === "" ||
+                    values.title.trim() === "" ||
+                    values.category.trim() === "" ||
+                    values.type.trim() === "" ||
+                    values.specs.find(
+                      (spec) =>
+                        spec.qty === null ||
+                        spec.price === null ||
+                        spec.width === null ||
+                        spec.height === null ||
+                        spec.thicknes === null
+                    )
+                  }
                 >
                   Continue
                 </Button>
@@ -216,15 +224,7 @@ const CreateProductForm = () => {
                   sx={{ mt: 1, mr: 1 }}
                   endIcon={success ? <RestartAlt /> : <AddBox />}
                   disabled={
-                    createProductLoading ||
-                    values.specs.find(
-                      (spec) =>
-                        spec.qty === null ||
-                        spec.price === null ||
-                        spec.width === null ||
-                        spec.height === null ||
-                        spec.thicknes === null
-                    )
+                    createProductLoading || values.details.html.trim() === ""
                   }
                 >
                   {success ? "New Product" : "Create"}

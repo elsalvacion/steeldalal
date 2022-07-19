@@ -73,7 +73,13 @@ const ProfileDetailRight = ({ editUserInfo, userInfo }) => {
             ))
           ) : (
             <ListItem>
-              <ListItemText>No recent products</ListItemText>
+              <ListItemText>
+                No recent products. <br /> Click on
+                <span style={{ margin: "0px 15px", fontSize: 22 }}>
+                  <b>+</b>
+                </span>
+                button to create a new product.
+              </ListItemText>
             </ListItem>
           )
         ) : null}

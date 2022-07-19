@@ -23,7 +23,7 @@ body {
   position: relative;
   min-height: 100vh;
   background: #f3f3f3;
-  padding-bottom: 600px;
+  padding-bottom: 430px;
 }
 a {
   text-decoration: none;
@@ -55,7 +55,7 @@ a {
 
 @media (max-width: 900px) {
   body {
-    padding-bottom: 1000px;
+    padding-bottom: 730px;
   }
 }
 

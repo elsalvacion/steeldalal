@@ -78,13 +78,14 @@ const SingleSellerOrder = () => {
               <CardContent>
                 {order.inStock === 1 ? (
                   <Typography>
-                    Thank you. A message will be sent to your whatsapp for
-                    packing as soon the payment is confirmed.
+                    Order Confirmed. A message will be sent to your whatsapp for
+                    packing as soon the buyer's payment is prcocessed and
+                    confirmed.
                   </Typography>
                 ) : (
                   <Typography>
-                    Thank you. Please re-stock or delete the product from your
-                    catalog.
+                    Order Confirmed. Please re-stock or delete the product from
+                    your catalog if it is not available in your store.
                   </Typography>
                 )}
               </CardContent>

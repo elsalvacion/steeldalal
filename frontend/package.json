@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://steeldalal.com",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@arcadian-digital/react-snap": "^1.23.3",
     "@babel/runtime": "^7.18.3",
@@ -53,8 +53,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postbuild": "react-snap"
+    "eject": "react-scripts eject"
   },
   "reactSnap": {
     "inlineCss": true

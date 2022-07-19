@@ -1,5 +1,6 @@
-.paymentContainer {
-  padding: 30px auto;
-  width: 80%;
-  margin: 15px auto;
+.paymentContainer img {
+  display: block;
+  margin: 0 auto;
+  object-fit: scale-down;
+  width: 100%;
 }

@@ -1,0 +1,35 @@
+.leftPanelButton {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  padding: 15px 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+.leftPanelButton:hover {
+  background: #2b98f8;
+}
+.LeftPanelTopHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.LeftPanelTopHeader button {
+  background: 0;
+  color: #f3f3f3;
+  border: 0;
+  outline: 0;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+}
+.LeftPanelTopHeader button:hover {
+  background: #2076d9;
+}
