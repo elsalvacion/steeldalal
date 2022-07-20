@@ -43,6 +43,7 @@ import {
   placeOrderReducer,
 } from "./reducers/orderReducer";
 import { searchReducer, searchValueReducer } from "./reducers/searchReducer";
+import { fetchAdminOrdersReducer } from "./reducers/adminReducer";
 
 const reducers = combineReducers({
   userLogin: loginReducer,
@@ -81,6 +82,7 @@ const reducers = combineReducers({
   editBiz: editBizReducer,
   fetchSellers: fetchSellersReducer,
   sellerProducts: sellerProductsReducer,
+  adminOrders: fetchAdminOrdersReducer,
 });
 
 const middleware = [thunk];

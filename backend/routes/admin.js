@@ -5,44 +5,25 @@ const { userProtect, adminProtect } = require("../middlewares/protect");
 router.get("/orders", userProtect, adminProtect, (req, res) => {
   try {
     let sql = `
-    select * from orders order by id desc LIMIT ? OFFSET ? ;
+    select * from orders order by id desc;
     select count(id) from orders;
     `;
-    const { limit, page } = req.query;
 
-    connection.query(
-      sql,
-      [parseInt(limit), (parseInt(page) - 1) * limit],
-      (fetchOrdersErr, fetchOrdersRes) => {
-        if (fetchOrdersErr) {
-          console.log(fetchOrdersErr);
-          res.status(400).json({ msg: "Error while fetching orders" });
-        } else {
-          const total = parseInt(fetchOrdersRes[1][0]["count(id)"]);
-          const pagination = {};
-          if (parseInt(page) * limit < total) {
-            pagination.next = {
-              page: parseInt(page) + 1,
-              limit: parseInt(limit),
-            };
-          }
+    connection.query(sql, (fetchOrdersErr, fetchOrdersRes) => {
+      if (fetchOrdersErr) {
+        console.log(fetchOrdersErr);
+        res.status(400).json({ msg: "Error while fetching orders" });
+      } else {
+        const total = parseInt(fetchOrdersRes[1][0]["count(id)"]);
 
-          if ((parseInt(page) - 1) * limit > 0) {
-            pagination.prev = {
-              page: page - 1,
-              limit: parseInt(limit),
-            };
-          }
-          res.json({
-            msg: {
-              orders: fetchOrdersRes[0],
-              total,
-              ...pagination,
-            },
-          });
-        }
+        res.json({
+          msg: {
+            orders: fetchOrdersRes[0],
+            total,
+          },
+        });
       }
-    );
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });
