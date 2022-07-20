@@ -4,7 +4,7 @@ import { Divider, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { Fade } from "react-reveal";
 const LeftPanel = ({ handleCurrent, adminLinks }) => {
-  const [showOnlyIcon, setShowOnlyIcon] = useState(false);
+  const [showOnlyIcon, setShowOnlyIcon] = useState(true);
   return (
     <div
       style={{

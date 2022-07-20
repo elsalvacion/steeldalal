@@ -49,6 +49,10 @@ const userProtect = async (req, res, next) => {
         msg: "Not Authorized: Invalid User",
       });
     }
+  } else {
+    res.status(401).json({
+      msg: "Not Authorized: No Token",
+    });
   }
 };
 
@@ -71,7 +75,7 @@ const sellerProtect = (req, res, next) => {
 
 const adminProtect = (req, res, next) => {
   try {
-    if (req.user && req.user.isAdmin) {
+    if (req.user && req.user.isAdmin === 1) {
       next();
     } else {
       res.status(401).json({
