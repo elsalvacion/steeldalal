@@ -74,6 +74,13 @@ const SingleAdminOrderScreen = () => {
         />
       ) : order ? (
         <>
+          {success && (
+            <CustomSnack
+              type="success"
+              text="Order Updated"
+              handleClose={() => dispatch({ type: UPDATE_ADMIN_ORDER_RESET })}
+            />
+          )}
           <CustomHelmet title="Order" desc="Steeldalal admin order" />
           <Card sx={{ my: 2 }}>
             <CardContent>

@@ -17,13 +17,6 @@ import {
 import { useHistory } from "react-router-dom";
 import CustomSnack from "../../layout/CustomSnack";
 import { FETCH_ADMIN_ORDERS_RESET } from "../../../reducers/types/adminTypes";
-interface Column {
-  id: "name" | "code" | "population" | "size" | "density";
-  label: string;
-  minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
-}
 
 const columns: Column[] = [
   { id: "id", label: "ID", minWidth: 100 },
@@ -66,7 +59,7 @@ const columns: Column[] = [
 interface Data {
   id: number;
   name: string;
-  isPaid: string;
+  isPaid: number;
   totalPrice: number;
   shippingPrice: number;
 }
@@ -158,7 +151,13 @@ export default function AdminOrder() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    onClick={() => history.push(`/admin-order/${row["id"]}`)}
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return column.id === "action" ? (

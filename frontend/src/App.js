@@ -40,6 +40,7 @@ import SellerOrders from "./screens/SellerOrders";
 import SingleSellerOrder from "./screens/SingleSellerOrder";
 import AdminPanelScreen from "./screens/AdminPanelScreen";
 import SingleAdminOrderScreen from "./components/admin/order/SingleAdminOrderScreen";
+import AdminUserProfile from "./components/admin/users/AdminUserProfile";
 
 const App = () => {
   return (
@@ -125,6 +126,7 @@ const App = () => {
               path="/admin-order/:id"
               component={SingleAdminOrderScreen}
             />
+            <Route exact path="/admin-user/:id" component={AdminUserProfile} />
             <Route path="*">
               <NotFoundScreen />
             </Route>

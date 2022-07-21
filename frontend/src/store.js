@@ -46,7 +46,10 @@ import { searchReducer, searchValueReducer } from "./reducers/searchReducer";
 import {
   fetchAdminOrderReducer,
   fetchAdminOrdersReducer,
+  fetchAdminUserReducer,
+  fetchAdminUsersReducer,
   updateAdminOrderReducer,
+  updateAdminUserReducer,
 } from "./reducers/adminReducer";
 
 const reducers = combineReducers({
@@ -89,6 +92,9 @@ const reducers = combineReducers({
   adminOrders: fetchAdminOrdersReducer,
   adminOrder: fetchAdminOrderReducer,
   adminOrderUpdate: updateAdminOrderReducer,
+  adminUsers: fetchAdminUsersReducer,
+  adminUser: fetchAdminUserReducer,
+  adminUserUpdate: updateAdminUserReducer,
 });
 
 const middleware = [thunk];

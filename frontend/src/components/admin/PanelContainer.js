@@ -25,13 +25,20 @@ const PanelContainer = () => {
       icon: <People sx={{ mr: 2 }} />,
     },
   ];
-  const [current, setCurrent] = useState(adminLinks[0].id);
+  const [current, setCurrent] = useState(
+    JSON.parse(localStorage.getItem("panelChoice"))
+      ? JSON.parse(localStorage.getItem("panelChoice"))
+      : adminLinks[0]
+  );
   return (
     <div className="panelMainContainer">
       <div className="panelLeft">
         <LeftPanel
           adminLinks={adminLinks}
-          handleCurrent={(selectCurrent) => setCurrent(selectCurrent)}
+          handleCurrent={(selectCurrent) => {
+            setCurrent(selectCurrent);
+            localStorage.setItem("panelChoice", JSON.stringify(selectCurrent));
+          }}
         />
       </div>
       <div className="panelRight">

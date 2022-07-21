@@ -153,6 +153,27 @@ router.delete("/order/:id", userProtect, adminProtect, (req, res) => {
 
 router.get("/users", userProtect, adminProtect, (req, res) => {
   try {
+    const sql = `
+    select * from users;
+    select * from google;
+    select * from facebook;
+    `;
+    connection.query(sql, (fetchUsersErr, fetchUsersRes) => {
+      if (fetchUsersErr) {
+        console.log(fetchUsersErr);
+        res.status(400).json({ msg: "Fetch users error" });
+      } else {
+        res.json({
+          msg: {
+            users: [
+              ...fetchUsersRes[0],
+              ...fetchUsersRes[1],
+              ...fetchUsersRes[2],
+            ],
+          },
+        });
+      }
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });
@@ -161,6 +182,42 @@ router.get("/users", userProtect, adminProtect, (req, res) => {
 
 router.get("/user/:id", userProtect, adminProtect, (req, res) => {
   try {
+    connection.query(
+      `select * from users where id = ?;
+      select * from facebook where id = ?;
+      select * from google where id = ?;
+      `,
+      [req.params.id, req.params.id, req.params.id],
+      (existCheckErr, existCheckRes) => {
+        if (existCheckErr) {
+          console.log(existCheckErr);
+          res.status(400).json({
+            msg: "fetching user error",
+          });
+        } else {
+          const user =
+            existCheckRes[0][0] || existCheckRes[1][0] || existCheckRes[2][0];
+
+          connection.query(
+            `select * from yourBiz where user = ?`,
+            [req.params.id],
+            (fetchYourBizErr, fetchYourBizRes) => {
+              if (fetchYourBizErr) {
+                console.log(fetchYourBizErr);
+                res.status(400).json({ msg: "Fetch Biz Error" });
+              } else {
+                res.json({
+                  msg: {
+                    ...user,
+                    yourBiz: fetchYourBizRes[0] ? fetchYourBizRes[0] : null,
+                  },
+                });
+              }
+            }
+          );
+        }
+      }
+    );
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });
