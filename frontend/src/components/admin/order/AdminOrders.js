@@ -15,6 +15,8 @@ import {
   CurrencyRupeeOutlined,
 } from "@mui/icons-material";
 import { useHistory } from "react-router-dom";
+import CustomSnack from "../../layout/CustomSnack";
+import { FETCH_ADMIN_ORDERS_RESET } from "../../../reducers/types/adminTypes";
 interface Column {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
@@ -80,9 +82,7 @@ function createData(
 }
 
 export default function AdminOrder() {
-  const { loading, error, orders, total } = useSelector(
-    (state) => state.adminOrders
-  );
+  const { loading, error, orders } = useSelector((state) => state.adminOrders);
   const [rows, setRows] = React.useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -122,6 +122,14 @@ export default function AdminOrder() {
 
   return (
     <Paper sx={{ width: "100%" }}>
+      {error && (
+        <CustomSnack
+          type="error"
+          text={error}
+          handleClose={() => dispatch({ type: FETCH_ADMIN_ORDERS_RESET })}
+        />
+      )}
+      {loading && <CustomSnack type="success" text="Fetching... orders " />}
       <TableContainer sx={{ minHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

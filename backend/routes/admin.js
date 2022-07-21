@@ -104,12 +104,15 @@ router.put("/order/:id", userProtect, adminProtect, (req, res) => {
           const isDelivered = isNaN(req.body.isDelivered)
             ? order.isDelivered
             : req.body.isDelivered;
+          const isConfirmed = isNaN(req.body.isConfirmed)
+            ? order.isConfirmed
+            : req.body.isConfirmed;
           const isPaid = isNaN(req.body.isPaid)
             ? order.isPaid
             : req.body.isPaid;
           connection.query(
-            `update orders set isDelivered = ? , isPaid = ? where id = ?`,
-            [isDelivered, isPaid, req.params.id],
+            `update orders set isDelivered = ? , isPaid = ?, isConfirmed = ? where id = ?`,
+            [isDelivered, isPaid, isConfirmed, req.params.id],
             (updateOrderErr, updateOrderRes) => {
               if (updateOrderErr) {
                 console.log(updateOrderErr);

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { fetchOrderAction, payOrderAction } from "../actions/orderAction";
 import {
+  Button,
   Card,
   CardContent,
   Chip,
@@ -20,120 +20,145 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import CustomSnack from "../components/layout/CustomSnack";
-import {
-  FETCH_ORDER_RESET,
-  PAY_ORDER_RESET,
-} from "../reducers/types/orderTypes";
+import CustomSnack from "../../layout/CustomSnack";
+import { FETCH_ORDER_RESET } from "../../../reducers/types/orderTypes";
 import { FaRupeeSign } from "react-icons/fa";
-import Payment from "../components/checkout/Payment";
-import CustomHelmet from "../components/layout/CustomHelmet";
-import { ArrowRightAltOutlined } from "@mui/icons-material";
-import { useState } from "react";
-import { backendBaseUrl } from "../constants/url";
-import axios from "axios";
-const SingleOrderScreen = () => {
+import CustomHelmet from "../../layout/CustomHelmet";
+import {
+  ChevronLeftOutlined,
+  CreditCard,
+  CreditCardOff,
+  DeliveryDining,
+  LocalShipping,
+} from "@mui/icons-material";
+import {
+  fetchAdminOrderAction,
+  updateAdminOrderAction,
+} from "../../../actions/adminAction";
+import { UPDATE_ADMIN_ORDER_RESET } from "../../../reducers/types/adminTypes";
+const SingleAdminOrderScreen = () => {
   const { id } = useParams();
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { loading, error, order } = useSelector((state) => state.fetchOrder);
-  const { paymentData, error: fetchHashError } = useSelector(
-    (state) => state.payOrder
-  );
+  const { loading, error, order } = useSelector((state) => state.adminOrder);
+  const {
+    loading: updateLoading,
+    error: updateError,
+    success,
+  } = useSelector((state) => state.adminOrderUpdate);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [boltError, setBoltError] = useState(null);
 
   useEffect(() => {
-    if (!userInfo) history.push(`/login?redirect=order/${id}`);
+    if (!userInfo || userInfo.isAdmin === 0)
+      history.push(`/login?redirect=admin-order/${id}`);
     else {
-      dispatch(fetchOrderAction(id));
-    }
-    const redirectToPayU = (hashData) => {
-      console.log(hashData);
-      window.bolt.launch(hashData, {
-        responseHandler: async function (response) {
-          try {
-            const { data } = await axios.post(
-              `${backendBaseUrl}/order/save-payment/${order.id}`,
-              response.response,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${userInfo.token}`,
-                },
-              }
-            );
-            console.log(data);
-          } catch (err) {
-            console.log(err);
-            setBoltError(`Couldn't save payment`);
-          }
-        },
-        catchException: function (response) {
-          setBoltError(response.message);
-        },
-      });
-    };
-    if (paymentData) {
-      if (!window.bolt) {
-        setBoltError("Payment Gateway not accessible. Reload and Try again.");
-      } else {
-        redirectToPayU(paymentData);
-      }
+      dispatch(fetchAdminOrderAction(id));
     }
     // eslint-disable-next-line
-  }, [id, userInfo, history, dispatch, paymentData]);
+  }, [id, userInfo, history, dispatch, success]);
   return (
     <Container sx={{ py: 2 }}>
-      {loading ? (
-        <Typography>Loading ...</Typography>
-      ) : error ? (
+      {loading || updateLoading ? (
+        <CustomSnack
+          type="success"
+          text={loading ? "loading..." : "updating..."}
+        />
+      ) : error || updateError ? (
         <CustomSnack
           type="error"
-          text={error}
-          handleClose={() => dispatch({ type: FETCH_ORDER_RESET })}
+          text={error || updateError}
+          handleClose={() => {
+            dispatch({ type: FETCH_ORDER_RESET });
+            dispatch({ type: UPDATE_ADMIN_ORDER_RESET });
+          }}
         />
       ) : order ? (
         <>
-          {boltError && (
-            <CustomSnack
-              type="error"
-              text={boltError}
-              handleClose={() => setBoltError(null)}
-            />
-          )}
-          {fetchHashError && (
-            <CustomSnack
-              type="error"
-              text={fetchHashError}
-              handleClose={() => dispatch({ type: PAY_ORDER_RESET })}
-            />
-          )}
-          <CustomHelmet title="Order" desc="Steeldalal order" />
-          {order.isPaid === 0 && order.inStock === 1 && (
-            <Card sx={{ my: 2 }}>
-              <CardContent
-                sx={{
-                  display: "flex",
-                  alignItems: "ceter",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography
-                  sx={{ mr: 2, display: "flex", alignItems: "center" }}
+          <CustomHelmet title="Order" desc="Steeldalal admin order" />
+          <Card sx={{ my: 2 }}>
+            <CardContent>
+              <div className="ProfileDetailLeftHeader">
+                <Button
+                  startIcon={<ChevronLeftOutlined />}
+                  onClick={() => history.push("/admin-panel")}
                 >
-                  Your order is confirmed by seller. Do your payment to complete
-                  your order. Click here
-                  <ArrowRightAltOutlined sx={{ ml: 2, fontSize: 18 }} />
-                </Typography>
+                  Back
+                </Button>
+                <Typography variant="h6">Order ID: {order.id}</Typography>
+              </div>
+              {/* <br /> */}
 
-                <Payment handlePay={() => dispatch(payOrderAction(order))} />
-              </CardContent>
-            </Card>
-          )}
-          <Typography sx={{ mb: 2 }} variant="h6">
-            Order ID: {order.id}
-          </Typography>
+              {order.isPaid === 1 && order.isConfirmed === 0 && (
+                <Button
+                  disabled={updateLoading}
+                  endIcon={<CreditCard />}
+                  variant="contained"
+                  sx={{ mx: 1, my: 1 }}
+                  onClick={() =>
+                    dispatch(
+                      updateAdminOrderAction(id, {
+                        isConfirmed: 1,
+                      })
+                    )
+                  }
+                >
+                  Confirm Payment
+                </Button>
+              )}
+              {order.isPaid === 1 && order.isConfirmed === 1 && (
+                <Button
+                  disabled={updateLoading}
+                  endIcon={<CreditCardOff />}
+                  variant="contained"
+                  sx={{ mx: 1, my: 1 }}
+                  onClick={() =>
+                    dispatch(
+                      updateAdminOrderAction(id, {
+                        isConfirmed: 0,
+                      })
+                    )
+                  }
+                >
+                  UnComfirm Payment
+                </Button>
+              )}
+              {order.isPaid === 1 && order.isDelivered === 0 && (
+                <Button
+                  disabled={updateLoading}
+                  endIcon={<LocalShipping />}
+                  variant="contained"
+                  sx={{ mx: 1, my: 1 }}
+                  onClick={() =>
+                    dispatch(
+                      updateAdminOrderAction(id, {
+                        isDelivered: 1,
+                      })
+                    )
+                  }
+                >
+                  Mark As Delivered
+                </Button>
+              )}
+              {order.isPaid === 1 && order.isDelivered === 1 && (
+                <Button
+                  disabled={updateLoading}
+                  endIcon={<DeliveryDining />}
+                  variant="contained"
+                  sx={{ mx: 1, my: 1 }}
+                  onClick={() =>
+                    dispatch(
+                      updateAdminOrderAction(id, {
+                        isDelivered: 0,
+                      })
+                    )
+                  }
+                >
+                  UnDelivered
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Card sx={{ height: "100%" }}>
@@ -180,6 +205,7 @@ const SingleOrderScreen = () => {
                         />
                       </ListItemText>
                     </ListItem>
+
                     <ListItem>
                       <ListItemIcon sx={{ mr: 2 }}>
                         <b>Payment Confimation</b>
@@ -209,9 +235,11 @@ const SingleOrderScreen = () => {
                     {["name", "state", "city", "address", "phone"].map(
                       (detailKey) => (
                         <ListItem key={detailKey}>
-                          <ListItemText sx={{ textTransform: "capitalize" }}>
+                          <ListItemIcon
+                            sx={{ mr: 2, textTransform: "capitalize" }}
+                          >
                             <b>{detailKey}</b>
-                          </ListItemText>
+                          </ListItemIcon>
                           <ListItemText>{order[detailKey]}</ListItemText>
                         </ListItem>
                       )
@@ -294,4 +322,4 @@ const SingleOrderScreen = () => {
   );
 };
 
-export default SingleOrderScreen;
+export default SingleAdminOrderScreen;
