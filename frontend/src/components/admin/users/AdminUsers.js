@@ -14,6 +14,7 @@ import { ChevronRightOutlined } from "@mui/icons-material";
 import { useHistory } from "react-router-dom";
 import CustomSnack from "../../layout/CustomSnack";
 import { FETCH_ADMIN_USERS_RESET } from "../../../reducers/types/adminTypes";
+import CustomHelmet from "../../layout/CustomHelmet";
 
 const columns: Column[] = [
   { id: "name", label: "Name", minWidth: 170 },
@@ -82,6 +83,8 @@ export default function AdminOrder() {
 
   return (
     <Paper sx={{ width: "100%" }}>
+      <CustomHelmet title="Users" desc="Steeldalal" />
+
       {error && (
         <CustomSnack
           type="error"

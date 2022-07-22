@@ -81,7 +81,7 @@ const SingleAdminOrderScreen = () => {
               handleClose={() => dispatch({ type: UPDATE_ADMIN_ORDER_RESET })}
             />
           )}
-          <CustomHelmet title="Order" desc="Steeldalal admin order" />
+          <CustomHelmet title="Order" desc="Steeldalal user order" />
           <Card sx={{ my: 2 }}>
             <CardContent>
               <div className="ProfileDetailLeftHeader">

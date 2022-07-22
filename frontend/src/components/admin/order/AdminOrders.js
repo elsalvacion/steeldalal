@@ -17,6 +17,7 @@ import {
 import { useHistory } from "react-router-dom";
 import CustomSnack from "../../layout/CustomSnack";
 import { FETCH_ADMIN_ORDERS_RESET } from "../../../reducers/types/adminTypes";
+import CustomHelmet from "../../layout/CustomHelmet";
 
 const columns: Column[] = [
   { id: "id", label: "ID", minWidth: 100 },
@@ -115,6 +116,8 @@ export default function AdminOrder() {
 
   return (
     <Paper sx={{ width: "100%" }}>
+      <CustomHelmet title="Orders" desc="Steeldalal" />
+
       {error && (
         <CustomSnack
           type="error"

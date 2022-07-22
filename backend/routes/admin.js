@@ -197,24 +197,27 @@ router.get("/user/:id", userProtect, adminProtect, (req, res) => {
         } else {
           const user =
             existCheckRes[0][0] || existCheckRes[1][0] || existCheckRes[2][0];
-
-          connection.query(
-            `select * from yourBiz where user = ?`,
-            [req.params.id],
-            (fetchYourBizErr, fetchYourBizRes) => {
-              if (fetchYourBizErr) {
-                console.log(fetchYourBizErr);
-                res.status(400).json({ msg: "Fetch Biz Error" });
-              } else {
-                res.json({
-                  msg: {
-                    ...user,
-                    yourBiz: fetchYourBizRes[0] ? fetchYourBizRes[0] : null,
-                  },
-                });
+          if (user) {
+            connection.query(
+              `select * from yourBiz where user = ?`,
+              [req.params.id],
+              (fetchYourBizErr, fetchYourBizRes) => {
+                if (fetchYourBizErr) {
+                  console.log(fetchYourBizErr);
+                  res.status(400).json({ msg: "Fetch Biz Error" });
+                } else {
+                  res.json({
+                    msg: {
+                      ...user,
+                      yourBiz: fetchYourBizRes[0] ? fetchYourBizRes[0] : null,
+                    },
+                  });
+                }
               }
-            }
-          );
+            );
+          } else {
+            res.status(400).json({ msg: "User not available" });
+          }
         }
       }
     );
@@ -226,6 +229,74 @@ router.get("/user/:id", userProtect, adminProtect, (req, res) => {
 
 router.put("/user/:id", userProtect, adminProtect, (req, res) => {
   try {
+    const sql = `
+    select * from users where id = ? ;
+    select * from google where id  = ?;
+    select * from facebook where id = ? 
+    `;
+    const { id } = req.params;
+    connection.query(sql, [id, id, id], (fetchUsersErr, fetchUserRes) => {
+      if (fetchUsersErr) {
+        console.log(fetchUsersErr);
+        res.status(400).json({ msg: "Fetch user error" });
+      } else {
+        const user =
+          fetchUserRes[0][0] || fetchUserRes[1][0] || fetchUserRes[2][0];
+        if (user) {
+          const isAdmin = isNaN(req.body.isAdmin)
+            ? user.isAdmin
+            : req.body.isAdmin;
+          const isPremium = isNaN(req.body.isPremium)
+            ? user.isPremium
+            : req.body.isPremium;
+
+          if (req.body.yourBiz && !isNaN(req.body.yourBiz.isVerified)) {
+            const isSeller = req.body.yourBiz.isVerified === 0 ? 0 : 1;
+            connection.query(
+              `
+              update yourBiz set isVerified = ? where user  = ?;
+              update users set isSeller = ${isSeller} where id  = ?;
+              update facebook set isSeller = ${isSeller} where id  = ?;  
+              update google set isSeller = ${isSeller} where id  = ?;  
+              `,
+              [req.body.yourBiz.isVerified, id, id, id, id],
+              (updateBizErr, updateBizRes) => {
+                if (updateBizErr) {
+                  console.log(updateBizErr);
+                  res.status(400).json({ msg: "update biz error" });
+                } else {
+                  res.json({ msg: "biz updated" });
+                }
+              }
+            );
+          } else {
+            let query;
+            if (fetchUserRes[1][0]) {
+              query = `update google set isAdmin = ? , isPremium = ? where id = ?`;
+            } else if (fetchUserRes[2][0]) {
+              query = `update facebook set isAdmin = ? , isPremium = ? where id = ?`;
+            } else {
+              query = `update users set isAdmin = ? , isPremium = ? where id = ?`;
+            }
+
+            connection.query(
+              query,
+              [isAdmin, isPremium, id],
+              (updateUserErr, updateUserRes) => {
+                if (updateUserErr) {
+                  console.log(updateUserErr);
+                  res.status(400).json({ msg: "Could not update user" });
+                } else {
+                  res.json({ msg: "user updated" });
+                }
+              }
+            );
+          }
+        } else {
+          res.status(400).json({ msg: "User not available" });
+        }
+      }
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });

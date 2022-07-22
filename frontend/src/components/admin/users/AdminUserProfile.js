@@ -2,6 +2,7 @@ import {
   AdminPanelSettings,
   ChevronLeftOutlined,
   Verified,
+  WorkspacePremium,
 } from "@mui/icons-material";
 import {
   Button,
@@ -28,6 +29,7 @@ import {
   FETCH_ADMIN_USER_RESET,
   UPDATE_ADMIN_USER_RESET,
 } from "../../../reducers/types/adminTypes";
+import CustomHelmet from "../../layout/CustomHelmet";
 import CustomSnack from "../../layout/CustomSnack";
 import "./AdminUserProfile.css";
 
@@ -51,6 +53,7 @@ const AdminUserProfile = () => {
   }, [id, userInfo, history, dispatch, success]);
   return (
     <Container sx={{ py: 3 }}>
+      <CustomHelmet title="User Profile" desc="Steeldalal user  profile" />
       {(error || updateError) && (
         <CustomSnack
           type="error"
@@ -86,41 +89,43 @@ const AdminUserProfile = () => {
                 >
                   Back
                 </Button>
-                {user.isAdmin === 0 && (
-                  <Button
-                    disabled={updateLoading}
-                    endIcon={<AdminPanelSettings />}
-                    variant="contained"
-                    sx={{ mx: 1, my: 1 }}
-                    onClick={() =>
-                      dispatch(
-                        updateAdminUserAction(id, {
-                          isAdmin: 1,
-                        })
-                      )
-                    }
-                  >
-                    Make Admin
-                  </Button>
-                )}
+                <div>
+                  {user.isAdmin === 0 && (
+                    <Button
+                      disabled={updateLoading}
+                      endIcon={<AdminPanelSettings />}
+                      variant="contained"
+                      sx={{ mx: 1, my: 1 }}
+                      onClick={() =>
+                        dispatch(
+                          updateAdminUserAction(id, {
+                            isAdmin: 1,
+                          })
+                        )
+                      }
+                    >
+                      Mark as admin
+                    </Button>
+                  )}
 
-                {user.isAdmin === 1 && (
-                  <Button
-                    disabled={updateLoading}
-                    endIcon={<AdminPanelSettings />}
-                    variant="contained"
-                    sx={{ mx: 1, my: 1 }}
-                    onClick={() =>
-                      dispatch(
-                        updateAdminUserAction(id, {
-                          isAdmin: 0,
-                        })
-                      )
-                    }
-                  >
-                    Un Admin
-                  </Button>
-                )}
+                  {user.isAdmin === 1 && (
+                    <Button
+                      disabled={updateLoading}
+                      endIcon={<AdminPanelSettings />}
+                      variant="contained"
+                      sx={{ mx: 1, my: 1 }}
+                      onClick={() =>
+                        dispatch(
+                          updateAdminUserAction(id, {
+                            isAdmin: 0,
+                          })
+                        )
+                      }
+                    >
+                      Un-Mark As Admin
+                    </Button>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -215,51 +220,88 @@ const AdminUserProfile = () => {
           </Grid>
 
           {user.yourBiz && (
-            <Card sx={{ m: 2 }}>
+            <Card sx={{ my: 2 }}>
               <CardContent>
                 <div className="ProfileDetailRightHeader">
                   <Typography variant="h6" component="h6">
                     Business Credentails
                   </Typography>
-                  {user.yourBiz.isVerified === 0 && (
-                    <Button
-                      disabled={updateLoading}
-                      endIcon={<Verified />}
-                      variant="contained"
-                      sx={{ mx: 1, my: 1 }}
-                      onClick={() =>
-                        dispatch(
-                          updateAdminUserAction(id, {
-                            yourBiz: {
-                              isVerified: 1,
-                            },
-                          })
-                        )
-                      }
-                    >
-                      Verify Seller
-                    </Button>
-                  )}
+                  <div>
+                    {user.yourBiz.isVerified === 0 && (
+                      <Button
+                        disabled={updateLoading}
+                        endIcon={<Verified />}
+                        variant="contained"
+                        sx={{ mx: 1, my: 1 }}
+                        onClick={() =>
+                          dispatch(
+                            updateAdminUserAction(id, {
+                              yourBiz: {
+                                isVerified: 1,
+                              },
+                            })
+                          )
+                        }
+                      >
+                        Verify Seller
+                      </Button>
+                    )}
 
-                  {user.yourBiz.isVerified === 1 && (
-                    <Button
-                      disabled={updateLoading}
-                      endIcon={<Verified />}
-                      variant="contained"
-                      sx={{ mx: 1, my: 1 }}
-                      onClick={() =>
-                        dispatch(
-                          updateAdminUserAction(id, {
-                            yourBiz: {
-                              isVerified: 0,
-                            },
-                          })
-                        )
-                      }
-                    >
-                      Un-Verify Seller
-                    </Button>
-                  )}
+                    {user.yourBiz.isVerified === 1 && (
+                      <Button
+                        disabled={updateLoading}
+                        endIcon={<Verified />}
+                        variant="contained"
+                        sx={{ mx: 1, my: 1 }}
+                        onClick={() =>
+                          dispatch(
+                            updateAdminUserAction(id, {
+                              yourBiz: {
+                                isVerified: 0,
+                              },
+                            })
+                          )
+                        }
+                      >
+                        Un-Verify Seller
+                      </Button>
+                    )}
+                    {user.isPremium === 0 && (
+                      <Button
+                        disabled={updateLoading}
+                        endIcon={<WorkspacePremium />}
+                        variant="contained"
+                        sx={{ mx: 1, my: 1 }}
+                        onClick={() =>
+                          dispatch(
+                            updateAdminUserAction(id, {
+                              isPremium: 1,
+                            })
+                          )
+                        }
+                      >
+                        Mark As Premium
+                      </Button>
+                    )}
+
+                    {user.isPremium === 1 && (
+                      <Button
+                        disabled={updateLoading}
+                        endIcon={<WorkspacePremium />}
+                        variant="contained"
+                        sx={{ mx: 1, my: 1 }}
+                        onClick={() =>
+                          dispatch(
+                            updateAdminUserAction(id, {
+                              isPremium: 0,
+                            })
+                          )
+                        }
+                      >
+                        Un-Mark As Premium
+                      </Button>
+                    )}
+                  </div>
                 </div>
                 <br />
                 <Grid container spacing={2}>
