@@ -7,78 +7,89 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-
-interface Column {
-  id: "name" | "code" | "population" | "size" | "density";
-  label: string;
-  minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAdminProductsAction } from "../../../actions/adminAction";
+import { Button, Chip } from "@mui/material";
+import { ChevronRightOutlined } from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
+import CustomSnack from "../../layout/CustomSnack";
+import { FETCH_ADMIN_USERS_RESET } from "../../../reducers/types/adminTypes";
+import CustomHelmet from "../../layout/CustomHelmet";
 
 const columns: Column[] = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+  { id: "title", label: "Name", minWidth: 170 },
+  { id: "category", label: "Category", minWidth: 170 },
   {
-    id: "population",
-    label: "Population",
+    id: "type",
+    label: "Type",
     minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
   },
   {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
+    id: "brand",
+    label: "Brand",
     minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
   },
   {
-    id: "density",
-    label: "Density",
+    id: "isBlocked",
+    label: "Blocked",
     minWidth: 170,
+  },
+  {
+    id: "action",
+    label: "Action",
+    minWidth: 200,
     align: "right",
-    format: (value: number) => value.toFixed(2),
   },
 ];
 
 interface Data {
+  id: number;
   name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
+  category: string;
+  type: string;
+  brand: string;
+  isBlocked: Number;
 }
 
 function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number
+  id: number,
+  title: string,
+  category: string,
+  type: string,
+  brand: string,
+  isBlocked: number
 ): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
+  return { id, title, category, type, brand, isBlocked };
 }
 
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-];
-
 export default function AdminProducts() {
+  const { loading, error, products } = useSelector(
+    (state) => state.adminProducts
+  );
+  const [rows, setRows] = React.useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  React.useEffect(() => {
+    dispatch(fetchAdminProductsAction());
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (products) {
+      setRows(
+        products.map((product) =>
+          createData(
+            product.id,
+            product.title,
+            product.category,
+            product.type,
+            product.brand,
+            product.isBlocked
+          )
+        )
+      );
+    }
+  }, [products]);
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -95,12 +106,22 @@ export default function AdminProducts() {
 
   return (
     <Paper sx={{ width: "100%" }}>
+      <CustomHelmet title="Users" desc="Steeldalal" />
+
+      {error && (
+        <CustomSnack
+          type="error"
+          text={error}
+          handleClose={() => dispatch({ type: FETCH_ADMIN_USERS_RESET })}
+        />
+      )}
+      {loading && <CustomSnack type="success" text="Fetching... users " />}
       <TableContainer sx={{ minHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <TableCell align="center" colSpan={2}>
-                Products
+                Product
               </TableCell>
               <TableCell align="center" colSpan={3}>
                 Details
@@ -123,10 +144,34 @@ export default function AdminProducts() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    onClick={() => history.push(`/admin-product/${row["id"]}`)}
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
-                      return (
+                      return column.id === "action" ? (
+                        <TableCell key={column.id} align={column.align}>
+                          <Button
+                            onClick={() =>
+                              history.push(`/admin-product/${row["id"]}`)
+                            }
+                            endIcon={<ChevronRightOutlined />}
+                          >
+                            More
+                          </Button>
+                        </TableCell>
+                      ) : column.id === "isBlocked" ? (
+                        <TableCell key={column.id} align={column.align}>
+                          <Chip
+                            label={value === 1 ? "Blocked" : "Not Blocked"}
+                            color={value === 0 ? "warning" : "success"}
+                          />
+                        </TableCell>
+                      ) : (
                         <TableCell key={column.id} align={column.align}>
                           {column.format && typeof value === "number"
                             ? column.format(value)

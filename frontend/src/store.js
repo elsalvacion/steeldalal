@@ -46,9 +46,12 @@ import { searchReducer, searchValueReducer } from "./reducers/searchReducer";
 import {
   fetchAdminOrderReducer,
   fetchAdminOrdersReducer,
+  fetchAdminProductReducer,
+  fetchAdminProductsReducer,
   fetchAdminUserReducer,
   fetchAdminUsersReducer,
   updateAdminOrderReducer,
+  updateAdminProductReducer,
   updateAdminUserReducer,
 } from "./reducers/adminReducer";
 
@@ -95,13 +98,16 @@ const reducers = combineReducers({
   adminUsers: fetchAdminUsersReducer,
   adminUser: fetchAdminUserReducer,
   adminUserUpdate: updateAdminUserReducer,
+  adminProducts: fetchAdminProductsReducer,
+  adminProduct: fetchAdminProductReducer,
+  adminProductUpdate: updateAdminProductReducer,
 });
 
 const middleware = [thunk];
 const initialState = {
   userLogin: {
-    userInfo: localStorage.getItem("userInfo")
-      ? JSON.parse(localStorage.getItem("userInfo"))
+    userInfo: sessionStorage.getItem("userInfo")
+      ? JSON.parse(sessionStorage.getItem("userInfo"))
       : null,
   },
   getCart: {

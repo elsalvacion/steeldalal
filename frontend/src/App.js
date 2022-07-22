@@ -41,6 +41,8 @@ import SingleSellerOrder from "./screens/SingleSellerOrder";
 import AdminPanelScreen from "./screens/AdminPanelScreen";
 import SingleAdminOrderScreen from "./components/admin/order/SingleAdminOrderScreen";
 import AdminUserProfile from "./components/admin/users/AdminUserProfile";
+import BizNotVerifiedScreen from "./screens/BizNotVerifiedScreen";
+import SingleAdminProduct from "./components/admin/products/SingleAdminProduct";
 
 const App = () => {
   return (
@@ -70,6 +72,12 @@ const App = () => {
             <Route exact path="/product/:id" component={ProductScreen} />
             <Route exact path="/login" component={LoginScreen} />
             <Route exact path="/create-biz" component={CreateBizScreen} />
+            <Route
+              exact
+              path="/biz-notverified"
+              component={BizNotVerifiedScreen}
+            />
+
             <Route exact path="/edit-biz" component={EditBizScreen} />
             <Route exact path="/register" component={LoginScreen} />
             <Route exact path="/profile" component={ProfileScreen} />
@@ -127,6 +135,11 @@ const App = () => {
               component={SingleAdminOrderScreen}
             />
             <Route exact path="/admin-user/:id" component={AdminUserProfile} />
+            <Route
+              exact
+              path="/admin-product/:id"
+              component={SingleAdminProduct}
+            />
             <Route path="*">
               <NotFoundScreen />
             </Route>

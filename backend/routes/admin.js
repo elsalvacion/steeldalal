@@ -313,6 +313,20 @@ router.delete("/user/:id", userProtect, adminProtect, (req, res) => {
 
 router.get("/products", userProtect, adminProtect, (req, res) => {
   try {
+    connection.query(
+      `select * from products order by createdAt desc`,
+      (fetchProductsErr, fetchProductsRes) => {
+        if (fetchProductsErr) {
+          res.status(400).json({ msg: "Error while fetching products" });
+        } else {
+          res.json({
+            msg: {
+              products: fetchProductsRes,
+            },
+          });
+        }
+      }
+    );
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });
@@ -321,6 +335,18 @@ router.get("/products", userProtect, adminProtect, (req, res) => {
 
 router.put("/product/:id", userProtect, adminProtect, (req, res) => {
   try {
+    connection.query(
+      `update products set isBlocked = ?  where id = ?`,
+      [req.body.isBlocked, req.params.id],
+      (updateProductErr, updateProductRes) => {
+        if (updateProductErr) {
+          console.log(updateProductErr);
+          res.status(400).json({ msg: "update product error" });
+        } else {
+          res.json({ msg: "product updated" });
+        }
+      }
+    );
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });

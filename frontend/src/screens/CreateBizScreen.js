@@ -26,7 +26,10 @@ const CreateBizScreen = () => {
   });
   useEffect(() => {
     if (!userInfo) history.push(`/login?redirect=create-biz`);
-    else if (userInfo.yourBiz) history.push(`/create-product`);
+    else if (userInfo.yourBiz && userInfo.yourBiz.isVerified === 0)
+      history.push(`/biz-notverified`);
+    else if (userInfo.yourBiz && userInfo.yourBiz.isVerified === 1)
+      history.push(`/create-product`);
     if (success) {
       history.push("/profile");
     }

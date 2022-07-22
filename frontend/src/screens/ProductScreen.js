@@ -23,7 +23,7 @@ const ProductScreen = () => {
   );
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success } = useSelector((state) => state.addCart);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchSingleProductsAction(id));

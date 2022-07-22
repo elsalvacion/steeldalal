@@ -31,7 +31,13 @@ const ProfileDetailRight = ({ editUserInfo, userInfo }) => {
         <IconButton
           onClick={() =>
             history.push(
-              userInfo && userInfo.yourBiz ? "/create-product" : "/create-biz"
+              userInfo && userInfo.yourBiz && userInfo.yourBiz.isVerified === 0
+                ? "/biz-notverified"
+                : userInfo &&
+                  userInfo.yourBiz &&
+                  userInfo.yourBiz.isVerified === 1
+                ? "/create-product"
+                : "/create-biz"
             )
           }
           color="primary"

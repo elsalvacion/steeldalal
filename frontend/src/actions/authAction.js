@@ -66,7 +66,7 @@ export const verifyPhoneAction =
             isVerified: 1,
           },
         });
-        localStorage.setItem(
+        sessionStorage.setItem(
           "userInfo",
           JSON.stringify({
             ...userInfo,
@@ -113,7 +113,7 @@ export const registerUser = (details) => async (dispatch) => {
       details,
       config
     );
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    sessionStorage.setItem("userInfo", JSON.stringify(data));
     dispatch({
       type: GET_SHIPPING_INFO_SUCCESS,
       payload: data,
@@ -148,7 +148,7 @@ export const loginUser = (details) => async (dispatch) => {
       details,
       config
     );
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    sessionStorage.setItem("userInfo", JSON.stringify(data));
     dispatch({
       type: GET_SHIPPING_INFO_SUCCESS,
       payload: data,
@@ -196,7 +196,7 @@ export const editUser = (details) => async (dispatch, getState) => {
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,
     });
-    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+    sessionStorage.setItem("userInfo", JSON.stringify(newUserInfo));
 
     dispatch({
       type: UPDATE_USER_SUCCESS,
@@ -244,7 +244,7 @@ export const createBiz = (details) => async (dispatch, getState) => {
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,
     });
-    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+    sessionStorage.setItem("userInfo", JSON.stringify(newUserInfo));
 
     dispatch({
       type: CREATE_BIZ_SUCCESS,
@@ -292,7 +292,7 @@ export const editBiz = (details) => async (dispatch, getState) => {
       type: LOGIN_USER_SUCCESS,
       payload: newUserInfo,
     });
-    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+    sessionStorage.setItem("userInfo", JSON.stringify(newUserInfo));
 
     dispatch({
       type: UPDATE_BIZ_SUCCESS,
@@ -309,7 +309,7 @@ export const editBiz = (details) => async (dispatch, getState) => {
 };
 
 export const logoutUser = () => async (dispatch) => {
-  localStorage.removeItem("userInfo");
+  sessionStorage.removeItem("userInfo");
   dispatch({
     type: LOGIN_USER_RESET,
   });

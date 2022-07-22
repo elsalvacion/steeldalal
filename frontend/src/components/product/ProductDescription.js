@@ -1,4 +1,4 @@
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Card, CardContent } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "./ProductDescription.css";
 import ProductSlider from "../product/ProductSlider";
@@ -71,19 +71,22 @@ const ProductDescription = ({ details }) => {
 
   return (
     <div className="productDesContainer">
+      {details.isBlocked === 1 && (
+        <Card sx={{ my: 3 }}>
+          <CardContent>
+            <Typography color="red">
+              This product is blocked by admin. if you are the seller contact
+              the admin else please find a similar product.
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
       <div className="productDesContentTop">
         <ProductSlider images={details.images} />
         <div className="productDesContentTopRight">
           <Typography variant="h6" component="h6">
             {details.title}
           </Typography>
-
-          {/* <Rating
-            name="read-only"
-            value={details.rating}
-            readOnly
-            size="large"
-          /> */}
 
           <p>
             <b>Brand: </b>
@@ -117,7 +120,7 @@ const ProductDescription = ({ details }) => {
 
         {parse(details.details)}
       </div>
-      {Object.keys(specValues).length > 0 && (
+      {details.isBlocked === 0 && Object.keys(specValues).length > 0 && (
         <div className="specs">
           {Object.keys(specValues).map((key, i) => (
             <div className="spec" key={key}>

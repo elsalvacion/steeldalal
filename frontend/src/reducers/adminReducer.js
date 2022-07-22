@@ -7,6 +7,14 @@ import {
   FETCH_ADMIN_ORDER_LOADING,
   FETCH_ADMIN_ORDER_RESET,
   FETCH_ADMIN_ORDER_SUCCESS,
+  FETCH_ADMIN_PRODUCTS_ERROR,
+  FETCH_ADMIN_PRODUCTS_LOADING,
+  FETCH_ADMIN_PRODUCTS_RESET,
+  FETCH_ADMIN_PRODUCTS_SUCCESS,
+  FETCH_ADMIN_PRODUCT_ERROR,
+  FETCH_ADMIN_PRODUCT_LOADING,
+  FETCH_ADMIN_PRODUCT_RESET,
+  FETCH_ADMIN_PRODUCT_SUCCESS,
   FETCH_ADMIN_USERS_ERROR,
   FETCH_ADMIN_USERS_LOADING,
   FETCH_ADMIN_USERS_RESET,
@@ -19,6 +27,10 @@ import {
   UPDATE_ADMIN_ORDER_LOADING,
   UPDATE_ADMIN_ORDER_RESET,
   UPDATE_ADMIN_ORDER_SUCCESS,
+  UPDATE_ADMIN_PRODUCT_ERROR,
+  UPDATE_ADMIN_PRODUCT_LOADING,
+  UPDATE_ADMIN_PRODUCT_RESET,
+  UPDATE_ADMIN_PRODUCT_SUCCESS,
   UPDATE_ADMIN_USER_ERROR,
   UPDATE_ADMIN_USER_LOADING,
   UPDATE_ADMIN_USER_RESET,
@@ -141,6 +153,67 @@ export const updateAdminUserReducer = (state = {}, action) => {
         error: action.payload,
       };
     case UPDATE_ADMIN_USER_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const fetchAdminProductsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FETCH_ADMIN_PRODUCTS_LOADING:
+      return {
+        loading: true,
+      };
+    case FETCH_ADMIN_PRODUCTS_SUCCESS:
+      return action.payload;
+    case FETCH_ADMIN_PRODUCTS_ERROR:
+      return {
+        error: action.payload,
+      };
+    case FETCH_ADMIN_PRODUCTS_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const fetchAdminProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FETCH_ADMIN_PRODUCT_LOADING:
+      return {
+        loading: true,
+      };
+    case FETCH_ADMIN_PRODUCT_SUCCESS:
+      return {
+        product: action.payload,
+      };
+    case FETCH_ADMIN_PRODUCT_ERROR:
+      return {
+        error: action.payload,
+      };
+    case FETCH_ADMIN_PRODUCT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const updateAdminProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_ADMIN_PRODUCT_LOADING:
+      return {
+        loading: true,
+      };
+    case UPDATE_ADMIN_PRODUCT_SUCCESS:
+      return {
+        success: true,
+      };
+    case UPDATE_ADMIN_PRODUCT_ERROR:
+      return {
+        error: action.payload,
+      };
+    case UPDATE_ADMIN_PRODUCT_RESET:
       return {};
     default:
       return state;

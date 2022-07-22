@@ -30,6 +30,7 @@ const PanelContainer = () => {
       ? JSON.parse(localStorage.getItem("panelChoice"))
       : adminLinks[0]
   );
+
   return (
     <div className="panelMainContainer">
       <div className="panelLeft">
