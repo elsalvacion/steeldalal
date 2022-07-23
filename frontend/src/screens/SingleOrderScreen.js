@@ -28,10 +28,7 @@ import {
 import { FaRupeeSign } from "react-icons/fa";
 import Payment from "../components/checkout/Payment";
 import CustomHelmet from "../components/layout/CustomHelmet";
-import { ArrowRightAltOutlined } from "@mui/icons-material";
 import { useState } from "react";
-import { backendBaseUrl } from "../constants/url";
-import axios from "axios";
 const SingleOrderScreen = () => {
   const { id } = useParams();
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -41,48 +38,53 @@ const SingleOrderScreen = () => {
   );
   const dispatch = useDispatch();
   const history = useHistory();
-  const [boltError, setBoltError] = useState(null);
+  const [razorError, setRazorError] = useState(null);
 
   useEffect(() => {
     if (!userInfo) history.push(`/login?redirect=order/${id}`);
     else {
       dispatch(fetchOrderAction(id));
     }
-    const redirectToPayU = (hashData) => {
-      console.log(hashData);
-      window.bolt.launch(hashData, {
-        responseHandler: async function (response) {
-          try {
-            const { data } = await axios.post(
-              `${backendBaseUrl}/order/save-payment/${order.id}`,
-              response.response,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${userInfo.token}`,
-                },
-              }
-            );
-            console.log(data);
-          } catch (err) {
-            console.log(err);
-            setBoltError(`Couldn't save payment`);
-          }
-        },
-        catchException: function (response) {
-          setBoltError(response.message);
-        },
-      });
-    };
+
+    // eslint-disable-next-line
+  }, [id, userInfo, history, dispatch]);
+
+  useEffect(() => {
     if (paymentData) {
-      if (!window.bolt) {
-        setBoltError("Payment Gateway not accessible. Reload and Try again.");
-      } else {
-        redirectToPayU(paymentData);
-      }
+      const options = {
+        ...paymentData,
+        amount: paymentData.amount * 100,
+        key: "rzp_test_V2qpvtF3OCDN1v",
+        name: "Steeldalal.com",
+        description: "Order Payment",
+        image: "/assets/logos/2.png",
+        handler: function (response) {
+          console.log(response);
+          alert(response.razorpay_payment_id);
+          alert(response.razorpay_order_id);
+          alert(response.razorpay_signature);
+        },
+        prefill: {
+          name: order.name,
+          email: order.email,
+          contact: order.phone,
+        },
+
+        theme: {
+          color: "#1565c0",
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        setRazorError(response.error.description);
+        dispatch({ type: PAY_ORDER_RESET });
+      });
+      rzp1.open();
     }
     // eslint-disable-next-line
-  }, [id, userInfo, history, dispatch, paymentData]);
+  }, [paymentData]);
+
   return (
     <Container sx={{ py: 2 }}>
       {loading ? (
@@ -95,11 +97,11 @@ const SingleOrderScreen = () => {
         />
       ) : order ? (
         <>
-          {boltError && (
+          {razorError && (
             <CustomSnack
               type="error"
-              text={boltError}
-              handleClose={() => setBoltError(null)}
+              text={razorError}
+              handleClose={() => setRazorError(null)}
             />
           )}
           {fetchHashError && (
@@ -112,19 +114,10 @@ const SingleOrderScreen = () => {
           <CustomHelmet title="Order" desc="Steeldalal order" />
           {order.isPaid === 0 && order.inStock === 1 && (
             <Card sx={{ my: 2 }}>
-              <CardContent
-                sx={{
-                  display: "flex",
-                  alignItems: "ceter",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography
-                  sx={{ mr: 2, display: "flex", alignItems: "center" }}
-                >
-                  Your order is confirmed by seller. Do your payment to complete
-                  your order. Click here
-                  <ArrowRightAltOutlined sx={{ ml: 2, fontSize: 18 }} />
+              <CardContent>
+                <Typography sx={{ mb: 2, fontSize: 13 }}>
+                  Your order is confirmed by seller. Click on the Razorpay logo
+                  to do your payment and complete your order.
                 </Typography>
 
                 <Payment handlePay={() => dispatch(payOrderAction(order))} />

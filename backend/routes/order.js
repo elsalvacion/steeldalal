@@ -2,8 +2,12 @@ const router = require("express").Router();
 const connection = require("../config/db");
 const { userProtect } = require("../middlewares/protect");
 const { sendJustMessage } = require("../utils/sendEmail");
-// const axios = require("axios").default;
-const jsSHA = require("jssha");
+const axios = require("axios").default;
+const RazorPay = require("razorpay");
+const razorPayInstance = new RazorPay({
+  key_id: process.env.RAZOR_PAY_ID,
+  key_secret: process.env.RAZOR_PAY_SECRET,
+});
 
 router.get("/", userProtect, (req, res) => {
   try {
@@ -330,30 +334,28 @@ Once your order specifications are verified by the seller your will receive paym
 router.post("/pay/:id", async (req, res) => {
   try {
     const details = req.body;
-    // console.log(details);
-    const data = {
-      key: process.env.PAYU_KEY,
-      txnid: String(details.id),
-      amount: String(details.totalPrice),
-      productinfo: details.products
-        .map((product) => product.title)
-        .join(" and "),
-      firstname: details.name,
-      email: details.email,
-      phone: details.phone,
-      surl: `http://localhost:3000/order/${details.id}`,
-      furl: `http://localhost:3000/order/${details.id}`,
-      salt: process.env.PAYU_SALT,
+    const options = {
+      amount: details.totalPrice,
+      currency: "INR",
+      receipt: `receipt_${details.id}`,
+      notes: {
+        id: details.id,
+        name: details.name,
+        address: details.address,
+        city: details.city,
+        state: details.state,
+      },
     };
-
-    const hashSequence = `${data.key}|${data.txnid}|${data.amount}|${data.productinfo}|${data.firstname}|${data.email}|||||||||||${data.salt}`;
-
-    const sha = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
-    sha.update(hashSequence);
-    const hash = sha.getHash("HEX");
-    data.hash = hash;
-    delete data.salt;
-    res.json({ msg: data });
+    razorPayInstance.orders.create(options, function (err, order) {
+      if (err) {
+        console.log(err);
+        res.status(400).json({ msg: err.error.description });
+      } else {
+        res.json({
+          msg: order,
+        });
+      }
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });

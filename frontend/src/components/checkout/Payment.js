@@ -5,7 +5,7 @@ import "./Payment.css";
 const Payment = ({ handlePay }) => {
   return (
     <Button onClick={handlePay} className="paymentContainer">
-      <img src="/assets/payu.png" alt="steeldalal payment" />
+      <img src="/assets/Razorpay_logo.svg.webp" alt="steeldalal payment" />
     </Button>
   );
 };
