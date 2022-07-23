@@ -19,6 +19,9 @@ import {
   PLACE_ORDER_ERROR,
   PLACE_ORDER_LOADING,
   PLACE_ORDER_SUCCESS,
+  SAVE_ORDER_PAYMENT_ERROR,
+  SAVE_ORDER_PAYMENT_LOADING,
+  SAVE_ORDER_PAYMENT_SUCCESS,
 } from "../reducers/types/orderTypes";
 export const placeOrderAction = (details) => async (dispatch, getState) => {
   try {
@@ -203,6 +206,38 @@ export const orderInStockAction =
       console.log(error);
       dispatch({
         type: ORDER_INSTOCK_ERROR,
+        payload: error.response.data.msg,
+      });
+    }
+  };
+
+export const saveOrderPaymentAction =
+  (details) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: SAVE_ORDER_PAYMENT_LOADING });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `${backendBaseUrl}/order/save-payment/${details.id}`,
+        details,
+        config
+      );
+      dispatch({
+        type: SAVE_ORDER_PAYMENT_SUCCESS,
+        payload: data.msg,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: SAVE_ORDER_PAYMENT_ERROR,
         payload: error.response.data.msg,
       });
     }

@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { fetchOrderAction, payOrderAction } from "../actions/orderAction";
+import {
+  fetchOrderAction,
+  payOrderAction,
+  saveOrderPaymentAction,
+} from "../actions/orderAction";
 import {
   Card,
   CardContent,
@@ -24,11 +28,13 @@ import CustomSnack from "../components/layout/CustomSnack";
 import {
   FETCH_ORDER_RESET,
   PAY_ORDER_RESET,
+  SAVE_ORDER_PAYMENT_RESET,
 } from "../reducers/types/orderTypes";
 import { FaRupeeSign } from "react-icons/fa";
 import Payment from "../components/checkout/Payment";
 import CustomHelmet from "../components/layout/CustomHelmet";
 import { useState } from "react";
+import Loading from "../components/layout/Loading";
 const SingleOrderScreen = () => {
   const { id } = useParams();
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -36,6 +42,11 @@ const SingleOrderScreen = () => {
   const { paymentData, error: fetchHashError } = useSelector(
     (state) => state.payOrder
   );
+  const {
+    loading: savePaymentLoading,
+    error: savePaymentError,
+    success: savePaymentSuccess,
+  } = useSelector((state) => state.savePayment);
   const dispatch = useDispatch();
   const history = useHistory();
   const [razorError, setRazorError] = useState(null);
@@ -43,26 +54,32 @@ const SingleOrderScreen = () => {
   useEffect(() => {
     if (!userInfo) history.push(`/login?redirect=order/${id}`);
     else {
+      dispatch({ type: SAVE_ORDER_PAYMENT_RESET });
       dispatch(fetchOrderAction(id));
     }
 
     // eslint-disable-next-line
-  }, [id, userInfo, history, dispatch]);
+  }, [id, userInfo, history, dispatch, savePaymentSuccess]);
 
   useEffect(() => {
     if (paymentData) {
       const options = {
         ...paymentData,
-        amount: paymentData.amount * 100,
+        order_id: paymentData.id,
+        amount: Number(paymentData.amount) * 100,
         key: "rzp_test_V2qpvtF3OCDN1v",
         name: "Steeldalal.com",
         description: "Order Payment",
         image: "/assets/logos/2.png",
         handler: function (response) {
-          console.log(response);
-          alert(response.razorpay_payment_id);
-          alert(response.razorpay_order_id);
-          alert(response.razorpay_signature);
+          dispatch(
+            saveOrderPaymentAction({
+              ...response,
+              id: order.id,
+              userId: order.userId,
+            })
+          );
+          dispatch({ type: PAY_ORDER_RESET });
         },
         prefill: {
           name: order.name,
@@ -104,6 +121,13 @@ const SingleOrderScreen = () => {
               handleClose={() => setRazorError(null)}
             />
           )}
+          {savePaymentSuccess && (
+            <CustomSnack
+              type="success"
+              text="Your payment is verified. Your order will be processed as soon as it is confirmed."
+            />
+          )}
+
           {fetchHashError && (
             <CustomSnack
               type="error"
@@ -111,19 +135,44 @@ const SingleOrderScreen = () => {
               handleClose={() => dispatch({ type: PAY_ORDER_RESET })}
             />
           )}
-          <CustomHelmet title="Order" desc="Steeldalal order" />
-          {order.isPaid === 0 && order.inStock === 1 && (
-            <Card sx={{ my: 2 }}>
-              <CardContent>
-                <Typography sx={{ mb: 2, fontSize: 13 }}>
-                  Your order is confirmed by seller. Click on the Razorpay logo
-                  to do your payment and complete your order.
-                </Typography>
-
-                <Payment handlePay={() => dispatch(payOrderAction(order))} />
-              </CardContent>
-            </Card>
+          {savePaymentError && (
+            <CustomSnack
+              type="error"
+              text={savePaymentError}
+              handleClose={() => {
+                dispatch({ type: SAVE_ORDER_PAYMENT_RESET });
+                dispatch({ type: PAY_ORDER_RESET });
+              }}
+            />
           )}
+          {savePaymentLoading && <Loading text="Verifying... Payment" />}
+          <CustomHelmet title="Order" desc="Steeldalal order" />
+          <Card sx={{ my: 2 }}>
+            <CardContent>
+              {order.isPaid === 0 && order.inStock === 1 ? (
+                <>
+                  <Typography sx={{ mb: 2, fontSize: 14 }}>
+                    Your order is confirmed by seller. Click on the Razorpay
+                    logo to do your payment and complete your order.
+                  </Typography>
+
+                  <Payment handlePay={() => dispatch(payOrderAction(order))} />
+                </>
+              ) : order.isPaid === 1 &&
+                order.inStock === 1 &&
+                order.isConfirmed ? (
+                <Typography sx={{ color: "green", fontSize: 14 }}>
+                  Your payment is verfied and confirmed. Good news you package
+                  is on its way.
+                </Typography>
+              ) : (
+                <Typography sx={{ fontSize: 14 }}>
+                  Your payment is verfied and awaiting confirmation from admin.
+                  Processing info is already sent to the seller.
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
           <Typography sx={{ mb: 2 }} variant="h6">
             Order ID: {order.id}
           </Typography>

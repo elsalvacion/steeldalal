@@ -2,7 +2,6 @@ const router = require("express").Router();
 const connection = require("../config/db");
 const { userProtect } = require("../middlewares/protect");
 const { sendJustMessage } = require("../utils/sendEmail");
-const axios = require("axios").default;
 const RazorPay = require("razorpay");
 const razorPayInstance = new RazorPay({
   key_id: process.env.RAZOR_PAY_ID,
@@ -331,40 +330,81 @@ Once your order specifications are verified by the seller your will receive paym
   }
 });
 
-router.post("/pay/:id", async (req, res) => {
+router.post("/pay/:id", userProtect, (req, res) => {
   try {
     const details = req.body;
-    const options = {
-      amount: details.totalPrice,
-      currency: "INR",
-      receipt: `receipt_${details.id}`,
-      notes: {
-        id: details.id,
-        name: details.name,
-        address: details.address,
-        city: details.city,
-        state: details.state,
-      },
-    };
-    razorPayInstance.orders.create(options, function (err, order) {
-      if (err) {
-        console.log(err);
-        res.status(400).json({ msg: err.error.description });
-      } else {
-        res.json({
-          msg: order,
-        });
-      }
-    });
+    if (req.user.id !== details.userId)
+      res.status(400).json({
+        msg: "Not Authorized",
+      });
+    else {
+      const options = {
+        amount: details.totalPrice,
+        currency: "INR",
+        receipt: `receipt_${details.id}`,
+        notes: {
+          id: details.id,
+          name: details.name,
+          address: details.address,
+          city: details.city,
+          state: details.state,
+        },
+      };
+      razorPayInstance.orders.create(options, function (err, order) {
+        if (err) {
+          console.log(err);
+          res.status(400).json({ msg: err.error.description });
+        } else {
+          res.json({
+            msg: order,
+          });
+        }
+      });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });
   }
 });
 
-router.post(`/save-payment/:id`, (req, res) => {
+router.post(`/save-payment/:id`, userProtect, (req, res) => {
   try {
-    console.log(req.body);
+    const details = req.body;
+    if (req.user.id !== details.userId)
+      res.status(400).json({
+        msg: "Not Authorized",
+      });
+    else {
+      let body = details.razorpay_order_id + "|" + details.razorpay_payment_id;
+
+      const crypto = require("crypto");
+      const expectedSignature = crypto
+        .createHmac("sha256", process.env.RAZOR_PAY_SECRET)
+        .update(body.toString())
+        .digest("hex");
+
+      if (expectedSignature === details.razorpay_signature) {
+        connection.query(
+          `update orders set isPaid = 1, payment_id = ? , payment_order_id = ? , payment_signature = ? where id = ?`,
+          [
+            details.razorpay_payment_id,
+            details.razorpay_order_id,
+            details.razorpay_signature,
+            req.params.id,
+          ],
+          (savePaymentErr, savePaymentRes) => {
+            if (savePaymentErr) {
+              console.log(savePaymentErr);
+              res.status(400).json({ msg: "Payment not verified" });
+            } else {
+              res.json({ msg: true });
+            }
+          }
+        );
+      } else {
+        res.status(400).json({ msg: "Payment not verified" });
+      }
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server Error" });

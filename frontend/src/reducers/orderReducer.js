@@ -23,6 +23,10 @@ import {
   PLACE_ORDER_LOADING,
   PLACE_ORDER_RESET,
   PLACE_ORDER_SUCCESS,
+  SAVE_ORDER_PAYMENT_ERROR,
+  SAVE_ORDER_PAYMENT_LOADING,
+  SAVE_ORDER_PAYMENT_RESET,
+  SAVE_ORDER_PAYMENT_SUCCESS,
 } from "./types/orderTypes";
 
 export const placeOrderReducer = (state = {}, action) => {
@@ -145,6 +149,27 @@ export const payOrderReducer = (state = {}, action) => {
         error: action.payload,
       };
     case PAY_ORDER_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const saveOrderPaymentReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SAVE_ORDER_PAYMENT_LOADING:
+      return {
+        loading: true,
+      };
+    case SAVE_ORDER_PAYMENT_SUCCESS:
+      return {
+        success: action.payload,
+      };
+    case SAVE_ORDER_PAYMENT_ERROR:
+      return {
+        error: action.payload,
+      };
+    case SAVE_ORDER_PAYMENT_RESET:
       return {};
     default:
       return state;

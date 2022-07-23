@@ -41,6 +41,7 @@ import {
   orderInStockReducer,
   payOrderReducer,
   placeOrderReducer,
+  saveOrderPaymentReducer,
 } from "./reducers/orderReducer";
 import { searchReducer, searchValueReducer } from "./reducers/searchReducer";
 import {
@@ -81,6 +82,7 @@ const reducers = combineReducers({
   socket: socketReducer,
   loadMessages: loadMessagesReducer,
   payOrder: payOrderReducer,
+  savePayment: saveOrderPaymentReducer,
   placeOrder: placeOrderReducer,
   fetchOrders: fetchOrdersReducer,
   fetchOrder: fetchOrderReducer,
