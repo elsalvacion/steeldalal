@@ -267,7 +267,7 @@ router.post("/", userProtect, (req, res) => {
             Object.keys(bag[bagKey].specs).forEach((specKey, specIndex) => {
               connection.query(
                 `
-              insert into orderSpecs (thickness,t_uom,width,w_uom,height,h_uom,orderId,product, qty) values(?, ?, ?, ?, ?, ?, ?,?, ?)
+              insert into orderSpecs (thickness,t_uom,width,w_uom,height,h_uom,orderId,product, qty, price) values(?, ?, ?, ?, ?, ?, ?,?, ?, ?)
               `,
                 [
                   bag[bagKey].specs[specKey].thickness,
@@ -279,6 +279,7 @@ router.post("/", userProtect, (req, res) => {
                   createOrderRes.insertId,
                   bag[bagKey].id,
                   bag[bagKey].specs[specKey].yourQty,
+                  bag[bagKey].specs[specKey].price,
                 ],
                 (createOrderSpecErr, createOrderSpecRes) => {
                   if (createOrderSpecErr) {
