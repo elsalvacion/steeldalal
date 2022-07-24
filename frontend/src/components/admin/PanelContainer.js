@@ -26,8 +26,8 @@ const PanelContainer = () => {
     },
   ];
   const [current, setCurrent] = useState(
-    JSON.parse(localStorage.getItem("panelChoice"))
-      ? JSON.parse(localStorage.getItem("panelChoice"))
+    JSON.parse(sessionStorage.getItem("panelChoice"))
+      ? JSON.parse(sessionStorage.getItem("panelChoice"))
       : adminLinks[0]
   );
 
@@ -38,7 +38,10 @@ const PanelContainer = () => {
           adminLinks={adminLinks}
           handleCurrent={(selectCurrent) => {
             setCurrent(selectCurrent);
-            localStorage.setItem("panelChoice", JSON.stringify(selectCurrent));
+            sessionStorage.setItem(
+              "panelChoice",
+              JSON.stringify(selectCurrent)
+            );
           }}
         />
       </div>

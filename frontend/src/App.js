@@ -43,6 +43,7 @@ import SingleAdminOrderScreen from "./components/admin/order/SingleAdminOrderScr
 import AdminUserProfile from "./components/admin/users/AdminUserProfile";
 import BizNotVerifiedScreen from "./screens/BizNotVerifiedScreen";
 import SingleAdminProduct from "./components/admin/products/SingleAdminProduct";
+import InvoiceScreen from "./screens/InvoiceScreen";
 
 const App = () => {
   return (
@@ -140,6 +141,7 @@ const App = () => {
               path="/admin-product/:id"
               component={SingleAdminProduct}
             />
+            <Route exact path="/order-invoice" component={InvoiceScreen} />
             <Route path="*">
               <NotFoundScreen />
             </Route>

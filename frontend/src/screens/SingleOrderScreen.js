@@ -7,6 +7,7 @@ import {
   saveOrderPaymentAction,
 } from "../actions/orderAction";
 import {
+  Button,
   Card,
   CardContent,
   Chip,
@@ -35,6 +36,9 @@ import Payment from "../components/checkout/Payment";
 import CustomHelmet from "../components/layout/CustomHelmet";
 import { useState } from "react";
 import Loading from "../components/layout/Loading";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import MainInvoice from "../components/invoice/MainInvoice";
+
 const SingleOrderScreen = () => {
   const { id } = useParams();
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -114,6 +118,29 @@ const SingleOrderScreen = () => {
         />
       ) : order ? (
         <>
+          <Button
+            onClick={() => history.push("/order-invoice")}
+            sx={{ mb: 1, mx: 1 }}
+            variant="contained"
+            color="primary"
+          >
+            View Invoice
+          </Button>
+          <PDFDownloadLink
+            document={<MainInvoice invoice={order} />}
+            fileName={`invoice-order-${order.id}.pdf`}
+          >
+            {({ blob, url, loading, error }) => (
+              <Button
+                sx={{ mb: 1, mx: 1 }}
+                variant="contained"
+                color="primary"
+                disabled={loading}
+              >
+                {loading ? "Loading... Invoice" : "Download Invoice"}
+              </Button>
+            )}
+          </PDFDownloadLink>
           {razorError && (
             <CustomSnack
               type="error"
@@ -149,7 +176,14 @@ const SingleOrderScreen = () => {
           <CustomHelmet title="Order" desc="Steeldalal order" />
           <Card sx={{ my: 2 }}>
             <CardContent>
-              {order.isPaid === 0 && order.inStock === 1 ? (
+              {order.isPaid === 0 && order.inStock === null && (
+                <>
+                  <Typography sx={{ fontSize: 14 }}>
+                    Seller is yet to confirm if your other in stock or not.
+                  </Typography>
+                </>
+              )}
+              {order.isPaid === 0 && order.inStock === 1 && (
                 <>
                   <Typography sx={{ mb: 2, fontSize: 14 }}>
                     Your order is confirmed by seller. Click on the Razorpay
@@ -158,19 +192,23 @@ const SingleOrderScreen = () => {
 
                   <Payment handlePay={() => dispatch(payOrderAction(order))} />
                 </>
-              ) : order.isPaid === 1 &&
-                order.inStock === 1 &&
-                order.isConfirmed ? (
-                <Typography sx={{ color: "green", fontSize: 14 }}>
-                  Your payment is verfied and confirmed. Good news you package
-                  is on its way.
-                </Typography>
-              ) : (
-                <Typography sx={{ fontSize: 14 }}>
-                  Your payment is verfied and awaiting confirmation from admin.
-                  Processing info is already sent to the seller.
-                </Typography>
               )}
+              {order.isPaid === 1 &&
+                order.inStock === 1 &&
+                order.isConfirmed === 1 && (
+                  <Typography sx={{ color: "green", fontSize: 14 }}>
+                    Your payment is verfied and confirmed. Good news you package
+                    is now being processed for delivery.
+                  </Typography>
+                )}
+              {order.isPaid === 1 &&
+                order.inStock === 1 &&
+                order.isConfirmed === 0 && (
+                  <Typography sx={{ fontSize: 14 }}>
+                    Your payment is verfied and awaiting confirmation from
+                    admin. Processing info is already sent to the seller.
+                  </Typography>
+                )}
             </CardContent>
           </Card>
           <Typography sx={{ mb: 2 }} variant="h6">
