@@ -16,11 +16,10 @@ const BillTo = ({ invoice }) => (
   <View style={styles.headerContainer}>
     <Text style={styles.billTo}>Bill To:</Text>
     <Text>{invoice.name}</Text>
-    <Text>{invoice.state}</Text>
-    <Text>{invoice.city}</Text>
-    <Text>{invoice.address}</Text>
+    <Text>
+      {invoice.address}, {invoice.city}, {invoice.state}.
+    </Text>
     <Text>{invoice.phone}</Text>
-    <Text>{invoice.email}</Text>
   </View>
 );
 

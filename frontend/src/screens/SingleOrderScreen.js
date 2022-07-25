@@ -118,14 +118,14 @@ const SingleOrderScreen = () => {
         />
       ) : order ? (
         <>
-          <Button
+          {/* <Button
             onClick={() => history.push("/order-invoice")}
             sx={{ mb: 1, mx: 1 }}
             variant="contained"
             color="primary"
           >
             View Invoice
-          </Button>
+          </Button> */}
           <PDFDownloadLink
             document={<MainInvoice invoice={order} />}
             fileName={`invoice-order-${order.id}.pdf`}
@@ -207,6 +207,14 @@ const SingleOrderScreen = () => {
                   <Typography sx={{ fontSize: 14 }}>
                     Your payment is verfied and awaiting confirmation from
                     admin. Processing info is already sent to the seller.
+                  </Typography>
+                )}
+
+              {order.isPaid === 1 &&
+                order.inStock === 0 &&
+                order.isConfirmed === 0 && (
+                  <Typography sx={{ fontSize: 14 }}>
+                    The seller is yet to verify if your order is in stock.
                   </Typography>
                 )}
             </CardContent>
@@ -345,6 +353,7 @@ const SingleOrderScreen = () => {
                           <TableCell>Width</TableCell>
                           <TableCell>W. UoM</TableCell>
                           <TableCell>Qty</TableCell>
+                          <TableCell>Price</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody
@@ -359,6 +368,7 @@ const SingleOrderScreen = () => {
                             <TableCell>{spec.width}</TableCell>
                             <TableCell>{spec.w_uom}</TableCell>
                             <TableCell>{spec.qty}</TableCell>
+                            <TableCell>{spec.price}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

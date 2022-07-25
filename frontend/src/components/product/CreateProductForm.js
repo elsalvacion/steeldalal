@@ -21,6 +21,7 @@ import {
   ChevronRightOutlined,
   RestartAlt,
 } from "@mui/icons-material";
+import { coilSpec, sheetSpec, tmtSpec } from "../../constants/specs";
 
 const CreateProductForm = () => {
   const dispatch = useDispatch();
@@ -43,18 +44,7 @@ const CreateProductForm = () => {
       html: "",
     },
     discount: 0,
-    specs: [
-      {
-        thickness: null,
-        t_uom: "m",
-        width: null,
-        w_uom: "m",
-        height: 0,
-        h_uom: "m",
-        price: null,
-        qty: null,
-      },
-    ],
+    specs: [],
   });
 
   useEffect(() => {
@@ -67,10 +57,26 @@ const CreateProductForm = () => {
   }, [images]);
 
   const handleChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
+    const currentValue = e.target.value;
+    if (e.target.name === "category" && currentValue !== "") {
+      const valueLowerCase = currentValue.toLowerCase();
+      setValues({
+        ...values,
+        [e.target.name]: currentValue,
+        specs: [
+          valueLowerCase.includes("sheet")
+            ? sheetSpec
+            : valueLowerCase.includes("coil")
+            ? coilSpec
+            : tmtSpec,
+        ],
+      });
+    } else {
+      setValues({
+        ...values,
+        [e.target.name]: currentValue,
+      });
+    }
   };
   const handleCreate = () => {
     dispatch(createProductAction(values));
@@ -95,7 +101,7 @@ const CreateProductForm = () => {
           <StepContent>
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
-              {images && (
+              {/* {images && (
                 <div>
                   <Button
                     variant="contained"
@@ -106,7 +112,18 @@ const CreateProductForm = () => {
                     Continue
                   </Button>
                 </div>
-              )}
+              )} */}
+
+              <div>
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  endIcon={<ChevronRightOutlined />}
+                  sx={{ mt: 1, mr: 1 }}
+                >
+                  Continue
+                </Button>
+              </div>
             </Box>
           </StepContent>
         </Step>
