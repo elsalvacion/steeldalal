@@ -1,28 +1,47 @@
 export const coilSpec = {
-  thickness: null,
-  t_uom: "m",
-  width: null,
-  w_uom: "m",
-  price: null,
-  qty: null,
+  thickness: "",
+  t_uom: "mm",
+  width: "",
+  w_uom: "mm",
+  price: "",
+  qty: "",
 };
 
 export const sheetSpec = {
-  thickness: null,
-  t_uom: "m",
-  width: null,
-  w_uom: "m",
-  length: 0,
-  l_uom: "m",
-  price: null,
-  qty: null,
+  thickness: "",
+  t_uom: "mm",
+  width: "",
+  w_uom: "mm",
+  length: "",
+  l_uom: "mm",
+  price: "",
+  qty: "",
 };
 
 export const tmtSpec = {
-  thickness: null,
-  t_uom: "m",
-  price: null,
-  qty: null,
+  thickness: "",
+  t_uom: "mm",
+  price: "",
+  qty: "",
+};
+
+export const tmtThickness = [
+  "5.0",
+  "6.0",
+  "8.0",
+  "10.0",
+  "12.0",
+  "16.0",
+  "20.0",
+  "32.0",
+];
+
+export const returnCategorySpec = (category) => {
+  const categoryLowerCase = category.toLowerCase();
+
+  if (categoryLowerCase.includes("sheet")) return sheetSpec;
+  else if (categoryLowerCase.includes("coil")) return coilSpec;
+  else return tmtSpec;
 };
 
 export const returnSpecFieldLabel = (column) => {

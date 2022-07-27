@@ -43,24 +43,44 @@ router.post("/", userProtect, (req, res) => {
           res.status(400).json({ msg: "Error while creating product" });
         } else {
           const productId = createProductRes.insertId;
-          let imagesQuery = "insert into images (product, image) values ";
-          let specsQuery =
-            "insert into  productSpecs (thickness, t_uom, width, w_uom, height, h_uom, product, qty, price) values";
-          images.forEach((image, i) => {
-            if (i !== images.length - 1) {
-              imagesQuery += ` (${productId}, "${image.image}"), `;
-            } else {
-              imagesQuery += ` (${productId}, "${image.image}");`;
-            }
+          let imagesQuery = "";
+          let specsQuery = "";
+          if (category.toLowerCase().includes("sheet")) {
+            specs.forEach(
+              ({
+                thickness,
+                t_uom,
+                length,
+                l_uom,
+                width,
+                w_uom,
+                qty,
+                price,
+              }) => {
+                specsQuery += `
+            insert into  productSpecs (thickness, t_uom, width, w_uom, length, l_uom, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${productId} , ${qty}, ${price});
+            `;
+              }
+            );
+          } else if (category.toLowerCase().includes("coil")) {
+            specs.forEach(({ thickness, t_uom, width, w_uom, qty, price }) => {
+              specsQuery += `
+            insert into  productSpecs (thickness, t_uom, width, w_uom, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${productId} , ${qty}, ${price});
+            `;
+            });
+          } else {
+            specs.forEach(({ thickness, t_uom, qty, price }) => {
+              specsQuery += `
+            insert into  productSpecs (thickness, t_uom, product, qty, price) values(${thickness}, "${t_uom}", ${productId} , ${qty}, ${price});
+            `;
+            });
+          }
+
+          images.forEach((image) => {
+            imagesQuery += `insert into images (product, image) values (${productId}, "${image.image}");`;
           });
-          specs.forEach((spec, i) => {
-            if (i !== specs.length - 1) {
-              specsQuery += ` (${spec.thickness}, "${spec.t_uom}", ${spec.width}, "${spec.w_uom}", ${spec.height}, "${spec.h_uom}", ${productId}, ${spec.qty},${spec.price}), `;
-            } else {
-              specsQuery += ` (${spec.thickness}, "${spec.t_uom}", ${spec.width}, "${spec.w_uom}", ${spec.height}, "${spec.h_uom}", ${productId}, ${spec.qty},${spec.price});`;
-              imagesQuery += specsQuery;
-            }
-          });
+          console.log(specsQuery);
+          imagesQuery += specsQuery;
           connection.query(imagesQuery, (insertImagesErr, insertImagesRes) => {
             if (insertImagesErr) {
               console.log(insertImagesErr);

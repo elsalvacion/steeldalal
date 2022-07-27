@@ -4,44 +4,11 @@ import { Link, useHistory } from "react-router-dom";
 import { Typography } from "@mui/material";
 
 import { ArrowForward } from "@mui/icons-material";
-const categories = [
-  {
-    id: 1,
-    title: "Steel",
-  },
-  {
-    id: 2,
-    title: "Aluminium",
-  },
-  {
-    id: 3,
-    title: "Sheets",
-  },
-  {
-    id: 4,
-    title: "Pipes",
-  },
-  {
-    id: 5,
-    title: "Coils",
-  },
-  {
-    id: 6,
-    title: "Bars",
-  },
-];
+import { categories } from "../../constants/category";
 
 const Category = () => {
-  // const { loading, error, categories } = useSelector(
-  //   (state) => state.fetchCategories
-  // );
-  // const dispatch = useDispatch();
   const history = useHistory();
-  // useEffect(() => {
-  //   if (!categories) {
-  //     dispatch(fetchCategoryAction(6));
-  //   }
-  // }, [categories, dispatch]);
+
   return (
     <div className="categoriesMainContainer">
       <button
@@ -52,17 +19,19 @@ const Category = () => {
         <ArrowForward />
       </button>
       <div className="categoryItemsContainer">
-        {categories.map((category) => (
-          <Link
-            key={category.title}
-            to={`/category/${category.title}`}
-            className="categoryItem"
-          >
-            <Typography variant="h6" component="h6">
-              {category.title}
-            </Typography>
-          </Link>
-        ))}
+        {categories.map((category, i) =>
+          i <= 5 ? (
+            <Link
+              key={category.title}
+              to={`/category/${category.title}`}
+              className="categoryItem"
+            >
+              <Typography variant="h6" component="h6">
+                {category.title}
+              </Typography>
+            </Link>
+          ) : null
+        )}
       </div>
     </div>
   );

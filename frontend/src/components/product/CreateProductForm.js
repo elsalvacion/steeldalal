@@ -21,7 +21,7 @@ import {
   ChevronRightOutlined,
   RestartAlt,
 } from "@mui/icons-material";
-import { coilSpec, sheetSpec, tmtSpec } from "../../constants/specs";
+import { returnCategorySpec } from "../../constants/specs";
 
 const CreateProductForm = () => {
   const dispatch = useDispatch();
@@ -57,24 +57,17 @@ const CreateProductForm = () => {
   }, [images]);
 
   const handleChange = (e) => {
-    const currentValue = e.target.value;
-    if (e.target.name === "category" && currentValue !== "") {
-      const valueLowerCase = currentValue.toLowerCase();
+    const { name, value } = e.target;
+    if (name === "category") {
       setValues({
         ...values,
-        [e.target.name]: currentValue,
-        specs: [
-          valueLowerCase.includes("sheet")
-            ? sheetSpec
-            : valueLowerCase.includes("coil")
-            ? coilSpec
-            : tmtSpec,
-        ],
+        [name]: value,
+        specs: [returnCategorySpec(value)],
       });
     } else {
       setValues({
         ...values,
-        [e.target.name]: currentValue,
+        [name]: value,
       });
     }
   };
@@ -102,28 +95,17 @@ const CreateProductForm = () => {
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
               {/* {images && (
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    endIcon={<ChevronRightOutlined />}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Continue
-                  </Button>
-                </div>
+                <div> */}
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                endIcon={<ChevronRightOutlined />}
+                sx={{ mt: 1, mr: 1 }}
+              >
+                Continue
+              </Button>
+              {/* </div>
               )} */}
-
-              <div>
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  endIcon={<ChevronRightOutlined />}
-                  sx={{ mt: 1, mr: 1 }}
-                >
-                  Continue
-                </Button>
-              </div>
             </Box>
           </StepContent>
         </Step>
@@ -158,11 +140,11 @@ const CreateProductForm = () => {
                     values.type.trim() === "" ||
                     values.specs.find(
                       (spec) =>
-                        spec.qty === null ||
-                        spec.price === null ||
-                        spec.width === null ||
-                        spec.height === null ||
-                        spec.thicknes === null
+                        spec.qty === "" ||
+                        spec.price === "" ||
+                        (spec.width && spec.width === "") ||
+                        (spec.length && spec.length === "") ||
+                        spec.thickness === ""
                     )
                   }
                 >

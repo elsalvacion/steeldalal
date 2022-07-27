@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Typography } from "@mui/material";
 import AllProductContainer from "../components/allproduct/AllProductContainer";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchCategoryAction } from "../actions/categoryAction";
+
 import AllProductContent from "../components/allproduct/AllProductContent";
 import CustomHelmet from "../components/layout/CustomHelmet";
+import { categories } from "../constants/category";
 const AllProductScreen = () => {
-  const { categories } = useSelector((state) => state.fetchCategories);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!categories) dispatch(fetchCategoryAction());
-  }, [categories, dispatch]);
   return (
     <Container>
       <CustomHelmet

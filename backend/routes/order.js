@@ -52,62 +52,68 @@ router.get("/seller", userProtect, (req, res) => {
 
 router.get("/:id", userProtect, (req, res) => {
   try {
-    let sql = `select * from orders where userId = ? and id = ?`;
+    if (!req.params.id) {
+      res.status(400).json({ msg: "No Order" });
+    } else {
+      let sql = `select * from orders where userId = ? and id = ?`;
 
-    connection.query(
-      sql,
-      [req.user.id, req.params.id],
-      (fetchOrderErr, fetchOrderRes) => {
-        if (fetchOrderErr) {
-          console.log(fetchOrderErr);
-          res.status(400).json({ msg: "Error while fetching order" });
-        } else {
-          const order = fetchOrderRes[0];
-          const products = [];
-          connection.query(
-            `select distinct product from orderSpecs where orderId = ? `,
-            [order.id],
-            (fetchOrderProductErr, fetchOrderProductRes) => {
-              if (fetchOrderProductErr) {
-                console.log(fetchOrderProductErr);
-                res.status(400).json({ msg: "Fetching order products error" });
-              } else {
-                fetchOrderProductRes.forEach(({ product }, productIdx) => {
-                  connection.query(
-                    `select * from products where id = ?;
+      connection.query(
+        sql,
+        [req.user.id, req.params.id],
+        (fetchOrderErr, fetchOrderRes) => {
+          if (fetchOrderErr) {
+            console.log(fetchOrderErr);
+            res.status(400).json({ msg: "Error while fetching order" });
+          } else {
+            const order = fetchOrderRes[0];
+            const products = [];
+            connection.query(
+              `select distinct product from orderSpecs where orderId = ? `,
+              [order.id],
+              (fetchOrderProductErr, fetchOrderProductRes) => {
+                if (fetchOrderProductErr) {
+                  console.log(fetchOrderProductErr);
+                  res
+                    .status(400)
+                    .json({ msg: "Fetching order products error" });
+                } else {
+                  fetchOrderProductRes.forEach(({ product }, productIdx) => {
+                    connection.query(
+                      `select * from products where id = ?;
                   select * from orderSpecs where product = ?  and orderId = ? 
                   `,
-                    [product, product, order.id],
-                    (fetchOrderSpecsErr, fetchOrderSpecRes) => {
-                      if (fetchOrderSpecsErr) {
-                        console.log(fetchOrderSpecsErr);
-                        res
-                          .status(400)
-                          .json({ msg: "Error while fetching specs" });
-                      } else {
-                        products.push({
-                          ...fetchOrderSpecRes[0][0],
-                          specs: fetchOrderSpecRes[1],
-                        });
-
-                        if (productIdx === fetchOrderProductRes.length - 1) {
-                          res.json({
-                            msg: {
-                              ...order,
-                              products,
-                            },
+                      [product, product, order.id],
+                      (fetchOrderSpecsErr, fetchOrderSpecRes) => {
+                        if (fetchOrderSpecsErr) {
+                          console.log(fetchOrderSpecsErr);
+                          res
+                            .status(400)
+                            .json({ msg: "Error while fetching specs" });
+                        } else {
+                          products.push({
+                            ...fetchOrderSpecRes[0][0],
+                            specs: fetchOrderSpecRes[1],
                           });
+
+                          if (productIdx === fetchOrderProductRes.length - 1) {
+                            res.json({
+                              msg: {
+                                ...order,
+                                products,
+                              },
+                            });
+                          }
                         }
                       }
-                    }
-                  );
-                });
+                    );
+                  });
+                }
               }
-            }
-          );
+            );
+          }
         }
-      }
-    );
+      );
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Server Error" });
@@ -264,63 +270,80 @@ router.post("/", userProtect, (req, res) => {
           res.status(400).json({ msg: "Error while creating order" });
         } else {
           Object.keys(bag).forEach((bagKey, bagIndex) => {
-            Object.keys(bag[bagKey].specs).forEach((specKey, specIndex) => {
-              connection.query(
-                `
-              insert into orderSpecs (thickness,t_uom,width,w_uom,height,h_uom,orderId,product, qty, price) values(?, ?, ?, ?, ?, ?, ?,?, ?, ?)
-              `,
-                [
-                  bag[bagKey].specs[specKey].thickness,
-                  bag[bagKey].specs[specKey].t_uom,
-                  bag[bagKey].specs[specKey].width,
-                  bag[bagKey].specs[specKey].w_uom,
-                  bag[bagKey].specs[specKey].height,
-                  bag[bagKey].specs[specKey].h_uom,
-                  createOrderRes.insertId,
-                  bag[bagKey].id,
-                  bag[bagKey].specs[specKey].yourQty,
-                  bag[bagKey].specs[specKey].price,
-                ],
-                (createOrderSpecErr, createOrderSpecRes) => {
-                  if (createOrderSpecErr) {
-                    console.log(createOrderSpecErr);
-                    res.status(400).json({ msg: "Create Order Specs error" });
-                  } else {
-                    if (
-                      bagIndex === Object.keys(bag).length - 1 &&
-                      specIndex === Object.keys(bag[bagKey].specs).length - 1
-                    ) {
-                      console.log(bag[bagIndex]);
-                      sendJustMessage({
-                        to: bag[bagKey].seller.phone,
-                        message: `
+            const specs = bag[bagKey].specs;
+            const category = bag[bagKey].category;
+            const product = bag[bagKey].id;
+            let specsQuery = "";
+            if (category.toLowerCase().includes("sheet")) {
+              for (const specKey in specs) {
+                const {
+                  thickness,
+                  t_uom,
+                  length,
+                  l_uom,
+                  width,
+                  w_uom,
+                  qty,
+                  price,
+                } = specs[specKey];
+                specsQuery += `
+              insert into  orderSpecs (thickness, t_uom, width, w_uom, length, l_uom, orderId, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${createOrderRes.insertId} , ${product}, ${qty}, ${price});
+              `;
+              }
+            } else if (category.toLowerCase().includes("coil")) {
+              for (const specKey in specs) {
+                const { thickness, t_uom, width, w_uom, qty, price } =
+                  specs[specKey];
+                specsQuery += `
+              insert into  orderSpecs (thickness, t_uom, width, w_uom, orderId, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${createOrderRes.insertId} , ${product}, ${qty}, ${price});
+              `;
+              }
+            } else {
+              for (const specKey in specs) {
+                const { thickness, t_uom, qty, price } = specs[specKey];
+                specsQuery += `
+              insert into  orderSpecs (thickness, t_uom, orderId, product, qty, price) values(${thickness}, "${t_uom}", ${createOrderRes.insertId} , ${product}, ${qty}, ${price});
+              `;
+              }
+            }
+
+            connection.query(
+              specsQuery,
+              (createOrderSpecErr, createOrderSpecRes) => {
+                if (createOrderSpecErr) {
+                  console.log(createOrderSpecErr);
+                  res.status(400).json({ msg: "Create Order Specs error" });
+                } else {
+                  if (bagIndex === Object.keys(bag).length - 1) {
+                    sendJustMessage({
+                      to: bag[bagKey].seller.phone,
+                      message: `
 *New Order*
 
 A new order is placed for your product(s) on sale at steeldalal.com
 
 For more details visit steeldalal.com/#/seller/order/${createOrderRes.insertId} to verify the order specifications.
                         `,
-                      });
-                      sendJustMessage({
-                        to: req.user.phone,
-                        message: `
+                    });
+                    sendJustMessage({
+                      to: req.user.phone,
+                      message: `
 *Order placed*
 
 Your order is placed. For more details visit steeldalal.com/#/order/${createOrderRes.insertId}
 
 Once your order specifications are verified by the seller your will receive payment link.
                         `,
-                      });
-                      res.json({
-                        msg: {
-                          id: createOrderRes.insertId,
-                        },
-                      });
-                    }
+                    });
+                    res.json({
+                      msg: {
+                        id: createOrderRes.insertId,
+                      },
+                    });
                   }
                 }
-              );
-            });
+              }
+            );
           });
         }
       }

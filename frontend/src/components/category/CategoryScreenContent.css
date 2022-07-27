@@ -2,6 +2,7 @@
   padding: 20px 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
 }
 
 .categoryScreenCard {
@@ -14,7 +15,7 @@
   background: #fff;
   text-decoration: none;
   color: #2c2c2c;
-  padding: 100px 5px;
+  padding: 75px 5px;
 }
 .categoryScreenCard:hover {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
@@ -27,7 +28,7 @@
 
 @media (max-width: 850px) {
   .categoryScreenCard {
-    padding: 75px 5px;
+    padding: 65px 5px;
   }
   .categoryScreenCard h4 {
     font-size: 20px;
@@ -42,8 +43,14 @@
   .categoryScreenCard h4 {
     font-size: 17px;
   }
+}
 
-  .categoryScreenCard {
-    padding: 50px 5px;
+@media (max-width: 600px) {
+  .categoryScreenContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .categoryScreenCard h4 {
+    font-size: 16px;
   }
 }

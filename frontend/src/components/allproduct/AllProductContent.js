@@ -55,66 +55,64 @@ const AllProductContent = ({ category, idx }) => {
           text={error}
           handleClose={() => setError(null)}
         />
-      ) : (
-        products && (
-          <>
-            <div className="productCarouselContainer">
-              <button
-                onClick={() => history.push(`/category/${category}`)}
-                className="productCarouselTitle"
-              >
-                {category}
-                <ArrowForward />
-              </button>
-            </div>
-            <AliceCarousel
-              mouseTracking
-              items={items}
-              controlsStrategy="responsive"
-              disableDotsControls={true}
-              autoPlay={true}
-              autoPlayDirection={idx % 2 === 0 ? "ltr" : "rtl"}
-              infinite={true}
-              autoPlayInterval={1500}
-              animationType={"fadeout"}
-              renderPrevButton={() => {
-                return (
-                  <button className="carouselProductCustomPrevBtn">
-                    <ChevronLeft fontSize="large" />
-                  </button>
-                );
-              }}
-              renderNextButton={() => {
-                return (
-                  <button className="carouselProductCustomNextBtn">
-                    <ChevronRight fontSize="large" />
-                  </button>
-                );
-              }}
-              responsive={{
-                0: {
-                  items: 1,
-                },
-                360: {
-                  items: 2,
-                },
-                600: {
-                  items: 3,
-                },
-                900: {
-                  items: 4,
-                },
-                1024: {
-                  items: 5,
-                },
-                1750: {
-                  items: 6,
-                },
-              }}
-            />
-          </>
-        )
-      )}
+      ) : products && products.length >= 3 ? (
+        <>
+          <div className="productCarouselContainer">
+            <button
+              onClick={() => history.push(`/category/${category}`)}
+              className="productCarouselTitle"
+            >
+              {category}
+              <ArrowForward />
+            </button>
+          </div>
+          <AliceCarousel
+            mouseTracking
+            items={items}
+            controlsStrategy="responsive"
+            disableDotsControls={true}
+            autoPlay={true}
+            autoPlayDirection={idx % 2 === 0 ? "ltr" : "rtl"}
+            infinite={true}
+            autoPlayInterval={1500}
+            animationType={"fadeout"}
+            renderPrevButton={() => {
+              return (
+                <button className="carouselProductCustomPrevBtn">
+                  <ChevronLeft fontSize="large" />
+                </button>
+              );
+            }}
+            renderNextButton={() => {
+              return (
+                <button className="carouselProductCustomNextBtn">
+                  <ChevronRight fontSize="large" />
+                </button>
+              );
+            }}
+            responsive={{
+              0: {
+                items: 1,
+              },
+              360: {
+                items: 2,
+              },
+              600: {
+                items: 3,
+              },
+              900: {
+                items: 4,
+              },
+              1024: {
+                items: 5,
+              },
+              1750: {
+                items: 6,
+              },
+            }}
+          />
+        </>
+      ) : null}
     </div>
   );
 };

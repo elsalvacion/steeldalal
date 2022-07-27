@@ -19,6 +19,9 @@
   text-align: center;
   margin: 1px;
   color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .categoryItem:hover {
   box-shadow: 2px 2px 5px darkgray;
@@ -37,6 +40,15 @@
 
 @media (max-width: 600px) {
   .categoryItem h6 {
-    font-size: 16px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .categoryItem h6 {
+    font-size: 10px;
+  }
+  .categoryItem {
+    padding: 7px;
   }
 }

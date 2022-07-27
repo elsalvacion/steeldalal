@@ -34,13 +34,15 @@ const SingleCategoryScreen = () => {
           <h3>Loading...</h3>
         ) : error ? (
           <CustomAlert />
-        ) : products ? (
+        ) : products && products.length > 0 ? (
           <div className="allProductContent">
             {products.map((product) => (
               <AllProductItem key={product.id} product={product} />
             ))}
           </div>
-        ) : null}
+        ) : (
+          <Typography>No products are on sell in the category yet.</Typography>
+        )}
       </SingleCategoryContainer>
     </Container>
   );

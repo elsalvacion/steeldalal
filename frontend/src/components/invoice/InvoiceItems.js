@@ -61,9 +61,7 @@ const InvoiceItems = ({ products }) => {
           {product.specs.map((spec) => (
             <View key={"spec-" + spec.id} style={styles.productSpecContainer}>
               {Object.keys(spec).map((key) =>
-                returnSpecFieldLabel(key) &&
-                spec[key] !== 0 &&
-                spec[key] !== "" ? (
+                returnSpecFieldLabel(key) && spec[key] !== null ? (
                   <View key={"spec-item-" + key} style={styles.productSpecItem}>
                     <Text style={styles.productSpecItemTitle}>
                       {returnSpecFieldLabel(key)}
