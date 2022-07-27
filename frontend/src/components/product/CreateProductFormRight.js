@@ -12,7 +12,7 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
   const handleInputChange = (e, index) => {
     const { name } = e.target;
 
-    const value = e.target.value === "" ? null : e.target.value;
+    const value = e.target.value;
     const list = [...values.specs];
     list[index][name] = value;
     setValues({
