@@ -28,7 +28,7 @@ const PanelContainer = () => {
   const [current, setCurrent] = useState(
     JSON.parse(sessionStorage.getItem("panelChoice"))
       ? JSON.parse(sessionStorage.getItem("panelChoice"))
-      : adminLinks[0]
+      : adminLinks[0].id
   );
 
   return (

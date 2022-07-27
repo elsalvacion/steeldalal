@@ -4,7 +4,6 @@ import "./OrderSummary.css";
 import {
   Typography,
   TableContainer,
-  TableHead,
   TableRow,
   TableCell,
   TableBody,
@@ -44,7 +43,7 @@ const OrderSummary = ({ bagState }) => {
           <p>{error}</p>
         ) : (
           Object.keys(bag).map((key) => (
-            <div className="cartContentLeftContainer" key={key}>
+            <div className="cartContentLeftContainer">
               <div className="cartContentLeftTop">
                 <Link className="cartItemLink" to={`/product/${key}`}>
                   <img
@@ -64,38 +63,81 @@ const OrderSummary = ({ bagState }) => {
                   }}
                   size="small"
                 >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Thickness</TableCell>
-                      <TableCell>T. UoM</TableCell>
-                      <TableCell>Width</TableCell>
-                      <TableCell>W. UoM</TableCell>
-                      <TableCell>Qty</TableCell>
-                      <TableCell>Price</TableCell>
-                    </TableRow>
-                  </TableHead>
                   <TableBody
                     sx={{
                       textAlign: "center",
                     }}
                   >
                     {Object.keys(bag[key].specs).map((specKey) => (
-                      <TableRow key={`spec-${key}-${specKey}`}>
-                        <TableCell>
-                          {bag[key].specs[specKey].thickness}
-                        </TableCell>
-                        <TableCell>{bag[key].specs[specKey].t_uom}</TableCell>
-                        <TableCell>{bag[key].specs[specKey].width}</TableCell>
-                        <TableCell>{bag[key].specs[specKey].w_uom}</TableCell>
-                        <TableCell>{bag[key].specs[specKey].yourQty}</TableCell>
-                        <TableCell>
-                          <FaRupeeSign />{" "}
-                          {(
-                            bag[key].specs[specKey].yourQty *
-                            bag[key].specs[specKey].price
-                          ).toFixed(2)}
-                        </TableCell>
-                      </TableRow>
+                      <div key={`spec-${key}-${specKey}`}>
+                        <TableRow>
+                          <TableCell>
+                            <b>Thickness</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>T. UoM</b>
+                          </TableCell>
+                          {bag[key].specs[specKey].width && (
+                            <TableCell>
+                              <b>Width</b>
+                            </TableCell>
+                          )}
+                          {bag[key].specs[specKey].w_uom && (
+                            <TableCell>
+                              <b>W. UoM</b>
+                            </TableCell>
+                          )}
+                          {bag[key].specs[specKey].length && (
+                            <TableCell>
+                              <b>Length</b>
+                            </TableCell>
+                          )}
+                          {bag[key].specs[specKey].l_uom && (
+                            <TableCell>
+                              <b>L. UoM</b>
+                            </TableCell>
+                          )}
+                          <TableCell>
+                            <b>Qty</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Price</b>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>
+                            {bag[key].specs[specKey].thickness.toFixed(2)}
+                          </TableCell>
+                          <TableCell>{bag[key].specs[specKey].t_uom}</TableCell>
+                          {bag[key].specs[specKey].width && (
+                            <TableCell>
+                              {bag[key].specs[specKey].width.toFixed(2)}
+                            </TableCell>
+                          )}
+                          {bag[key].specs[specKey].w_uom && (
+                            <TableCell>
+                              {bag[key].specs[specKey].w_uom}
+                            </TableCell>
+                          )}
+                          {bag[key].specs[specKey].length && (
+                            <TableCell>
+                              {bag[key].specs[specKey].length.toFixed(2)}
+                            </TableCell>
+                          )}
+                          {bag[key].specs[specKey].l_uom && (
+                            <TableCell>
+                              {bag[key].specs[specKey].l_uom}
+                            </TableCell>
+                          )}
+                          <TableCell>
+                            {bag[key].specs[specKey].yourQty}
+                          </TableCell>
+                          <TableCell>
+                            <FaRupeeSign />{" "}
+                            {bag[key].specs[specKey].price.toFixed(2)}
+                          </TableCell>
+                        </TableRow>
+                      </div>
                     ))}
                   </TableBody>
                 </Table>

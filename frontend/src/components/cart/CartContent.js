@@ -3,7 +3,6 @@ import {
   IconButton,
   Typography,
   TableContainer,
-  TableHead,
   TableRow,
   TableCell,
   TableBody,
@@ -132,54 +131,97 @@ const CartContent = ({ cart }) => {
                   }}
                   size="small"
                 >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Thickness</TableCell>
-                      <TableCell>T. UoM</TableCell>
-                      <TableCell>Width</TableCell>
-                      <TableCell>W. UoM</TableCell>
-                      <TableCell>Qty</TableCell>
-                      <TableCell>Price</TableCell>
-                      <TableCell></TableCell>
-                    </TableRow>
-                  </TableHead>
                   <TableBody
                     sx={{
                       textAlign: "center",
                     }}
                   >
                     {Object.keys(cart[key].specs).map((specKey) => (
-                      <TableRow key={`spec-${key}-${specKey}`}>
-                        <TableCell>
-                          {cart[key].specs[specKey].thickness}
-                        </TableCell>
-                        <TableCell>{cart[key].specs[specKey].t_uom}</TableCell>
-                        <TableCell>{cart[key].specs[specKey].width}</TableCell>
-                        <TableCell>{cart[key].specs[specKey].w_uom}</TableCell>
-                        <TableCell>
-                          {cart[key].specs[specKey].yourQty}
-                        </TableCell>
-                        <TableCell>
-                          <FaRupeeSign />{" "}
-                          {(
-                            cart[key].specs[specKey].yourQty *
-                            cart[key].specs[specKey].price
-                          ).toFixed(2)}
-                        </TableCell>
-                        <TableCell>
-                          <IconButton
-                            onClick={() => {
-                              selectedTotal.current = 0;
-                              subTotal.current = 0;
-                              dispatch(deleteCartAction(key, specKey));
-                            }}
-                            color="error"
-                            className="cartItemDelete"
-                          >
-                            <Delete />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
+                      <div key={`spec-${key}-${specKey}`}>
+                        <TableRow>
+                          <TableCell>
+                            <b>Thickness</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>T. UoM</b>
+                          </TableCell>
+                          {cart[key].specs[specKey].width && (
+                            <TableCell>
+                              <b>Width</b>
+                            </TableCell>
+                          )}
+                          {cart[key].specs[specKey].w_uom && (
+                            <TableCell>
+                              <b>W. UoM</b>
+                            </TableCell>
+                          )}
+                          {cart[key].specs[specKey].length && (
+                            <TableCell>
+                              <b>Length</b>
+                            </TableCell>
+                          )}
+                          {cart[key].specs[specKey].l_uom && (
+                            <TableCell>
+                              <b>L. UoM</b>
+                            </TableCell>
+                          )}
+                          <TableCell>
+                            <b>Qty</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Price</b>
+                          </TableCell>
+                          <TableCell></TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>
+                            {cart[key].specs[specKey].thickness.toFixed(2)}
+                          </TableCell>
+                          <TableCell>
+                            {cart[key].specs[specKey].t_uom}
+                          </TableCell>
+                          {cart[key].specs[specKey].width && (
+                            <TableCell>
+                              {cart[key].specs[specKey].width.toFixed(2)}
+                            </TableCell>
+                          )}
+                          {cart[key].specs[specKey].w_uom && (
+                            <TableCell>
+                              {cart[key].specs[specKey].w_uom}
+                            </TableCell>
+                          )}
+                          {cart[key].specs[specKey].length && (
+                            <TableCell>
+                              {cart[key].specs[specKey].length.toFixed(2)}
+                            </TableCell>
+                          )}
+                          {cart[key].specs[specKey].l_uom && (
+                            <TableCell>
+                              {cart[key].specs[specKey].l_uom}
+                            </TableCell>
+                          )}
+                          <TableCell>
+                            {cart[key].specs[specKey].yourQty}
+                          </TableCell>
+                          <TableCell>
+                            <FaRupeeSign />{" "}
+                            {cart[key].specs[specKey].price.toFixed(2)}
+                          </TableCell>
+                          <TableCell>
+                            <IconButton
+                              onClick={() => {
+                                selectedTotal.current = 0;
+                                subTotal.current = 0;
+                                dispatch(deleteCartAction(key, specKey));
+                              }}
+                              color="error"
+                              className="cartItemDelete"
+                            >
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      </div>
                     ))}
                   </TableBody>
                 </Table>
@@ -192,11 +234,7 @@ const CartContent = ({ cart }) => {
           <Typography variant="h6" component="h6">
             Summary
           </Typography>
-          <div className="cartContentSubTotal">
-            <p>Total Specs</p>
-            <span>{selectedTotal.current}</span>
-          </div>
-
+          <br />
           <div className="cartContentSubTotal">
             <Typography>Total</Typography>
             <span>
@@ -221,13 +259,6 @@ const CartContent = ({ cart }) => {
       <div className="fixedCartSummaryMainContainer">
         <div className="fixedCartSummary">
           <div className="fixedCartSummaryLeft">
-            <div className="fixedCartSummaryLeftSubtotal">
-              <Typography>Total specs</Typography>
-              <Typography className="fixedCartSummaryPrice">
-                {selectedTotal.current}
-              </Typography>
-            </div>
-
             <div className="fixedCartSummaryLeftSubtotal">
               <Typography>Total</Typography>
               <Typography className="fixedCartSummaryPrice">

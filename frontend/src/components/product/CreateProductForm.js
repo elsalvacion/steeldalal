@@ -94,18 +94,18 @@ const CreateProductForm = () => {
           <StepContent>
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
-              {/* {images && (
-                <div> */}
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                endIcon={<ChevronRightOutlined />}
-                sx={{ mt: 1, mr: 1 }}
-              >
-                Continue
-              </Button>
-              {/* </div>
-              )} */}
+              {images && (
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    endIcon={<ChevronRightOutlined />}
+                    sx={{ mt: 1, mr: 1 }}
+                  >
+                    Continue
+                  </Button>
+                </div>
+              )}
             </Box>
           </StepContent>
         </Step>

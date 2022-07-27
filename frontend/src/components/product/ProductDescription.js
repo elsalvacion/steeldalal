@@ -15,58 +15,30 @@ const ProductDescription = ({ details }) => {
     details.specs.forEach((spec) => {
       specs[spec.id] = {
         ...spec,
-        yourQty: 0,
+        yourQty: "",
       };
     });
     setSpecValues(specs);
   }, [details]);
   const handleInputChange = (newValue, id) => {
-    const value = Number(newValue);
     setSpecValues({
       ...specValues,
       [id]: {
         ...specValues[id],
-        yourQty:
-          value < 1
-            ? 0
-            : value > specValues[id].qty
-            ? specValues[id].qty
-            : value,
+        yourQty: newValue,
       },
     });
   };
 
   const handleAddToCart = (id) => {
     const spec = specValues[id];
-    if (spec.yourQty > 0)
+    if (Number(spec.yourQty) > 0)
       dispatch(
         addToCartAction({
           ...details,
           specs: spec,
         })
       );
-  };
-
-  const handleIncrement = (id) => {
-    setSpecValues({
-      ...specValues,
-      [id]: {
-        ...specValues[id],
-        yourQty:
-          specValues[id].yourQty === specValues[id].qty
-            ? specValues[id].qty
-            : specValues[id].yourQty + 1,
-      },
-    });
-  };
-  const handleDecrement = (id) => {
-    setSpecValues({
-      ...specValues,
-      [id]: {
-        ...specValues[id],
-        yourQty: specValues[id].yourQty === 0 ? 0 : specValues[id].yourQty - 1,
-      },
-    });
   };
 
   return (
@@ -129,15 +101,28 @@ const ProductDescription = ({ details }) => {
                   <div>
                     <b>Thickness: </b>
                     <p>
-                      {specValues[key].thickness} {specValues[key].t_uom}
+                      {specValues[key].thickness.toFixed(2)}{" "}
+                      {specValues[key].t_uom}
                     </p>
                   </div>
-                  <div>
-                    <b>Width: </b>
-                    <p>
-                      {specValues[key].width} {specValues[key].w_uom}
-                    </p>
-                  </div>
+                  {specValues[key].width && (
+                    <div>
+                      <b>Width: </b>
+                      <p>
+                        {specValues[key].width.toFixed(2)}{" "}
+                        {specValues[key].w_uom}
+                      </p>
+                    </div>
+                  )}
+                  {specValues[key].length && (
+                    <div>
+                      <b>Length: </b>
+                      <p>
+                        {specValues[key].length.toFixed(2)}{" "}
+                        {specValues[key].l_uom}
+                      </p>
+                    </div>
+                  )}
                   <div>
                     <b>Price: </b>
                     <p>
@@ -151,8 +136,6 @@ const ProductDescription = ({ details }) => {
                     handleChange={(e) =>
                       handleInputChange(e.target.value, specValues[key].id)
                     }
-                    handleDecrement={() => handleDecrement(specValues[key].id)}
-                    handleIncrement={() => handleIncrement(specValues[key].id)}
                     qty={specValues[key].yourQty}
                     countInStock={specValues[key].qty}
                   />

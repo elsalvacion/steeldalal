@@ -149,8 +149,8 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
                     {values.category.toLowerCase().includes("tmt") ? (
                       <select
                         onChange={(e) => handleInputChange(e, i)}
-                        value={spec.t_uom}
-                        name="t_uom"
+                        value={spec.thickness}
+                        name="thickness"
                       >
                         <option value="">Choose</option>
                         {tmtThickness.map((thickness) => (

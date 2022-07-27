@@ -16,7 +16,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
@@ -286,6 +285,12 @@ const SingleAdminOrderScreen = () => {
                       <Typography noWrap>{product.title}</Typography>
                     </Grid>
                   </Grid>
+                  <Typography
+                    variant="h6"
+                    sx={{ my: 3, mx: 3, fontWeight: "lighter" }}
+                  >
+                    Specifications
+                  </Typography>
                   <TableContainer>
                     <Table
                       sx={{
@@ -293,28 +298,66 @@ const SingleAdminOrderScreen = () => {
                       }}
                       size="small"
                     >
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Thickness</TableCell>
-                          <TableCell>T. UoM</TableCell>
-                          <TableCell>Width</TableCell>
-                          <TableCell>W. UoM</TableCell>
-                          <TableCell>Qty</TableCell>
-                        </TableRow>
-                      </TableHead>
                       <TableBody
                         sx={{
                           textAlign: "center",
                         }}
                       >
                         {product.specs.map((spec) => (
-                          <TableRow key={`spec-${spec.id}`}>
-                            <TableCell>{spec.thickness}</TableCell>
-                            <TableCell>{spec.t_uom}</TableCell>
-                            <TableCell>{spec.width}</TableCell>
-                            <TableCell>{spec.w_uom}</TableCell>
-                            <TableCell>{spec.qty}</TableCell>
-                          </TableRow>
+                          <div key={`spec-${spec.id}`}>
+                            <TableRow>
+                              <TableCell>
+                                <b>Thickness</b>
+                              </TableCell>
+                              <TableCell>
+                                <b>T. UoM</b>
+                              </TableCell>
+                              {spec.width && (
+                                <TableCell>
+                                  <b>Width</b>
+                                </TableCell>
+                              )}
+                              {spec.w_uom && (
+                                <TableCell>
+                                  <b>W. UoM</b>
+                                </TableCell>
+                              )}
+                              {spec.length && (
+                                <TableCell>
+                                  <b>Length</b>
+                                </TableCell>
+                              )}
+                              {spec.l_uom && (
+                                <TableCell>
+                                  <b>L. UoM</b>
+                                </TableCell>
+                              )}
+                              <TableCell>
+                                <b>Qty</b>
+                              </TableCell>
+                              <TableCell>
+                                <b>Price</b>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>{spec.thickness.toFixed(2)}</TableCell>
+                              <TableCell>{spec.t_uom}</TableCell>
+                              {spec.width && (
+                                <TableCell>{spec.width.toFixed(2)}</TableCell>
+                              )}
+                              {spec.w_uom && (
+                                <TableCell>{spec.w_uom}</TableCell>
+                              )}
+                              {spec.length && (
+                                <TableCell>{spec.length.toFixed(2)}</TableCell>
+                              )}
+                              {spec.l_uom && (
+                                <TableCell>{spec.l_uom}</TableCell>
+                              )}
+                              <TableCell>{spec.qty}</TableCell>
+                              <TableCell>{spec.price.toFixed(2)}</TableCell>
+                            </TableRow>
+                          </div>
                         ))}
                       </TableBody>
                     </Table>
