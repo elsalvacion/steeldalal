@@ -1,4 +1,4 @@
-import { Send, WhatsApp } from "@mui/icons-material";
+import { Phone, Send } from "@mui/icons-material";
 import {
   Button,
   Card,
@@ -54,7 +54,7 @@ const VerifyNumberScreen = () => {
   return (
     <Container>
       <CustomHelmet
-        title={`Verify Whatsapp number`}
+        title={`Verify whatsapp number`}
         desc="Steeldalal.com verify your whatsapp number"
       />
       {(loading || confirmOtpLoading) && (
@@ -76,7 +76,7 @@ const VerifyNumberScreen = () => {
       <Card sx={{ mt: 3 }}>
         <CardContent>
           <Typography sx={{ my: 3, display: "flex", alignItems: "center" }}>
-            Verify your whatsapp <WhatsApp sx={{ mx: 1 }} color="success" />
+            Verify your phone <Phone sx={{ mx: 1 }} color="success" />
             number
           </Typography>
           <form onSubmit={handleVerify}>
@@ -95,7 +95,7 @@ const VerifyNumberScreen = () => {
               type="text"
               name="phone"
               value={success ? opt : phone}
-              label={success ? "Enter OTP" : "Enter Whatsapp Number"}
+              label={success ? "Enter OTP" : "Enter mobile Number"}
               disabled={loading}
             />
             <small
@@ -106,7 +106,7 @@ const VerifyNumberScreen = () => {
               }}
             >
               {success
-                ? "An 4 digit OTP is sent to your whatsapp"
+                ? "An 4 digit OTP is sent to your phone number"
                 : "Format: +917412900222"}
             </small>
 

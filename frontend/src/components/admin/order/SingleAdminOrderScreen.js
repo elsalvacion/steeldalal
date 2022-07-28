@@ -92,7 +92,6 @@ const SingleAdminOrderScreen = () => {
                 </Button>
                 <Typography variant="h6">Order ID: {order.id}</Typography>
               </div>
-              {/* <br /> */}
 
               {order.isPaid === 1 && order.isConfirmed === 0 && (
                 <Button

@@ -78,7 +78,7 @@ const SingleSellerOrder = () => {
               <CardContent>
                 {order.inStock === 1 ? (
                   <Typography>
-                    Order Confirmed. A message will be sent to your whatsapp for
+                    Order Confirmed. A message will be sent to your phone for
                     packing as soon the buyer's payment is prcocessed and
                     confirmed.
                   </Typography>

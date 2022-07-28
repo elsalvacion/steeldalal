@@ -215,7 +215,7 @@ router.put("/instock", userProtect, (req, res) => {
             sendJustMessage({
               to: order.phone,
               message: `
-*Order Confirmed by Seller*
+Order Confirmed by Seller
   
 The seller has confirmed that the items you ordered are in stock. Please do your payment to authorize logistics. Vist steeldalal.com/#/order/${order.id} to pay.
   
@@ -225,7 +225,7 @@ The seller has confirmed that the items you ordered are in stock. Please do your
             sendJustMessage({
               to: order.phone,
               message: `
-*Order Out of Stock*
+Order Out of Stock
   
 We are sorry to break to you that the items you ordered are out of stock. Please try other sellers, vist steeldalal.com/#/products
   
@@ -328,17 +328,17 @@ router.post("/", userProtect, (req, res) => {
                     sendJustMessage({
                       to: bag[bagKey].seller.phone,
                       message: `
-*New Order*
+New Order
 
 A new order is placed for your product(s) on sale at steeldalal.com
 
 For more details visit steeldalal.com/#/seller/order/${createOrderRes.insertId} to verify the order specifications.
-                        `,
+`,
                     });
                     sendJustMessage({
                       to: req.user.phone,
                       message: `
-*Order placed*
+Order placed
 
 Your order is placed. For more details visit steeldalal.com/#/order/${createOrderRes.insertId}
 
@@ -431,7 +431,19 @@ router.post(`/save-payment/:id`, userProtect, (req, res) => {
               console.log(savePaymentErr);
               res.status(400).json({ msg: "Payment not verified" });
             } else {
-              res.json({ msg: true });
+              sendMessage(
+                {
+                  to: "+8801858328387",
+                  message: `
+New Payment Made 
+
+A new payment has been by ${details.name}. Please visit steeldalal.com/#/order/${details.id} to confirm the payment.
+
+From: steeldalal.com
+                `,
+                },
+                res
+              );
             }
           }
         );

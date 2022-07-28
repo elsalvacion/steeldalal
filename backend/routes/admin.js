@@ -1,6 +1,7 @@
 const connection = require("../config/db");
 const router = require("express").Router();
 const { userProtect, adminProtect } = require("../middlewares/protect");
+const { sendMessage } = require("../utils/sendEmail");
 
 router.get("/orders", userProtect, adminProtect, (req, res) => {
   try {
@@ -62,10 +63,18 @@ router.get("/order/:id", userProtect, adminProtect, (req, res) => {
                         .status(400)
                         .json({ msg: "Error while fetching specs" });
                     } else {
-                      products.push({
-                        ...fetchOrderSpecRes[0][0],
-                        specs: fetchOrderSpecRes[1],
-                      });
+                      if (fetchOrderSpecRes[0][0])
+                        products.push({
+                          ...fetchOrderSpecRes[0][0],
+                          specs: fetchOrderSpecRes[1],
+                        });
+                      else
+                        products.push({
+                          id: fetchOrderSpecRes[1][0].product,
+                          title: fetchOrderSpecRes[1][0].productTitle,
+                          image: fetchOrderSpecRes[1][0].productImage,
+                          specs: fetchOrderSpecRes[1],
+                        });
 
                       if (productIdx === fetchOrderProductRes.length - 1) {
                         res.json({
@@ -118,7 +127,52 @@ router.put("/order/:id", userProtect, adminProtect, (req, res) => {
                 console.log(updateOrderErr);
                 res.status(400).json({ msg: "Could not update order" });
               } else {
-                res.json({ msg: "order updated" });
+                if (req.body.isConfirmed && req.body.isConfirmed === 1) {
+                  connection.query(
+                    `
+                  select * from users where id = ?;
+                  select * from facebook where id = ? ;
+                  select * from google where id = ?;
+                  `,
+                    [order.userId, order.userId, order.userId],
+                    (fetchSellerErr, fetchSellerRes) => {
+                      if (fetchSellerErr) {
+                        console.log(fetchSellerErr);
+                        res.status(400).json({ msg: "Could not fetch seller" });
+                      } else {
+                        const user =
+                          fetchSellerRes[0][0] ||
+                          fetchSellerRes[1][0] ||
+                          fetchSellerRes[2][0];
+                        sendMessage(
+                          {
+                            to: user.phone,
+                            message: `
+Order Payment Confirmed
+
+The payment is made and confirmed for an order. Please visit steeldalal.com/#/order/seller/${order.id} for specification and more details about the order to proceed with packaging of the products for pickup. 
+                      `,
+                          },
+                          res
+                        );
+                      }
+                    }
+                  );
+                } else if (req.body.isDelivered && req.body.isDelivered === 1) {
+                  sendMessage(
+                    {
+                      to: order.phone,
+                      message: `
+Order Marked As Delivered
+
+Your order is marked as delivered. If this is an error or you have any other complain that you might want to lunch. Please contact us at steeldalal.com
+                  `,
+                    },
+                    res
+                  );
+                } else {
+                  res.json({ msg: "Updated" });
+                }
               }
             }
           );

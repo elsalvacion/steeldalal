@@ -79,6 +79,7 @@ const SingleOrderScreen = () => {
               ...response,
               id: order.id,
               userId: order.userId,
+              name: order.name,
             })
           );
           dispatch({ type: PAY_ORDER_RESET });

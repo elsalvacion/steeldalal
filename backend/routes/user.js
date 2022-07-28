@@ -38,11 +38,11 @@ router.post("/verify-phone", userProtect, (req, res) => {
             {
               to: req.body.phone,
               message: `
-            *Your one-time OTP*
+Your one-time OTP
 
-Here is your 4 digit verification: *${verifyNumber}*
+Here is your 4 digit verification: ${verifyNumber}
 
-_From: steeldalal.com_
+From: steeldalal.com
             `,
             },
             res
