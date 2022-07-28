@@ -53,10 +53,14 @@ const InvoiceItems = ({ products }) => {
     <View style={styles.mainContainer}>
       {products.map((product) => (
         <View key={product.id} break>
-          <View style={styles.productHeader}>
-            <Image style={styles.productImage} src={product.image} />
-            <Text style={styles.productTitle}>{product.title}</Text>
-          </View>
+          {product.title ? (
+            <View style={styles.productHeader}>
+              <Image style={styles.productImage} src={product.image} />
+              <Text style={styles.productTitle}>{product.title}</Text>
+            </View>
+          ) : (
+            <Text style={styles.productTitle}>Product Deleted by seller</Text>
+          )}
           <View style={styles.divider}></View>
           {product.specs.map((spec) => (
             <View key={"spec-" + spec.id} style={styles.productSpecContainer}>

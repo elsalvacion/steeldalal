@@ -80,7 +80,7 @@ router.get("/:id", userProtect, (req, res) => {
                   fetchOrderProductRes.forEach(({ product }, productIdx) => {
                     connection.query(
                       `select * from products where id = ?;
-                  select * from orderSpecs where product = ?  and orderId = ? 
+                  select * from orderSpecs where product = ?  and orderId = ? ;
                   `,
                       [product, product, order.id],
                       (fetchOrderSpecsErr, fetchOrderSpecRes) => {
@@ -90,10 +90,18 @@ router.get("/:id", userProtect, (req, res) => {
                             .status(400)
                             .json({ msg: "Error while fetching specs" });
                         } else {
-                          products.push({
-                            ...fetchOrderSpecRes[0][0],
-                            specs: fetchOrderSpecRes[1],
-                          });
+                          if (fetchOrderSpecRes[0][0])
+                            products.push({
+                              ...fetchOrderSpecRes[0][0],
+                              specs: fetchOrderSpecRes[1],
+                            });
+                          else
+                            products.push({
+                              id: fetchOrderSpecRes[1][0].product,
+                              title: fetchOrderSpecRes[1][0].productTitle,
+                              image: fetchOrderSpecRes[1][0].productImage,
+                              specs: fetchOrderSpecRes[1],
+                            });
 
                           if (productIdx === fetchOrderProductRes.length - 1) {
                             res.json({
@@ -273,6 +281,8 @@ router.post("/", userProtect, (req, res) => {
             const specs = bag[bagKey].specs;
             const category = bag[bagKey].category;
             const product = bag[bagKey].id;
+            const productTitle = bag[bagKey].title;
+            const productImage = bag[bagKey].image;
             let specsQuery = "";
             if (category.toLowerCase().includes("sheet")) {
               for (const specKey in specs) {
@@ -287,7 +297,7 @@ router.post("/", userProtect, (req, res) => {
                   price,
                 } = specs[specKey];
                 specsQuery += `
-              insert into  orderSpecs (thickness, t_uom, width, w_uom, length, l_uom, orderId, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${createOrderRes.insertId} , ${product}, ${qty}, ${price});
+              insert into  orderSpecs (thickness, t_uom, width, w_uom, length, l_uom, orderId, product,productTitle,productImage, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${createOrderRes.insertId} , ${product},"${productTitle}", "${productImage}", ${qty}, ${price});
               `;
               }
             } else if (category.toLowerCase().includes("coil")) {
@@ -295,14 +305,14 @@ router.post("/", userProtect, (req, res) => {
                 const { thickness, t_uom, width, w_uom, qty, price } =
                   specs[specKey];
                 specsQuery += `
-              insert into  orderSpecs (thickness, t_uom, width, w_uom, orderId, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${createOrderRes.insertId} , ${product}, ${qty}, ${price});
+              insert into  orderSpecs (thickness, t_uom, width, w_uom, orderId, product, productTitle,productImage,qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${createOrderRes.insertId} , ${product},"${productTitle}", "${productImage}", ${qty}, ${price});
               `;
               }
             } else {
               for (const specKey in specs) {
                 const { thickness, t_uom, qty, price } = specs[specKey];
                 specsQuery += `
-              insert into  orderSpecs (thickness, t_uom, orderId, product, qty, price) values(${thickness}, "${t_uom}", ${createOrderRes.insertId} , ${product}, ${qty}, ${price});
+              insert into  orderSpecs (thickness, t_uom, orderId, product, productTitle,productImage, qty, price) values(${thickness}, "${t_uom}", ${createOrderRes.insertId} , ${product},, ${product}, "${productTitle}", "${productImage}", ${qty}, ${price});
               `;
               }
             }
