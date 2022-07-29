@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Chip,
   IconButton,
   Paper,
   TableBody,
@@ -40,6 +41,7 @@ const ProductDataGrid = ({ products }) => {
           <TableCell align="left">Title</TableCell>
           <TableCell align="left">Category</TableCell>
           <TableCell align="left">Type</TableCell>
+          <TableCell align="left">Status</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -69,6 +71,12 @@ const ProductDataGrid = ({ products }) => {
             </TableCell>
             <TableCell align="left">{product.category}</TableCell>
             <TableCell align="left">{product.type}</TableCell>
+            <TableCell align="left">
+              <Chip
+                label={product.isBlocked === 1 ? "Blocked" : "Fine"}
+                color={product.isBlocked === 0 ? "success" : "error"}
+              />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

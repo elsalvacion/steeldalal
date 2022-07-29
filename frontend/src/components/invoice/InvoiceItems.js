@@ -55,7 +55,7 @@ const InvoiceItems = ({ products }) => {
         <View key={product.id} break>
           {product.title ? (
             <View style={styles.productHeader}>
-              <Image style={styles.productImage} src={product.image} />
+              {/* <Image style={styles.productImage} src={product.image} /> */}
               <Text style={styles.productTitle}>{product.title}</Text>
             </View>
           ) : (

@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const connection = require("../config/db");
 const { userProtect } = require("../middlewares/protect");
-const { sendJustMessage } = require("../utils/sendEmail");
+const { sendJustMessage, sendMessage } = require("../utils/sendEmail");
 const RazorPay = require("razorpay");
 const razorPayInstance = new RazorPay({
   key_id: process.env.RAZOR_PAY_ID,
@@ -100,6 +100,8 @@ router.get("/:id", userProtect, (req, res) => {
                               id: fetchOrderSpecRes[1][0].product,
                               title: fetchOrderSpecRes[1][0].productTitle,
                               image: fetchOrderSpecRes[1][0].productImage,
+                              brand: fetchOrderSpecRes[1][0].productBrand,
+                              grade: fetchOrderSpecRes[1][0].productGrade,
                               specs: fetchOrderSpecRes[1],
                             });
 
@@ -283,6 +285,8 @@ router.post("/", userProtect, (req, res) => {
             const product = bag[bagKey].id;
             const productTitle = bag[bagKey].title;
             const productImage = bag[bagKey].image;
+            const productGrade = bag[bagKey].grade;
+            const productBrand = bag[bagKey].brand;
             let specsQuery = "";
             if (category.toLowerCase().includes("sheet")) {
               for (const specKey in specs) {
@@ -295,9 +299,10 @@ router.post("/", userProtect, (req, res) => {
                   w_uom,
                   qty,
                   price,
+                  moq,
                 } = specs[specKey];
                 specsQuery += `
-              insert into  orderSpecs (thickness, t_uom, width, w_uom, length, l_uom, orderId, product,productTitle,productImage, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${createOrderRes.insertId} , ${product},"${productTitle}", "${productImage}", ${qty}, ${price});
+              insert into  orderSpecs (thickness, t_uom, width, w_uom, length, l_uom, orderId, product,productTitle,productImage,productBrand,productGrade, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${createOrderRes.insertId} , ${product},"${productTitle}", "${productImage}", "${productBrand}", "${productGrade}", ${qty}, ${price});
               `;
               }
             } else if (category.toLowerCase().includes("coil")) {
@@ -305,14 +310,14 @@ router.post("/", userProtect, (req, res) => {
                 const { thickness, t_uom, width, w_uom, qty, price } =
                   specs[specKey];
                 specsQuery += `
-              insert into  orderSpecs (thickness, t_uom, width, w_uom, orderId, product, productTitle,productImage,qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${createOrderRes.insertId} , ${product},"${productTitle}", "${productImage}", ${qty}, ${price});
+              insert into  orderSpecs (thickness, t_uom, width, w_uom, orderId, product, productTitle,productImage, productBrand,productGrade,qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${createOrderRes.insertId} , ${product},"${productTitle}", "${productImage}", "${productBrand}", "${productGrade}", ${qty}, ${price});
               `;
               }
             } else {
               for (const specKey in specs) {
                 const { thickness, t_uom, qty, price } = specs[specKey];
                 specsQuery += `
-              insert into  orderSpecs (thickness, t_uom, orderId, product, productTitle,productImage, qty, price) values(${thickness}, "${t_uom}", ${createOrderRes.insertId} , ${product},, ${product}, "${productTitle}", "${productImage}", ${qty}, ${price});
+              insert into  orderSpecs (thickness, t_uom, orderId, product, productTitle,productImage,productBrand,productGrade, qty, price) values(${thickness}, "${t_uom}", ${createOrderRes.insertId} , ${product}, "${productTitle}", "${productImage}", "${productBrand}", "${productGrade}", ${qty}, ${price});
               `;
               }
             }
@@ -322,7 +327,7 @@ router.post("/", userProtect, (req, res) => {
               (createOrderSpecErr, createOrderSpecRes) => {
                 if (createOrderSpecErr) {
                   console.log(createOrderSpecErr);
-                  res.status(400).json({ msg: "Create Order Specs error" });
+                  res.status(400).json({ msg: "Create Order specs error" });
                 } else {
                   if (bagIndex === Object.keys(bag).length - 1) {
                     sendJustMessage({
@@ -437,7 +442,7 @@ router.post(`/save-payment/:id`, userProtect, (req, res) => {
                   message: `
 New Payment Made 
 
-A new payment has been by ${details.name}. Please visit steeldalal.com/#/order/${details.id} to confirm the payment.
+A new payment has been by ${details.name}. Please visit steeldalal.com/#/admin-order/${details.id} to confirm the payment.
 
 From: steeldalal.com
                 `,

@@ -36,6 +36,7 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
     const coilSpec = {
       thickness: "",
       t_uom: "mm",
+      moq: "",
       width: "",
       w_uom: "mm",
       price: "",
@@ -45,6 +46,7 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
     const sheetSpec = {
       thickness: "",
       t_uom: "mm",
+      moq: "",
       width: "",
       w_uom: "",
       length: "mm",
@@ -56,6 +58,7 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
     const tmtSpec = {
       thickness: "",
       t_uom: "mm",
+      moq: "",
       price: "",
       qty: "",
     };
@@ -116,23 +119,37 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
             />
           </div>
         </div>
-        <div className="createProductFormCategory">
-          <label htmlFor="createProductFormCategory">Product Category *</label>
-          <select
-            onChange={handleChange}
-            name="category"
-            id="createProductFormCategory"
-            value={values.category}
-          >
-            <option value="">Choose Category</option>
-            {categories.map((category) => (
-              <option key={category.title} value={category.title}>
-                {category.title}
-              </option>
-            ))}
-          </select>
+        <div className="createProductFormTypeAndContainer">
+          <div className="createProductFormBrand">
+            <label htmlFor="createProductFormCategory">
+              Product Category *
+            </label>
+            <select
+              onChange={handleChange}
+              name="category"
+              id="createProductFormCategory"
+              value={values.category}
+            >
+              <option value="">Choose Category</option>
+              {categories.map((category) => (
+                <option key={category.title} value={category.title}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="createProductFormBrand">
+            <label htmlFor="createProductFormGrade">Product Grade *</label>
+            <input
+              name="grade"
+              id="createProductFormGrade"
+              value={values.grade}
+              type="text"
+              onChange={handleChange}
+              placeholder="Enter Grade"
+            />
+          </div>
         </div>
-
         {/* specs */}
         {values.category !== "" &&
           values.specs.map((spec, i) => (
@@ -269,6 +286,7 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
                       name="qty"
                     />
                   </div>
+
                   <div
                     style={{
                       flex: 1,
@@ -280,6 +298,20 @@ const CreateProductFormRight = ({ values, setValues, handleChange }) => {
                       type="number"
                       value={spec.price}
                       name="price"
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      flex: 1,
+                    }}
+                  >
+                    <label>MOQ *</label>
+                    <input
+                      onChange={(e) => handleInputChange(e, i)}
+                      type="number"
+                      value={spec.moq}
+                      name="moq"
                     />
                   </div>
                 </div>

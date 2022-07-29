@@ -37,6 +37,7 @@ const CreateProductForm = () => {
     type: "",
     category: "",
     brand: "",
+    grade: "",
     price: 0,
     qty: 1,
     details: {
@@ -94,18 +95,18 @@ const CreateProductForm = () => {
           <StepContent>
             <CreateProductFormLeft />
             <Box sx={{ mb: 2 }}>
-              {images && (
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    endIcon={<ChevronRightOutlined />}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Continue
-                  </Button>
-                </div>
-              )}
+              {/* {images && (
+                <div> */}
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                endIcon={<ChevronRightOutlined />}
+                sx={{ mt: 1, mr: 1 }}
+              >
+                Continue
+              </Button>
+              {/* </div>
+              )} */}
             </Box>
           </StepContent>
         </Step>
@@ -138,10 +139,12 @@ const CreateProductForm = () => {
                     values.title.trim() === "" ||
                     values.category.trim() === "" ||
                     values.type.trim() === "" ||
+                    values.grade.trim() === "" ||
                     values.specs.find(
                       (spec) =>
                         spec.qty === "" ||
                         spec.price === "" ||
+                        spec.moq === "" ||
                         (spec.width && spec.width === "") ||
                         (spec.length && spec.length === "") ||
                         spec.thickness === ""

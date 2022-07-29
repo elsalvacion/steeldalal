@@ -67,7 +67,7 @@ const ProfileDetailRight = ({ editUserInfo, userInfo }) => {
                   />
                 </ListItemIcon>
                 <ListItemText
-                  style={{
+                  sx={{
                     textTransform: "capitalize",
                     fontSize: 14,
                     fontWeight: "lighter",
@@ -75,6 +75,18 @@ const ProfileDetailRight = ({ editUserInfo, userInfo }) => {
                 >
                   {product.title}
                 </ListItemText>
+                {product.isBlocked === 1 && (
+                  <ListItemText
+                    style={{
+                      textTransform: "capitalize",
+                      fontSize: 13,
+                      fontWeight: "lighter",
+                      color: "red",
+                    }}
+                  >
+                    Blocked
+                  </ListItemText>
+                )}
               </ListItem>
             ))
           ) : (

@@ -1,6 +1,7 @@
 export const coilSpec = {
   thickness: "",
   t_uom: "mm",
+  moq: "",
   width: "",
   w_uom: "mm",
   price: "",
@@ -10,6 +11,7 @@ export const coilSpec = {
 export const sheetSpec = {
   thickness: "",
   t_uom: "mm",
+  moq: "",
   width: "",
   w_uom: "mm",
   length: "",
@@ -21,6 +23,7 @@ export const sheetSpec = {
 export const tmtSpec = {
   thickness: "",
   t_uom: "mm",
+  moq: "",
   price: "",
   qty: "",
 };
@@ -62,6 +65,8 @@ export const returnSpecFieldLabel = (column) => {
       return "Qty (tonnes)";
     case "price":
       return "Price";
+    case "moq":
+      return "MOQ";
     default:
       return null;
   }

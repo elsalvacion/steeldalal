@@ -63,33 +63,7 @@ const EditProductScreen = () => {
           html: product.details,
           text: product.detailsText,
         },
-        specs: product.specs
-          ? product.specs.length > 0
-            ? product.specs
-            : [
-                {
-                  thickness: null,
-                  t_uom: "m",
-                  width: null,
-                  w_uom: "m",
-                  height: 0,
-                  h_uom: "m",
-                  price: null,
-                  qty: null,
-                },
-              ]
-          : [
-              {
-                thickness: null,
-                t_uom: "m",
-                width: null,
-                w_uom: "m",
-                height: 0,
-                h_uom: "m",
-                price: null,
-                qty: null,
-              },
-            ],
+        specs: product.specs,
       });
     }
   }, [editProductSuccess, history, id, product]);
@@ -158,11 +132,12 @@ const EditProductScreen = () => {
                         values.type.trim() === "" ||
                         values.specs.find(
                           (spec) =>
-                            spec.qty === null ||
-                            spec.price === null ||
-                            spec.width === null ||
-                            spec.height === null ||
-                            spec.thicknes === null
+                            spec.qty === "" ||
+                            spec.price === "" ||
+                            spec.moq === "" ||
+                            (spec.width && spec.width === "") ||
+                            (spec.length && spec.length === "") ||
+                            spec.thickness === ""
                         )
                       }
                     >

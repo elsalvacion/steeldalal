@@ -15,11 +15,12 @@ router.post("/", userProtect, (req, res) => {
       type,
       brand,
       details,
+      grade,
       images,
       specs,
     } = req.body;
 
-    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?,?, ?, ?); `;
+    const sql = `insert into products(title, discount, price, rating, qty, category, type, brand,grade, details,detailsText, image, user) values(?,?,?,?,?,?,?,?,?,?, ?,?, ?); `;
 
     connection.query(
       sql,
@@ -32,6 +33,7 @@ router.post("/", userProtect, (req, res) => {
         category,
         type,
         brand,
+        grade,
         details.html,
         details.text,
         images[0].image,
@@ -56,22 +58,25 @@ router.post("/", userProtect, (req, res) => {
                 w_uom,
                 qty,
                 price,
+                moq,
               }) => {
                 specsQuery += `
-            insert into  productSpecs (thickness, t_uom, width, w_uom, length, l_uom, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${productId} , ${qty}, ${price});
+            insert into  productSpecs (thickness, t_uom, width, w_uom, length, l_uom, product, qty, price, moq) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${productId} , ${qty}, ${price}, ${moq});
             `;
               }
             );
           } else if (category.toLowerCase().includes("coil")) {
-            specs.forEach(({ thickness, t_uom, width, w_uom, qty, price }) => {
-              specsQuery += `
-            insert into  productSpecs (thickness, t_uom, width, w_uom, product, qty, price) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${productId} , ${qty}, ${price});
+            specs.forEach(
+              ({ thickness, t_uom, width, w_uom, qty, price, moq }) => {
+                specsQuery += `
+            insert into  productSpecs (thickness, t_uom, width, w_uom, product, qty, price, moq) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${productId} , ${qty}, ${price}, ${moq});
             `;
-            });
+              }
+            );
           } else {
-            specs.forEach(({ thickness, t_uom, qty, price }) => {
+            specs.forEach(({ thickness, t_uom, qty, price, moq }) => {
               specsQuery += `
-            insert into  productSpecs (thickness, t_uom, product, qty, price) values(${thickness}, "${t_uom}", ${productId} , ${qty}, ${price});
+            insert into  productSpecs (thickness, t_uom, product, qty, price, moq) values(${thickness}, "${t_uom}", ${productId} , ${qty}, ${price}, ${moq});
             `;
             });
           }
@@ -79,7 +84,6 @@ router.post("/", userProtect, (req, res) => {
           images.forEach((image) => {
             imagesQuery += `insert into images (product, image) values (${productId}, "${image.image}");`;
           });
-          console.log(specsQuery);
           imagesQuery += specsQuery;
           connection.query(imagesQuery, (insertImagesErr, insertImagesRes) => {
             if (insertImagesErr) {
@@ -135,7 +139,7 @@ router.post("/upload", (req, res) => {
 router.get("/", (req, res) => {
   try {
     connection.query(
-      `select * from products order by createdAt desc`,
+      `select * from products order by id desc where isBlocked = 0`,
       (fetchProductsErr, fetchProductsRes) => {
         if (fetchProductsErr) {
           res.status(400).json({ msg: "Error while fetching products" });
@@ -152,7 +156,7 @@ router.get("/", (req, res) => {
 
 router.get("/your-products", userProtect, (req, res) => {
   try {
-    let sql = `select * from products where user = ? order by createdAt desc`;
+    let sql = `select * from products where user = ? order by id desc`;
 
     if (req.query.limit) {
       sql += ` limit ${req.query.limit}`;
@@ -177,8 +181,8 @@ router.get("/your-products", userProtect, (req, res) => {
 router.post("/latest", (req, res) => {
   try {
     const sql = `
-    select * from products where category = ? order by createdAt desc limit 10;
-    select * from products where category = ? order by createdAt desc limit 10
+    select * from products where category = ? and isBlocked = 0 order by id desc limit 10;
+    select * from products where category = ? and isBlocked = 0 order by id desc limit 10;
     `;
     connection.query(
       sql,
@@ -201,7 +205,7 @@ router.post("/latest", (req, res) => {
 router.post("/category", (req, res) => {
   try {
     const sql = `
-    select * from products where category = ? order by createdAt desc limit 25;
+    select * from products where category = ? and isBlocked = 0 order by id desc limit 25  ;
     `;
     connection.query(
       sql,
@@ -280,43 +284,73 @@ router.get("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   try {
-    const {
-      title,
-      discount,
-      price,
-      rating,
-      details,
-      qty,
-      category,
-      type,
-      brand,
-      specs,
-    } = req.body;
-    let sql = `update products set title = ?, discount = ?, price = ?, rating = ?, details = ?, detailsText = ?, qty = ?, category = ? , type = ? , brand = ?  where id = ?;`;
+    const { title, details, qty, category, type, brand, specs, grade } =
+      req.body;
+    let sql = `update products set title = ?, details = ?, detailsText = ?, qty = ?, category = ? , type = ? , brand = ?, grade = ?  where id = ?;`;
+    let specsQuery = "";
+    if (category.toLowerCase().includes("sheet")) {
+      specs.forEach(
+        ({
+          thickness,
+          t_uom,
+          length,
+          l_uom,
+          width,
+          w_uom,
+          qty,
+          price,
+          moq,
+          id,
+        }) => {
+          if (id)
+            specsQuery += `
+      update productSpecs set thickness = ${thickness}, t_uom = "${t_uom}",  width = ${width}, w_uom = "${w_uom}", length = ${length}, l_uom = "${l_uom}", qty =  ${qty}, price = ${price}, moq = ${moq} where id = ${id};
+      `;
+          else
+            specsQuery += `
+            insert into  productSpecs (thickness, t_uom, width, w_uom, length, l_uom, product, qty, price, moq) values(${thickness}, "${t_uom}", ${width}, "${w_uom}", ${length}, "${l_uom}", ${req.params.id} , ${qty}, ${price}, ${moq});
+            `;
+        }
+      );
+    } else if (category.toLowerCase().includes("coil")) {
+      specs.forEach(
+        ({ thickness, t_uom, width, w_uom, qty, price, moq, id }) => {
+          if (id)
+            specsQuery += `
+          update productSpecs set thickness = ${thickness}, t_uom = "${t_uom}",  width = ${width}, w_uom = "${w_uom}",  qty =  ${qty}, price = ${price}, moq = ${moq} where id = ${id};
+          `;
+          else
+            specsQuery += `
+            insert into  productSpecs (thickness, t_uom, width, w_uom, product, qty, price, moq) values(${thickness}, "${t_uom}", ${width}, "${w_uom}",  ${req.params.id} , ${qty}, ${price}, ${moq});
+            `;
+        }
+      );
+    } else {
+      specs.forEach(({ thickness, t_uom, qty, price, moq, id }) => {
+        if (id)
+          specsQuery += `
+      update productSpecs set thickness = ${thickness}, t_uom = "${t_uom}",  qty =  ${qty}, price = ${price}, moq = ${moq} where id = ${id};
+      `;
+        else
+          specsQuery += `
+            insert into  productSpecs (thickness, t_uom, product, qty, price, moq) values(${thickness}, "${t_uom}",  ${req.params.id} , ${qty}, ${price}, ${moq});
+            `;
+      });
+    }
 
-    specs.forEach((spec) => {
-      if (spec.id) {
-        sql += `update productSpecs set thickness = ${spec.thickness}, t_uom = "${spec.t_uom}", width = ${spec.width}, w_uom = "${spec.w_uom}", height = ${spec.height}, h_uom = "${spec.h_uom}", product = ${spec.product} , qty = ${spec.qty}, price = ${spec.price} where id = ${spec.id}; `;
-      } else {
-        sql += `
-           insert into  productSpecs (thickness, t_uom, width, w_uom, height, h_uom, product, qty, price) values (${spec.thickness}, "${spec.t_uom}", ${spec.width}, "${spec.w_uom}", ${spec.height}, "${spec.h_uom}", ${req.params.id}, ${spec.qty},${spec.price});
-           `;
-      }
-    });
+    sql += specsQuery;
 
     connection.query(
       sql,
       [
         title,
-        discount,
-        price,
-        rating,
         details.html,
         details.text,
         qty,
         category,
         type,
         brand,
+        grade,
         req.params.id,
       ],
       (updateProductErr, updateProductRes) => {
