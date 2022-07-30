@@ -7,8 +7,11 @@ import { FaCartPlus, FaRupeeSign } from "react-icons/fa";
 import ChangeQuantity from "../layout/ChangeQuantity";
 import { addToCartAction } from "../../actions/cartAction";
 import { useDispatch } from "react-redux";
+import CustomSnack from "../layout/CustomSnack";
 const ProductDescription = ({ details }) => {
   const [specValues, setSpecValues] = useState({});
+  const [qtyError, setQtyError] = useState(false);
+  const [moqError, setMoqError] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     const specs = {};
@@ -30,19 +33,68 @@ const ProductDescription = ({ details }) => {
     });
   };
 
-  const handleAddToCart = (id) => {
-    const spec = specValues[id];
-    if (Number(spec.yourQty) > 0)
-      dispatch(
-        addToCartAction({
-          ...details,
-          specs: spec,
-        })
-      );
+  const handleAddToCart = () => {
+    dispatch(
+      addToCartAction({
+        ...details,
+        specs: specValues,
+      })
+    );
+  };
+
+  const styles = {
+    points: {
+      fontWeight: "lighter",
+      display: "flex",
+      alignItems: "center",
+      fontSize: 14,
+
+      "& b": {
+        marginLeft: 1,
+      },
+    },
+    spec: {
+      fontWeight: "lighter",
+      display: "flex",
+      alignItems: "center",
+      fontSize: 15,
+      margin: "10px 5px",
+      "& b": {
+        marginLeft: 1,
+      },
+    },
+    verifiedSeller: {
+      maxWidth: "100%",
+      height: 40,
+      objectFit: "scale-down",
+      margin: "10px 3px",
+    },
+    title: {
+      fontSize: 14,
+    },
+    addToCartContainer: {
+      display: "flex",
+      justifyContent: "flex-end",
+      width: "100%",
+    },
   };
 
   return (
     <>
+      {qtyError && (
+        <CustomSnack
+          text="Please fill qty"
+          type="error"
+          handleClose={() => setQtyError(false)}
+        />
+      )}
+      {moqError && (
+        <CustomSnack
+          text="Qty more than MOQ"
+          type="error"
+          handleClose={() => setMoqError(false)}
+        />
+      )}
       {details.isBlocked === 1 && (
         <Card sx={{ my: 3 }}>
           <CardContent>
@@ -57,81 +109,109 @@ const ProductDescription = ({ details }) => {
         <div className="productDesContentTop">
           <ProductSlider images={details.images} />
           <div className="productDesContentTopRight">
-            <Typography variant="h6" component="h6">
-              {details.title}
+            <Typography sx={{ ...styles.title }} variant="h6" component="h6">
+              {details.title} {details.brand} {details.grade}
             </Typography>
-
-            <p>
-              <b>Brand: </b>
-              {details.brand}
-            </p>
-            <p>
-              <b>Category: </b>
-              {details.category}
-            </p>
-            <p>
-              <b>Type: </b>
-              {details.type}
-            </p>
-            <p>
-              <b>Seller: </b>
-              {details.seller.name}
-            </p>
-            <p>
-              <b>State: </b>
-              {details.seller.state}
-            </p>
-            <p>
-              <b>City: </b>
-              {details.seller.city}
-            </p>
+            {details.seller.isPremium === 1 && (
+              <img
+                style={{ ...styles.verifiedSeller }}
+                src="/assets/verified-seller.png"
+                alt="steeldalal.com"
+              />
+            )}
+            <Typography
+              sx={{
+                ...styles.points,
+              }}
+            >
+              Brand <b>{details.brand}</b>
+            </Typography>
+            <Typography
+              sx={{
+                ...styles.points,
+              }}
+            >
+              Category:
+              <b>{details.category} </b>
+            </Typography>
+            <Typography
+              sx={{
+                ...styles.points,
+              }}
+            >
+              Type:
+              <b>{details.type} </b>
+            </Typography>
+            <Typography
+              sx={{
+                ...styles.points,
+              }}
+            >
+              Seller:
+              <b>{details.seller.name} </b>
+            </Typography>
+            <Typography
+              sx={{
+                ...styles.points,
+              }}
+            >
+              State:
+              <b>{details.seller.state} </b>
+            </Typography>
+            <Typography
+              sx={{
+                ...styles.points,
+              }}
+            >
+              City:
+              <b>{details.seller.city} </b>
+            </Typography>
           </div>
         </div>
         <div className="productDesDetails">
           <b>Details: </b>
-          <br />
 
           {parse(details.details)}
         </div>
         {details.isBlocked === 0 && Object.keys(specValues).length > 0 && (
           <div className="specs">
-            {Object.keys(specValues).map((key, i) => (
+            {Object.keys(specValues).map((key) => (
               <div className="spec" key={key}>
                 <div className="spec-left">
-                  <div>
-                    <b>Thickness: </b>
-                    <p>
+                  <Typography sx={{ ...styles.spec }}>
+                    Thickness:
+                    <b>
                       {specValues[key].thickness.toFixed(2)}{" "}
                       {specValues[key].t_uom}
-                    </p>
-                  </div>
+                    </b>
+                  </Typography>
                   {specValues[key].width && (
-                    <div>
-                      <b>Width: </b>
-                      <p>
+                    <Typography sx={{ ...styles.spec }}>
+                      Width:
+                      <b>
                         {specValues[key].width.toFixed(2)}{" "}
                         {specValues[key].w_uom}
-                      </p>
-                    </div>
+                      </b>
+                    </Typography>
                   )}
                   {specValues[key].length && (
-                    <div>
-                      <b>Length: </b>
-                      <p>
+                    <Typography sx={{ ...styles.spec }}>
+                      Length:
+                      <b>
                         {specValues[key].length.toFixed(2)}{" "}
                         {specValues[key].l_uom}
-                      </p>
-                    </div>
+                      </b>
+                    </Typography>
                   )}
-                  <div>
-                    <b>Price: </b>
-                    <p>
+                  <Typography sx={{ ...styles.spec }}>
+                    Price per tonne:
+                    <b>
                       <FaRupeeSign /> {specValues[key].price.toFixed(2)}
-                    </p>
-                  </div>
+                    </b>
+                  </Typography>
                 </div>
                 <div className="spec-right">
-                  <Typography>Qty (per piece)</Typography>
+                  <Typography sx={{ fontSize: 11 }}>Qty (tonnes)</Typography>
                   <ChangeQuantity
                     handleChange={(e) =>
                       handleInputChange(e.target.value, specValues[key].id)
@@ -140,18 +220,21 @@ const ProductDescription = ({ details }) => {
                     countInStock={specValues[key].qty}
                   />
 
-                  <small>Available in Stock: {specValues[key].qty}</small>
-
-                  <Button
-                    onClick={() => handleAddToCart(specValues[key].id)}
-                    variant="contained"
-                    startIcon={<FaCartPlus />}
-                  >
-                    Add To Cart
-                  </Button>
+                  <small>MOQ: {specValues[key].moq}</small>
                 </div>
               </div>
             ))}
+          </div>
+        )}
+        {Object.keys(specValues).length > 0 && (
+          <div style={{ ...styles.addToCartContainer }}>
+            <Button
+              onClick={() => handleAddToCart()}
+              variant="contained"
+              startIcon={<FaCartPlus />}
+            >
+              Add To Cart
+            </Button>
           </div>
         )}
       </div>

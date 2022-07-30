@@ -1,11 +1,10 @@
 .productDesContainer {
-  padding: 10px;
+  padding: 10px 15px;
 }
 
 .productDesContentTop {
   display: flex;
-  /* align-items: stretch; */
-  margin-bottom: 20px;
+  align-items: stretch;
 }
 .productDesContentTopRight {
   flex: 1;
@@ -22,7 +21,7 @@
   margin: 10px 0;
 }
 .productDesContainer .spec {
-  background: #f5f4f4;
+  background: #e3f2fd;
   padding: 15px 10px;
   margin: 10px 0;
   display: flex;
@@ -45,14 +44,12 @@
 .productDesContainer .spec-right small {
   display: block;
   margin: 10px 0;
+  text-align: right;
 }
 .productDesContainer p {
   font-weight: lighter;
   text-transform: capitalize;
   margin: 10px 0;
-}
-.productDesContentTopRight h6 {
-  text-transform: capitalize;
 }
 
 .productDesQty {
@@ -74,7 +71,7 @@
   font-size: 24px;
 }
 .productDesDetails {
-  padding: 0 30px;
+  padding: 10px 30px;
   margin-bottom: 20px;
   font-weight: lighter;
 }

@@ -26,33 +26,66 @@ import {
 export const addToCartAction = (details) => async (dispatch, getState) => {
   try {
     dispatch({ type: ADD_CART_LOADING });
-    let cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
+    let cart = sessionStorage.getItem("cart")
+      ? JSON.parse(sessionStorage.getItem("cart"))
       : {};
-
+    const newDetails = { ...details, specs: {} };
+    let moqError = false;
+    let qtys = 0;
     if (cart[details.id]) {
-      cart[details.id].specs[details.specs.id] = details.specs;
+      Object.keys(details.specs).forEach((key) => {
+        if (
+          details.specs[key].yourQty !== "" &&
+          Number(details.specs[key].yourQty) > 0 &&
+          Number(details.specs[key].yourQty) <= Number(details.specs[key].moq)
+        ) {
+          newDetails.specs[key] = details.specs[key];
+          newDetails.specs[key].yourQty = Number(details.specs[key].yourQty);
+          qtys++;
+        } else if (
+          Number(details.specs[key].yourQty) > Number(details.specs[key].moq)
+        )
+          moqError = true;
+      });
     } else {
-      if (Object.keys.length > 0) {
-        Object.keys(cart).forEach((key) => {
-          if (cart[key].seller.name !== details.seller.name) {
-            delete cart[key];
-          }
-        });
-      }
+      Object.keys(cart).forEach((key) => {
+        if (cart[key].seller.name !== details.seller.name) {
+          delete cart[key];
+        }
+      });
 
-      cart[details.id] = {
-        ...details,
-        specs: {
-          [details.specs.id]: details.specs,
-        },
-      };
+      Object.keys(details.specs).forEach((key) => {
+        if (
+          details.specs[key].yourQty !== "" &&
+          Number(details.specs[key].yourQty) > 0 &&
+          Number(details.specs[key].yourQty) <= Number(details.specs[key].moq)
+        ) {
+          newDetails.specs[key] = details.specs[key];
+          newDetails.specs[key].yourQty = Number(details.specs[key].yourQty);
+          qtys++;
+        }
+        if (Number(details.specs[key].yourQty) > Number(details.specs[key].moq))
+          moqError = true;
+      });
     }
-    localStorage.setItem("cart", JSON.stringify(cart));
-    localStorage.setItem("bag", JSON.stringify(cart));
-    dispatch({
-      type: ADD_CART_SUCCESS,
-    });
+    if (moqError === true) {
+      dispatch({
+        type: ADD_CART_ERROR,
+        payload: "Qty greater than MOQ",
+      });
+    } else if (qtys === 0) {
+      dispatch({
+        type: ADD_CART_ERROR,
+        payload: "Fill Qty",
+      });
+    } else {
+      cart[newDetails.id] = newDetails;
+      sessionStorage.setItem("cart", JSON.stringify(cart));
+      sessionStorage.setItem("bag", JSON.stringify(cart));
+      dispatch({
+        type: ADD_CART_SUCCESS,
+      });
+    }
   } catch (error) {
     console.log(error);
     dispatch({
@@ -65,8 +98,8 @@ export const addToCartAction = (details) => async (dispatch, getState) => {
 export const getCartAction = () => async (dispatch) => {
   try {
     dispatch({ type: GET_CART_LOADING });
-    const cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
+    const cart = sessionStorage.getItem("cart")
+      ? JSON.parse(sessionStorage.getItem("cart"))
       : {};
 
     dispatch({
@@ -85,8 +118,8 @@ export const getCartAction = () => async (dispatch) => {
 export const deleteCartAction = (id, specId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_LOADING });
-    const cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
+    const cart = sessionStorage.getItem("cart")
+      ? JSON.parse(sessionStorage.getItem("cart"))
       : {};
     if (Object.keys(cart[id].specs).length > 1) {
       delete cart[id].specs[specId];
@@ -94,8 +127,8 @@ export const deleteCartAction = (id, specId) => async (dispatch) => {
       delete cart[id];
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    localStorage.setItem("bag", JSON.stringify(cart));
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+    sessionStorage.setItem("bag", JSON.stringify(cart));
 
     dispatch({
       type: DELETE_CART_SUCCESS,
@@ -112,11 +145,11 @@ export const deleteCartAction = (id, specId) => async (dispatch) => {
 export const changeQtyAction = (id, qty) => async (dispatch) => {
   try {
     dispatch({ type: CHANGE_QTY_LOADING });
-    const cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
+    const cart = sessionStorage.getItem("cart")
+      ? JSON.parse(sessionStorage.getItem("cart"))
       : {};
     cart[id].quantity = qty;
-    localStorage.setItem("cart", JSON.stringify(cart));
+    sessionStorage.setItem("cart", JSON.stringify(cart));
 
     dispatch({
       type: CHANGE_QTY_SUCCESS,
@@ -133,20 +166,20 @@ export const changeQtyAction = (id, qty) => async (dispatch) => {
 export const selectCartAction = (id, choice) => async (dispatch) => {
   try {
     dispatch({ type: SELECT_CART_ITEM_LOADING });
-    const cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
+    const cart = sessionStorage.getItem("cart")
+      ? JSON.parse(sessionStorage.getItem("cart"))
       : {};
     cart[id].selected = choice;
-    localStorage.setItem("cart", JSON.stringify(cart));
+    sessionStorage.setItem("cart", JSON.stringify(cart));
     if (choice) {
-      localStorage.setItem("bag", JSON.stringify(cart));
+      sessionStorage.setItem("bag", JSON.stringify(cart));
       addToBagAction(cart[id]);
     } else {
-      const bag = localStorage.getItem("bag")
-        ? JSON.parse(localStorage.getItem("bag"))
+      const bag = sessionStorage.getItem("bag")
+        ? JSON.parse(sessionStorage.getItem("bag"))
         : {};
       delete bag[id];
-      localStorage.setItem("bag", JSON.stringify(bag));
+      sessionStorage.setItem("bag", JSON.stringify(bag));
     }
     dispatch({
       type: SELECT_CART_ITEM_SUCCESS,
@@ -163,11 +196,11 @@ export const selectCartAction = (id, choice) => async (dispatch) => {
 export const addToBagAction = (details) => async (dispatch, getState) => {
   try {
     dispatch({ type: ADD_BAG_LOADING });
-    const bag = localStorage.getItem("bag")
-      ? JSON.parse(localStorage.getItem("bag"))
+    const bag = sessionStorage.getItem("bag")
+      ? JSON.parse(sessionStorage.getItem("bag"))
       : {};
     bag[details.id] = details;
-    localStorage.setItem("bag", JSON.stringify(bag));
+    sessionStorage.setItem("bag", JSON.stringify(bag));
     dispatch({
       type: ADD_BAG_SUCCESS,
     });
@@ -183,8 +216,8 @@ export const addToBagAction = (details) => async (dispatch, getState) => {
 export const getBagAction = () => async (dispatch) => {
   try {
     dispatch({ type: GET_BAG_LOADING });
-    const bag = localStorage.getItem("bag")
-      ? JSON.parse(localStorage.getItem("bag"))
+    const bag = sessionStorage.getItem("bag")
+      ? JSON.parse(sessionStorage.getItem("bag"))
       : {};
     dispatch({
       type: GET_BAG_SUCCESS,
@@ -200,7 +233,7 @@ export const getBagAction = () => async (dispatch) => {
 };
 
 export const resetBagAction = () => (dispatch) => {
-  localStorage.removeItem("bag");
+  sessionStorage.removeItem("bag");
   dispatch({
     type: GET_BAG_RESET,
   });
