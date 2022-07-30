@@ -90,7 +90,7 @@ export const addToCartAction = (details) => async (dispatch, getState) => {
     console.log(error);
     dispatch({
       type: ADD_CART_ERROR,
-      payload: error.response.data,
+      payload: "Add to cart error",
     });
   }
 };

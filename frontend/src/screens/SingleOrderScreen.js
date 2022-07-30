@@ -104,7 +104,12 @@ const SingleOrderScreen = () => {
     }
     // eslint-disable-next-line
   }, [paymentData]);
-
+  const styles = {
+    title: {
+      fontSize: 15,
+      fontWeight: "lighter",
+    },
+  };
   return (
     <Container sx={{ py: 2 }}>
       {loading ? (
@@ -313,7 +318,7 @@ const SingleOrderScreen = () => {
                   key={product.id}
                 >
                   <Grid spacing={2} container sx={{ mb: 2 }}>
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                       <img
                         src={product.image}
                         alt="steeldalal.com"
@@ -326,8 +331,11 @@ const SingleOrderScreen = () => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={8} alignSelf="center">
-                      <Typography noWrap>{product.title}</Typography>
+                    <Grid item xs={9} alignSelf="center">
+                      <Typography noWrap>
+                        {product.title} {product.type} {product.brand}{" "}
+                        {product.grade}
+                      </Typography>
                     </Grid>
                   </Grid>
                   <Typography
@@ -351,56 +359,72 @@ const SingleOrderScreen = () => {
                         {product.specs.map((spec) => (
                           <div key={`spec-${spec.id}`}>
                             <TableRow>
-                              <TableCell>
+                              <TableCell sx={{ ...styles.title }}>
                                 <b>Thickness</b>
                               </TableCell>
-                              <TableCell>
+                              <TableCell sx={{ ...styles.title }}>
                                 <b>T. UoM</b>
                               </TableCell>
                               {spec.width && (
-                                <TableCell>
+                                <TableCell sx={{ ...styles.title }}>
                                   <b>Width</b>
                                 </TableCell>
                               )}
                               {spec.w_uom && (
-                                <TableCell>
+                                <TableCell sx={{ ...styles.title }}>
                                   <b>W. UoM</b>
                                 </TableCell>
                               )}
                               {spec.length && (
-                                <TableCell>
+                                <TableCell sx={{ ...styles.title }}>
                                   <b>Length</b>
                                 </TableCell>
                               )}
                               {spec.l_uom && (
-                                <TableCell>
+                                <TableCell sx={{ ...styles.title }}>
                                   <b>L. UoM</b>
                                 </TableCell>
                               )}
-                              <TableCell>
+                              <TableCell sx={{ ...styles.title }}>
                                 <b>Qty</b>
                               </TableCell>
-                              <TableCell>
-                                <b>Price</b>
+                              <TableCell sx={{ ...styles.title }}>
+                                <b>Price (M/T)</b>
                               </TableCell>
                             </TableRow>
                             <TableRow>
-                              <TableCell>{spec.thickness.toFixed(2)}</TableCell>
-                              <TableCell>{spec.t_uom}</TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.thickness.toFixed(2)}
+                              </TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.t_uom}
+                              </TableCell>
                               {spec.width && (
-                                <TableCell>{spec.width.toFixed(2)}</TableCell>
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.width.toFixed(2)}
+                                </TableCell>
                               )}
                               {spec.w_uom && (
-                                <TableCell>{spec.w_uom}</TableCell>
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.w_uom}
+                                </TableCell>
                               )}
                               {spec.length && (
-                                <TableCell>{spec.length.toFixed(2)}</TableCell>
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.length.toFixed(2)}
+                                </TableCell>
                               )}
                               {spec.l_uom && (
-                                <TableCell>{spec.l_uom}</TableCell>
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.l_uom}
+                                </TableCell>
                               )}
-                              <TableCell>{spec.qty}</TableCell>
-                              <TableCell>{spec.price.toFixed(2)}</TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.qty}
+                              </TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.price.toFixed(2)}
+                              </TableCell>
                             </TableRow>
                           </div>
                         ))}

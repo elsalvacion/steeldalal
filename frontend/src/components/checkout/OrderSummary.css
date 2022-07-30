@@ -28,11 +28,6 @@
   margin-right: 10px;
 }
 
-/* @media (max-width: 850px) {
-  .orderSummaryContainer {
-    flex-direction: column-reverse;
-  }
-} */
 @media (max-width: 600px) {
   .orderSummaryContainer {
     padding: 10px 0;

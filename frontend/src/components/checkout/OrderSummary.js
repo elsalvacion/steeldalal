@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import "./OrderSummary.css";
 import {
@@ -10,33 +10,26 @@ import {
   Table,
 } from "@mui/material";
 import { Link, useHistory } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 const OrderSummary = ({ bagState }) => {
   const { loading, error, bag } = bagState;
-  const subTotal = useRef(0);
+  const [shippingFee] = useState(7500);
   const history = useHistory();
   useEffect(() => {
     if (Object.keys(bag).length === 0) history.push("/cart");
-    else {
-      Object.keys(bag).forEach((key) => {
-        subTotal.current =
-          subTotal.current +
-          Object.keys(bag[key].specs).reduce(
-            (previousValue, currentValue) =>
-              previousValue +
-              bag[key].specs[currentValue].price *
-                bag[key].specs[currentValue].yourQty,
-            0
-          );
-      });
-    }
   }, [history, bag]);
+  const styles = {
+    title: {
+      fontSize: 15,
+      fontWeight: "lighter",
+    },
+  };
 
   return (
     <div className="orderSummaryContainer">
       <div className="orderSummaryLeft">
-        <Typography>Order Items</Typography>
+        <Typography sx={{ ...styles.title }}>Order Items</Typography>
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
@@ -53,7 +46,10 @@ const OrderSummary = ({ bagState }) => {
                   />
                 </Link>
                 <Link className="cartItemLink" to={`/product/${key}`}>
-                  <p className="cartItemTitle">{bag[key].title}</p>
+                  <p className="cartItemTitle">
+                    {bag[key].title} {bag[key].type} {bag[key].brand}{" "}
+                    {bag[key].grade}
+                  </p>
                 </Link>
               </div>
               <TableContainer>
@@ -71,69 +67,71 @@ const OrderSummary = ({ bagState }) => {
                     {Object.keys(bag[key].specs).map((specKey) => (
                       <div key={`spec-${key}-${specKey}`}>
                         <TableRow>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <b>Thickness</b>
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <b>T. UoM</b>
                           </TableCell>
                           {bag[key].specs[specKey].width && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>Width</b>
                             </TableCell>
                           )}
                           {bag[key].specs[specKey].w_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>W. UoM</b>
                             </TableCell>
                           )}
                           {bag[key].specs[specKey].length && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>Length</b>
                             </TableCell>
                           )}
                           {bag[key].specs[specKey].l_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>L. UoM</b>
                             </TableCell>
                           )}
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <b>Qty</b>
                           </TableCell>
-                          <TableCell>
-                            <b>Price</b>
+                          <TableCell sx={{ ...styles.title }}>
+                            <b>Price (M/T)</b>
                           </TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             {bag[key].specs[specKey].thickness.toFixed(2)}
                           </TableCell>
-                          <TableCell>{bag[key].specs[specKey].t_uom}</TableCell>
+                          <TableCell sx={{ ...styles.title }}>
+                            {bag[key].specs[specKey].t_uom}
+                          </TableCell>
                           {bag[key].specs[specKey].width && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {bag[key].specs[specKey].width.toFixed(2)}
                             </TableCell>
                           )}
                           {bag[key].specs[specKey].w_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {bag[key].specs[specKey].w_uom}
                             </TableCell>
                           )}
                           {bag[key].specs[specKey].length && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {bag[key].specs[specKey].length.toFixed(2)}
                             </TableCell>
                           )}
                           {bag[key].specs[specKey].l_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {bag[key].specs[specKey].l_uom}
                             </TableCell>
                           )}
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             {bag[key].specs[specKey].yourQty}
                           </TableCell>
-                          <TableCell>
-                            <FaRupeeSign />{" "}
+                          <TableCell sx={{ ...styles.title }}>
+                            <FaRupeeSign sx={{ mr: 2 }} />{" "}
                             {bag[key].specs[specKey].price.toFixed(2)}
                           </TableCell>
                         </TableRow>
@@ -147,27 +145,117 @@ const OrderSummary = ({ bagState }) => {
         )}
       </div>
       <div className="orderSummaryRight">
-        <Typography>Pricing Summary</Typography>
+        <Typography variant="h6">Order Summary</Typography>
         <div className="cartContentSubTotal">
-          <Typography>Sub Total</Typography>
-          <Typography component="span">
-            <FaRupeeSign />
-            {subTotal.current === 0 ? 0 : subTotal.current.toFixed(2)}
+          <Typography sx={{ ...styles.title }}>Price</Typography>
+          <Typography sx={{ ...styles.title }}>
+            <FaRupeeSign sx={{ mr: 2 }} />
+            {Object.keys(bag)
+              .map((bagKey) =>
+                Object.keys(bag[bagKey].specs).reduce(
+                  (acc, specKey) =>
+                    acc +
+                    bag[bagKey].specs[specKey].yourQty *
+                      bag[bagKey].specs[specKey].price,
+                  0
+                )
+              )
+              .reduce((acc, curr) => acc + curr, 0)
+              .toFixed(2)}
           </Typography>
         </div>
         <div className="cartContentSubTotal">
-          <Typography>Shipping Fee</Typography>
-          <Typography component="span">
-            <FaRupeeSign />
-            {200}
+          <Typography sx={{ ...styles.title }}>Taxes</Typography>
+          <Typography sx={{ ...styles.title }}>
+            <FaRupeeSign sx={{ mr: 2 }} />
+            {Object.keys(bag)
+              .map((bagKey) =>
+                Object.keys(bag[bagKey].specs).reduce(
+                  (acc, specKey) =>
+                    acc +
+                    bag[bagKey].specs[specKey].yourQty *
+                      bag[bagKey].specs[specKey].price,
+                  0
+                )
+              )
+              .reduce((acc, curr) => acc + curr, 0)
+              .toFixed(2) * 0.18}
+          </Typography>
+        </div>
+        <div className="cartContentSubTotal">
+          <Typography sx={{ ...styles.title }}>Shipping Fees</Typography>
+          <Typography sx={{ ...styles.title }}>
+            <FaRupeeSign sx={{ mr: 2 }} />
+            {shippingFee.toFixed(2)}
+          </Typography>
+        </div>
+        <div className="cartContentSubTotal">
+          <Typography sx={{ ...styles.title }}>
+            Sub Total(Excl. delivery fees)
+          </Typography>
+          <Typography sx={{ ...styles.title }}>
+            <FaRupeeSign sx={{ mr: 2 }} />
+            {(
+              Object.keys(bag)
+                .map((bagKey) =>
+                  Object.keys(bag[bagKey].specs).reduce(
+                    (acc, specKey) =>
+                      acc +
+                      bag[bagKey].specs[specKey].yourQty *
+                        bag[bagKey].specs[specKey].price,
+                    0
+                  )
+                )
+                .reduce((acc, curr) => acc + curr, 0) *
+                0.18 +
+              Object.keys(bag)
+                .map((bagKey) =>
+                  Object.keys(bag[bagKey].specs).reduce(
+                    (acc, specKey) =>
+                      acc +
+                      bag[bagKey].specs[specKey].yourQty *
+                        bag[bagKey].specs[specKey].price,
+                    0
+                  )
+                )
+                .reduce((acc, curr) => acc + curr, 0) +
+              shippingFee
+            ).toFixed(2)}
           </Typography>
         </div>
 
         <div className="cartContentSubTotal">
-          <Typography>Total</Typography>
-          <Typography component="span">
-            <FaRupeeSign />
-            {(subTotal.current + 200).toFixed(2)}
+          <Typography sx={{ ...styles.title }}>
+            Total Amount Due (Excl. delivery fees)
+          </Typography>
+          <Typography sx={{ ...styles.title }}>
+            <FaRupeeSign sx={{ mr: 2 }} />
+            {(
+              Object.keys(bag)
+                .map((bagKey) =>
+                  Object.keys(bag[bagKey].specs).reduce(
+                    (acc, specKey) =>
+                      acc +
+                      bag[bagKey].specs[specKey].yourQty *
+                        bag[bagKey].specs[specKey].price,
+                    0
+                  )
+                )
+                .reduce((acc, curr) => acc + curr, 0) *
+                0.18 +
+              Object.keys(bag)
+                .map((bagKey) =>
+                  Object.keys(bag[bagKey].specs).reduce(
+                    (acc, specKey) =>
+                      acc +
+                      bag[bagKey].specs[specKey].yourQty *
+                        bag[bagKey].specs[specKey].price,
+                    0
+                  )
+                )
+                .reduce((acc, curr) => acc + curr, 0) +
+              shippingFee
+            ).toFixed(2)}
           </Typography>
         </div>
       </div>

@@ -208,9 +208,9 @@ router.delete("/order/:id", userProtect, adminProtect, (req, res) => {
 router.get("/users", userProtect, adminProtect, (req, res) => {
   try {
     const sql = `
-    select * from users;
-    select * from google;
-    select * from facebook;
+    select * from users order by updatedAt desc;
+    select * from google order by updatedAt desc;
+    select * from facebook order by updatedAt desc;
     `;
     connection.query(sql, (fetchUsersErr, fetchUsersRes) => {
       if (fetchUsersErr) {

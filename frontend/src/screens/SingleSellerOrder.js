@@ -20,7 +20,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
@@ -61,6 +60,12 @@ const SingleSellerOrder = () => {
       dispatch(orderInStockAction(order, 0));
     }
   };
+  const styles = {
+    title: {
+      fontSize: 15,
+      fontWeight: "lighter",
+    },
+  };
   return (
     <Container sx={{ py: 2 }}>
       {loading ? (
@@ -72,168 +77,226 @@ const SingleSellerOrder = () => {
           handleClose={() => dispatch({ type: FETCH_SELLER_ORDER_RESET })}
         />
       ) : order ? (
-        order.inStock === 1 || order.inStock === 0 ? (
-          <>
+        <>
+          <CustomHelmet title="Seller Order" desc="Steeldalal seller order" />
+          {inStockLoading && (
+            <CustomSnack type="success" text="Please waiting ..." />
+          )}
+          {inStockError && (
+            <CustomSnack
+              type="error"
+              text={error}
+              handleClose={() => dispatch({ type: ORDER_INSTOCK_RESET })}
+            />
+          )}
+          <Typography sx={{ mb: 2 }} variant="h6">
+            Order Specifications
+          </Typography>
+          {(order.inStock === 1 || order.inStock === 0) && (
             <Card sx={{ mt: 1, width: "100%" }}>
               <CardContent>
                 {order.inStock === 1 ? (
-                  <Typography>
+                  <Typography sx={{ color: "green" }}>
                     Order Confirmed. A message will be sent to your phone for
                     packing as soon the buyer's payment is prcocessed and
                     confirmed.
                   </Typography>
                 ) : (
-                  <Typography>
+                  <Typography sx={{ color: "red" }}>
                     Order Confirmed. Please re-stock or delete the product from
                     your catalog if it is not available in your store.
                   </Typography>
                 )}
               </CardContent>
             </Card>
-          </>
-        ) : (
-          <>
-            <CustomHelmet title="Seller Order" desc="Steeldalal seller order" />
-            {inStockLoading && (
-              <CustomSnack type="success" text="Please waiting ..." />
-            )}
-            {inStockError && (
-              <CustomSnack
-                type="error"
-                text={error}
-                handleClose={() => dispatch({ type: ORDER_INSTOCK_RESET })}
-              />
-            )}
-            <Typography sx={{ mb: 2 }} variant="h6">
-              Order Specifications
-            </Typography>
-            <Card sx={{ mt: 1, width: "100%" }}>
-              <CardContent>
-                {order.products.map((product) => (
-                  <div
-                    style={{
-                      marginBottom: 15,
-                    }}
-                    key={product.id}
-                  >
-                    <Grid spacing={2} container sx={{ mb: 2 }}>
-                      <Grid item xs={4}>
-                        <img
-                          src={product.image}
-                          alt="steeldalal.com"
-                          style={{
-                            display: "block",
-                            margin: "0 auto",
-                            width: 65,
-                            height: 65,
-                            borderRadius: "50%",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => history.push(`/product/${product.id}`)}
-                        />
-                      </Grid>
-                      <Grid item xs={8} alignSelf="center">
-                        <Typography noWrap>{product.title}</Typography>
-                      </Grid>
-                    </Grid>
-                    <TableContainer>
-                      <Table
-                        sx={{
-                          overflow: "scroll",
+          )}
+          <Card sx={{ mt: 1, width: "100%" }}>
+            <CardContent>
+              {order.products.map((product) => (
+                <div
+                  style={{
+                    marginBottom: 15,
+                  }}
+                  key={product.id}
+                >
+                  <Grid spacing={2} container sx={{ mb: 2 }}>
+                    <Grid item xs={3}>
+                      <img
+                        src={product.image}
+                        alt="steeldalal.com"
+                        style={{
+                          display: "block",
+                          margin: "0 auto",
+                          width: 65,
+                          height: 65,
+                          borderRadius: "50%",
+                          cursor: "pointer",
                         }}
-                        size="small"
-                      >
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Thickness</TableCell>
-                            <TableCell>T. UoM</TableCell>
-                            <TableCell>Width</TableCell>
-                            <TableCell>W. UoM</TableCell>
-                            <TableCell>Qty</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody
-                          sx={{
-                            textAlign: "center",
-                          }}
-                        >
-                          {product.specs.map((spec) => (
-                            <TableRow key={`spec-${spec.id}`}>
-                              <TableCell>{spec.thickness}</TableCell>
-                              <TableCell>{spec.t_uom}</TableCell>
-                              <TableCell>{spec.width}</TableCell>
-                              <TableCell>{spec.w_uom}</TableCell>
-                              <TableCell>{spec.qty}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </div>
-                ))}
-                <Typography
-                  sx={{
-                    my: 4,
-                    mx: 2,
-                    fontSize: 14,
-                  }}
-                >
-                  Above are the order specification. If they in stock click on
-                  the
-                  <b>In Stock</b> button else click on <b>Out of Stock</b>{" "}
-                  button.
-                </Typography>
-
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Button
-                    color="success"
-                    variant="contained"
-                    sx={{ mx: 1 }}
-                    onClick={() => setOpenStockModal(true)}
-                    disabled={inStockLoading}
-                  >
-                    In Stock
-                  </Button>
-                  <Button
-                    onClick={() => setOpenOutOfStockModal(true)}
-                    color="error"
-                    variant="contained"
-                    sx={{ mx: 1 }}
-                    disabled={inStockLoading}
-                  >
-                    Out of Stock
-                  </Button>
-                </Box>
-
-                <Dialog
-                  onClose={() => {
-                    setOpenStockModal(false);
-                    setOpenOutOfStockModal(false);
-                  }}
-                  open={openStockModal || openOutOfStockModal}
-                >
-                  <DialogTitle>Confirm Action</DialogTitle>
-                  <DialogContent>
-                    Please cross check the order specifications, because this
-                    process is irreversable. If you are sure then confirm.
-                  </DialogContent>
-                  <DialogActions>
-                    <Button
-                      autoFocus
-                      onClick={() => {
-                        setOpenStockModal(false);
-                        setOpenOutOfStockModal(false);
+                        onClick={() => history.push(`/product/${product.id}`)}
+                      />
+                    </Grid>
+                    <Grid item xs={9} alignSelf="center">
+                      <Typography noWrap>
+                        {product.title} {product.type} {product.brand}{" "}
+                        {product.grade}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <TableContainer>
+                    <Table
+                      sx={{
+                        overflow: "scroll",
                       }}
+                      size="small"
                     >
-                      Cancel
+                      <TableBody
+                        sx={{
+                          textAlign: "center",
+                        }}
+                      >
+                        {product.specs.map((spec) => (
+                          <div key={`spec-${spec.id}`}>
+                            <TableRow>
+                              <TableCell sx={{ ...styles.title }}>
+                                <b>Thickness</b>
+                              </TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                <b>T. UoM</b>
+                              </TableCell>
+                              {spec.width && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  <b>Width</b>
+                                </TableCell>
+                              )}
+                              {spec.w_uom && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  <b>W. UoM</b>
+                                </TableCell>
+                              )}
+                              {spec.length && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  <b>Length</b>
+                                </TableCell>
+                              )}
+                              {spec.l_uom && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  <b>L. UoM</b>
+                                </TableCell>
+                              )}
+                              <TableCell sx={{ ...styles.title }}>
+                                <b>Qty</b>
+                              </TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                <b>Price (M/T)</b>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.thickness.toFixed(2)}
+                              </TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.t_uom}
+                              </TableCell>
+                              {spec.width && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.width.toFixed(2)}
+                                </TableCell>
+                              )}
+                              {spec.w_uom && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.w_uom}
+                                </TableCell>
+                              )}
+                              {spec.length && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.length.toFixed(2)}
+                                </TableCell>
+                              )}
+                              {spec.l_uom && (
+                                <TableCell sx={{ ...styles.title }}>
+                                  {spec.l_uom}
+                                </TableCell>
+                              )}
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.qty}
+                              </TableCell>
+                              <TableCell sx={{ ...styles.title }}>
+                                {spec.price.toFixed(2)}
+                              </TableCell>
+                            </TableRow>
+                          </div>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              ))}
+              {order.inStock !== 1 || order.inStock !== 0 ? (
+                <>
+                  <Typography
+                    sx={{
+                      my: 4,
+                      mx: 2,
+                      fontSize: 14,
+                    }}
+                  >
+                    Above are the order specification. If they in stock click on
+                    the
+                    <b>In Stock</b> button else click on <b>Out of Stock</b>{" "}
+                    button.
+                  </Typography>
+
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Button
+                      color="success"
+                      variant="contained"
+                      sx={{ mx: 1 }}
+                      onClick={() => setOpenStockModal(true)}
+                      disabled={inStockLoading}
+                    >
+                      In Stock
                     </Button>
-                    <Button onClick={handleStock}>Confirm</Button>
-                  </DialogActions>
-                </Dialog>
-              </CardContent>
-            </Card>
-          </>
-        )
+                    <Button
+                      onClick={() => setOpenOutOfStockModal(true)}
+                      color="error"
+                      variant="contained"
+                      sx={{ mx: 1 }}
+                      disabled={inStockLoading}
+                    >
+                      Out of Stock
+                    </Button>
+                  </Box>
+                </>
+              ) : null}
+
+              <Dialog
+                onClose={() => {
+                  setOpenStockModal(false);
+                  setOpenOutOfStockModal(false);
+                }}
+                open={openStockModal || openOutOfStockModal}
+              >
+                <DialogTitle>Confirm Action</DialogTitle>
+                <DialogContent>
+                  Please cross check the order specifications, because this
+                  process is irreversable. If you are sure then confirm.
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    autoFocus
+                    onClick={() => {
+                      setOpenStockModal(false);
+                      setOpenOutOfStockModal(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={handleStock}>Confirm</Button>
+                </DialogActions>
+              </Dialog>
+            </CardContent>
+          </Card>
+        </>
       ) : null}
     </Container>
   );

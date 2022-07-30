@@ -8,7 +8,7 @@ import {
   TableBody,
   Table,
 } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import "./CartContent.css";
 import { ArrowBack, Delete } from "@mui/icons-material";
 import { Link, useHistory } from "react-router-dom";
@@ -35,8 +35,6 @@ const CartContent = ({ cart }) => {
   const { success: selectCartSuccess, error: selectCartError } = useSelector(
     (state) => state.selectCart
   );
-  const subTotal = useRef(0);
-  const selectedTotal = useRef(0);
 
   useEffect(() => {
     if (deleteSuccess) {
@@ -165,7 +163,7 @@ const CartContent = ({ cart }) => {
                             <b>Qty</b>
                           </TableCell>
                           <TableCell sx={{ ...styles.title }}>
-                            <b>Price</b>
+                            <b>Price (M/T)</b>
                           </TableCell>
                           <TableCell sx={{ ...styles.title }}></TableCell>
                         </TableRow>
@@ -206,8 +204,6 @@ const CartContent = ({ cart }) => {
                           <TableCell sx={{ ...styles.title }}>
                             <IconButton
                               onClick={() => {
-                                selectedTotal.current = 0;
-                                subTotal.current = 0;
                                 dispatch(deleteCartAction(key, specKey));
                               }}
                               color="error"

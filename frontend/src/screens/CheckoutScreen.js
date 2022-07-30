@@ -7,7 +7,7 @@ import {
   StepLabel,
   Stepper,
 } from "@mui/material";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBagAction } from "../actions/cartAction";
@@ -26,27 +26,16 @@ const ChecoutScreen = () => {
   const bagState = useSelector((state) => state.getBag);
 
   const [activeStep, setActiveStep] = useState(0);
-  const subTotal = useRef(0);
   const { shippingDetails } = useSelector((state) => state.getShippingInfo);
+  const [shippingFee] = useState(7500);
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login?redirect=checkout");
     } else {
       dispatch(getBagAction());
     }
-    if (activeStep === 1 && bagState.bag) {
-      Object.keys(bagState.bag).forEach((key) => {
-        subTotal.current =
-          subTotal.current +
-          Object.keys(bagState.bag[key].specs).reduce(
-            (previousValue, currentValue) =>
-              previousValue +
-              bagState.bag[key].specs[currentValue].price *
-                bagState.bag[key].specs[currentValue].yourQty,
-            0
-          );
-      });
-    }
+
     if (order) {
       history.push(`/order/${order.id}`);
     }
@@ -60,9 +49,33 @@ const ChecoutScreen = () => {
       dispatch(
         placeOrderAction({
           bag: bagState.bag,
-          totalPrice: subTotal.current,
-          shippingPrice: 200,
           ...shippingDetails,
+          totalPrice:
+            Object.keys(bagState.bag)
+              .map((bagKey) =>
+                Object.keys(bagState.bag[bagKey].specs).reduce(
+                  (acc, specKey) =>
+                    acc +
+                    bagState.bag[bagKey].specs[specKey].yourQty *
+                      bagState.bag[bagKey].specs[specKey].price,
+                  0
+                )
+              )
+              .reduce((acc, curr) => acc + curr, 0) +
+            Object.keys(bagState.bag)
+              .map((bagKey) =>
+                Object.keys(bagState.bag[bagKey].specs).reduce(
+                  (acc, specKey) =>
+                    acc +
+                    bagState.bag[bagKey].specs[specKey].yourQty *
+                      bagState.bag[bagKey].specs[specKey].price,
+                  0
+                )
+              )
+              .reduce((acc, curr) => acc + curr, 0) *
+              0.18 +
+            shippingFee,
+          shippingPrice: shippingFee,
         })
       );
     } else {
