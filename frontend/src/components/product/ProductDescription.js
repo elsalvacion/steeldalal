@@ -110,7 +110,7 @@ const ProductDescription = ({ details }) => {
           <ProductSlider images={details.images} />
           <div className="productDesContentTopRight">
             <Typography sx={{ ...styles.title }} variant="h6" component="h6">
-              {details.title} {details.brand} {details.grade}
+              {details.title} {details.type} {details.brand} {details.grade}
             </Typography>
             {details.seller.isPremium === 1 && (
               <img
@@ -204,14 +204,14 @@ const ProductDescription = ({ details }) => {
                     </Typography>
                   )}
                   <Typography sx={{ ...styles.spec }}>
-                    Price per tonne:
+                    Price per M/Tonne (Excl. 18% GST ):
                     <b>
                       <FaRupeeSign /> {specValues[key].price.toFixed(2)}
                     </b>
                   </Typography>
                 </div>
                 <div className="spec-right">
-                  <Typography sx={{ fontSize: 11 }}>Qty (tonnes)</Typography>
+                  <Typography sx={{ fontSize: 11 }}>Qty (M/Tonne)</Typography>
                   <ChangeQuantity
                     handleChange={(e) =>
                       handleInputChange(e.target.value, specValues[key].id)

@@ -51,21 +51,14 @@ const CartContent = ({ cart }) => {
       dispatch(getCartAction());
       dispatch({ type: SELECT_CART_ITEM_RESET });
     }
+  }, [deleteSuccess, dispatch, changeQtySuccess, selectCartSuccess]);
+  const styles = {
+    title: {
+      fontSize: 15,
+      fontWeight: "lighter",
+    },
+  };
 
-    Object.keys(cart).forEach((key) => {
-      selectedTotal.current =
-        selectedTotal.current + Object.keys(cart[key].specs).length;
-      subTotal.current =
-        subTotal.current +
-        Object.keys(cart[key].specs).reduce(
-          (previousValue, currentValue) =>
-            previousValue +
-            cart[key].specs[currentValue].price *
-              cart[key].specs[currentValue].yourQty,
-          0
-        );
-    });
-  }, [deleteSuccess, dispatch, changeQtySuccess, selectCartSuccess, cart]);
   return (
     <div className="cartContentContainer">
       <br />
@@ -121,7 +114,10 @@ const CartContent = ({ cart }) => {
                   />
                 </Link>
                 <Link className="cartItemLink" to={`/product/${key}`}>
-                  <p className="cartItemTitle">{cart[key].title}</p>
+                  <Typography sx={{ ...styles.title }}>
+                    {cart[key].title} {cart[key].type} {cart[key].brand}{" "}
+                    {cart[key].grade}
+                  </Typography>
                 </Link>
               </div>
               <TableContainer>
@@ -139,75 +135,75 @@ const CartContent = ({ cart }) => {
                     {Object.keys(cart[key].specs).map((specKey) => (
                       <div key={`spec-${key}-${specKey}`}>
                         <TableRow>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <b>Thickness</b>
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <b>T. UoM</b>
                           </TableCell>
                           {cart[key].specs[specKey].width && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>Width</b>
                             </TableCell>
                           )}
                           {cart[key].specs[specKey].w_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>W. UoM</b>
                             </TableCell>
                           )}
                           {cart[key].specs[specKey].length && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>Length</b>
                             </TableCell>
                           )}
                           {cart[key].specs[specKey].l_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               <b>L. UoM</b>
                             </TableCell>
                           )}
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <b>Qty</b>
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <b>Price</b>
                           </TableCell>
-                          <TableCell></TableCell>
+                          <TableCell sx={{ ...styles.title }}></TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             {cart[key].specs[specKey].thickness.toFixed(2)}
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             {cart[key].specs[specKey].t_uom}
                           </TableCell>
                           {cart[key].specs[specKey].width && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {cart[key].specs[specKey].width.toFixed(2)}
                             </TableCell>
                           )}
                           {cart[key].specs[specKey].w_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {cart[key].specs[specKey].w_uom}
                             </TableCell>
                           )}
                           {cart[key].specs[specKey].length && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {cart[key].specs[specKey].length.toFixed(2)}
                             </TableCell>
                           )}
                           {cart[key].specs[specKey].l_uom && (
-                            <TableCell>
+                            <TableCell sx={{ ...styles.title }}>
                               {cart[key].specs[specKey].l_uom}
                             </TableCell>
                           )}
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             {cart[key].specs[specKey].yourQty}
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <FaRupeeSign />{" "}
                             {cart[key].specs[specKey].price.toFixed(2)}
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ ...styles.title }}>
                             <IconButton
                               onClick={() => {
                                 selectedTotal.current = 0;
@@ -231,27 +227,118 @@ const CartContent = ({ cart }) => {
         </div>
 
         <div className="cartContentRight">
-          <Typography variant="h6" component="h6">
+          <Typography sx={{ mb: 2 }} variant="h6" component="h6">
             Summary
           </Typography>
-          <br />
           <div className="cartContentSubTotal">
-            <Typography>Total</Typography>
-            <span>
+            <Typography sx={{ ...styles.title }}>Price</Typography>
+            <Typography sx={{ ...styles.title }}>
               <FaRupeeSign />
-              {subTotal.current === 0 ? 0 : subTotal.current.toFixed(2)}
-            </span>
+              {Object.keys(cart)
+                .map((cartKey) =>
+                  Object.keys(cart[cartKey].specs).reduce(
+                    (acc, specKey) =>
+                      acc +
+                      cart[cartKey].specs[specKey].yourQty *
+                        cart[cartKey].specs[specKey].price,
+                    0
+                  )
+                )
+                .reduce((acc, curr) => acc + curr, 0)
+                .toFixed(2)}
+            </Typography>
+          </div>
+          <div className="cartContentSubTotal">
+            <Typography sx={{ ...styles.title }}>Taxes</Typography>
+            <Typography sx={{ ...styles.title }}>
+              <FaRupeeSign />
+              {Object.keys(cart)
+                .map((cartKey) =>
+                  Object.keys(cart[cartKey].specs).reduce(
+                    (acc, specKey) =>
+                      acc +
+                      cart[cartKey].specs[specKey].yourQty *
+                        cart[cartKey].specs[specKey].price,
+                    0
+                  )
+                )
+                .reduce((acc, curr) => acc + curr, 0)
+                .toFixed(2) * 0.18}
+            </Typography>
+          </div>
+          <div className="cartContentSubTotal">
+            <Typography sx={{ ...styles.title }}>
+              Sub Total(Excl. delivery fees)
+            </Typography>
+            <Typography sx={{ ...styles.title }}>
+              <FaRupeeSign />
+              {(
+                Object.keys(cart)
+                  .map((cartKey) =>
+                    Object.keys(cart[cartKey].specs).reduce(
+                      (acc, specKey) =>
+                        acc +
+                        cart[cartKey].specs[specKey].yourQty *
+                          cart[cartKey].specs[specKey].price,
+                      0
+                    )
+                  )
+                  .reduce((acc, curr) => acc + curr, 0) *
+                  0.18 +
+                Object.keys(cart)
+                  .map((cartKey) =>
+                    Object.keys(cart[cartKey].specs).reduce(
+                      (acc, specKey) =>
+                        acc +
+                        cart[cartKey].specs[specKey].yourQty *
+                          cart[cartKey].specs[specKey].price,
+                      0
+                    )
+                  )
+                  .reduce((acc, curr) => acc + curr, 0)
+              ).toFixed(2)}
+            </Typography>
+          </div>
+          <div className="cartContentSubTotal">
+            <Typography sx={{ ...styles.title }}>
+              Total Amount Due (Excl. delivery fees)
+            </Typography>
+            <Typography sx={{ ...styles.title }}>
+              <FaRupeeSign />
+              {(
+                Object.keys(cart)
+                  .map((cartKey) =>
+                    Object.keys(cart[cartKey].specs).reduce(
+                      (acc, specKey) =>
+                        acc +
+                        cart[cartKey].specs[specKey].yourQty *
+                          cart[cartKey].specs[specKey].price,
+                      0
+                    )
+                  )
+                  .reduce((acc, curr) => acc + curr, 0) *
+                  0.18 +
+                Object.keys(cart)
+                  .map((cartKey) =>
+                    Object.keys(cart[cartKey].specs).reduce(
+                      (acc, specKey) =>
+                        acc +
+                        cart[cartKey].specs[specKey].yourQty *
+                          cart[cartKey].specs[specKey].price,
+                      0
+                    )
+                  )
+                  .reduce((acc, curr) => acc + curr, 0)
+              ).toFixed(2)}
+            </Typography>
           </div>
           <Button
-            disabled={selectedTotal.current === 0}
             variant="contained"
             color="primary"
             fullWidth
             onClick={() => history.push("/checkout")}
           >
-            {selectedTotal.current === 0
-              ? "No Product to checkout"
-              : "Proceed To Checkout"}
+            Proceed To Checkout
           </Button>
         </div>
       </div>
@@ -260,25 +347,115 @@ const CartContent = ({ cart }) => {
         <div className="fixedCartSummary">
           <div className="fixedCartSummaryLeft">
             <div className="fixedCartSummaryLeftSubtotal">
-              <Typography>Total</Typography>
-              <Typography className="fixedCartSummaryPrice">
+              <Typography sx={{ ...styles.title }}>Price</Typography>
+              <Typography sx={{ ...styles.title }}>
                 <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
-                {subTotal.current === 0
-                  ? (0).toFixed(2)
-                  : subTotal.current.toFixed(2)}
+                {Object.keys(cart)
+                  .map((cartKey) =>
+                    Object.keys(cart[cartKey].specs).reduce(
+                      (acc, specKey) =>
+                        acc +
+                        cart[cartKey].specs[specKey].yourQty *
+                          cart[cartKey].specs[specKey].price,
+                      0
+                    )
+                  )
+                  .reduce((acc, curr) => acc + curr, 0)
+                  .toFixed(2)}
+              </Typography>
+            </div>
+            <div className="fixedCartSummaryLeftSubtotal">
+              <Typography sx={{ ...styles.title }}>Taxes</Typography>
+              <Typography sx={{ ...styles.title }}>
+                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
+                {Object.keys(cart)
+                  .map((cartKey) =>
+                    Object.keys(cart[cartKey].specs).reduce(
+                      (acc, specKey) =>
+                        acc +
+                        cart[cartKey].specs[specKey].yourQty *
+                          cart[cartKey].specs[specKey].price,
+                      0
+                    )
+                  )
+                  .reduce((acc, curr) => acc + curr, 0)
+                  .toFixed(2) * 0.18}
+              </Typography>
+            </div>
+            <div className="fixedCartSummaryLeftSubtotal">
+              <Typography sx={{ ...styles.title }}>
+                Sub Total (Excl. delivery fees)
+              </Typography>
+              <Typography sx={{ ...styles.title }}>
+                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
+                {(
+                  Object.keys(cart)
+                    .map((cartKey) =>
+                      Object.keys(cart[cartKey].specs).reduce(
+                        (acc, specKey) =>
+                          acc +
+                          cart[cartKey].specs[specKey].yourQty *
+                            cart[cartKey].specs[specKey].price,
+                        0
+                      )
+                    )
+                    .reduce((acc, curr) => acc + curr, 0) *
+                    0.18 +
+                  Object.keys(cart)
+                    .map((cartKey) =>
+                      Object.keys(cart[cartKey].specs).reduce(
+                        (acc, specKey) =>
+                          acc +
+                          cart[cartKey].specs[specKey].yourQty *
+                            cart[cartKey].specs[specKey].price,
+                        0
+                      )
+                    )
+                    .reduce((acc, curr) => acc + curr, 0)
+                ).toFixed(2)}
+              </Typography>
+            </div>
+            <div className="fixedCartSummaryLeftSubtotal">
+              <Typography sx={{ ...styles.title }}>
+                Total Amount Due (Excl. delivery fees)
+              </Typography>
+              <Typography sx={{ ...styles.title }}>
+                <FaRupeeSign sx={{ marginRight: 0.5, marginLeft: 3 }} />
+                {(
+                  Object.keys(cart)
+                    .map((cartKey) =>
+                      Object.keys(cart[cartKey].specs).reduce(
+                        (acc, specKey) =>
+                          acc +
+                          cart[cartKey].specs[specKey].yourQty *
+                            cart[cartKey].specs[specKey].price,
+                        0
+                      )
+                    )
+                    .reduce((acc, curr) => acc + curr, 0) *
+                    0.18 +
+                  Object.keys(cart)
+                    .map((cartKey) =>
+                      Object.keys(cart[cartKey].specs).reduce(
+                        (acc, specKey) =>
+                          acc +
+                          cart[cartKey].specs[specKey].yourQty *
+                            cart[cartKey].specs[specKey].price,
+                        0
+                      )
+                    )
+                    .reduce((acc, curr) => acc + curr, 0)
+                ).toFixed(2)}
               </Typography>
             </div>
           </div>
           <div className="fixedCartSummaryRight">
             <Button
-              disabled={selectedTotal.current === 0}
               color="primary"
               variant="contained"
               onClick={() => history.push("/checkout")}
             >
-              {selectedTotal.current === 0
-                ? "No Product to checkout"
-                : "Proceed To Checkout"}
+              Proceed To Checkout
             </Button>
           </div>
         </div>
