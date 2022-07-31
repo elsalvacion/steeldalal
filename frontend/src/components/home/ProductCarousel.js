@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { latestProductsAction } from "../../actions/productAction";
 import ProductCarouselItem from "./ProductCarouselItem";
 import { useHistory } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
 
 const ProductCarousel = () => {
   const { loading, error, products } = useSelector(
@@ -46,125 +46,121 @@ const ProductCarousel = () => {
     />
   ) : products ? (
     <div id="products">
-      <div>
-        <Button
-          endIcon={<ChevronRightOutlined />}
-          variant="contained"
-          color="primary"
-          onClick={() => history.push("/products")}
-        >
-          ALL PRODUCTS
-        </Button>
-      </div>
-      {
-        <div className="productCarouselContainer">
-          <button
-            onClick={() => history.push(`/category/${products.first}`)}
-            className="productCarouselTitle"
+      <Container>
+        <div>
+          <Button
+            endIcon={<ChevronRightOutlined />}
+            variant="contained"
+            color="primary"
+            onClick={() => history.push("/products")}
           >
-            {products.first}
-            <ArrowForward />
-          </button>
-          <AliceCarousel
-            mouseTracking
-            items={firstItems}
-            controlsStrategy="responsive"
-            disableDotsControls={true}
-            autoPlay={true}
-            autoPlayDirection={"ltr"}
-            infinite={true}
-            autoPlayInterval={1500}
-            animationType={"fadeout"}
-            renderPrevButton={() => {
-              return (
-                <button className="carouselProductCustomPrevBtn">
-                  <ChevronLeftOutlined fontSize="large" />
-                </button>
-              );
-            }}
-            renderNextButton={() => {
-              return (
-                <button className="carouselProductCustomNextBtn">
-                  <ChevronRightOutlined fontSize="large" />
-                </button>
-              );
-            }}
-            responsive={{
-              0: {
-                items: 2,
-              },
-              350: {
-                items: 2,
-              },
-              600: {
-                items: 3,
-              },
-              900: {
-                items: 4,
-              },
-              1024: {
-                items: 5,
-              },
-              1750: {
-                items: 6,
-              },
-            }}
-          />
-
-          <button
-            onClick={() => history.push(`/category/${products.second}`)}
-            className="productCarouselTitle"
-          >
-            {products.second}
-            <ArrowForward />
-          </button>
-          <AliceCarousel
-            mouseTracking
-            items={secondItems}
-            controlsStrategy="responsive"
-            disableDotsControls={true}
-            autoPlay={true}
-            autoPlayDirection={"rtl"}
-            infinite={true}
-            autoPlayInterval={1500}
-            animationType={"slide"}
-            renderPrevButton={() => {
-              return (
-                <button className="carouselProductCustomPrevBtn">
-                  <ChevronLeftOutlined fontSize="large" />
-                </button>
-              );
-            }}
-            renderNextButton={() => {
-              return (
-                <button className="carouselProductCustomNextBtn">
-                  <ChevronRightOutlined fontSize="large" />
-                </button>
-              );
-            }}
-            responsive={{
-              0: {
-                items: 2,
-              },
-              350: {
-                items: 2,
-              },
-              600: {
-                items: 3,
-              },
-              900: {
-                items: 4,
-              },
-              1024: {
-                items: 5,
-              },
-              1750: {
-                items: 6,
-              },
-            }}
-          />
+            ALL PRODUCTS
+          </Button>
         </div>
-      }
+        {
+          <div className="productCarouselContainer">
+            <button
+              onClick={() => history.push(`/category/${products.first}`)}
+              className="productCarouselTitle"
+            >
+              {products.first}
+              <ArrowForward />
+            </button>
+            <AliceCarousel
+              mouseTracking
+              items={firstItems}
+              controlsStrategy="responsive"
+              disableDotsControls={true}
+              autoPlay={true}
+              autoPlayDirection={"ltr"}
+              infinite={true}
+              autoPlayInterval={1500}
+              animationType={"fadeout"}
+              renderPrevButton={() => {
+                return (
+                  <button className="carouselProductCustomPrevBtn">
+                    <ChevronLeftOutlined fontSize="large" />
+                  </button>
+                );
+              }}
+              renderNextButton={() => {
+                return (
+                  <button className="carouselProductCustomNextBtn">
+                    <ChevronRightOutlined fontSize="large" />
+                  </button>
+                );
+              }}
+              responsive={{
+                0: {
+                  items: 2,
+                },
+                350: {
+                  items: 2,
+                },
+                600: {
+                  items: 3,
+                },
+                1024: {
+                  items: 4,
+                },
+                1750: {
+                  items: 5,
+                },
+              }}
+            />
+
+            <button
+              onClick={() => history.push(`/category/${products.second}`)}
+              className="productCarouselTitle"
+            >
+              {products.second}
+              <ArrowForward />
+            </button>
+            <AliceCarousel
+              mouseTracking
+              items={secondItems}
+              controlsStrategy="responsive"
+              disableDotsControls={true}
+              autoPlay={true}
+              autoPlayDirection={"rtl"}
+              infinite={true}
+              autoPlayInterval={1500}
+              animationType={"slide"}
+              renderPrevButton={() => {
+                return (
+                  <button className="carouselProductCustomPrevBtn">
+                    <ChevronLeftOutlined fontSize="large" />
+                  </button>
+                );
+              }}
+              renderNextButton={() => {
+                return (
+                  <button className="carouselProductCustomNextBtn">
+                    <ChevronRightOutlined fontSize="large" />
+                  </button>
+                );
+              }}
+              responsive={{
+                0: {
+                  items: 2,
+                },
+                350: {
+                  items: 2,
+                },
+                600: {
+                  items: 3,
+                },
+                1024: {
+                  items: 4,
+                },
+                1750: {
+                  items: 5,
+                },
+              }}
+            />
+          </div>
+        }
+      </Container>
     </div>
   ) : null;
 };

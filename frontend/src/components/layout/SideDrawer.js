@@ -24,7 +24,7 @@ const SideDrawer = (props) => {
         role="presentation"
       >
         {navLink.map((link) =>
-          link.path.includes("#") === -1 ? (
+          !link.path.includes("#") ? (
             <Link className="mobileNavLink" key={link.title} to={link.path}>
               {link.title}
             </Link>

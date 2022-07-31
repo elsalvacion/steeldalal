@@ -113,7 +113,7 @@ const Nav = () => {
           {/* nav links */}
           <div className="navLinks">
             {navLink.map((link) =>
-              link.path.includes("#") === -1 ? (
+              !link.path.includes("#") ? (
                 <Link className="navLink" key={link.title} to={link.path}>
                   {link.title}
                 </Link>

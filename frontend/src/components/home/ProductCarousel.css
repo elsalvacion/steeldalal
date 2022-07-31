@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 24px;
+  font-size: 19px;
   font-weight: lighter;
 }
 
@@ -90,21 +90,6 @@
   display: flex;
   align-items: center;
 }
-
-/* @media (max-width: 850px) {
-  .carouselProductImage {
-    height: 125px;
-  }
-} */
-
-/* @media (max-width: 600px) {
-  .carouselProductCustomPrevBtn,
-  .carouselProductCustomNextBtn {
-    display: none;
-  }
-
- 
-} */
 
 @media (max-width: 400px) {
   .carouselProductImage {
