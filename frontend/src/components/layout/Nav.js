@@ -19,6 +19,7 @@ import { HashLink } from "react-router-hash-link";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../actions/authAction";
 import { socket } from "../../utils/connectSocket";
+import { getCartAction } from "../../actions/cartAction";
 
 const Nav = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -45,7 +46,8 @@ const Nav = () => {
         socket.emit("load_unread_messages", userInfo.id);
       });
     }
-  }, [userInfo]);
+    dispatch(getCartAction());
+  }, [userInfo, dispatch]);
   return (
     <>
       <nav className="navContainer">

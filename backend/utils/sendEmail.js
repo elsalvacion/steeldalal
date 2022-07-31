@@ -14,6 +14,10 @@ const sendMessage = (details, res) => {
         console.log(message.sid);
         res.json({ msg: "OTP sent" });
       })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ msg: "Cannot send message at the moment" });
+      })
       .done();
   } catch (err) {
     console.log(err);
@@ -30,6 +34,7 @@ const sendJustMessage = (details) => {
       to: details.to,
     })
     .then((message) => console.log(message.sid))
+
     .done();
 };
 module.exports = {

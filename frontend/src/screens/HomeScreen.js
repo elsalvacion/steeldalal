@@ -8,6 +8,7 @@ import Contact from "../components/home/Contact";
 import Showcase from "../components/home/Showcase";
 import About from "../components/home/About";
 import CustomHelmet from "../components/layout/CustomHelmet";
+import Partners from "../components/home/Partners";
 
 const HomeScreen = () => {
   return (
@@ -21,6 +22,7 @@ const HomeScreen = () => {
       <Container>
         <Category />
         <ProductCarousel />
+        <Partners />
         <HowItWorks />
         <WhyUs />
         <About />

@@ -73,6 +73,8 @@ router.get("/order/:id", userProtect, adminProtect, (req, res) => {
                           id: fetchOrderSpecRes[1][0].product,
                           title: fetchOrderSpecRes[1][0].productTitle,
                           image: fetchOrderSpecRes[1][0].productImage,
+                          brand: fetchOrderSpecRes[1][0].productBrand,
+                          grade: fetchOrderSpecRes[1][0].productGrade,
                           specs: fetchOrderSpecRes[1],
                         });
 
@@ -397,7 +399,34 @@ router.put("/product/:id", userProtect, adminProtect, (req, res) => {
           console.log(updateProductErr);
           res.status(400).json({ msg: "update product error" });
         } else {
-          res.json({ msg: "product updated" });
+          const { id } = req.params;
+          connection.query(
+            `
+          select phone from users where products.user = users.id and products.id = ?;
+          select phone from facebook where products.user = users.id and products.id = ?;
+          select phone from google where products.user = users.id and products.id = ?;
+          `,
+            [id, id, id],
+            (fetchPhoneErr, fetchPhoneRes) => {
+              if (fetchPhoneErr) {
+                console.log(fetchPhoneErr);
+                res.status(400).json({ msg: "Fetch phone no. error" });
+              } else {
+                console.log(fetchPhoneRes);
+                sendMessage(
+                  {
+                    to: process.env.ADMIN_NUMBER,
+                    message: `
+Product Blocked
+
+A product you put on sell at steeldalal.com has been blocked. Visit steeldalal.com/#/profile to manage your product catalog.
+              `,
+                  },
+                  res
+                );
+              }
+            }
+          );
         }
       }
     );

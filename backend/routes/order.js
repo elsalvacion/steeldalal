@@ -438,7 +438,7 @@ router.post(`/save-payment/:id`, userProtect, (req, res) => {
             } else {
               sendMessage(
                 {
-                  to: "+8801858328387",
+                  to: process.env.AMIN_NUMBER,
                   message: `
 New Payment Made 
 
