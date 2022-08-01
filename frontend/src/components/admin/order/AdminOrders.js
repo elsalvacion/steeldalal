@@ -35,7 +35,6 @@ const columns: Column[] = [
       </div>
     ),
     minWidth: 170,
-    align: "right",
     format: (value: number) => value.toFixed(2),
   },
   {
@@ -46,14 +45,12 @@ const columns: Column[] = [
       </div>
     ),
     minWidth: 170,
-    align: "right",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "action",
     label: "Action",
-    minWidth: 200,
-    align: "right",
+    minWidth: 120,
   },
 ];
 

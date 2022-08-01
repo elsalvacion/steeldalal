@@ -122,7 +122,17 @@ const Partners = () => {
   return (
     <Card id="partners">
       <CardContent>
-        <Typography variant="h4" sx={{ mt: 2, mb: 1, textAlign: "center" }}>
+        <Typography
+          variant="h4"
+          sx={{
+            mt: 2,
+            mb: 1,
+            textAlign: "center",
+            "@media(max-width: 500px)": {
+              fontSize: 16,
+            },
+          }}
+        >
           Key Partners & Achievements
         </Typography>
         <div className="partnersDivider"></div>

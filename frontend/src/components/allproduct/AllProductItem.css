@@ -50,9 +50,6 @@
 }
 
 @media (max-width: 375px) {
-  .allProductItemImage {
-    height: 50px;
-  }
   .allProductItemTitle {
     margin-bottom: 7px;
   }

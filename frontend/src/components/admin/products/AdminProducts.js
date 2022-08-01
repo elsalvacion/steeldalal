@@ -32,13 +32,17 @@ const columns: Column[] = [
   {
     id: "isBlocked",
     label: "Blocked",
-    minWidth: 170,
+    minWidth: 100,
+  },
+  {
+    id: "isDeleted",
+    label: "Deleted",
+    minWidth: 100,
   },
   {
     id: "action",
     label: "Action",
-    minWidth: 200,
-    align: "right",
+    minWidth: 120,
   },
 ];
 
@@ -49,6 +53,7 @@ interface Data {
   type: string;
   brand: string;
   isBlocked: Number;
+  isDeleted: Number;
 }
 
 function createData(
@@ -57,9 +62,10 @@ function createData(
   category: string,
   type: string,
   brand: string,
-  isBlocked: number
+  isBlocked: number,
+  isDeleted: number
 ): Data {
-  return { id, title, category, type, brand, isBlocked };
+  return { id, title, category, type, brand, isBlocked, isDeleted };
 }
 
 export default function AdminProducts() {
@@ -83,7 +89,8 @@ export default function AdminProducts() {
             product.category,
             product.type,
             product.brand,
-            product.isBlocked
+            product.isBlocked,
+            product.isDeleted
           )
         )
       );
@@ -164,11 +171,20 @@ export default function AdminProducts() {
                             More
                           </Button>
                         </TableCell>
-                      ) : column.id === "isBlocked" ? (
+                      ) : column.id === "isBlocked" ||
+                        column.id === "isDeleted" ? (
                         <TableCell key={column.id} align={column.align}>
                           <Chip
-                            label={value === 1 ? "Blocked" : "Not Blocked"}
-                            color={value === 0 ? "warning" : "success"}
+                            label={
+                              value === 1
+                                ? column.id === "isBlocked"
+                                  ? "Blocked"
+                                  : "Deleted"
+                                : column.id === "isBlocked"
+                                ? "Fine"
+                                : "Fine"
+                            }
+                            color={value === 0 ? "success" : "error"}
                           />
                         </TableCell>
                       ) : (

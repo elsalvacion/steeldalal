@@ -139,7 +139,7 @@ router.post("/upload", (req, res) => {
 router.get("/", (req, res) => {
   try {
     connection.query(
-      `select * from products order by id desc where isBlocked = 0`,
+      `select * from products order by id desc where isBlocked = 0 and isDeleted = 0`,
       (fetchProductsErr, fetchProductsRes) => {
         if (fetchProductsErr) {
           res.status(400).json({ msg: "Error while fetching products" });
@@ -156,7 +156,7 @@ router.get("/", (req, res) => {
 
 router.get("/your-products", userProtect, (req, res) => {
   try {
-    let sql = `select * from products where user = ? order by id desc`;
+    let sql = `select * from products where user = ? and isDeleted = 0 order by id desc`;
 
     if (req.query.limit) {
       sql += ` limit ${req.query.limit}`;
@@ -181,8 +181,8 @@ router.get("/your-products", userProtect, (req, res) => {
 router.post("/latest", (req, res) => {
   try {
     const sql = `
-    select * from products where category = ? and isBlocked = 0 order by id desc limit 10;
-    select * from products where category = ? and isBlocked = 0 order by id desc limit 10;
+    select * from products where category = ? and isBlocked = 0 and isDeleted = 0 order by id desc limit 10;
+    select * from products where category = ? and isBlocked = 0 and isDeleted = 0 order by id desc limit 10;
     `;
     connection.query(
       sql,
@@ -205,7 +205,7 @@ router.post("/latest", (req, res) => {
 router.post("/category", (req, res) => {
   try {
     const sql = `
-    select * from products where category = ? and isBlocked = 0 order by id desc limit 25  ;
+    select * from products where category = ? and isBlocked = 0 and isDeleted = 0 order by id desc limit 25  ;
     `;
     connection.query(
       sql,
@@ -371,7 +371,7 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   try {
     connection.query(
-      `delete from products where id = ?`,
+      `update products set isDeleted = 1 where id = ?`,
       [req.params.id],
       (deleteProductErr, deleteProductRes) => {
         if (deleteProductErr) {

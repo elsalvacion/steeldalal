@@ -79,7 +79,17 @@ const HowItWorks = () => {
             </Zoom>
           </div>
           <div className="offerRight">
-            <Typography component="h5" variant="h5">
+            <Typography
+              variant="h4"
+              sx={{
+                textAlign: "center",
+                fontSize: 21,
+                mb: 3,
+                "@media(max-width: 500px)": {
+                  fontSize: 18,
+                },
+              }}
+            >
               {offer.title}
             </Typography>
             <Typography component="p" className="offerRightDesc1" variant="p">

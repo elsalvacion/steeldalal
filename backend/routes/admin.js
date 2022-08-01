@@ -321,7 +321,21 @@ router.put("/user/:id", userProtect, adminProtect, (req, res) => {
                   console.log(updateBizErr);
                   res.status(400).json({ msg: "update biz error" });
                 } else {
-                  res.json({ msg: "biz updated" });
+                  if (req.body.yourBiz.isVerified === 1) {
+                    sendMessage(
+                      {
+                        to: user.phone,
+                        message: `
+    Credentails verified
+    
+    Your business credentials have been vetted and verified. Please visit steeldalal.com to start selling. Thanks for choosing Steeldalal.
+                  `,
+                      },
+                      res
+                    );
+                  } else {
+                    res.json({ msg: "user updated" });
+                  }
                 }
               }
             );
@@ -402,9 +416,9 @@ router.put("/product/:id", userProtect, adminProtect, (req, res) => {
           const { id } = req.params;
           connection.query(
             `
-          select phone from users where products.user = users.id and products.id = ?;
-          select phone from facebook where products.user = users.id and products.id = ?;
-          select phone from google where products.user = users.id and products.id = ?;
+          select phone from users, products where products.user = users.id and products.id = ?;
+          select phone from facebook, products where products.user = facebook.id and products.id = ?;
+          select phone from google, products where products.user = google.id and products.id = ?;
           `,
             [id, id, id],
             (fetchPhoneErr, fetchPhoneRes) => {
@@ -412,10 +426,13 @@ router.put("/product/:id", userProtect, adminProtect, (req, res) => {
                 console.log(fetchPhoneErr);
                 res.status(400).json({ msg: "Fetch phone no. error" });
               } else {
-                console.log(fetchPhoneRes);
+                const user =
+                  fetchPhoneRes[0][0] ||
+                  fetchPhoneRes[0][1] ||
+                  fetchPhoneRes[0][2];
                 sendMessage(
                   {
-                    to: process.env.ADMIN_NUMBER,
+                    to: user.phone,
                     message: `
 Product Blocked
 

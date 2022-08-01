@@ -22,13 +22,12 @@ const columns: Column[] = [
   {
     id: "isSeller",
     label: "Seller",
-    minWidth: 170,
+    minWidth: 100,
   },
   {
     id: "action",
     label: "Action",
-    minWidth: 200,
-    align: "right",
+    minWidth: 120,
   },
 ];
 

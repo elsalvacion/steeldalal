@@ -23,9 +23,9 @@ const HomeScreen = () => {
         <Category />
         <ProductCarousel />
         <Partners />
+        <About />
         <HowItWorks />
         <WhyUs />
-        <About />
         <Contact />
       </Container>
     </div>

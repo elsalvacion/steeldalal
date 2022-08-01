@@ -61,15 +61,15 @@ app.post("/contact", (req, res) => {
     const details = req.body;
     details.to = `+8801858328387`;
     details.message = `
-*Contact Message*
+Contact Message
 
-_Subject: ${details.subject}_
+Subject: ${details.subject}
 
 ${details.message}
   
-_*Send By:* ${details.name}_
-_*Whatsapp:* ${details.phone}_
-_*From:* steeldalal.com_
+Send By: ${details.name}
+Whatsapp: ${details.phone}
+From: steeldalal.com
     `;
     sendMessage(details, res);
   } catch (err) {

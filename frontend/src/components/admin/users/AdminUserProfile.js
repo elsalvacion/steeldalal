@@ -18,7 +18,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import {
@@ -32,7 +32,7 @@ import {
 import CustomHelmet from "../../layout/CustomHelmet";
 import CustomSnack from "../../layout/CustomSnack";
 import "./AdminUserProfile.css";
-
+import ViewImage from "../../profile/ViewImage";
 const AdminUserProfile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -51,6 +51,17 @@ const AdminUserProfile = () => {
       dispatch(fetchAdminUserAction(id));
     }
   }, [id, userInfo, history, dispatch, success]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
   return (
     <Container sx={{ py: 3 }}>
       <CustomHelmet title="User Profile" desc="Steeldalal user  profile" />
@@ -220,170 +231,191 @@ const AdminUserProfile = () => {
           </Grid>
 
           {user.yourBiz && (
-            <Card sx={{ my: 2 }}>
-              <CardContent>
-                <div className="ProfileDetailRightHeader">
-                  <Typography variant="h6" component="h6">
-                    Business Credentails
-                  </Typography>
-                  <div>
-                    {user.yourBiz.isVerified === 0 && (
-                      <Button
-                        disabled={updateLoading}
-                        endIcon={<Verified />}
-                        variant="contained"
-                        sx={{ mx: 1, my: 1 }}
-                        onClick={() =>
-                          dispatch(
-                            updateAdminUserAction(id, {
-                              yourBiz: {
-                                isVerified: 1,
-                              },
-                            })
-                          )
-                        }
-                      >
-                        Verify Seller
-                      </Button>
-                    )}
+            <>
+              <Card sx={{ my: 2 }}>
+                <CardContent>
+                  <div className="ProfileDetailRightHeader">
+                    <Typography variant="h6" component="h6">
+                      Business Credentails
+                    </Typography>
+                    <div>
+                      {user.yourBiz.isVerified === 0 && (
+                        <Button
+                          disabled={updateLoading}
+                          endIcon={<Verified />}
+                          variant="contained"
+                          sx={{ mx: 1, my: 1 }}
+                          onClick={() =>
+                            dispatch(
+                              updateAdminUserAction(id, {
+                                yourBiz: {
+                                  isVerified: 1,
+                                },
+                              })
+                            )
+                          }
+                        >
+                          Verify Seller
+                        </Button>
+                      )}
 
-                    {user.yourBiz.isVerified === 1 && (
-                      <Button
-                        disabled={updateLoading}
-                        endIcon={<Verified />}
-                        variant="contained"
-                        sx={{ mx: 1, my: 1 }}
-                        onClick={() =>
-                          dispatch(
-                            updateAdminUserAction(id, {
-                              yourBiz: {
-                                isVerified: 0,
-                              },
-                            })
-                          )
-                        }
-                      >
-                        Un-Verify Seller
-                      </Button>
-                    )}
-                    {user.isPremium === 0 && (
-                      <Button
-                        disabled={updateLoading}
-                        endIcon={<WorkspacePremium />}
-                        variant="contained"
-                        sx={{ mx: 1, my: 1 }}
-                        onClick={() =>
-                          dispatch(
-                            updateAdminUserAction(id, {
-                              isPremium: 1,
-                            })
-                          )
-                        }
-                      >
-                        Mark As Premium
-                      </Button>
-                    )}
+                      {user.yourBiz.isVerified === 1 && (
+                        <Button
+                          disabled={updateLoading}
+                          endIcon={<Verified />}
+                          variant="contained"
+                          sx={{ mx: 1, my: 1 }}
+                          onClick={() =>
+                            dispatch(
+                              updateAdminUserAction(id, {
+                                yourBiz: {
+                                  isVerified: 0,
+                                },
+                              })
+                            )
+                          }
+                        >
+                          Un-Verify Seller
+                        </Button>
+                      )}
+                      {user.isPremium === 0 && (
+                        <Button
+                          disabled={updateLoading}
+                          endIcon={<WorkspacePremium />}
+                          variant="contained"
+                          sx={{ mx: 1, my: 1 }}
+                          onClick={() =>
+                            dispatch(
+                              updateAdminUserAction(id, {
+                                isPremium: 1,
+                              })
+                            )
+                          }
+                        >
+                          Mark As Premium
+                        </Button>
+                      )}
 
-                    {user.isPremium === 1 && (
-                      <Button
-                        disabled={updateLoading}
-                        endIcon={<WorkspacePremium />}
-                        variant="contained"
-                        sx={{ mx: 1, my: 1 }}
-                        onClick={() =>
-                          dispatch(
-                            updateAdminUserAction(id, {
-                              isPremium: 0,
-                            })
-                          )
-                        }
-                      >
-                        Un-Mark As Premium
-                      </Button>
-                    )}
+                      {user.isPremium === 1 && (
+                        <Button
+                          disabled={updateLoading}
+                          endIcon={<WorkspacePremium />}
+                          variant="contained"
+                          sx={{ mx: 1, my: 1 }}
+                          onClick={() =>
+                            dispatch(
+                              updateAdminUserAction(id, {
+                                isPremium: 0,
+                              })
+                            )
+                          }
+                        >
+                          Un-Mark As Premium
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <br />
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={6}>
-                    <Card elevation={0}>
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: 15 }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          GST Certificate
-                        </Typography>
-                        <CardMedia
-                          component="img"
-                          height="194"
-                          image={user.yourBiz.gstCertificate}
-                          alt="Steeldalal.com"
-                        />
-                      </CardContent>
-                    </Card>
+                  <br />
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                      <Card elevation={0}>
+                        <CardContent>
+                          <Typography
+                            sx={{ fontSize: 15 }}
+                            color="text.primary"
+                            gutterBottom
+                          >
+                            GST Certificate
+                          </Typography>
+                          <CardMedia
+                            component="img"
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => openImageViewer(0)}
+                            height="194"
+                            image={user.yourBiz.gstCertificate}
+                            alt="Steeldalal.com"
+                          />
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Card elevation={0}>
+                        <CardContent>
+                          <Typography
+                            sx={{ fontSize: 15 }}
+                            color="text.primary"
+                            gutterBottom
+                          >
+                            Pan Card
+                          </Typography>
+                          <CardMedia
+                            component="img"
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => openImageViewer(1)}
+                            height="194"
+                            image={user.yourBiz.panCard}
+                            alt="Steeldalal.com"
+                          />
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Card elevation={0}>
+                        <CardContent>
+                          <Typography
+                            sx={{ fontSize: 15 }}
+                            color="text.primary"
+                            gutterBottom
+                          >
+                            Aadhar Card
+                          </Typography>
+                          <CardMedia
+                            component="img"
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => openImageViewer(2)}
+                            height="194"
+                            image={user.yourBiz.aadharCard}
+                            alt="Steeldalal.com"
+                          />
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Card elevation={0}>
+                        <CardContent>
+                          <Typography
+                            sx={{ fontSize: 15 }}
+                            color="text.primary"
+                            gutterBottom
+                          >
+                            Cancelled Cheque
+                          </Typography>
+                          <CardMedia
+                            component="img"
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => openImageViewer(3)}
+                            height="194"
+                            image={user.yourBiz.cancelledCheque}
+                            alt="Steeldalal.com"
+                          />
+                        </CardContent>
+                      </Card>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Card elevation={0}>
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: 15 }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          Pan Card
-                        </Typography>
-                        <CardMedia
-                          component="img"
-                          height="194"
-                          image={user.yourBiz.panCard}
-                          alt="Steeldalal.com"
-                        />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Card elevation={0}>
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: 15 }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          Aadhar Card
-                        </Typography>
-                        <CardMedia
-                          component="img"
-                          height="194"
-                          image={user.yourBiz.aadharCard}
-                          alt="Steeldalal.com"
-                        />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Card elevation={0}>
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: 15 }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          Cancelled Cheque
-                        </Typography>
-                        <CardMedia
-                          component="img"
-                          height="194"
-                          image={user.yourBiz.cancelledCheque}
-                          alt="Steeldalal.com"
-                        />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+              <ViewImage
+                isViewerOpen={isViewerOpen}
+                closeImageViewer={closeImageViewer}
+                currentImage={currentImage}
+                images={[
+                  user.yourBiz.gstCertificate,
+                  user.yourBiz.panCard,
+                  user.yourBiz.aadharCard,
+                  user.yourBiz.cancelledCheque,
+                ]}
+              />
+            </>
           )}
         </>
       )}

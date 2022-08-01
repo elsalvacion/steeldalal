@@ -64,7 +64,7 @@ const ProductCarousel = () => {
               className="productCarouselTitle"
             >
               {products.first}
-              <ArrowForward />
+              <ArrowForward fontSize="small" />
             </button>
             <AliceCarousel
               mouseTracking
@@ -114,7 +114,7 @@ const ProductCarousel = () => {
               className="productCarouselTitle"
             >
               {products.second}
-              <ArrowForward />
+              <ArrowForward fontSize="small" />
             </button>
             <AliceCarousel
               mouseTracking

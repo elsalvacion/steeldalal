@@ -105,6 +105,17 @@ const ProductDescription = ({ details }) => {
           </CardContent>
         </Card>
       )}
+
+      {details.isDeleted === 1 && (
+        <Card sx={{ my: 3 }}>
+          <CardContent>
+            <Typography color="red">
+              This product has been deleted by the seller. It is kept here for
+              reference and records.
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
       <div className="productDesContainer">
         <div className="productDesContentTop">
           <ProductSlider images={details.images} />
@@ -173,59 +184,61 @@ const ProductDescription = ({ details }) => {
 
           {parse(details.details)}
         </div>
-        {details.isBlocked === 0 && Object.keys(specValues).length > 0 && (
-          <div className="specs">
-            {Object.keys(specValues).map((key) => (
-              <div className="spec" key={key}>
-                <div className="spec-left">
-                  <Typography sx={{ ...styles.spec }}>
-                    Thickness:
-                    <b>
-                      {specValues[key].thickness.toFixed(2)}{" "}
-                      {specValues[key].t_uom}
-                    </b>
-                  </Typography>
-                  {specValues[key].width && (
+        {details.isBlocked === 0 &&
+          details.isDeleted === 0 &&
+          Object.keys(specValues).length > 0 && (
+            <div className="specs">
+              {Object.keys(specValues).map((key) => (
+                <div className="spec" key={key}>
+                  <div className="spec-left">
                     <Typography sx={{ ...styles.spec }}>
-                      Width:
+                      Thickness:
                       <b>
-                        {specValues[key].width.toFixed(2)}{" "}
-                        {specValues[key].w_uom}
+                        {specValues[key].thickness.toFixed(2)}{" "}
+                        {specValues[key].t_uom}
                       </b>
                     </Typography>
-                  )}
-                  {specValues[key].length && (
+                    {specValues[key].width && (
+                      <Typography sx={{ ...styles.spec }}>
+                        Width:
+                        <b>
+                          {specValues[key].width.toFixed(2)}{" "}
+                          {specValues[key].w_uom}
+                        </b>
+                      </Typography>
+                    )}
+                    {specValues[key].length && (
+                      <Typography sx={{ ...styles.spec }}>
+                        Length:
+                        <b>
+                          {specValues[key].length.toFixed(2)}{" "}
+                          {specValues[key].l_uom}
+                        </b>
+                      </Typography>
+                    )}
                     <Typography sx={{ ...styles.spec }}>
-                      Length:
+                      Price per M/Tonne (Excl. 18% GST ):
                       <b>
-                        {specValues[key].length.toFixed(2)}{" "}
-                        {specValues[key].l_uom}
+                        <FaRupeeSign /> {specValues[key].price.toFixed(2)}
                       </b>
                     </Typography>
-                  )}
-                  <Typography sx={{ ...styles.spec }}>
-                    Price per M/Tonne (Excl. 18% GST ):
-                    <b>
-                      <FaRupeeSign /> {specValues[key].price.toFixed(2)}
-                    </b>
-                  </Typography>
-                </div>
-                <div className="spec-right">
-                  <Typography sx={{ fontSize: 11 }}>Qty (M/Tonne)</Typography>
-                  <ChangeQuantity
-                    handleChange={(e) =>
-                      handleInputChange(e.target.value, specValues[key].id)
-                    }
-                    qty={specValues[key].yourQty}
-                    countInStock={specValues[key].qty}
-                  />
+                  </div>
+                  <div className="spec-right">
+                    <Typography sx={{ fontSize: 11 }}>Qty (M/Tonne)</Typography>
+                    <ChangeQuantity
+                      handleChange={(e) =>
+                        handleInputChange(e.target.value, specValues[key].id)
+                      }
+                      qty={specValues[key].yourQty}
+                      countInStock={specValues[key].qty}
+                    />
 
-                  <small>MOQ: {specValues[key].moq}</small>
+                    <small>MOQ: {specValues[key].moq}</small>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
         {Object.keys(specValues).length > 0 && (
           <div style={{ ...styles.addToCartContainer }}>
             <Button

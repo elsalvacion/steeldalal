@@ -17,7 +17,7 @@ const Category = () => {
           className="productCarouselTitle"
         >
           Categories
-          <ArrowForward />
+          <ArrowForward fontSize="small" />
         </button>
         <div className="categoryItemsContainer">
           {categories.map((category, i) =>

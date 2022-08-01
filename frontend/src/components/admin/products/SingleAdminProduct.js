@@ -39,6 +39,43 @@ const SingleAdminProduct = () => {
 
     // eslint-disable-next-line
   }, [id, dispatch, success]);
+
+  const styles = {
+    points: {
+      fontWeight: "lighter",
+      display: "flex",
+      alignItems: "center",
+      fontSize: 14,
+
+      "& b": {
+        marginLeft: 1,
+      },
+    },
+    spec: {
+      fontWeight: "lighter",
+      display: "flex",
+      alignItems: "center",
+      fontSize: 15,
+      margin: "10px 5px",
+      "& b": {
+        marginLeft: 1,
+      },
+    },
+    verifiedSeller: {
+      maxWidth: "100%",
+      height: 40,
+      objectFit: "scale-down",
+      margin: "10px 3px",
+    },
+    title: {
+      fontSize: 14,
+    },
+    addToCartContainer: {
+      display: "flex",
+      justifyContent: "flex-end",
+      width: "100%",
+    },
+  };
   return (
     <Container>
       {updateProductError && (
@@ -130,9 +167,16 @@ const SingleAdminProduct = () => {
             <CardContent>
               <div className="productDesContainer">
                 {product.isBlocked === 1 && (
-                  <Typography color="red" sx={{ mb: 2 }}>
+                  <Typography color="red" sx={{ mb: 3, fontWeight: "lighter" }}>
                     This product is now blocked. Buyers can only see details but
                     cannot add to cart.
+                  </Typography>
+                )}
+                {product.isDeleted === 1 && (
+                  <Typography color="red" sx={{ mb: 3, fontWeight: "lighter" }}>
+                    This product has been deleted by the seller. It is kept here
+                    for reference and records but no visible on sellers product
+                    catalog for editing or any other action.
                   </Typography>
                 )}
                 <div className="productDesContentTop">
@@ -179,32 +223,45 @@ const SingleAdminProduct = () => {
                     {Object.keys(product.specs).map((key) => (
                       <div className="spec" key={key}>
                         <div className="spec-left">
-                          <div>
-                            <b>Thickness: </b>
-                            <p>
-                              {product.specs[key].thickness}{" "}
+                          <Typography sx={{ ...styles.spec }}>
+                            Thickness:
+                            <b>
+                              {product.specs[key].thickness.toFixed(2)}{" "}
                               {product.specs[key].t_uom}
-                            </p>
-                          </div>
-                          <div>
-                            <b>Width: </b>
-                            <p>
-                              {product.specs[key].width}{" "}
-                              {product.specs[key].w_uom}
-                            </p>
-                          </div>
-                          <div>
-                            <b>Price: </b>
-                            <p>
+                            </b>
+                          </Typography>
+                          {product.specs[key].width && (
+                            <Typography sx={{ ...styles.spec }}>
+                              Width:
+                              <b>
+                                {product.specs[key].width.toFixed(2)}{" "}
+                                {product.specs[key].w_uom}
+                              </b>
+                            </Typography>
+                          )}
+                          {product.specs[key].length && (
+                            <Typography sx={{ ...styles.spec }}>
+                              Length:
+                              <b>
+                                {product.specs[key].length.toFixed(2)}{" "}
+                                {product.specs[key].l_uom}
+                              </b>
+                            </Typography>
+                          )}
+                          <Typography sx={{ ...styles.spec }}>
+                            Price per M/Tonne (Excl. 18% GST ):
+                            <b>
                               <FaRupeeSign />{" "}
                               {product.specs[key].price.toFixed(2)}
-                            </p>
-                          </div>
+                            </b>
+                          </Typography>
                         </div>
                         <div className="spec-right">
-                          <small>
-                            Available in Stock: {product.specs[key].qty}
-                          </small>
+                          <Typography sx={{ fontSize: 11 }}>
+                            Qty (M/Tonne)
+                          </Typography>
+
+                          <small>MOQ: {product.specs[key].moq}</small>
                         </div>
                       </div>
                     ))}
