@@ -326,9 +326,9 @@ router.put("/user/:id", userProtect, adminProtect, (req, res) => {
                       {
                         to: user.phone,
                         message: `
-    Credentails verified
+Credentails verified
     
-    Your business credentials have been vetted and verified. Please visit steeldalal.com to start selling. Thanks for choosing Steeldalal.
+Your business credentials have been vetted and verified. Please visit steeldalal.com to start selling. Thanks for choosing Steeldalal.
                   `,
                       },
                       res
