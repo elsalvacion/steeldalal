@@ -31,8 +31,9 @@ const sendJustMessage = (details) => {
   client.messages
     .create({
       body: details.message,
-      messagingServiceSid: process.env.TWILIO_MSG_SID,
-      to: details.to,
+      // messagingServiceSid: process.env.TWILIO_MSG_SID,
+      from: `whatsapp:+14155238886`,
+      to: `whatsapp:${details.to}`,
     })
     .then((message) => console.log(message.sid))
 
