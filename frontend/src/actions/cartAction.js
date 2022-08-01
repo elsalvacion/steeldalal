@@ -23,7 +23,7 @@ import {
   SELECT_CART_ITEM_SUCCESS,
 } from "../reducers/types/cartTypes";
 
-export const addToCartAction = (details) => async (dispatch, getState) => {
+export const addToCartAction = (details) => async (dispatch) => {
   try {
     dispatch({ type: ADD_CART_LOADING });
     let cart = sessionStorage.getItem("cart")
@@ -39,7 +39,10 @@ export const addToCartAction = (details) => async (dispatch, getState) => {
           Number(details.specs[key].yourQty) > 0 &&
           Number(details.specs[key].yourQty) <= Number(details.specs[key].moq)
         ) {
-          newDetails.specs[key] = details.specs[key];
+          newDetails.specs = {
+            ...cart[details.id].specs,
+            [key]: details.specs[key],
+          };
           newDetails.specs[key].yourQty = Number(details.specs[key].yourQty);
           qtys++;
         } else if (
