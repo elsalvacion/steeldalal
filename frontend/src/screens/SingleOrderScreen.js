@@ -68,7 +68,7 @@ const SingleOrderScreen = () => {
       const options = {
         ...paymentData,
         order_id: paymentData.id,
-        amount: Number(paymentData.amount) * 100,
+        amount: Math.ceil(Number(paymentData.amount) * 100),
         key: "rzp_test_V2qpvtF3OCDN1v",
         name: "Steeldalal.com",
         description: "Order Payment",
